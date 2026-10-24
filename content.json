@@ -2,7 +2,8 @@
   "about": {
     "portraitLine": "Websites built like storefronts, not brochures.",
     "story": [
-      "My work lives where my clients’ customers already are. I share my builds on TikTok as @henryknowsweb, breaking down what makes a homepage work like a storefront. If your current site feels like a brochure, that’s exactly what I fix."
+      "My work lives where my clients’ customers already are. I share my builds on TikTok as @henryknowsweb, breaking down what makes a homepage work like a storefront. If your current site feels like a brochure, that’s exactly what I fix.",
+      "I work remotely with clients worldwide. Everything runs through TikTok DM and email — you see a first version to react to before I build the full site, and we launch together."
     ]
   },
   "clients": {
@@ -23,57 +24,167 @@
     "clientsIn": "Worldwide",
     "ctaLabel": "DM WEB",
     "ctaText": "DM WEB ↗",
-    "email": "henryknowsweb@gmail.com",
     "name": "Henry",
     "role": "Web Designer & Builder",
     "status": "Available for new projects",
     "sub": "Web Designer & Builder — for clients worldwide.",
     "tagline": "Bold websites for stores & brands",
     "tiktokHandle": "@henryknowsweb",
-    "tiktokUrl": "https://www.tiktok.com/@henryknowsweb"
+    "tiktokUrl": "https://www.tiktok.com/@henryknowsweb",
+    "email": "henryknowsweb@gmail.com"
   },
   "projects": [],
   "projectsEmpty": {
     "category": "Stores · Landing Pages · Redesigns",
     "ctaNote": "Want your store or landing page to be one of the first featured here? Message me on TikTok.",
-    "note": "I’m creating my own showcase builds right now, and they’ll appear here as they launch. No borrowed work, no filler — just my own designs, added as they’re finished.",
-    "title": "New projects coming soon",
+    "note": "The first showcase builds are on the way. DM WEB if you’d like yours to be one of them.",
+    "title": "New projects coming soon.",
     "year": "Soon"
   },
   "services": [
     {
       "description": "Online stores built to sell — clear product paths, easy checkout flow, and a homepage that works like a storefront.",
-      "title": "Stores & E-commerce"
+      "title": "Stores & E-commerce",
+      "pricing": "From $1,000 · Up to 30 products · Checkout & payments set up · Up to 5 pages · 3–5 weeks · 2 revision rounds"
     },
     {
       "description": "One focused page, one clear offer, one obvious next step. Built for campaigns, launches, and lead generation.",
-      "title": "Landing Pages"
+      "title": "Landing Pages",
+      "pricing": "From $350 · 1 page, up to 6 sections · Basic SEO setup · 5–7 days · 2 revision rounds"
     },
     {
       "description": "Your existing site, rebuilt bold: sharper hierarchy, faster paths to buy or book, and the details customers look for finally easy to find.",
-      "title": "Redesigns"
+      "title": "Redesigns",
+      "pricing": "From $700 · Up to 5 pages · New design & mobile layout · 2–4 weeks · 2 revision rounds"
     }
   ],
   "settings": {
     "motion": {
-      "cardSize": 360,
       "defaultView": "list",
+      "showViewToggle": true,
+      "previewMode": "follow",
+      "cardSize": 360,
+      "tilt": true,
+      "spring": "normal",
       "dimOthers": true,
       "maxMobilePlaying": 2,
-      "mobileBehaviour": "accordion",
-      "previewMode": "follow",
-      "showViewToggle": true,
-      "spring": "normal",
-      "tilt": true
+      "mobileBehaviour": "accordion"
     },
     "testimonials": {
-      "autoRotate": false,
       "layout": "featured",
+      "showSection": false,
+      "autoRotate": false,
       "rotateSeconds": 6,
       "showAvatars": true,
-      "showProjectLink": true,
-      "showSection": false
+      "showProjectLink": true
     }
   },
-  "testimonials": []
+  "testimonials": [],
+  "faq": [
+    {
+      "group": "Working with me",
+      "items": [
+        {
+          "q": "What do you build?",
+          "a": "Online stores, landing pages, and redesigns of existing sites. Each one is built to make it easy for customers to buy, book, or contact you."
+        },
+        {
+          "q": "Who do you work with?",
+          "a": "Small businesses, creators, and brands worldwide. If you sell something or need people to get in touch, I can help."
+        },
+        {
+          "q": "How do we start?",
+          "a": "Send me a DM on TikTok (@henryknowsweb) or an email with what you sell, who your customers are, and what isn’t working on your current site. I’ll reply with questions and next steps."
+        }
+      ]
+    },
+    {
+      "group": "Cost and timing",
+      "items": [
+        {
+          "q": "How does pricing work?",
+          "a": "Every project is quoted as a fixed price after we talk through your brief, and before any work starts. No surprise costs."
+        },
+        {
+          "q": "How much does a website cost?",
+          "a": "It depends on the pages, features, and content. Starting prices: a landing page from $350 (one page, up to 6 sections, mobile layout, 2 revision rounds, basic SEO setup); an online store from $1,000 (up to 30 products, checkout and payments set up, up to 5 pages, 2 revision rounds); a redesign from $700 (up to 5 pages, new design, mobile layout, 2 revision rounds). After the brief I’ll send a fixed quote before any work starts."
+        },
+        {
+          "q": "How long does it take?",
+          "a": "A landing page usually takes 5–7 days, a store 3–5 weeks, and a redesign 2–4 weeks, counted from the day I receive your text, photos, and content. The timeline mostly depends on how quickly I get your content and feedback."
+        },
+        {
+          "q": "Do you take a deposit?",
+          "a": "Yes — 30% upfront, and the rest before the final files are handed over and the site launches. I’ll put it in writing before starting."
+        },
+        {
+          "q": "What payment methods do you accept?",
+          "a": "Payoneer, bank transfer, or crypto. All quotes are in USD."
+        }
+      ]
+    },
+    {
+      "group": "What’s included",
+      "items": [
+        {
+          "q": "What’s your process?",
+          "a": "Brief, Design, Build, Launch. You tell me what you need, you see a first version, I build the full site, and we go live together."
+        },
+        {
+          "q": "Can you build an online store?",
+          "a": "Yes. I build stores on Shopify and WooCommerce, and on Hostinger, with checkout and payments set up so you can start taking orders."
+        },
+        {
+          "q": "Do you handle domain and hosting?",
+          "a": "Either way works: I can set it up for you, or guide you through it. The domain and hosting accounts stay in your name, so you always own them."
+        },
+        {
+          "q": "Do I need to provide the text and images?",
+          "a": "It helps if you do. If you don’t have them, tell me what you can share and we’ll work out the gaps."
+        },
+        {
+          "q": "Will my site work on phones?",
+          "a": "Yes. Every site is designed for phone, tablet, and desktop."
+        },
+        {
+          "q": "Will people be able to find my site on Google?",
+          "a": "I set up the basics: page titles, descriptions, headings, fast loading, and a sitemap. Ranking takes time and depends on competition and your content, and I can’t promise a position."
+        }
+      ]
+    },
+    {
+      "group": "After launch",
+      "items": [
+        {
+          "q": "Who owns the website?",
+          "a": "You do. Once the final payment is made, the site and its files are yours."
+        },
+        {
+          "q": "What if I need changes after launch?",
+          "a": "Two rounds of revisions are included while we build. After launch, small fixes are free for 30 days. Bigger changes are quoted separately."
+        },
+        {
+          "q": "Do you offer ongoing support?",
+          "a": "Not as a monthly plan right now. After the 30-day fix window, I quote changes as you need them — just DM or email me."
+        }
+      ]
+    },
+    {
+      "group": "Trust",
+      "items": [
+        {
+          "q": "Can I see your work?",
+          "a": "My own showcase builds are being added now, and I only show work I made. I’d rather wait than show someone else’s work as mine. Feel free to DM me for a sample or a call."
+        },
+        {
+          "q": "Do you offer a free mockup or consultation?",
+          "a": "A free 15-minute consultation, yes — DM me and we’ll talk through your project. A free mockup, no."
+        },
+        {
+          "q": "What if I’m not happy?",
+          "a": "Before you pay a deposit, we agree on the brief, price, and deliverables in writing. You get two rounds of revisions, and if the first design isn’t right, I’ll rework it. If you cancel before I start, you get your deposit back. Once I’ve started, the deposit covers the work done so far. If I can’t deliver what we agreed after your revisions, I’ll refund the unused part of what you’ve paid. After launch, I fix any bugs I caused for 30 days."
+        }
+      ]
+    }
+  ]
 }
