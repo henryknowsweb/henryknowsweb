@@ -65,6 +65,15 @@
       "showViewToggle": true,
       "spring": "normal",
       "tilt": true
+    },
+    "testimonials": {
+      "autoRotate": false,
+      "layout": "featured",
+      "rotateSeconds": 6,
+      "showAvatars": true,
+      "showProjectLink": true,
+      "showSection": false
     }
-  }
+  },
+  "testimonials": []
 }
