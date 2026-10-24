@@ -399,15 +399,26 @@
 
       /* ---------- Portrait / About ---------- */
       .portrait-sec { border-bottom: 1px solid var(--border); }
-      .portrait-stage { position: relative; overflow: hidden; height: 70vh; }
+      .portrait-stage { position: relative; overflow: hidden; height: 70vh; display: flex; align-items: center; justify-content: flex-end; padding: 3vh clamp(20px, 4vw, 56px); box-sizing: border-box; }
+      /* The portrait sits in a true 4:5 frame on the right of the stage, so
+         the whole photo is always in view; scroll motion moves the frame. */
+      .portrait-frame {
+        position: relative;
+        flex: none;
+        aspect-ratio: 4 / 5;
+        height: min(94vh, 72.5vw);
+        max-height: 100%;
+        max-width: 58%;
+        margin: 0;
+        overflow: hidden;
+        transition: transform 0.35s ease-out;
+      }
       .portrait-stage img.photo {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center;
-        transition: transform 0.35s ease-out;
       }
       .portrait-stage .fade-left {
         position: absolute; inset: 0;
@@ -452,9 +463,10 @@
       /* Under 700px the pinned portrait's words leave the photo entirely:
          headline and heading become static blocks on ink, above and below. */
       @media (max-width: 699px) {
-        .portrait-stage { display: flex; flex-direction: column; height: auto; }
+        .portrait-stage { display: flex; flex-direction: column; height: auto; justify-content: flex-start; padding: 0; }
         .portrait-stage .about-title { position: static; order: 1; max-width: none; padding: 32px 20px 24px; text-shadow: none; }
-        .portrait-stage img.photo { position: relative; order: 2; height: 62vh; transform: none !important; filter: none !important; }
+        .portrait-stage .portrait-frame { order: 2; width: min(100%, 480px); height: auto; max-height: none; max-width: 480px; margin: 0 auto; transform: none !important; }
+        .portrait-stage img.photo { filter: none !important; }
         .portrait-stage h2 { position: static; order: 3; max-width: none; padding: 24px 20px 36px; }
         .portrait-stage .fade-left, .portrait-stage .fade-bottom { display: none; }
       }
@@ -745,9 +757,9 @@
       .hero-portrait { margin: 0; display: none; }
       .hero-portrait img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); filter: brightness(0.94) contrast(1.02) saturate(0.96); }
       @media (min-width: 768px) {
-        .hero-top { display: grid; grid-template-columns: minmax(0, 1fr) 12%; align-items: end; column-gap: clamp(20px, 3vw, 48px); }
+        .hero-top { display: grid; grid-template-columns: minmax(0, 1fr) 22%; align-items: end; column-gap: clamp(20px, 3vw, 48px); }
         #heroName { font-size: clamp(5rem, 19vw, 18rem); }
-        .hero-portrait { display: block; max-width: 170px; justify-self: end; animation: hero-in var(--dur-slow) var(--ease-out) both; animation-play-state: paused; }
+        .hero-portrait { display: block; max-width: 340px; justify-self: end; animation: hero-in var(--dur-slow) var(--ease-out) both; animation-play-state: paused; }
         body.is-loaded .hero-portrait { animation-delay: 0.36s; animation-play-state: running; }
       }
       @media (prefers-reduced-motion: reduce) { .hero-portrait { animation: none; } }
@@ -896,7 +908,7 @@
         <div class="portrait-tall" id="portraitTall">
           <div class="portrait-sticky">
             <div class="portrait-stage" id="portraitStage">
-              <img class="photo" id="portraitImg" src="assets/portrait/pinned.webp" width="819" height="1024" loading="lazy" alt="Portrait of Henry" />
+              <figure class="portrait-frame" id="portraitFrame"><img class="photo" id="portraitImg" src="assets/portrait/pinned.webp" width="819" height="1024" loading="lazy" alt="Portrait of Henry" /></figure>
               <div class="fade-left" aria-hidden="true"></div>
               <div class="fade-bottom" aria-hidden="true"></div>
               <p class="about-title reveal-fade" id="aboutPortraitLine">Websites built like storefronts, not brochures.</p>
@@ -1286,16 +1298,20 @@
           document.querySelectorAll(".marquee-row").forEach(function (row) { mqIO.observe(row); });
         }
 
-        /* ---------- Portrait: settle on scroll + mouse parallax ---------- */
+        /* ---------- Portrait: frame settle on scroll + mouse parallax ---------- */
         var tall = document.getElementById("portraitTall");
         var stage = document.getElementById("portraitStage");
         var img = document.getElementById("portraitImg");
-        if (img && !reduced) {
+        var frame = document.getElementById("portraitFrame");
+        if (frame && img && !reduced) {
           var mx = 0, my = 0, settle = 1;
-          var applyImg = function () {
-            var scale = 1.25 - 0.25 * settle;
+          var applyFrame = function () {
+            /* The frame moves, never a zoom: translate stays within +/-12px
+               and scale is clamped to 1.00-1.04 so the full portrait — head
+               included — is visible at every scroll position. */
+            var scale = 1.04 - 0.04 * settle;
             var bright = 0.4 + 0.6 * settle;
-            img.style.transform = "scale(" + scale + ") translate(" + mx + "px, " + my + "px)";
+            frame.style.transform = "translate(" + mx + "px, " + my + "px) scale(" + scale + ")";
             img.style.filter = "brightness(" + bright + ")";
           };
           var portRaf = 0;
@@ -1303,7 +1319,7 @@
             portRaf = 0;
             var p = progressOf(tall);
             settle = Math.min(Math.max((p - 0.25) / 0.45, 0), 1);
-            applyImg();
+            applyFrame();
           };
           window.addEventListener("scroll", function () {
             if (!portRaf) portRaf = window.requestAnimationFrame(updatePortrait);
@@ -1315,9 +1331,9 @@
               var r = stage.getBoundingClientRect();
               mx = ((e.clientX - r.left) / r.width - 0.5) * 24;
               my = ((e.clientY - r.top) / r.height - 0.5) * 24;
-              applyImg();
+              applyFrame();
             });
-            stage.addEventListener("mouseleave", function () { mx = 0; my = 0; applyImg(); });
+            stage.addEventListener("mouseleave", function () { mx = 0; my = 0; applyFrame(); });
           }
         }
 
