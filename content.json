@@ -1,0 +1,56 @@
+{
+  "about": {
+    "portraitLine": "Websites built like storefronts, not brochures.",
+    "story": [
+      "My work lives where my clients’ customers already are. I share my builds on TikTok as @henryknowsweb, breaking down what makes a homepage work like a storefront. If your current site feels like a brochure, that’s exactly what I fix."
+    ]
+  },
+  "clients": {
+    "items": [],
+    "note": "Client list is growing — new names are added as projects launch. Yours could be next."
+  },
+  "footer": {
+    "heading": "Let’s build yours",
+    "kick": "Got a store, a launch, or a site that needs a rebuild?",
+    "note": "The fastest way in is a TikTok DM — send “WEB” and tell me about your store, landing page, or redesign."
+  },
+  "intro": {
+    "meta": "Web Designer & Builder · US & Canada · Available for new projects",
+    "text": "I’m Henry — I build bold websites for businesses across the US & Canada. Stores, landing pages, and redesigns that are made to be shopped, not just scrolled past: a clear offer up front, an easy path to buy or book, and the details customers actually look for — menu, prices, location, hours — without the hunting."
+  },
+  "profile": {
+    "availability": "● Available for new projects",
+    "clientsIn": "US & Canada",
+    "ctaLabel": "DM WEB",
+    "ctaText": "DM WEB ↗",
+    "name": "Henry",
+    "role": "Web Designer & Builder",
+    "status": "Available for new projects",
+    "sub": "Web Designer & Builder — for clients in US & Canada.",
+    "tagline": "Bold websites for stores & brands",
+    "tiktokHandle": "@henryknowsweb",
+    "tiktokUrl": "https://www.tiktok.com/@henryknowsweb"
+  },
+  "projects": [],
+  "projectsEmpty": {
+    "category": "Stores · Landing Pages · Redesigns",
+    "ctaNote": "Want your store or landing page to be one of the first featured here? Message me on TikTok.",
+    "note": "I’m creating my own showcase builds right now, and they’ll appear here as they launch. No borrowed work, no filler — just my own designs, added as they’re finished.",
+    "title": "New projects coming soon",
+    "year": "Soon"
+  },
+  "services": [
+    {
+      "description": "Online stores built to sell — clear product paths, easy checkout flow, and a homepage that works like a storefront.",
+      "title": "Stores & E-commerce"
+    },
+    {
+      "description": "One focused page, one clear offer, one obvious next step. Built for campaigns, launches, and lead generation.",
+      "title": "Landing Pages"
+    },
+    {
+      "description": "Your existing site, rebuilt bold: sharper hierarchy, faster paths to buy or book, and the details customers look for finally easy to find.",
+      "title": "Redesigns"
+    }
+  ]
+}
