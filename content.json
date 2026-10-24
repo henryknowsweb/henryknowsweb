@@ -53,5 +53,18 @@
       "description": "Your existing site, rebuilt bold: sharper hierarchy, faster paths to buy or book, and the details customers look for finally easy to find.",
       "title": "Redesigns"
     }
-  ]
+  ],
+  "settings": {
+    "motion": {
+      "cardSize": 360,
+      "defaultView": "list",
+      "dimOthers": true,
+      "maxMobilePlaying": 2,
+      "mobileBehaviour": "accordion",
+      "previewMode": "follow",
+      "showViewToggle": true,
+      "spring": "normal",
+      "tilt": true
+    }
+  }
 }
