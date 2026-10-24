@@ -1524,6 +1524,419 @@
         window.__renderProjects = renderProjects;
       })();
     </script>
+    <style>
+      /* ---- Testimonials: rendered by the testimonials engine below, only
+         when content.json holds published + permitted testimonials and
+         settings.testimonials.showSection is true. Otherwise no markup. ---- */
+      .tm-sec { border-bottom: 1px solid var(--border); padding-top: 64px; padding-bottom: 64px; }
+      @media (min-width: 640px) { .tm-sec { padding-top: 96px; padding-bottom: 96px; } }
+      .tm-sec h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.9; font-size: clamp(2.6rem, 6vw, 5rem); }
+      .tm-stage { margin-top: 44px; }
+      .tm-fig { margin: 0; }
+      .tm-mark { display: block; font-family: var(--font-display); font-weight: 500; font-size: 60px; line-height: 0.55; color: var(--accent); margin-bottom: 20px; }
+      .tm-quote { margin: 0; }
+      .tm-quote p { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; line-height: 1.22; font-size: clamp(1.65rem, 4.2vw, 3.1rem); overflow-wrap: break-word; }
+      .tm-cap { display: flex; align-items: center; gap: 14px; margin-top: 26px; }
+      .tm-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex: none; background: var(--surface2); }
+      .tm-who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+      .tm-name { font-weight: 700; font-size: 15px; }
+      .tm-meta { color: var(--dim); font-size: 13px; }
+      .tm-meta a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+      .tm-meta a:hover { color: var(--accent); }
+      .tm-result { margin: 18px 0 0; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+      .tm-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+      .tm-projlink, .tm-play { appearance: none; display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 11px 18px; font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+      .tm-projlink:hover, .tm-play:hover { border-color: var(--accent); color: var(--accent); }
+      .tm-more { appearance: none; background: none; border: 0; margin: 0 0 0 10px; padding: 2px 0; color: var(--accent); font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; white-space: nowrap; vertical-align: baseline; }
+      .tm-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+      .tm-slide { animation: tm-in 0.45s ease both; }
+      @keyframes tm-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+      .tm-nav { display: flex; align-items: center; gap: 16px; margin-top: 36px; }
+      .tm-arrow { appearance: none; background: transparent; border: 1px solid var(--border); color: var(--text); width: 48px; height: 48px; font-size: 18px; line-height: 1; cursor: pointer; }
+      .tm-arrow:hover { border-color: var(--accent); color: var(--accent); }
+      .tm-counter { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: var(--dim); }
+      /* cards layout */
+      .tm-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 44px; }
+      @media (min-width: 700px) { .tm-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1100px) { .tm-grid { grid-template-columns: repeat(3, 1fr); } }
+      .tm-card { border: 1px solid var(--border); background: var(--surface); padding: 26px; display: flex; flex-direction: column; opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .tm-card.tm-in { opacity: 1; transform: none; }
+      .tm-card .tm-mark { font-size: 38px; margin-bottom: 14px; }
+      .tm-card .tm-quote p { font-size: 19px; line-height: 1.5; letter-spacing: -0.01em; }
+      .tm-card .tm-cap { margin-top: auto; padding-top: 24px; }
+      /* marquee layout */
+      .tm-mq { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 44px; padding: 18px 0; }
+      .tm-mq-track { display: flex; width: max-content; white-space: nowrap; will-change: transform; animation: tm-mq-scroll 40s linear infinite; }
+      .tm-mq:hover .tm-mq-track { animation-play-state: paused; }
+      @keyframes tm-mq-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      .tm-mq-chunk { display: flex; align-items: center; }
+      .tm-mq-item { display: inline-flex; align-items: baseline; gap: 10px; padding: 0 26px; }
+      .tm-mq-quote { font-family: var(--font-display); font-size: 20px; font-weight: 500; letter-spacing: -0.01em; }
+      .tm-mq-name { color: var(--dim); font-size: 13px; white-space: nowrap; }
+      .tm-mq-star { color: var(--dim); font-size: 14px; }
+      /* video overlay */
+      .tm-ov { position: fixed; inset: 0; z-index: 130; background: rgba(5, 4, 5, 0.88); display: flex; align-items: center; justify-content: center; padding: 20px; }
+      .tm-ov-box { position: relative; width: min(880px, 100%); background: var(--surface); border: 1px solid var(--border); padding: 18px; }
+      .tm-ov-video { display: block; width: 100%; max-height: 70vh; background: #000; }
+      .tm-ov-cap { margin: 14px 0 2px; color: var(--dim); font-size: 14px; line-height: 1.6; }
+      .tm-ov-close { appearance: none; position: absolute; top: -16px; right: -16px; width: 40px; height: 40px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-size: 15px; line-height: 1; cursor: pointer; }
+      .tm-ov-close:hover { border-color: var(--accent); color: var(--accent); }
+      @media (prefers-reduced-motion: reduce) {
+        .tm-mq-track { animation: none; }
+        .tm-slide { animation: none; }
+        .tm-card { opacity: 1; transform: none; transition: none; }
+      }
+    </style>
+    <script>
+      /* Testimonials engine: renders content.json testimonials[] as a
+         section ONLY when at least one item is status "published" AND
+         permission true, and settings.testimonials.showSection is true.
+         Otherwise it renders nothing at all — no heading, no placeholder,
+         no mini-menu link. Driven by content.json -> settings.testimonials;
+         safe defaults when absent (section off by default). */
+      (function () {
+        "use strict";
+        var TM_DEFAULTS = { layout: "featured", showSection: false, autoRotate: false, rotateSeconds: 6, showAvatars: true, showProjectLink: true };
+        var CLAMP_AT = 280, MQ_AT = 140;
+        var mqReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+        function REDUCED() { return !!mqReduce.matches; }
+        function esc(s) {
+          return String(s == null ? "" : s).replace(/[&<>\"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '\"': "&quot;", "'": "&#39;" }[c];
+          });
+        }
+        function trimStr(s) { return String(s == null ? "" : s).replace(/^\s+|\s+$/g, ""); }
+        function cutAt(str, n) {
+          if (str.length <= n) return str;
+          var c = str.slice(0, n);
+          var sp = c.lastIndexOf(" ");
+          if (sp > n - 60) c = c.slice(0, sp);
+          return c + "…";
+        }
+        function closest(el, sel) {
+          while (el && el !== document) {
+            if (el.matches && el.matches(sel)) return el;
+            el = el.parentNode;
+          }
+          return null;
+        }
+
+        var session = null;
+        var ovEl = null, ovReturnFocus = null;
+
+        /* ---------- video overlay ---------- */
+        function closeVideo(restoreFocus) {
+          if (!ovEl) return;
+          var v = ovEl.querySelector("video");
+          if (v) { try { v.pause(); } catch (e) {} }
+          if (ovEl.parentNode) ovEl.parentNode.removeChild(ovEl);
+          ovEl = null;
+          if (restoreFocus && ovReturnFocus && ovReturnFocus.focus) { try { ovReturnFocus.focus(); } catch (e) {} }
+          ovReturnFocus = null;
+        }
+        function videoCaption(t) {
+          var cap = "“" + cutAt(String(t.quote || ""), MQ_AT) + "”";
+          var who = trimStr(t.name);
+          if (who) cap += " — " + who;
+          if (trimStr(t.business)) cap += ", " + trimStr(t.business);
+          return cap;
+        }
+        function openVideo(src, caption, trigger) {
+          closeVideo(false);
+          ovReturnFocus = trigger || document.activeElement;
+          ovEl = document.createElement("div");
+          ovEl.className = "tm-ov";
+          ovEl.setAttribute("role", "dialog");
+          ovEl.setAttribute("aria-modal", "true");
+          ovEl.setAttribute("aria-label", "Video testimonial");
+          ovEl.innerHTML =
+            '<div class="tm-ov-box">' +
+              '<button type="button" class="tm-ov-close" aria-label="Close video">✕</button>' +
+              '<video class="tm-ov-video" src="' + esc(src) + '" controls playsinline preload="metadata"></video>' +
+              '<p class="tm-ov-cap">' + esc(caption) + "</p>" +
+            "</div>";
+          document.body.appendChild(ovEl);
+          ovEl.querySelector(".tm-ov-close").addEventListener("click", function () { closeVideo(true); });
+          ovEl.addEventListener("click", function (e) { if (e.target === ovEl) closeVideo(true); });
+          ovEl.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" || e.keyCode === 27) { e.stopPropagation(); closeVideo(true); }
+          });
+          var btn = ovEl.querySelector(".tm-ov-close");
+          if (btn && btn.focus) btn.focus();
+        }
+
+        /* ---------- shared pieces ---------- */
+        function avatarHTML(t, S) {
+          if (!S.showAvatars || !t.avatar || !trimStr(t.avatar.src)) return "";
+          var alt = trimStr(t.avatar.alt) || trimStr(t.name);
+          return '<img class="tm-avatar" src="' + esc(t.avatar.src) + '" alt="' + esc(alt) + '" width="48" height="48" loading="lazy" />';
+        }
+        function whoHTML(t) {
+          var meta = [];
+          if (trimStr(t.role)) meta.push(esc(t.role));
+          if (trimStr(t.business)) {
+            var b = esc(t.business);
+            var u = trimStr(t.businessUrl);
+            if (/^https?:\/\//i.test(u)) b = '<a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + b + "</a>";
+            meta.push(b);
+          }
+          return '<span class="tm-who"><span class="tm-name">' + esc(t.name || "") + "</span>" +
+            (meta.length ? '<span class="tm-meta">' + meta.join(" · ") + "</span>" : "") + "</span>";
+        }
+        function projectLinkHTML(t, data, S) {
+          if (!S.showProjectLink || !t.projectId) return "";
+          var projs = (data && Array.isArray(data.projects)) ? data.projects : [];
+          var match = null;
+          for (var i = 0; i < projs.length; i++) {
+            var p = projs[i];
+            if (p && p.id === t.projectId && p.status !== "draft") { match = p; break; }
+          }
+          if (!match) return "";
+          if (trimStr(match.url)) return '<a class="tm-projlink" href="' + esc(match.url) + '" target="_blank" rel="noopener noreferrer">See the project</a>';
+          return '<a class="tm-projlink" href="#work">See the project</a>';
+        }
+        function videoBtnHTML(t, vi) {
+          var src = trimStr(t.videoSrc) || trimStr(t.videoUrl);
+          if (!src) return "";
+          return '<button type="button" class="tm-play" data-tm-vi="' + vi + '" aria-label="Play video testimonial from ' + esc(t.name || "a client") + '"><span aria-hidden="true">▶</span> Watch</button>';
+        }
+        function quoteHTML(t) {
+          var q = String(t.quote == null ? "" : t.quote);
+          if (q.length <= CLAMP_AT) return '<span class="tm-qtext">' + esc(q) + "</span>";
+          var short = cutAt(q, CLAMP_AT);
+          return '<span class="tm-qtext" data-tm-full="' + esc(q) + '" data-tm-short="' + esc(short) + '">' + esc(short) + "</span>" +
+            '<button type="button" class="tm-more" aria-expanded="false">Read more</button>';
+        }
+        function figureInnerHTML(t, data, S, inCard, vi) {
+          var h = '<span class="tm-mark" aria-hidden="true">&ldquo;</span>';
+          h += '<blockquote class="tm-quote"><p>' + quoteHTML(t) + "</p></blockquote>";
+          if (inCard) {
+            if (trimStr(t.result)) h += '<p class="tm-result">' + esc(t.result) + "</p>";
+            var act = projectLinkHTML(t, data, S) + videoBtnHTML(t, vi);
+            if (act) h += '<div class="tm-actions">' + act + "</div>";
+            h += '<figcaption class="tm-cap">' + avatarHTML(t, S) + whoHTML(t) + "</figcaption>";
+          } else {
+            h += '<figcaption class="tm-cap">' + avatarHTML(t, S) + whoHTML(t) + "</figcaption>";
+            if (trimStr(t.result)) h += '<p class="tm-result">' + esc(t.result) + "</p>";
+            var act2 = projectLinkHTML(t, data, S) + videoBtnHTML(t, vi);
+            if (act2) h += '<div class="tm-actions">' + act2 + "</div>";
+          }
+          return h;
+        }
+        function toggleMore(btn) {
+          var p = btn.parentNode;
+          var span = p ? p.querySelector(".tm-qtext") : null;
+          if (!span) return;
+          if (btn.getAttribute("aria-expanded") === "true") {
+            span.textContent = span.getAttribute("data-tm-short");
+            btn.setAttribute("aria-expanded", "false");
+            btn.textContent = "Read more";
+          } else {
+            span.textContent = span.getAttribute("data-tm-full");
+            btn.setAttribute("aria-expanded", "true");
+            btn.textContent = "Read less";
+          }
+        }
+        function onSectionClick(e) {
+          var more = closest(e.target, ".tm-more");
+          if (more) { toggleMore(more); return; }
+          var play = closest(e.target, ".tm-play");
+          if (play && session && session.items) {
+            var item = session.items[parseInt(play.getAttribute("data-tm-vi"), 10)];
+            if (item) openVideo(trimStr(item.videoSrc) || trimStr(item.videoUrl), videoCaption(item), play);
+          }
+        }
+
+        /* ---------- layouts ---------- */
+        function buildFeatured(section, items, data, S) {
+          var ordered = items.slice();
+          for (var i = 0; i < ordered.length; i++) {
+            if (ordered[i].featured === true) {
+              if (i !== 0) { var f = ordered.splice(i, 1)[0]; ordered.unshift(f); }
+              break;
+            }
+          }
+          session.items = ordered;
+          var stage = document.createElement("div");
+          stage.className = "tm-stage";
+          section.appendChild(stage);
+          var idx = 0, timer = null, paused = false;
+          var nav = null, counterEl = null;
+          function pad(n) { return (n < 10 ? "0" : "") + n; }
+          function go(n) {
+            idx = ((n % ordered.length) + ordered.length) % ordered.length;
+            stage.innerHTML = '<figure class="tm-fig tm-slide">' + figureInnerHTML(ordered[idx], data, S, false, idx) + "</figure>";
+            if (counterEl) counterEl.textContent = pad(idx + 1) + " / " + pad(ordered.length);
+          }
+          function canAuto() { return S.autoRotate && ordered.length > 1 && !REDUCED(); }
+          function stop() { if (timer) { clearInterval(timer); timer = null; } }
+          function start() {
+            stop();
+            if (!canAuto() || paused) return;
+            var secs = parseFloat(S.rotateSeconds);
+            if (!(secs > 0)) secs = 6;
+            timer = setInterval(function () { go(idx + 1); }, secs * 1000);
+          }
+          function onVis() { if (document.hidden) stop(); else start(); }
+          if (ordered.length > 1) {
+            nav = document.createElement("div");
+            nav.className = "tm-nav";
+            nav.innerHTML =
+              '<button type="button" class="tm-arrow" data-tm-prev aria-label="Previous testimonial">←</button>' +
+              '<span class="tm-counter" role="status" aria-live="polite"></span>' +
+              '<button type="button" class="tm-arrow" data-tm-next aria-label="Next testimonial">→</button>';
+            section.appendChild(nav);
+            counterEl = nav.querySelector(".tm-counter");
+            nav.querySelector("[data-tm-prev]").addEventListener("click", function () { go(idx - 1); start(); });
+            nav.querySelector("[data-tm-next]").addEventListener("click", function () { go(idx + 1); start(); });
+            section.addEventListener("keydown", function (e) {
+              if (e.key === "ArrowLeft") { go(idx - 1); start(); }
+              else if (e.key === "ArrowRight") { go(idx + 1); start(); }
+            });
+            section.addEventListener("mouseenter", function () { paused = true; stop(); });
+            section.addEventListener("mouseleave", function () { paused = false; start(); });
+            section.addEventListener("focusin", function () { paused = true; stop(); });
+            section.addEventListener("focusout", function (e) {
+              if (!e.relatedTarget || !section.contains(e.relatedTarget)) { paused = false; start(); }
+            });
+            document.addEventListener("visibilitychange", onVis);
+            session.stopFns.push(function () { stop(); document.removeEventListener("visibilitychange", onVis); });
+          }
+          go(0);
+          start();
+        }
+        function buildCards(section, items, data, S) {
+          var grid = document.createElement("div");
+          grid.className = "tm-grid";
+          var cards = [];
+          items.forEach(function (t, i) {
+            var card = document.createElement("figure");
+            card.className = "tm-card tm-fig";
+            card.style.transitionDelay = (Math.min(i, 8) * 60) + "ms";
+            card.innerHTML = figureInnerHTML(t, data, S, true, i);
+            grid.appendChild(card);
+            cards.push(card);
+          });
+          section.appendChild(grid);
+          if (REDUCED() || !("IntersectionObserver" in window)) {
+            cards.forEach(function (c) { c.classList.add("tm-in"); });
+          } else {
+            var io = new IntersectionObserver(function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) { en.target.classList.add("tm-in"); io.unobserve(en.target); }
+              });
+            }, { threshold: 0.15 });
+            cards.forEach(function (c) { io.observe(c); });
+            session.observer = io;
+          }
+        }
+        function buildMarquee(section, items) {
+          var chunk = items.map(function (t) {
+            var q = cutAt(String(t.quote || ""), MQ_AT);
+            return '<span class="tm-mq-item"><span class="tm-mq-quote">&ldquo;' + esc(q) + "&rdquo;</span>" +
+              (trimStr(t.name) ? '<span class="tm-mq-name">— ' + esc(t.name) + "</span>" : "") +
+              '</span><span class="tm-mq-star" aria-hidden="true">✦</span>';
+          }).join("");
+          var wrap = document.createElement("div");
+          wrap.className = "tm-mq";
+          var secs = Math.max(24, items.length * 9);
+          wrap.innerHTML = '<div class="tm-mq-track" style="animation-duration:' + secs + 's"><div class="tm-mq-chunk">' + chunk + '</div><div class="tm-mq-chunk" aria-hidden="true">' + chunk + "</div></div>";
+          section.appendChild(wrap);
+        }
+
+        /* ---------- JSON-LD (only for items with a real name AND business) ---------- */
+        function buildJsonLd(items) {
+          var nodes = [];
+          items.forEach(function (t) {
+            var name = trimStr(t.name), biz = trimStr(t.business);
+            if (!name || !biz) return;
+            nodes.push({
+              "@type": "Review",
+              "author": { "@type": "Person", "name": name },
+              "reviewBody": String(t.quote == null ? "" : t.quote),
+              "itemReviewed": { "@type": "ProfessionalService", "name": biz }
+            });
+          });
+          if (!nodes.length) return null;
+          var doc = { "@context": "https://schema.org" };
+          if (nodes.length === 1) { for (var k in nodes[0]) doc[k] = nodes[0][k]; }
+          else doc["@graph"] = nodes;
+          var el = document.createElement("script");
+          el.type = "application/ld+json";
+          el.id = "tm-jsonld";
+          el.textContent = JSON.stringify(doc).replace(/</g, "\\u003c");
+          document.head.appendChild(el);
+          return el;
+        }
+
+        /* ---------- main render ---------- */
+        function cleanup() {
+          closeVideo(false);
+          if (!session) return;
+          (session.stopFns || []).forEach(function (fn) { try { fn(); } catch (e) {} });
+          if (session.observer) { try { session.observer.disconnect(); } catch (e) {} }
+          if (session.section && session.section.parentNode) session.section.parentNode.removeChild(session.section);
+          if (session.menuLink && session.menuLink.parentNode) session.menuLink.parentNode.removeChild(session.menuLink);
+          if (session.jsonld && session.jsonld.parentNode) session.jsonld.parentNode.removeChild(session.jsonld);
+          session = null;
+        }
+        function renderTestimonials(data) {
+          cleanup();
+          if (!data || typeof data !== "object") return;
+          var rawS = (data.settings && data.settings.testimonials) || {};
+          var S = {};
+          for (var k in TM_DEFAULTS) S[k] = (rawS[k] === undefined ? TM_DEFAULTS[k] : rawS[k]);
+          var all = Array.isArray(data.testimonials) ? data.testimonials : [];
+          var decorated = [];
+          all.forEach(function (t, i) {
+            if (t && typeof t === "object" && t.status === "published" && t.permission === true) decorated.push({ t: t, i: i });
+          });
+          decorated.sort(function (a, b) {
+            var oa = (typeof a.t.order === "number" && isFinite(a.t.order)) ? a.t.order : 1e9 + a.i;
+            var ob = (typeof b.t.order === "number" && isFinite(b.t.order)) ? b.t.order : 1e9 + b.i;
+            return (oa - ob) || (a.i - b.i);
+          });
+          var items = decorated.map(function (d) { return d.t; });
+          if (S.showSection !== true || !items.length) return;
+
+          var section = document.createElement("section");
+          section.className = "tm-sec wrap-x";
+          section.id = "testimonials";
+          section.setAttribute("aria-label", "Testimonials");
+          section.innerHTML = '<p class="section-label">What clients say</p><h2>Testimonials</h2>';
+          var main = document.querySelector("main");
+          var hosting = document.querySelector(".hosting-sec");
+          if (hosting && hosting.parentNode) hosting.parentNode.insertBefore(section, hosting);
+          else if (main) main.appendChild(section);
+          else document.body.appendChild(section);
+          section.addEventListener("click", onSectionClick);
+
+          session = { items: items, stopFns: [], section: section, menuLink: null, jsonld: null, observer: null };
+
+          var links = document.querySelector(".mini-menu .links");
+          if (links) {
+            var a = document.createElement("a");
+            a.className = "link-draw";
+            a.setAttribute("href", "#testimonials");
+            a.setAttribute("data-tm-link", "");
+            a.textContent = "Testimonials";
+            var contact = null;
+            var anchors = links.querySelectorAll("a");
+            for (var j = 0; j < anchors.length; j++) {
+              if (anchors[j].getAttribute("href") === "#contact") { contact = anchors[j]; break; }
+            }
+            if (contact) links.insertBefore(a, contact); else links.appendChild(a);
+            session.menuLink = a;
+          }
+
+          if (S.layout === "cards") buildCards(section, items, data, S);
+          else if (S.layout === "marquee") buildMarquee(section, items);
+          else buildFeatured(section, items, data, S);
+          session.jsonld = buildJsonLd(items);
+        }
+        window.__renderTestimonials = renderTestimonials;
+      })();
+    </script>
 
     <script>
       /* Content loader: editable content lives in content.json beside this
@@ -1590,6 +2003,7 @@
             if (window.__buildMarquees) window.__buildMarquees(data.services.map(function (s) { return s.title; }));
           }
           if (window.__renderProjects) window.__renderProjects(data);
+          if (window.__renderTestimonials) window.__renderTestimonials(data);
           var clients = data.clients || {};
           if (Array.isArray(clients.items) && clients.items.length) {
             var body = document.getElementById("clientsBody");
@@ -1626,7 +2040,7 @@
           });
         }
         tryFetch("content.json")
-          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJXZWJzaXRlcyBidWlsdCBsaWtlIHN0b3JlZnJvbnRzLCBub3QgYnJvY2h1cmVzLiIsInN0b3J5IjpbIk15IHdvcmsgbGl2ZXMgd2hlcmUgbXkgY2xpZW50c+KAmSBjdXN0b21lcnMgYWxyZWFkeSBhcmUuIEkgc2hhcmUgbXkgYnVpbGRzIG9uIFRpa1RvayBhcyBAaGVucnlrbm93c3dlYiwgYnJlYWtpbmcgZG93biB3aGF0IG1ha2VzIGEgaG9tZXBhZ2Ugd29yayBsaWtlIGEgc3RvcmVmcm9udC4gSWYgeW91ciBjdXJyZW50IHNpdGUgZmVlbHMgbGlrZSBhIGJyb2NodXJlLCB0aGF04oCZcyBleGFjdGx5IHdoYXQgSSBmaXguIl19LCJjbGllbnRzIjp7Iml0ZW1zIjpbXSwibm90ZSI6IkNsaWVudCBsaXN0IGlzIGdyb3dpbmcg4oCUIG5ldyBuYW1lcyBhcmUgYWRkZWQgYXMgcHJvamVjdHMgbGF1bmNoLiBZb3VycyBjb3VsZCBiZSBuZXh0LiJ9LCJmb290ZXIiOnsiaGVhZGluZyI6IkxldOKAmXMgYnVpbGQgeW91cnMiLCJraWNrIjoiR290IGEgc3RvcmUsIGEgbGF1bmNoLCBvciBhIHNpdGUgdGhhdCBuZWVkcyBhIHJlYnVpbGQ/Iiwibm90ZSI6IlRoZSBmYXN0ZXN0IHdheSBpbiBpcyBhIFRpa1RvayBETSDigJQgc2VuZCDigJxXRULigJ0gYW5kIHRlbGwgbWUgYWJvdXQgeW91ciBzdG9yZSwgbGFuZGluZyBwYWdlLCBvciByZWRlc2lnbi4ifSwiaW50cm8iOnsibWV0YSI6IldlYiBEZXNpZ25lciAmIEJ1aWxkZXIgwrcgV29ybGR3aWRlIMK3IEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwidGV4dCI6IknigJltIEhlbnJ5IOKAlCBJIGJ1aWxkIGJvbGQgd2Vic2l0ZXMgZm9yIGJ1c2luZXNzZXMgd29ybGR3aWRlLiBTdG9yZXMsIGxhbmRpbmcgcGFnZXMsIGFuZCByZWRlc2lnbnMgdGhhdCBhcmUgbWFkZSB0byBiZSBzaG9wcGVkLCBub3QganVzdCBzY3JvbGxlZCBwYXN0OiBhIGNsZWFyIG9mZmVyIHVwIGZyb250LCBhbiBlYXN5IHBhdGggdG8gYnV5IG9yIGJvb2ssIGFuZCB0aGUgZGV0YWlscyBjdXN0b21lcnMgYWN0dWFsbHkgbG9vayBmb3Ig4oCUIG1lbnUsIHByaWNlcywgbG9jYXRpb24sIGhvdXJzIOKAlCB3aXRob3V0IHRoZSBodW50aW5nLiJ9LCJwcm9maWxlIjp7ImF2YWlsYWJpbGl0eSI6IuKXjyBBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsImNsaWVudHNJbiI6Ildvcmxkd2lkZSIsImN0YUxhYmVsIjoiRE0gV0VCIiwiY3RhVGV4dCI6IkRNIFdFQiDihpciLCJuYW1lIjoiSGVucnkiLCJyb2xlIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciIsInN0YXR1cyI6IkF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwic3ViIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJCb2xkIHdlYnNpdGVzIGZvciBzdG9yZXMgJiBicmFuZHMiLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIn0sInByb2plY3RzIjpbXSwicHJvamVjdHNFbXB0eSI6eyJjYXRlZ29yeSI6IlN0b3JlcyDCtyBMYW5kaW5nIFBhZ2VzIMK3IFJlZGVzaWducyIsImN0YU5vdGUiOiJXYW50IHlvdXIgc3RvcmUgb3IgbGFuZGluZyBwYWdlIHRvIGJlIG9uZSBvZiB0aGUgZmlyc3QgZmVhdHVyZWQgaGVyZT8gTWVzc2FnZSBtZSBvbiBUaWtUb2suIiwibm90ZSI6IknigJltIGNyZWF0aW5nIG15IG93biBzaG93Y2FzZSBidWlsZHMgcmlnaHQgbm93LCBhbmQgdGhleeKAmWxsIGFwcGVhciBoZXJlIGFzIHRoZXkgbGF1bmNoLiBObyBib3Jyb3dlZCB3b3JrLCBubyBmaWxsZXIg4oCUIGp1c3QgbXkgb3duIGRlc2lnbnMsIGFkZGVkIGFzIHRoZXnigJlyZSBmaW5pc2hlZC4iLCJ0aXRsZSI6Ik5ldyBwcm9qZWN0cyBjb21pbmcgc29vbiIsInllYXIiOiJTb29uIn0sInNlcnZpY2VzIjpbeyJkZXNjcmlwdGlvbiI6Ik9ubGluZSBzdG9yZXMgYnVpbHQgdG8gc2VsbCDigJQgY2xlYXIgcHJvZHVjdCBwYXRocywgZWFzeSBjaGVja291dCBmbG93LCBhbmQgYSBob21lcGFnZSB0aGF0IHdvcmtzIGxpa2UgYSBzdG9yZWZyb250LiIsInRpdGxlIjoiU3RvcmVzICYgRS1jb21tZXJjZSJ9LHsiZGVzY3JpcHRpb24iOiJPbmUgZm9jdXNlZCBwYWdlLCBvbmUgY2xlYXIgb2ZmZXIsIG9uZSBvYnZpb3VzIG5leHQgc3RlcC4gQnVpbHQgZm9yIGNhbXBhaWducywgbGF1bmNoZXMsIGFuZCBsZWFkIGdlbmVyYXRpb24uIiwidGl0bGUiOiJMYW5kaW5nIFBhZ2VzIn0seyJkZXNjcmlwdGlvbiI6IllvdXIgZXhpc3Rpbmcgc2l0ZSwgcmVidWlsdCBib2xkOiBzaGFycGVyIGhpZXJhcmNoeSwgZmFzdGVyIHBhdGhzIHRvIGJ1eSBvciBib29rLCBhbmQgdGhlIGRldGFpbHMgY3VzdG9tZXJzIGxvb2sgZm9yIGZpbmFsbHkgZWFzeSB0byBmaW5kLiIsInRpdGxlIjoiUmVkZXNpZ25zIn1dLCJzZXR0aW5ncyI6eyJtb3Rpb24iOnsiZGVmYXVsdFZpZXciOiJsaXN0Iiwic2hvd1ZpZXdUb2dnbGUiOnRydWUsInByZXZpZXdNb2RlIjoiZm9sbG93IiwiY2FyZFNpemUiOjM2MCwidGlsdCI6dHJ1ZSwic3ByaW5nIjoibm9ybWFsIiwiZGltT3RoZXJzIjp0cnVlLCJtYXhNb2JpbGVQbGF5aW5nIjoyLCJtb2JpbGVCZWhhdmlvdXIiOiJhY2NvcmRpb24ifX19"); })
+          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJXZWJzaXRlcyBidWlsdCBsaWtlIHN0b3JlZnJvbnRzLCBub3QgYnJvY2h1cmVzLiIsInN0b3J5IjpbIk15IHdvcmsgbGl2ZXMgd2hlcmUgbXkgY2xpZW50c+KAmSBjdXN0b21lcnMgYWxyZWFkeSBhcmUuIEkgc2hhcmUgbXkgYnVpbGRzIG9uIFRpa1RvayBhcyBAaGVucnlrbm93c3dlYiwgYnJlYWtpbmcgZG93biB3aGF0IG1ha2VzIGEgaG9tZXBhZ2Ugd29yayBsaWtlIGEgc3RvcmVmcm9udC4gSWYgeW91ciBjdXJyZW50IHNpdGUgZmVlbHMgbGlrZSBhIGJyb2NodXJlLCB0aGF04oCZcyBleGFjdGx5IHdoYXQgSSBmaXguIl19LCJjbGllbnRzIjp7Iml0ZW1zIjpbXSwibm90ZSI6IkNsaWVudCBsaXN0IGlzIGdyb3dpbmcg4oCUIG5ldyBuYW1lcyBhcmUgYWRkZWQgYXMgcHJvamVjdHMgbGF1bmNoLiBZb3VycyBjb3VsZCBiZSBuZXh0LiJ9LCJmb290ZXIiOnsiaGVhZGluZyI6IkxldOKAmXMgYnVpbGQgeW91cnMiLCJraWNrIjoiR290IGEgc3RvcmUsIGEgbGF1bmNoLCBvciBhIHNpdGUgdGhhdCBuZWVkcyBhIHJlYnVpbGQ/Iiwibm90ZSI6IlRoZSBmYXN0ZXN0IHdheSBpbiBpcyBhIFRpa1RvayBETSDigJQgc2VuZCDigJxXRULigJ0gYW5kIHRlbGwgbWUgYWJvdXQgeW91ciBzdG9yZSwgbGFuZGluZyBwYWdlLCBvciByZWRlc2lnbi4ifSwiaW50cm8iOnsibWV0YSI6IldlYiBEZXNpZ25lciAmIEJ1aWxkZXIgwrcgV29ybGR3aWRlIMK3IEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwidGV4dCI6IknigJltIEhlbnJ5IOKAlCBJIGJ1aWxkIGJvbGQgd2Vic2l0ZXMgZm9yIGJ1c2luZXNzZXMgd29ybGR3aWRlLiBTdG9yZXMsIGxhbmRpbmcgcGFnZXMsIGFuZCByZWRlc2lnbnMgdGhhdCBhcmUgbWFkZSB0byBiZSBzaG9wcGVkLCBub3QganVzdCBzY3JvbGxlZCBwYXN0OiBhIGNsZWFyIG9mZmVyIHVwIGZyb250LCBhbiBlYXN5IHBhdGggdG8gYnV5IG9yIGJvb2ssIGFuZCB0aGUgZGV0YWlscyBjdXN0b21lcnMgYWN0dWFsbHkgbG9vayBmb3Ig4oCUIG1lbnUsIHByaWNlcywgbG9jYXRpb24sIGhvdXJzIOKAlCB3aXRob3V0IHRoZSBodW50aW5nLiJ9LCJwcm9maWxlIjp7ImF2YWlsYWJpbGl0eSI6IuKXjyBBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsImNsaWVudHNJbiI6Ildvcmxkd2lkZSIsImN0YUxhYmVsIjoiRE0gV0VCIiwiY3RhVGV4dCI6IkRNIFdFQiDihpciLCJuYW1lIjoiSGVucnkiLCJyb2xlIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciIsInN0YXR1cyI6IkF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwic3ViIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJCb2xkIHdlYnNpdGVzIGZvciBzdG9yZXMgJiBicmFuZHMiLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIn0sInByb2plY3RzIjpbXSwicHJvamVjdHNFbXB0eSI6eyJjYXRlZ29yeSI6IlN0b3JlcyDCtyBMYW5kaW5nIFBhZ2VzIMK3IFJlZGVzaWducyIsImN0YU5vdGUiOiJXYW50IHlvdXIgc3RvcmUgb3IgbGFuZGluZyBwYWdlIHRvIGJlIG9uZSBvZiB0aGUgZmlyc3QgZmVhdHVyZWQgaGVyZT8gTWVzc2FnZSBtZSBvbiBUaWtUb2suIiwibm90ZSI6IknigJltIGNyZWF0aW5nIG15IG93biBzaG93Y2FzZSBidWlsZHMgcmlnaHQgbm93LCBhbmQgdGhleeKAmWxsIGFwcGVhciBoZXJlIGFzIHRoZXkgbGF1bmNoLiBObyBib3Jyb3dlZCB3b3JrLCBubyBmaWxsZXIg4oCUIGp1c3QgbXkgb3duIGRlc2lnbnMsIGFkZGVkIGFzIHRoZXnigJlyZSBmaW5pc2hlZC4iLCJ0aXRsZSI6Ik5ldyBwcm9qZWN0cyBjb21pbmcgc29vbiIsInllYXIiOiJTb29uIn0sInNlcnZpY2VzIjpbeyJkZXNjcmlwdGlvbiI6Ik9ubGluZSBzdG9yZXMgYnVpbHQgdG8gc2VsbCDigJQgY2xlYXIgcHJvZHVjdCBwYXRocywgZWFzeSBjaGVja291dCBmbG93LCBhbmQgYSBob21lcGFnZSB0aGF0IHdvcmtzIGxpa2UgYSBzdG9yZWZyb250LiIsInRpdGxlIjoiU3RvcmVzICYgRS1jb21tZXJjZSJ9LHsiZGVzY3JpcHRpb24iOiJPbmUgZm9jdXNlZCBwYWdlLCBvbmUgY2xlYXIgb2ZmZXIsIG9uZSBvYnZpb3VzIG5leHQgc3RlcC4gQnVpbHQgZm9yIGNhbXBhaWducywgbGF1bmNoZXMsIGFuZCBsZWFkIGdlbmVyYXRpb24uIiwidGl0bGUiOiJMYW5kaW5nIFBhZ2VzIn0seyJkZXNjcmlwdGlvbiI6IllvdXIgZXhpc3Rpbmcgc2l0ZSwgcmVidWlsdCBib2xkOiBzaGFycGVyIGhpZXJhcmNoeSwgZmFzdGVyIHBhdGhzIHRvIGJ1eSBvciBib29rLCBhbmQgdGhlIGRldGFpbHMgY3VzdG9tZXJzIGxvb2sgZm9yIGZpbmFsbHkgZWFzeSB0byBmaW5kLiIsInRpdGxlIjoiUmVkZXNpZ25zIn1dLCJzZXR0aW5ncyI6eyJtb3Rpb24iOnsiZGVmYXVsdFZpZXciOiJsaXN0Iiwic2hvd1ZpZXdUb2dnbGUiOnRydWUsInByZXZpZXdNb2RlIjoiZm9sbG93IiwiY2FyZFNpemUiOjM2MCwidGlsdCI6dHJ1ZSwic3ByaW5nIjoibm9ybWFsIiwiZGltT3RoZXJzIjp0cnVlLCJtYXhNb2JpbGVQbGF5aW5nIjoyLCJtb2JpbGVCZWhhdmlvdXIiOiJhY2NvcmRpb24ifSwidGVzdGltb25pYWxzIjp7ImxheW91dCI6ImZlYXR1cmVkIiwic2hvd1NlY3Rpb24iOmZhbHNlLCJhdXRvUm90YXRlIjpmYWxzZSwicm90YXRlU2Vjb25kcyI6Niwic2hvd0F2YXRhcnMiOnRydWUsInNob3dQcm9qZWN0TGluayI6dHJ1ZX19LCJ0ZXN0aW1vbmlhbHMiOltdfQ=="); })
           .then(applyContent)
           .catch(function () { /* Embedded verified content stays as-is. */ });
       })();
