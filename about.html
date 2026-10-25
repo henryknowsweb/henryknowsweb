@@ -289,7 +289,18 @@
             });
           }, { threshold: 0.15 });
           revealEls.forEach(function (el) { io.observe(el); });
-          if (frame) io.observe(frame);
+          if (frame) {
+            /* Observe the wrapper, not the frame itself: the frame's own
+               full clip-path would otherwise keep its observed intersection
+               at zero and the reveal would never fire. */
+            if (frame.parentElement) io.observe(frame.parentElement);
+            setTimeout(function () {
+              var r = frame.getBoundingClientRect();
+              if (r.top < window.innerHeight * 2 && r.bottom > -window.innerHeight) {
+                frame.classList.add("is-visible");
+              }
+            }, 1500);
+          }
         } else {
           revealEls.forEach(function (el) { el.classList.add("is-visible"); });
           if (frame) frame.classList.add("is-visible");
