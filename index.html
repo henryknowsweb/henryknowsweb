@@ -835,7 +835,28 @@
       .faq-item summary::after { content: "+"; font-family: var(--font-sans); font-weight: 400; font-size: 26px; line-height: 1; color: var(--accent); flex: none; transition: transform var(--dur-base) var(--ease-out); }
       .faq-item[open] summary::after { transform: rotate(45deg); }
       .faq-a p { margin: 0; padding: 0 0 24px; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
-</style>
+
+      /* Contact form modal */
+      .cf-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(14, 13, 14, 0.72); display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
+      .cf-overlay.open { display: flex; }
+      .cf-panel { background: #141314; border: 1px solid var(--line); width: 100%; max-width: 560px; margin: auto; padding: 28px; position: relative; }
+      .cf-panel h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; margin: 12px 0 20px; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+      .cf-close { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; background: none; border: 0; color: var(--paper); font-size: 26px; line-height: 1; cursor: pointer; }
+      .cf-close:hover { color: var(--red); }
+      .cf-field { margin: 0 0 16px; }
+      .cf-field label { display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); margin: 0 0 8px; }
+      .cf-field input, .cf-field textarea { width: 100%; background: var(--ink); border: 1px solid var(--line); color: var(--paper); font-family: var(--font-sans); font-size: 16px; line-height: 1.5; padding: 12px 14px; border-radius: 0; }
+      .cf-field textarea { resize: vertical; min-height: 110px; }
+      .cf-field input:focus, .cf-field textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+      .cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+      .cf-status { min-height: 1.5em; margin: 0 0 12px; font-size: 14px; color: var(--red); }
+      .cf-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .cf-alt { margin: 18px 0 0; font-size: 14px; color: var(--mute); }
+      .cf-alt a { color: var(--paper); }
+      .cf-success h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; margin: 12px 0 10px; font-size: 1.8rem; }
+      .cf-success p { color: var(--body2); margin: 0 0 20px; line-height: 1.6; }
+      button.btn { cursor: pointer; font-family: inherit; }
+    </style>
   </head>
   <body class="grain" id="top">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -1078,7 +1099,7 @@
       <h2 id="footerHeading">Let&rsquo;s build yours</h2>
       <div class="footer-actions">
         <span class="footer-channels" id="footerChannels"><a class="magnet-btn btn btn-primary btn-lg" id="magnetBtn" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Message Henry on TikTok — DM WEB"><span data-tiktok-handle>@henryknowsweb</span> — <span data-cta-label>DM WEB</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a></span>
-        <a class="outline-btn btn btn-secondary" id="footerEmail" href="mailto:henryknowsweb@gmail.com" aria-label="Email Henry at henryknowsweb@gmail.com"><span class="btn-email-text">henryknowsweb@gmail.com</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+        <button type="button" class="outline-btn btn btn-secondary" id="footerEmail" data-contact-open aria-label="Email Henry — opens the contact form"><span class="btn-email-text">henryknowsweb@gmail.com</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
       </div>
       <p class="footer-note" id="footerNote">The fastest way in is a TikTok DM — send &ldquo;WEB&rdquo; and tell me about your store, landing page, or redesign.</p>
       <div class="footer-bottom">
@@ -2250,6 +2271,117 @@
           .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJXZWJzaXRlcyBidWlsdCBsaWtlIHN0b3JlZnJvbnRzLCBub3QgYnJvY2h1cmVzLiIsInN0b3J5IjpbIk15IHdvcmsgbGl2ZXMgd2hlcmUgbXkgY2xpZW50c+KAmSBjdXN0b21lcnMgYWxyZWFkeSBhcmUuIEkgc2hhcmUgbXkgYnVpbGRzIG9uIFRpa1RvayBhcyBAaGVucnlrbm93c3dlYiwgYnJlYWtpbmcgZG93biB3aGF0IG1ha2VzIGEgaG9tZXBhZ2Ugd29yayBsaWtlIGEgc3RvcmVmcm9udC4gSWYgeW91ciBjdXJyZW50IHNpdGUgZmVlbHMgbGlrZSBhIGJyb2NodXJlLCB0aGF04oCZcyBleGFjdGx5IHdoYXQgSSBmaXguIiwiSSB3b3JrIHJlbW90ZWx5IHdpdGggY2xpZW50cyB3b3JsZHdpZGUuIEV2ZXJ5dGhpbmcgcnVucyB0aHJvdWdoIFRpa1RvayBETSBhbmQgZW1haWwg4oCUIHlvdSBzZWUgYSBmaXJzdCB2ZXJzaW9uIHRvIHJlYWN0IHRvIGJlZm9yZSBJIGJ1aWxkIHRoZSBmdWxsIHNpdGUsIGFuZCB3ZSBsYXVuY2ggdG9nZXRoZXIuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB3ZWIgZGVzaWduIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIG9uIEFtYXpvbiwgZUJheSwgV2FsbWFydCwgU2hvcGlmeSBhbmQgVGVtdS4gTXkgZmlyc3Qgam9iIHdhcyBhdCBUcmFkZWNvem9uZSwgYmVmb3JlIEkgaGFkIGV2ZW4gc3RhcnRlZCBteSBkZWdyZWUsIGFuZCBJIGtlcHQgd29ya2luZyBpbiBlLWNvbW1lcmNlIGFsbCB0aGUgd2F5IHRocm91Z2ggbXkgc3R1ZGllcy4gVGhvc2UgeWVhcnMgdGF1Z2h0IG1lIGhvdyBzZWxsaW5nIG9ubGluZSBhY3R1YWxseSB3b3JrcyDigJQgd2hhdCBhIHByb2R1Y3QgcGFnZSBoYXMgdG8gc2hvdywgd2hlcmUgYSBjaGVja291dCBsb3NlcyBwZW9wbGUsIGFuZCB3aHkgYSBzdG9yZSB0aGF0IGlzIGhhcmQgdG8gYnV5IGZyb20gc3RheXMgcXVpZXQuIiwiSW4gMjAyNiBJIGNvbXBsZXRlZCBteSBCYWNoZWxvcuKAmXMgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB0b29rIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgYWxzbyB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIFdoaWxlIHN0dWR5aW5nLCBJIGJ1aWx0IGFwcHMgYW5kIHdlYnNpdGVzIG9mIG15IG93biBhbmQga2VwdCB0YWtpbmcgb24gZS1jb21tZXJjZSB3b3JrIHdoZXJldmVyIGl0IGNhbWUuIiwiTm93IEkgYnVpbGQgdGhlIGtpbmQgb2Ygc3RvcmVzIEkgdXNlZCB0byB3b3JrIGluLiBJIGtub3cgd2hhdCBhIG1hcmtldHBsYWNlIGxpc3RpbmcgaGFzIHRvIGRvIHRvIHNlbGwgYmVjYXVzZSBJIGhhdmUgZG9uZSB0aGF0IGpvYiwgYW5kIEkga25vdyBob3cgdG8gYnVpbGQgdGhlIHNpdGUgYmVjYXVzZSB0aGF0IGlzIHdoYXQgSSB0cmFpbmVkIGZvci4gSWYgeW91ciBwcm9kdWN0cyBzZWxsIG9uIGEgbWFya2V0cGxhY2UgYnV0IHlvdXIgb3duIHdlYnNpdGUgZG9lcyBub3QsIHRoYXQgZ2FwIGlzIGV4YWN0bHkgd2hhdCBJIGZpeC4iLCJJIHdvcmsgcmVtb3RlbHkgd2l0aCBjbGllbnRzIHdvcmxkd2lkZSwgYW5kIGV2ZXJ5dGhpbmcgcnVucyB0aHJvdWdoIG15IHNvY2lhbCBjaGFubmVscyDigJQgdGhhdOKAmXMgd2hlcmUgSSBwb3N0IG15IGJ1aWxkcywgYW5kIHdoZXJlIGV2ZXJ5IHByb2plY3Qgc3RhcnRzLiBNZXNzYWdlIG1lIHRoZXJlIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoYXQgeW91IHNlbGwgYW5kIHdoYXQgaXNu4oCZdCB3b3JraW5nIG9uIHlvdXIgY3VycmVudCBzaXRlLCBhbmQgeW914oCZbGwgc2VlIGEgZmlyc3QgdmVyc2lvbiB0byByZWFjdCB0byBiZWZvcmUgSSBidWlsZCB0aGUgZnVsbCBzaXRlLiBUaGVuIHdlIGxhdW5jaCB0b2dldGhlci4iXX0sImNsaWVudHMiOnsiaXRlbXMiOltdLCJub3RlIjoiQ2xpZW50IGxpc3QgaXMgZ3Jvd2luZyDigJQgbmV3IG5hbWVzIGFyZSBhZGRlZCBhcyBwcm9qZWN0cyBsYXVuY2guIFlvdXJzIGNvdWxkIGJlIG5leHQuIn0sImZvb3RlciI6eyJoZWFkaW5nIjoiTGV04oCZcyBidWlsZCB5b3VycyIsImtpY2siOiJHb3QgYSBzdG9yZSwgYSBsYXVuY2gsIG9yIGEgc2l0ZSB0aGF0IG5lZWRzIGEgcmVidWlsZD8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSBhYm91dCB5b3VyIHN0b3JlLCBsYW5kaW5nIHBhZ2UsIG9yIHJlZGVzaWduLiJ9LCJpbnRybyI6eyJtZXRhIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSeKAmW0gSGVucnkg4oCUIEkgYnVpbGQgYm9sZCB3ZWJzaXRlcyBmb3IgYnVzaW5lc3NlcyB3b3JsZHdpZGUuIFN0b3JlcywgbGFuZGluZyBwYWdlcywgYW5kIHJlZGVzaWducyB0aGF0IGFyZSBtYWRlIHRvIGJlIHNob3BwZWQsIG5vdCBqdXN0IHNjcm9sbGVkIHBhc3Q6IGEgY2xlYXIgb2ZmZXIgdXAgZnJvbnQsIGFuIGVhc3kgcGF0aCB0byBidXkgb3IgYm9vaywgYW5kIHRoZSBkZXRhaWxzIGN1c3RvbWVycyBhY3R1YWxseSBsb29rIGZvciDigJQgbWVudSwgcHJpY2VzLCBsb2NhdGlvbiwgaG91cnMg4oCUIHdpdGhvdXQgdGhlIGh1bnRpbmcuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIiwic3RhdHVzIjoiQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJzdWIiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIOKAlCBmb3IgY2xpZW50cyB3b3JsZHdpZGUuIiwidGFnbGluZSI6IkJvbGQgd2Vic2l0ZXMgZm9yIHN0b3JlcyAmIGJyYW5kcyIsInRpa3Rva0hhbmRsZSI6IkBoZW5yeWtub3dzd2ViIiwidGlrdG9rVXJsIjoiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AaGVucnlrbm93c3dlYiIsImVtYWlsIjoiaGVucnlrbm93c3dlYkBnbWFpbC5jb20ifSwicHJvamVjdHMiOltdLCJwcm9qZWN0c0VtcHR5Ijp7ImNhdGVnb3J5IjoiU3RvcmVzIMK3IExhbmRpbmcgUGFnZXMgwrcgUmVkZXNpZ25zIiwiY3RhTm90ZSI6IldhbnQgeW91ciBzdG9yZSBvciBsYW5kaW5nIHBhZ2UgdG8gYmUgb25lIG9mIHRoZSBmaXJzdCBmZWF0dXJlZCBoZXJlPyBNZXNzYWdlIG1lIG9uIFRpa1Rvay4iLCJub3RlIjoiVGhlIGZpcnN0IHNob3djYXNlIGJ1aWxkcyBhcmUgb24gdGhlIHdheS4gRE0gV0VCIGlmIHlvdeKAmWQgbGlrZSB5b3VycyB0byBiZSBvbmUgb2YgdGhlbS4iLCJ0aXRsZSI6Ik5ldyBwcm9qZWN0cyBjb21pbmcgc29vbi4iLCJ5ZWFyIjoiU29vbiJ9LCJzZXJ2aWNlcyI6W3siZGVzY3JpcHRpb24iOiJPbmxpbmUgc3RvcmVzIGJ1aWx0IHRvIHNlbGwg4oCUIGNsZWFyIHByb2R1Y3QgcGF0aHMsIGVhc3kgY2hlY2tvdXQgZmxvdywgYW5kIGEgaG9tZXBhZ2UgdGhhdCB3b3JrcyBsaWtlIGEgc3RvcmVmcm9udC4gQnVpbHQgb24gU2hvcGlmeSwgV29vQ29tbWVyY2Ugb3IgSG9zdGluZ2VyIOKAlCBvciBhcyBhIGN1c3RvbSBidWlsZCDigJQgd2hpY2hldmVyIGZpdHMgeW91ciBidXNpbmVzcy4iLCJ0aXRsZSI6IlN0b3JlcyAmIEUtY29tbWVyY2UiLCJwcmljaW5nIjoiRnJvbSAkMSwwMDAgwrcgVXAgdG8gMzAgcHJvZHVjdHMgwrcgQ2hlY2tvdXQgJiBwYXltZW50cyBzZXQgdXAgwrcgVXAgdG8gNSBwYWdlcyDCtyAz4oCTNSB3ZWVrcyDCtyAyIHJldmlzaW9uIHJvdW5kcyJ9LHsiZGVzY3JpcHRpb24iOiJPbmUgZm9jdXNlZCBwYWdlLCBvbmUgY2xlYXIgb2ZmZXIsIG9uZSBvYnZpb3VzIG5leHQgc3RlcC4gQnVpbHQgZm9yIGNhbXBhaWducywgbGF1bmNoZXMsIGFuZCBsZWFkIGdlbmVyYXRpb24uIiwidGl0bGUiOiJMYW5kaW5nIFBhZ2VzIiwicHJpY2luZyI6IkZyb20gJDM1MCDCtyAxIHBhZ2UsIHVwIHRvIDYgc2VjdGlvbnMgwrcgQmFzaWMgU0VPIHNldHVwIMK3IDXigJM3IGRheXMgwrcgMiByZXZpc2lvbiByb3VuZHMifSx7ImRlc2NyaXB0aW9uIjoiWW91ciBleGlzdGluZyBzaXRlLCByZWJ1aWx0IGJvbGQ6IHNoYXJwZXIgaGllcmFyY2h5LCBmYXN0ZXIgcGF0aHMgdG8gYnV5IG9yIGJvb2ssIGFuZCB0aGUgZGV0YWlscyBjdXN0b21lcnMgbG9vayBmb3IgZmluYWxseSBlYXN5IHRvIGZpbmQuIiwidGl0bGUiOiJSZWRlc2lnbnMiLCJwcmljaW5nIjoiRnJvbSAkNzAwIMK3IFVwIHRvIDUgcGFnZXMgwrcgTmV3IGRlc2lnbiAmIG1vYmlsZSBsYXlvdXQgwrcgMuKAkzQgd2Vla3MgwrcgMiByZXZpc2lvbiByb3VuZHMifV0sInNldHRpbmdzIjp7Im1vdGlvbiI6eyJkZWZhdWx0VmlldyI6Imxpc3QiLCJzaG93Vmlld1RvZ2dsZSI6dHJ1ZSwicHJldmlld01vZGUiOiJmb2xsb3ciLCJjYXJkU2l6ZSI6MzYwLCJ0aWx0Ijp0cnVlLCJzcHJpbmciOiJub3JtYWwiLCJkaW1PdGhlcnMiOnRydWUsIm1heE1vYmlsZVBsYXlpbmciOjIsIm1vYmlsZUJlaGF2aW91ciI6ImFjY29yZGlvbiJ9LCJ0ZXN0aW1vbmlhbHMiOnsibGF5b3V0IjoiZmVhdHVyZWQiLCJzaG93U2VjdGlvbiI6ZmFsc2UsImF1dG9Sb3RhdGUiOmZhbHNlLCJyb3RhdGVTZWNvbmRzIjo2LCJzaG93QXZhdGFycyI6dHJ1ZSwic2hvd1Byb2plY3RMaW5rIjp0cnVlfX0sInRlc3RpbW9uaWFscyI6W10sImZhcSI6W3siZ3JvdXAiOiJXb3JraW5nIHdpdGggbWUiLCJpdGVtcyI6W3sicSI6IldoYXQgZG8geW91IGJ1aWxkPyIsImEiOiJPbmxpbmUgc3RvcmVzLCBsYW5kaW5nIHBhZ2VzLCBhbmQgcmVkZXNpZ25zIG9mIGV4aXN0aW5nIHNpdGVzLiBFYWNoIG9uZSBpcyBidWlsdCB0byBtYWtlIGl0IGVhc3kgZm9yIGN1c3RvbWVycyB0byBidXksIGJvb2ssIG9yIGNvbnRhY3QgeW91LiJ9LHsicSI6IldobyBkbyB5b3Ugd29yayB3aXRoPyIsImEiOiJTbWFsbCBidXNpbmVzc2VzLCBjcmVhdG9ycywgYW5kIGJyYW5kcyB3b3JsZHdpZGUuIElmIHlvdSBzZWxsIHNvbWV0aGluZyBvciBuZWVkIHBlb3BsZSB0byBnZXQgaW4gdG91Y2gsIEkgY2FuIGhlbHAuIn0seyJxIjoiSG93IGRvIHdlIHN0YXJ0PyIsImEiOiJTZW5kIG1lIGEgRE0gb24gVGlrVG9rIChAaGVucnlrbm93c3dlYikgb3IgYW4gZW1haWwgd2l0aCB3aGF0IHlvdSBzZWxsLCB3aG8geW91ciBjdXN0b21lcnMgYXJlLCBhbmQgd2hhdCBpc27igJl0IHdvcmtpbmcgb24geW91ciBjdXJyZW50IHNpdGUuIEnigJlsbCByZXBseSB3aXRoIHF1ZXN0aW9ucyBhbmQgbmV4dCBzdGVwcy4ifV19LHsiZ3JvdXAiOiJDb3N0IGFuZCB0aW1pbmciLCJpdGVtcyI6W3sicSI6IkhvdyBkb2VzIHByaWNpbmcgd29yaz8iLCJhIjoiRXZlcnkgcHJvamVjdCBpcyBxdW90ZWQgYXMgYSBmaXhlZCBwcmljZSBhZnRlciB3ZSB0YWxrIHRocm91Z2ggeW91ciBicmllZiwgYW5kIGJlZm9yZSBhbnkgd29yayBzdGFydHMuIE5vIHN1cnByaXNlIGNvc3RzLiJ9LHsicSI6IkhvdyBtdWNoIGRvZXMgYSB3ZWJzaXRlIGNvc3Q/IiwiYSI6Ikl0IGRlcGVuZHMgb24gdGhlIHBhZ2VzLCBmZWF0dXJlcywgYW5kIGNvbnRlbnQuIFN0YXJ0aW5nIHByaWNlczogYSBsYW5kaW5nIHBhZ2UgZnJvbSAkMzUwIChvbmUgcGFnZSwgdXAgdG8gNiBzZWN0aW9ucywgbW9iaWxlIGxheW91dCwgMiByZXZpc2lvbiByb3VuZHMsIGJhc2ljIFNFTyBzZXR1cCk7IGFuIG9ubGluZSBzdG9yZSBmcm9tICQxLDAwMCAodXAgdG8gMzAgcHJvZHVjdHMsIGNoZWNrb3V0IGFuZCBwYXltZW50cyBzZXQgdXAsIHVwIHRvIDUgcGFnZXMsIDIgcmV2aXNpb24gcm91bmRzKTsgYSByZWRlc2lnbiBmcm9tICQ3MDAgKHVwIHRvIDUgcGFnZXMsIG5ldyBkZXNpZ24sIG1vYmlsZSBsYXlvdXQsIDIgcmV2aXNpb24gcm91bmRzKS4gQWZ0ZXIgdGhlIGJyaWVmIEnigJlsbCBzZW5kIGEgZml4ZWQgcXVvdGUgYmVmb3JlIGFueSB3b3JrIHN0YXJ0cy4ifSx7InEiOiJIb3cgbG9uZyBkb2VzIGl0IHRha2U/IiwiYSI6IkEgbGFuZGluZyBwYWdlIHVzdWFsbHkgdGFrZXMgNeKAkzcgZGF5cywgYSBzdG9yZSAz4oCTNSB3ZWVrcywgYW5kIGEgcmVkZXNpZ24gMuKAkzQgd2Vla3MsIGNvdW50ZWQgZnJvbSB0aGUgZGF5IEkgcmVjZWl2ZSB5b3VyIHRleHQsIHBob3RvcywgYW5kIGNvbnRlbnQuIFRoZSB0aW1lbGluZSBtb3N0bHkgZGVwZW5kcyBvbiBob3cgcXVpY2tseSBJIGdldCB5b3VyIGNvbnRlbnQgYW5kIGZlZWRiYWNrLiJ9LHsicSI6IkRvIHlvdSB0YWtlIGEgZGVwb3NpdD8iLCJhIjoiWWVzIOKAlCAzMCUgdXBmcm9udCwgYW5kIHRoZSByZXN0IGJlZm9yZSB0aGUgZmluYWwgZmlsZXMgYXJlIGhhbmRlZCBvdmVyIGFuZCB0aGUgc2l0ZSBsYXVuY2hlcy4gSeKAmWxsIHB1dCBpdCBpbiB3cml0aW5nIGJlZm9yZSBzdGFydGluZy4ifSx7InEiOiJXaGF0IHBheW1lbnQgbWV0aG9kcyBkbyB5b3UgYWNjZXB0PyIsImEiOiJQYXlvbmVlciwgYmFuayB0cmFuc2Zlciwgb3IgY3J5cHRvLiBBbGwgcXVvdGVzIGFyZSBpbiBVU0QuIn1dfSx7Imdyb3VwIjoiV2hhdOKAmXMgaW5jbHVkZWQiLCJpdGVtcyI6W3sicSI6IldoYXTigJlzIHlvdXIgcHJvY2Vzcz8iLCJhIjoiQnJpZWYsIERlc2lnbiwgQnVpbGQsIExhdW5jaC4gWW91IHRlbGwgbWUgd2hhdCB5b3UgbmVlZCwgeW91IHNlZSBhIGZpcnN0IHZlcnNpb24sIEkgYnVpbGQgdGhlIGZ1bGwgc2l0ZSwgYW5kIHdlIGdvIGxpdmUgdG9nZXRoZXIuIn0seyJxIjoiQ2FuIHlvdSBidWlsZCBhbiBvbmxpbmUgc3RvcmU/IiwiYSI6Illlcy4gSSBidWlsZCBzdG9yZXMgb24gU2hvcGlmeSBhbmQgV29vQ29tbWVyY2UsIGFuZCBvbiBIb3N0aW5nZXIg4oCUIG9yIGFzIGEgY3VzdG9tIGJ1aWxkIOKAlCB3aXRoIGNoZWNrb3V0IGFuZCBwYXltZW50cyBzZXQgdXAgc28geW91IGNhbiBzdGFydCB0YWtpbmcgb3JkZXJzLiJ9LHsicSI6IkRvIHlvdSBoYW5kbGUgZG9tYWluIGFuZCBob3N0aW5nPyIsImEiOiJFaXRoZXIgd2F5IHdvcmtzOiBJIGNhbiBzZXQgaXQgdXAgZm9yIHlvdSwgb3IgZ3VpZGUgeW91IHRocm91Z2ggaXQuIFRoZSBkb21haW4gYW5kIGhvc3RpbmcgYWNjb3VudHMgc3RheSBpbiB5b3VyIG5hbWUsIHNvIHlvdSBhbHdheXMgb3duIHRoZW0uIn0seyJxIjoiRG8gSSBuZWVkIHRvIHByb3ZpZGUgdGhlIHRleHQgYW5kIGltYWdlcz8iLCJhIjoiSXQgaGVscHMgaWYgeW91IGRvLiBJZiB5b3UgZG9u4oCZdCBoYXZlIHRoZW0sIHRlbGwgbWUgd2hhdCB5b3UgY2FuIHNoYXJlIGFuZCB3ZeKAmWxsIHdvcmsgb3V0IHRoZSBnYXBzLiJ9LHsicSI6IldpbGwgbXkgc2l0ZSB3b3JrIG9uIHBob25lcz8iLCJhIjoiWWVzLiBFdmVyeSBzaXRlIGlzIGRlc2lnbmVkIGZvciBwaG9uZSwgdGFibGV0LCBhbmQgZGVza3RvcC4ifSx7InEiOiJXaWxsIHBlb3BsZSBiZSBhYmxlIHRvIGZpbmQgbXkgc2l0ZSBvbiBHb29nbGU/IiwiYSI6Ikkgc2V0IHVwIHRoZSBiYXNpY3M6IHBhZ2UgdGl0bGVzLCBkZXNjcmlwdGlvbnMsIGhlYWRpbmdzLCBmYXN0IGxvYWRpbmcsIGFuZCBhIHNpdGVtYXAuIFJhbmtpbmcgdGFrZXMgdGltZSBhbmQgZGVwZW5kcyBvbiBjb21wZXRpdGlvbiBhbmQgeW91ciBjb250ZW50LCBhbmQgSSBjYW7igJl0IHByb21pc2UgYSBwb3NpdGlvbi4ifV19LHsiZ3JvdXAiOiJBZnRlciBsYXVuY2giLCJpdGVtcyI6W3sicSI6IldobyBvd25zIHRoZSB3ZWJzaXRlPyIsImEiOiJZb3UgZG8uIE9uY2UgdGhlIGZpbmFsIHBheW1lbnQgaXMgbWFkZSwgdGhlIHNpdGUgYW5kIGl0cyBmaWxlcyBhcmUgeW91cnMuIn0seyJxIjoiV2hhdCBpZiBJIG5lZWQgY2hhbmdlcyBhZnRlciBsYXVuY2g/IiwiYSI6IlR3byByb3VuZHMgb2YgcmV2aXNpb25zIGFyZSBpbmNsdWRlZCB3aGlsZSB3ZSBidWlsZC4gQWZ0ZXIgbGF1bmNoLCBzbWFsbCBmaXhlcyBhcmUgZnJlZSBmb3IgMzAgZGF5cy4gQmlnZ2VyIGNoYW5nZXMgYXJlIHF1b3RlZCBzZXBhcmF0ZWx5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBvbmdvaW5nIHN1cHBvcnQ/IiwiYSI6Ik5vdCBhcyBhIG1vbnRobHkgcGxhbiByaWdodCBub3cuIEFmdGVyIHRoZSAzMC1kYXkgZml4IHdpbmRvdywgSSBxdW90ZSBjaGFuZ2VzIGFzIHlvdSBuZWVkIHRoZW0g4oCUIGp1c3QgRE0gb3IgZW1haWwgbWUuIn1dfSx7Imdyb3VwIjoiVHJ1c3QiLCJpdGVtcyI6W3sicSI6IkNhbiBJIHNlZSB5b3VyIHdvcms/IiwiYSI6Ik15IG93biBzaG93Y2FzZSBidWlsZHMgYXJlIGJlaW5nIGFkZGVkIG5vdywgYW5kIEkgb25seSBzaG93IHdvcmsgSSBtYWRlLiBJ4oCZZCByYXRoZXIgd2FpdCB0aGFuIHNob3cgc29tZW9uZSBlbHNl4oCZcyB3b3JrIGFzIG1pbmUuIEZlZWwgZnJlZSB0byBETSBtZSBmb3IgYSBzYW1wbGUgb3IgYSBjYWxsLiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgbW9ja3VwIG9yIGNvbnN1bHRhdGlvbj8iLCJhIjoiQSBmcmVlIDE1LW1pbnV0ZSBjb25zdWx0YXRpb24sIHllcyDigJQgRE0gbWUgYW5kIHdl4oCZbGwgdGFsayB0aHJvdWdoIHlvdXIgcHJvamVjdC4gQSBmcmVlIG1vY2t1cCwgbm8uIn0seyJxIjoiV2hhdCBpZiBJ4oCZbSBub3QgaGFwcHk/IiwiYSI6IkJlZm9yZSB5b3UgcGF5IGEgZGVwb3NpdCwgd2UgYWdyZWUgb24gdGhlIGJyaWVmLCBwcmljZSwgYW5kIGRlbGl2ZXJhYmxlcyBpbiB3cml0aW5nLiBZb3UgZ2V0IHR3byByb3VuZHMgb2YgcmV2aXNpb25zLCBhbmQgaWYgdGhlIGZpcnN0IGRlc2lnbiBpc27igJl0IHJpZ2h0LCBJ4oCZbGwgcmV3b3JrIGl0LiBJZiB5b3UgY2FuY2VsIGJlZm9yZSBJIHN0YXJ0LCB5b3UgZ2V0IHlvdXIgZGVwb3NpdCBiYWNrLiBPbmNlIEnigJl2ZSBzdGFydGVkLCB0aGUgZGVwb3NpdCBjb3ZlcnMgdGhlIHdvcmsgZG9uZSBzbyBmYXIuIElmIEkgY2Fu4oCZdCBkZWxpdmVyIHdoYXQgd2UgYWdyZWVkIGFmdGVyIHlvdXIgcmV2aXNpb25zLCBJ4oCZbGwgcmVmdW5kIHRoZSB1bnVzZWQgcGFydCBvZiB3aGF0IHlvdeKAmXZlIHBhaWQuIEFmdGVyIGxhdW5jaCwgSSBmaXggYW55IGJ1Z3MgSSBjYXVzZWQgZm9yIDMwIGRheXMuIn1dfV19"); })
           .then(applyContent)
           .catch(function () { /* Embedded verified content stays as-is. */ });
+      })();
+    </script>
+  
+    <div class="cf-overlay" id="contactOverlay">
+      <div class="cf-panel" role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+        <button type="button" class="cf-close" id="cfClose" aria-label="Close contact form">&times;</button>
+        <p class="section-label">Contact</p>
+        <h2 id="cfTitle">Tell me about your project</h2>
+        <form id="contactForm" novalidate>
+          <div class="cf-field">
+            <label for="cfName">Your name</label>
+            <input id="cfName" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="cf-field">
+            <label for="cfEmail">Your email</label>
+            <input id="cfEmail" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="cf-field">
+            <label for="cfSells">What do you sell?</label>
+            <input id="cfSells" name="sells" type="text" />
+          </div>
+          <div class="cf-field">
+            <label for="cfMessage">What&rsquo;s not working on your current site?</label>
+            <textarea id="cfMessage" name="message" rows="5" required></textarea>
+          </div>
+          <div class="cf-hp" aria-hidden="true">
+            <label>Website<input id="cfWebsite" name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <p class="cf-status" id="cfStatus" role="status" aria-live="polite"></p>
+          <div class="cf-actions">
+            <button type="submit" class="btn btn-solid" id="cfSubmit">Send message</button>
+          </div>
+          <p class="cf-alt">Prefer email? <a href="mailto:henryknowsweb@gmail.com">henryknowsweb@gmail.com</a></p>
+        </form>
+        <div class="cf-success" id="cfSuccess" hidden>
+          <h3>Message sent.</h3>
+          <p>Thanks &mdash; your message is in my inbox. I&rsquo;ll reply to the email address you gave.</p>
+          <button type="button" class="btn btn-secondary" id="cfDone">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var overlay = document.getElementById("contactOverlay");
+        if (!overlay) return;
+        var form = document.getElementById("contactForm");
+        var success = document.getElementById("cfSuccess");
+        var status = document.getElementById("cfStatus");
+        var submitBtn = document.getElementById("cfSubmit");
+        var lastFocus = null;
+        function openForm() {
+          lastFocus = document.activeElement;
+          overlay.classList.add("open");
+          document.body.style.overflow = "hidden";
+          var f = document.getElementById("cfName");
+          if (f) f.focus();
+        }
+        function closeForm() {
+          overlay.classList.remove("open");
+          document.body.style.overflow = "";
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+        document.querySelectorAll("[data-contact-open]").forEach(function (b) {
+          b.addEventListener("click", openForm);
+        });
+        document.getElementById("cfClose").addEventListener("click", closeForm);
+        document.getElementById("cfDone").addEventListener("click", closeForm);
+        overlay.addEventListener("click", function (e) { if (e.target === overlay) closeForm(); });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && overlay.classList.contains("open")) closeForm();
+        });
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          status.textContent = "";
+          var data = {
+            name: document.getElementById("cfName").value.trim(),
+            email: document.getElementById("cfEmail").value.trim(),
+            sells: document.getElementById("cfSells").value.trim(),
+            message: document.getElementById("cfMessage").value.trim(),
+            website: document.getElementById("cfWebsite").value
+          };
+          if (!data.name || !data.email || !data.message) {
+            status.textContent = "Please fill in your name, email and message.";
+            return;
+          }
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending...";
+          fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (j) {
+              return { okHttp: r.ok, j: j };
+            });
+          }).then(function (res) {
+            if (res.okHttp && res.j && res.j.ok) {
+              form.hidden = true;
+              success.hidden = false;
+              document.getElementById("cfDone").focus();
+            } else {
+              status.textContent = "That didn't go through. Please try again, or email me at henryknowsweb@gmail.com.";
+            }
+          }).catch(function () {
+            status.textContent = "That didn't go through. Please try again, or email me at henryknowsweb@gmail.com.";
+          }).finally(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send message";
+          });
+        });
       })();
     </script>
   </body>
