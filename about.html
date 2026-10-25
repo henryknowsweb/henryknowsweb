@@ -220,6 +220,27 @@
         .portrait-frame.reveal-clip { clip-path: none; transition: none; }
         .portrait-spot { display: none; }
       }
+    
+      /* Contact form modal */
+      .cf-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(14, 13, 14, 0.72); display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
+      .cf-overlay.open { display: flex; }
+      .cf-panel { background: #141314; border: 1px solid var(--line); width: 100%; max-width: 560px; margin: auto; padding: 28px; position: relative; }
+      .cf-panel h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; margin: 12px 0 20px; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+      .cf-close { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; background: none; border: 0; color: var(--paper); font-size: 26px; line-height: 1; cursor: pointer; }
+      .cf-close:hover { color: var(--red); }
+      .cf-field { margin: 0 0 16px; }
+      .cf-field label { display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); margin: 0 0 8px; }
+      .cf-field input, .cf-field textarea { width: 100%; background: var(--ink); border: 1px solid var(--line); color: var(--paper); font-family: var(--font-sans); font-size: 16px; line-height: 1.5; padding: 12px 14px; border-radius: 0; }
+      .cf-field textarea { resize: vertical; min-height: 110px; }
+      .cf-field input:focus, .cf-field textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+      .cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+      .cf-status { min-height: 1.5em; margin: 0 0 12px; font-size: 14px; color: var(--red); }
+      .cf-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .cf-alt { margin: 18px 0 0; font-size: 14px; color: var(--mute); }
+      .cf-alt a { color: var(--paper); }
+      .cf-success h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; margin: 12px 0 10px; font-size: 1.8rem; }
+      .cf-success p { color: var(--body2); margin: 0 0 20px; line-height: 1.6; }
+      button.btn { cursor: pointer; font-family: inherit; }
     </style>
   </head>
   <body id="top">
@@ -264,7 +285,7 @@
         <h2 id="ctaHeading">Want a site built<br />like a storefront?</h2>
         <div class="cta-actions">
           <a class="btn btn-solid btn-lg" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB on TikTok<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
-          <a class="btn btn-secondary btn-lg" href="mailto:henryknowsweb@gmail.com">Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+          <button type="button" class="btn btn-secondary btn-lg" data-contact-open>Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
         </div>
       </section>
     </main>
@@ -358,6 +379,117 @@
             }
           })
           .catch(function () { /* static content stays */ });
+      })();
+    </script>
+  
+    <div class="cf-overlay" id="contactOverlay">
+      <div class="cf-panel" role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+        <button type="button" class="cf-close" id="cfClose" aria-label="Close contact form">&times;</button>
+        <p class="section-label">Contact</p>
+        <h2 id="cfTitle">Tell me about your project</h2>
+        <form id="contactForm" novalidate>
+          <div class="cf-field">
+            <label for="cfName">Your name</label>
+            <input id="cfName" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="cf-field">
+            <label for="cfEmail">Your email</label>
+            <input id="cfEmail" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="cf-field">
+            <label for="cfSells">What do you sell?</label>
+            <input id="cfSells" name="sells" type="text" />
+          </div>
+          <div class="cf-field">
+            <label for="cfMessage">What&rsquo;s not working on your current site?</label>
+            <textarea id="cfMessage" name="message" rows="5" required></textarea>
+          </div>
+          <div class="cf-hp" aria-hidden="true">
+            <label>Website<input id="cfWebsite" name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <p class="cf-status" id="cfStatus" role="status" aria-live="polite"></p>
+          <div class="cf-actions">
+            <button type="submit" class="btn btn-solid" id="cfSubmit">Send message</button>
+          </div>
+          <p class="cf-alt">Prefer email? <a href="mailto:henryknowsweb@gmail.com">henryknowsweb@gmail.com</a></p>
+        </form>
+        <div class="cf-success" id="cfSuccess" hidden>
+          <h3>Message sent.</h3>
+          <p>Thanks &mdash; your message is in my inbox. I&rsquo;ll reply to the email address you gave.</p>
+          <button type="button" class="btn btn-secondary" id="cfDone">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var overlay = document.getElementById("contactOverlay");
+        if (!overlay) return;
+        var form = document.getElementById("contactForm");
+        var success = document.getElementById("cfSuccess");
+        var status = document.getElementById("cfStatus");
+        var submitBtn = document.getElementById("cfSubmit");
+        var lastFocus = null;
+        function openForm() {
+          lastFocus = document.activeElement;
+          overlay.classList.add("open");
+          document.body.style.overflow = "hidden";
+          var f = document.getElementById("cfName");
+          if (f) f.focus();
+        }
+        function closeForm() {
+          overlay.classList.remove("open");
+          document.body.style.overflow = "";
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+        document.querySelectorAll("[data-contact-open]").forEach(function (b) {
+          b.addEventListener("click", openForm);
+        });
+        document.getElementById("cfClose").addEventListener("click", closeForm);
+        document.getElementById("cfDone").addEventListener("click", closeForm);
+        overlay.addEventListener("click", function (e) { if (e.target === overlay) closeForm(); });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && overlay.classList.contains("open")) closeForm();
+        });
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          status.textContent = "";
+          var data = {
+            name: document.getElementById("cfName").value.trim(),
+            email: document.getElementById("cfEmail").value.trim(),
+            sells: document.getElementById("cfSells").value.trim(),
+            message: document.getElementById("cfMessage").value.trim(),
+            website: document.getElementById("cfWebsite").value
+          };
+          if (!data.name || !data.email || !data.message) {
+            status.textContent = "Please fill in your name, email and message.";
+            return;
+          }
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending...";
+          fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (j) {
+              return { okHttp: r.ok, j: j };
+            });
+          }).then(function (res) {
+            if (res.okHttp && res.j && res.j.ok) {
+              form.hidden = true;
+              success.hidden = false;
+              document.getElementById("cfDone").focus();
+            } else {
+              status.textContent = "That didn't go through. Please try again, or email me at henryknowsweb@gmail.com.";
+            }
+          }).catch(function () {
+            status.textContent = "That didn't go through. Please try again, or email me at henryknowsweb@gmail.com.";
+          }).finally(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send message";
+          });
+        });
       })();
     </script>
   </body>
