@@ -6,10 +6,7 @@
       "I work remotely with clients worldwide. Everything runs through TikTok DM and email — you see a first version to react to before I build the full site, and we launch together."
     ]
   },
-  "clients": {
-    "items": [],
-    "note": "Client list is growing — new names are added as projects launch. Yours could be next."
-  },
+  "clients": [],
   "footer": {
     "heading": "Let’s build yours",
     "kick": "Got a store, a launch, or a site that needs a rebuild?",
@@ -31,7 +28,13 @@
     "tagline": "Bold websites for stores & brands",
     "tiktokHandle": "@henryknowsweb",
     "tiktokUrl": "https://www.tiktok.com/@henryknowsweb",
-    "email": "henryknowsweb@gmail.com"
+    "email": "henryknowsweb@gmail.com",
+    "area": "Worldwide",
+    "tiktok": "@henryknowsweb",
+    "cta": "DM WEB",
+    "years": "",
+    "intro": "I build bold websites for businesses worldwide — stores that sell, landing pages that convert, and redesigns that make a business look as good as it is.",
+    "story": "I’m Henry, a web designer and builder. I create bold websites for stores, landing pages, and redesigns for clients worldwide. My work is about making a business easy to buy from: clear pages, an obvious next step, and a site that works like a storefront, not a brochure. Want one for your business? DM WEB on TikTok — @henryknowsweb."
   },
   "projects": [],
   "projectsEmpty": {
@@ -71,8 +74,8 @@
       "mobileBehaviour": "accordion"
     },
     "testimonials": {
-      "layout": "featured",
       "showSection": false,
+      "layout": "featured",
       "autoRotate": false,
       "rotateSeconds": 6,
       "showAvatars": true,
