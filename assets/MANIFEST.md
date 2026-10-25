@@ -30,7 +30,7 @@ Built for henryknowsweb.pages.dev (Prompt 1 of the graphic-design audit). Tokens
 | `assets/ui/frame-phone.svg` | 0 0 185 400 viewBox | 358 | Phone mockup frame, ~9:19.5. Screen area = <g id="screen"> rect x=8, y=8, w=169, h=384 in the 185×400 viewBox. |
 | `assets/ui/grain.png` | 256×256 | 59,792 | Seamless monochrome grain tile. Fixed body overlay at ~5% opacity, pointer-events:none; also footer. |
 | `assets/ui/h-outline.svg` | 0 0 640 640 viewBox | 177 | Outline H watermark (stroke only, paper). Footer, ~6% opacity, bottom-right, cropped by the container. |
-| `assets/projects/_template.svg` | 0 0 1600 1000 viewBox | 25,073 | Project cover template 1600×1000 (16:10). Dashed = safe area (96px inset) and media placeholder zone. Labels are real font paths. PLACEHOLDER SCAFFOLD — replace with real project work. |
+| `assets/brand/_template.svg` | 0 0 1600 1000 viewBox | 25,073 | Project cover template 1600×1000 (16:10). Dashed = safe area (96px inset) and media placeholder zone. Labels are real font paths. PLACEHOLDER SCAFFOLD — replace with real project work. |
 | `assets/social/endcard.png` | 1080×1920 | 503,711 | TikTok end-card. Headline, red DM WEB button, @henryknowsweb; all key content inside TikTok safe margins (clear of top 150px and bottom 400px). |
 
 ## Flags & honest notes
