@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0E0D0E" />
+    <meta name="description" content="The full story of Henry: 6+ years in e-commerce across Amazon, eBay, Walmart, Shopify and Temu, a computer science degree with two first prizes, now building bold websites worldwide." />
+    <meta property="og:title" content="About Henry — Web Designer | henryknowsweb" />
+    <meta property="og:description" content="6+ years in e-commerce, a computer science degree, two first prizes — and now bold websites for stores and brands worldwide." />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://henryknowsweb.pages.dev/about" />
+    <meta property="og:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About Henry — Web Designer | henryknowsweb" />
+    <meta name="twitter:description" content="6+ years in e-commerce, a computer science degree, two first prizes — and now bold websites for stores and brands worldwide." />
+    <meta name="twitter:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
+    <link rel="canonical" href="https://henryknowsweb.pages.dev/about" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/brand/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+    <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <title>About Henry | henryknowsweb — Web Designer</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #0E0D0E;
+        --paper: #F2EFEA;
+        --red: #F2281E;
+        --mute: #8C8782;
+        --label: color-mix(in srgb, var(--paper) 62%, var(--ink));
+        --body2: color-mix(in srgb, var(--paper) 72%, var(--ink));
+        --line: rgba(242, 239, 234, 0.12);
+        --bg: var(--ink);
+        --text: var(--paper);
+        --border: var(--line);
+        --accent: var(--red);
+        --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+        --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --space-1: 96px;
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --dur-fast: 180ms;
+        --dur-base: 320ms;
+        --dur-slow: 700ms;
+        --dur-hero: 1000ms;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.5;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      ::selection { background: var(--accent); color: var(--paper); }
+      a { color: inherit; }
+      img { max-width: 100%; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .wrap-x { padding-left: 20px; padding-right: 20px; }
+      @media (min-width: 640px) { .wrap-x { padding-left: 56px; padding-right: 56px; } }
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        margin: -1px; padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: fixed; top: -200px; left: 16px; z-index: 400;
+        background: var(--paper); color: var(--ink);
+        padding: 12px 18px;
+        font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+        text-decoration: none;
+        transition: top var(--dur-fast) var(--ease-out);
+      }
+      .skip-link:focus-visible { top: 12px; }
+      .section-label {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--label);
+      }
+      .link-draw { text-decoration: none; }
+      .link-draw:hover { color: var(--accent); }
+
+      /* Top bar */
+      .topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px;
+        padding-top: 22px; padding-bottom: 22px;
+        border-bottom: 1px solid var(--border);
+      }
+      .brand-lockup { display: block; height: 28px; width: auto; }
+      .topbar .back {
+        font-family: var(--font-mono);
+        font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--label);
+        display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+      }
+      .topbar .back:hover { color: var(--paper); }
+      .topbar .back svg { width: 13px; height: 13px; transform: rotate(180deg); }
+
+      /* Page head */
+      .page-head { padding-top: 64px; }
+      .page-head h1 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin: 14px 0 0;
+        font-size: clamp(2.8rem, 8vw, 6.5rem);
+      }
+
+      /* Layout: portrait + story */
+      .about-layout { display: grid; gap: 48px; padding-top: 56px; padding-bottom: var(--space-1); }
+      @media (min-width: 900px) {
+        .about-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: start; }
+        .portrait-col { position: sticky; top: 40px; }
+      }
+      .portrait-frame {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        width: min(100%, 480px);
+        margin: 0;
+        overflow: hidden;
+      }
+      .portrait-frame img.photo {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .portrait-frame.reveal-clip {
+        clip-path: inset(0 0 100% 0);
+        transition: clip-path var(--dur-hero) var(--ease-out);
+      }
+      .portrait-frame.reveal-clip.is-visible { clip-path: inset(0 0 0 0); }
+      .portrait-spot {
+        position: absolute; inset: 0; z-index: 2;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity var(--dur-base) var(--ease-out);
+        background: radial-gradient(560px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(242, 239, 234, 0.13), rgba(242, 239, 234, 0) 60%);
+      }
+      .portrait-frame.spot-on .portrait-spot { opacity: 1; }
+      @media (hover: none), (pointer: coarse) { .portrait-spot { display: none; } }
+      .portrait-caption { margin: 16px 0 0; font-size: 14px; color: var(--mute); }
+
+      .story p { margin: 0 0 16px; max-width: 68ch; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .story p:first-child { font-size: 19px; line-height: 1.6; color: var(--text); }
+
+      .channels { margin-top: 40px; }
+      .channels-label { margin: 0 0 14px; }
+      .channels-list { display: flex; flex-wrap: wrap; gap: 10px; }
+      .channel-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+      .channel-chip:hover { border-color: var(--red); color: var(--red); }
+      .channel-chip .btn-arrow { width: 13px; height: 13px; flex: none; }
+
+      /* Buttons (same system as the homepage) */
+      .btn {
+        display: inline-flex; align-items: center; gap: 10px;
+        min-height: 44px;
+        font-size: 14px; font-weight: 800;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        text-decoration: none;
+      }
+      .btn .btn-arrow { width: 15px; height: 15px; flex: none; transition: transform var(--dur-fast) var(--ease-out); }
+      .btn:hover .btn-arrow, .btn:focus-visible .btn-arrow { transform: translate(2px, -2px); }
+      .btn-secondary { background: transparent; color: var(--paper); border: 1px solid var(--paper); padding: 10px 22px; }
+      .btn-solid { background: var(--paper); color: var(--ink); border: 1px solid var(--paper); padding: 10px 22px; }
+      .btn-lg { font-size: 16px; letter-spacing: 0.06em; padding: 14px 26px; }
+      @media (min-width: 640px) { .btn-lg { font-size: 22px; } }
+
+      /* CTA band + footer */
+      .cta-band { border-top: 1px solid var(--border); padding-top: 64px; padding-bottom: 64px; }
+      .cta-band h2 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin: 12px 0 0;
+        font-size: clamp(2.4rem, 6vw, 4.5rem);
+      }
+      .cta-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+      .page-foot {
+        border-top: 1px solid var(--border);
+        padding-top: 24px; padding-bottom: 32px;
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+        font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--mute);
+      }
+
+      /* Reveal helpers (same as the homepage) */
+      .reveal-fade {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-fade.is-visible { opacity: 1; transform: translateY(0); }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .reveal-fade { opacity: 1; transform: none; transition: none; }
+        .portrait-frame.reveal-clip { clip-path: none; transition: none; }
+        .portrait-spot { display: none; }
+      }
+    </style>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar wrap-x">
+      <a class="brand" href="/" aria-label="henryknowsweb — back to home"><img class="brand-lockup" src="assets/brand/lockup.svg" alt="Henry." width="94" height="28" /></a>
+      <a class="back link-draw" href="/#about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a>
+    </header>
+
+    <main id="main">
+      <div class="page-head wrap-x">
+        <p class="section-label">About / My full story</p>
+        <h1>Know more<br />about Henry</h1>
+      </div>
+
+      <div class="about-layout wrap-x">
+        <div class="portrait-col">
+          <figure class="portrait-frame reveal-clip" id="portraitFrame"><img class="photo" src="assets/portrait/about-portrait.webp" width="1024" height="1280" alt="Portrait of Henry" /><div class="portrait-spot" aria-hidden="true"></div></figure>
+          <p class="portrait-caption">Henry — web designer &amp; builder, working worldwide.</p>
+        </div>
+
+        <div class="story-col">
+          <div class="story reveal-fade" id="fullStory">
+            <p>I came into web design through e-commerce. For more than six years I worked with online stores on Amazon, eBay, Walmart, Shopify and Temu. My first job was at Tradecozone, before I had even started my degree, and I kept working in e-commerce all the way through my studies. Those years taught me how selling online actually works — what a product page has to show, where a checkout loses people, and why a store that is hard to buy from stays quiet.</p>
+            <p>In 2026 I completed my Bachelor&rsquo;s in Computer Science, majoring in web and mobile application development. My final year project took first prize in the graduation project program, and I also won first prize in the mock interview program. While studying, I built apps and websites of my own and kept taking on e-commerce work wherever it came.</p>
+            <p>Now I build the kind of stores I used to work in. I know what a marketplace listing has to do to sell because I have done that job, and I know how to build the site because that is what I trained for. If your products sell on a marketplace but your own website does not, that gap is exactly what I fix.</p>
+            <p>I work remotely with clients worldwide, and everything runs through my social channels — that&rsquo;s where I post my builds, and where every project starts. Message me there or by email, tell me what you sell and what isn&rsquo;t working on your current site, and you&rsquo;ll see a first version to react to before I build the full site. Then we launch together.</p>
+          </div>
+
+          <div class="channels reveal-fade" id="aboutChannels">
+            <p class="section-label channels-label">Find me here</p>
+            <div class="channels-list" id="aboutChannelsList">
+              <a class="channel-chip" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noopener">TikTok — @henryknowsweb<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="cta-band wrap-x" aria-labelledby="ctaHeading">
+        <p class="section-label">Start a project</p>
+        <h2 id="ctaHeading">Want a site built<br />like a storefront?</h2>
+        <div class="cta-actions">
+          <a class="btn btn-solid btn-lg" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB on TikTok<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+          <a class="btn btn-secondary btn-lg" href="mailto:henryknowsweb@gmail.com">Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot wrap-x">
+      <span>henryknowsweb — Bold websites for stores &amp; brands</span>
+      <a class="link-draw" href="/">Back to home</a>
+    </footer>
+
+    <script>
+      (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+        /* Reveal: fades + the portrait's one-time masked reveal */
+        var revealEls = document.querySelectorAll(".reveal-fade");
+        var frame = document.getElementById("portraitFrame");
+        if (!reduced && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+            });
+          }, { threshold: 0.15 });
+          revealEls.forEach(function (el) { io.observe(el); });
+          if (frame) io.observe(frame);
+        } else {
+          revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+          if (frame) frame.classList.add("is-visible");
+        }
+
+        /* Portrait spotlight: fine pointers only, never under reduced motion */
+        if (frame && !reduced && finePointer) {
+          var spotEl = frame.querySelector(".portrait-spot");
+          if (spotEl) {
+            frame.addEventListener("mousemove", function (e) {
+              var r = frame.getBoundingClientRect();
+              if (!r.width || !r.height) return;
+              spotEl.style.setProperty("--spot-x", ((e.clientX - r.left) / r.width * 100).toFixed(1) + "%");
+              spotEl.style.setProperty("--spot-y", ((e.clientY - r.top) / r.height * 100).toFixed(1) + "%");
+              frame.classList.add("spot-on");
+            });
+            frame.addEventListener("mouseleave", function () { frame.classList.remove("spot-on"); });
+          }
+        }
+
+        /* Content refresh: full story + social channels from content.json.
+           Static HTML above is the fallback; failures leave it untouched. */
+        function esc(s) { return String(s == null ? "" : s); }
+        fetch("content.json", { credentials: "same-origin" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            if (!data) return;
+            var story = data.about && data.about.fullStory;
+            var storyEl = document.getElementById("fullStory");
+            if (storyEl && Array.isArray(story) && story.length) {
+              storyEl.textContent = "";
+              story.forEach(function (para) {
+                var p = document.createElement("p");
+                p.textContent = esc(para);
+                storyEl.appendChild(p);
+              });
+            }
+            var listEl = document.getElementById("aboutChannelsList");
+            var wrapEl = document.getElementById("aboutChannels");
+            if (listEl && Array.isArray(data.socials)) {
+              var valid = data.socials.filter(function (ch) {
+                return ch && ch.visible !== false && esc(ch.platform).trim() !== "" && /^https:\/\//.test(esc(ch.url).trim());
+              });
+              listEl.textContent = "";
+              valid.forEach(function (ch) {
+                var a = document.createElement("a");
+                a.className = "channel-chip";
+                a.href = esc(ch.url).trim();
+                a.target = "_blank";
+                a.rel = "noopener";
+                a.textContent = esc(ch.platform).trim() + (esc(ch.handle).trim() ? " — " + esc(ch.handle).trim() : "");
+                listEl.appendChild(a);
+              });
+              if (wrapEl) wrapEl.hidden = valid.length === 0;
+            }
+          })
+          .catch(function () { /* static content stays */ });
+      })();
+    </script>
+  </body>
+</html>
