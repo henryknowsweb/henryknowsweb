@@ -420,30 +420,6 @@
         height: 100%;
         object-fit: cover;
       }
-      /* One-time masked reveal for the About portrait: the frame starts
-         clipped to its top edge and opens downward the first time it
-         scrolls into view (the reveal script adds .is-visible once).
-         Reduced motion shows the portrait at once (see the reduce block). */
-      .portrait-frame.reveal-clip {
-        clip-path: inset(0 0 100% 0);
-        transition: transform 0.35s ease-out, clip-path var(--dur-hero) var(--ease-out);
-      }
-      .portrait-frame.reveal-clip.is-visible { clip-path: inset(0 0 0 0); }
-      /* Cursor spotlight over the portrait (SpotlightCard pattern): a
-         paper-tinted radial glow tracked through --spot-x / --spot-y on an
-         overlay layer inside the frame — it never touches the image or
-         the frame's settle/parallax motion, and never intercepts clicks. */
-      .portrait-spot {
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity var(--dur-base) var(--ease-out);
-        background: radial-gradient(560px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(242, 239, 234, 0.13), rgba(242, 239, 234, 0) 60%);
-      }
-      .portrait-frame.spot-on .portrait-spot { opacity: 1; }
-      @media (hover: none), (pointer: coarse) { .portrait-spot { display: none; } }
       .portrait-stage .fade-left {
         position: absolute; inset: 0;
         background: linear-gradient(90deg, #0E0D0E 0%, transparent 60%);
@@ -503,6 +479,7 @@
       }
       .about-grid .story p { margin: 0 0 16px; max-width: 68ch; font-size: 16px; line-height: 1.7; color: var(--body2); }
       .channels-label { margin: 0 0 14px; }
+      .about-more { margin-top: 28px; }
       .channels-list { display: flex; flex-wrap: wrap; gap: 10px; }
       .channel-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
       .channel-chip:hover { border-color: var(--red); color: var(--red); }
@@ -737,8 +714,6 @@
         .reveal-line > span { transform: none; transition: none; }
         .reveal-fade { opacity: 1; transform: none; transition: none; }
         .footer-reveal { clip-path: none; transition: none; }
-        .portrait-frame.reveal-clip { clip-path: none; transition: none; }
-        .portrait-spot { display: none; }
         .service-row, .services-list:hover .service-row:hover { transform: none; }
         .hero .kicker-zone, .hero .tagline, .hero .sub, .hero .availability,
         .hero-grid .right, .hero .handle-line, .hero .scroll-hint { animation: none; }
@@ -790,13 +765,13 @@
       .brand-lockup { display: block; height: 28px; width: auto; }
       /* Hero portrait beside the name (own grid column: never overlaps the
          letters or the eyebrow). Hidden under 768px. */
-      .hero-portrait { margin: 0; display: none; }
+      .hero-portrait { margin: 24px 0 0; max-width: 300px; animation: hero-in var(--dur-slow) var(--ease-out) both; animation-play-state: paused; }
+      body.is-loaded .hero-portrait { animation-delay: 0.36s; animation-play-state: running; }
       .hero-portrait img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); filter: brightness(0.94) contrast(1.02) saturate(0.96); }
       @media (min-width: 768px) {
         .hero-top { display: grid; grid-template-columns: minmax(0, 1fr) 22%; align-items: end; column-gap: clamp(20px, 3vw, 48px); }
         #heroName { font-size: clamp(5rem, 19vw, 18rem); }
-        .hero-portrait { display: block; max-width: 340px; justify-self: end; animation: hero-in var(--dur-slow) var(--ease-out) both; animation-play-state: paused; }
-        body.is-loaded .hero-portrait { animation-delay: 0.36s; animation-play-state: running; }
+        .hero-portrait { max-width: 340px; justify-self: end; margin: 0; }
       }
       @media (prefers-reduced-motion: reduce) { .hero-portrait { animation: none; } }
       /* One 12-column system: labels in cols 1-3 (head blocks start col 1),
@@ -805,6 +780,7 @@
         .intro-grid .body { grid-column: 5 / span 6; }
         .about-grid .story { grid-column: 5 / span 6; }
         .about-grid .channels { grid-column: 5 / span 6; }
+        .about-grid .about-more { grid-column: 5 / span 6; }
         .about-grid .facts { grid-column: 5 / span 6; flex-direction: row; flex-wrap: wrap; gap: 20px 48px; }
         .services-grid .list { grid-column: 5 / span 8; }
       }
@@ -945,7 +921,7 @@
         <div class="portrait-tall" id="portraitTall">
           <div class="portrait-sticky">
             <div class="portrait-stage" id="portraitStage">
-              <figure class="portrait-frame reveal-clip" id="portraitFrame"><img class="photo" id="portraitImg" src="assets/portrait/about-portrait.webp" width="1024" height="1280" loading="lazy" alt="Portrait of Henry" /><div class="portrait-spot" aria-hidden="true"></div></figure>
+              <figure class="portrait-frame" id="portraitFrame"><img class="photo" id="portraitImg" src="assets/portrait/pinned.webp" width="819" height="1024" loading="lazy" alt="Portrait of Henry" /></figure>
               <div class="fade-left" aria-hidden="true"></div>
               <div class="fade-bottom" aria-hidden="true"></div>
               <p class="about-title reveal-fade" id="aboutPortraitLine">Websites built like storefronts, not brochures.</p>
@@ -957,16 +933,11 @@
         <div class="about-grid wrap-x">
           <div class="lbl"><p class="section-label">About / My story</p></div>
           <div class="story reveal-fade" id="aboutStory">
-            <p>I came into web design through e-commerce. For more than six years I worked with online stores on Amazon, eBay, Walmart, Shopify and Temu. My first job was at Tradecozone, before I had even started my degree, and I kept working in e-commerce all the way through my studies. Those years taught me how selling online actually works — what a product page has to show, where a checkout loses people, and why a store that is hard to buy from stays quiet.</p>
-            <p>In 2026 I completed my Bachelor&rsquo;s in Computer Science, majoring in web and mobile application development. My final year project took first prize in the graduation project program, and I also won first prize in the mock interview program. While studying, I built apps and websites of my own and kept taking on e-commerce work wherever it came.</p>
-            <p>Now I build the kind of stores I used to work in. I know what a marketplace listing has to do to sell because I have done that job, and I know how to build the site because that is what I trained for. If your products sell on a marketplace but your own website does not, that gap is exactly what I fix.</p>
-            <p>I work remotely with clients worldwide, and everything runs through my social channels — that&rsquo;s where I post my builds, and where every project starts. Message me there or by email, tell me what you sell and what isn&rsquo;t working on your current site, and you&rsquo;ll see a first version to react to before I build the full site. Then we launch together.</p>
+            <p>My work lives where my clients&rsquo; customers already are. I share my builds on TikTok as @henryknowsweb, breaking down what makes a homepage work like a storefront. If your current site feels like a brochure, that&rsquo;s exactly what I fix.</p>
+            <p>I work remotely with clients worldwide. Everything runs through TikTok DM and email — you see a first version to react to before I build the full site, and we launch together.</p>
           </div>
-          <div class="channels reveal-fade" id="aboutChannels">
-            <p class="section-label channels-label">Find me here</p>
-            <div class="channels-list" id="aboutChannelsList">
-              <a class="channel-chip" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noopener">TikTok — @henryknowsweb<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
-            </div>
+          <div class="about-more reveal-fade">
+            <a class="btn btn-secondary" href="/about">Know more about Henry<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           </div>
           <dl class="facts">
             <div>
@@ -1018,10 +989,7 @@
         <p class="section-label">Selected work</p>
         <h2 id="workHeading"><span class="reveal-line"><span>Project index</span></span></h2>
 
-        <div class="index-head" aria-hidden="true">
-          <span>No.</span><span>Project</span><span>Category</span><span class="r">Year</span><span></span>
-        </div>
-        <div id="projectsList">
+        <div class="sig-row" id="sigRow">
           <div class="index-empty reveal-fade">
             <p class="ieb-label">Project index</p>
             <p class="big">New projects coming soon.</p>
@@ -1030,6 +998,7 @@
         </div>
 
         <div class="work-cta reveal-fade">
+          <a class="cta-btn btn btn-secondary" href="/portfolio">View more<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <a class="cta-btn btn btn-secondary" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Start your project — DM WEB on TikTok">Start yours — <span data-cta-label>DM WEB</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <p id="workCtaNote">Want your store or landing page to be one of the first featured here? Message me on TikTok.</p>
         </div>
@@ -1383,44 +1352,6 @@
           }
         }
 
-        /* ---------- Portrait: one-time masked reveal + cursor spotlight ----------
-           The reveal opens the frame's clip-path once, the first time the
-           portrait enters the viewport; under reduced motion the CSS shows
-           the portrait at once and the observer never arms. The spotlight
-           is a paper-tinted radial glow on the overlay inside the frame,
-           tracked from the stage mousemove like the parallax — fine
-           pointers only, and it never touches the image itself. */
-        if (frame) {
-          if (!reduced && "IntersectionObserver" in window) {
-            var portraitIO = new IntersectionObserver(function (entries) {
-              entries.forEach(function (en) {
-                if (en.isIntersecting) {
-                  frame.classList.add("is-visible");
-                  portraitIO.unobserve(frame);
-                }
-              });
-            }, { threshold: 0.2 });
-            portraitIO.observe(frame);
-          } else {
-            frame.classList.add("is-visible");
-          }
-          if (!reduced && finePointer && stage) {
-            var spotEl = frame.querySelector(".portrait-spot");
-            if (spotEl) {
-              stage.addEventListener("mousemove", function (e) {
-                var r = frame.getBoundingClientRect();
-                if (!r.width || !r.height) return;
-                var sx = (e.clientX - r.left) / r.width * 100;
-                var sy = (e.clientY - r.top) / r.height * 100;
-                spotEl.style.setProperty("--spot-x", sx.toFixed(1) + "%");
-                spotEl.style.setProperty("--spot-y", sy.toFixed(1) + "%");
-                frame.classList.add("spot-on");
-              });
-              stage.addEventListener("mouseleave", function () { frame.classList.remove("spot-on"); });
-            }
-          }
-        }
-
         /* ---------- Magnetic buttons: ~8px capped pull, fine pointers only ---------- */
         function bindMagnetic(el, radius) {
           if (!el) return;
@@ -1553,128 +1484,58 @@
       })();
     </script>
     <style>
-      /* ---- Project showcase: motion previews (list / grid / overlay) ---- */
-      .pv-toolbar { display: flex; justify-content: flex-end; margin: 26px 0 2px; }
-      .pv-toggle { display: inline-flex; border: 1px solid var(--border); }
-      .pv-toggle button { appearance: none; background: transparent; border: 0; margin: 0; padding: 10px 18px; color: var(--label); font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: color 0.2s ease, background-color 0.2s ease; }
-      .pv-toggle button:hover { color: var(--text); }
-      .pv-toggle button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
-      .pv-list[hidden], .pv-grid[hidden] { display: none !important; }
-      .work-sec.pv-grid-on .index-head { display: none !important; }
-      .pv-row { cursor: pointer; position: relative; }
-      .pv-list .pv-row { animation: pv-row-in var(--dur-base) var(--ease-out) both; animation-delay: calc(var(--pv-i, 0) * 60ms); }
+      /* ---- Signature projects: the first three published projects as
+         framed cards in one line on the homepage; the full project index
+         (list / grid / overlay) lives on /portfolio. ---- */
+      .sig-row { display: grid; grid-template-columns: 1fr; gap: 20px; }
+      .sig-row.has-cards { margin-top: 40px; }
+      @media (min-width: 768px) { .sig-row { grid-template-columns: repeat(3, 1fr); } }
+      .sig-row .index-empty { grid-column: 1 / -1; }
+      .sig-card { display: block; position: relative; border: 1px solid var(--border); background: var(--surface); color: inherit; text-decoration: none; overflow: hidden; animation: pv-row-in var(--dur-base) var(--ease-out) both; animation-delay: calc(var(--pv-i, 0) * 60ms); }
       @keyframes pv-row-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-      .pv-row > * { transition: opacity 0.25s ease; }
-      .pv-list.pv-dim .pv-row:not(.pv-active) > * { opacity: 0.4; }
-      .pv-row .pv-arrow { margin-left: auto; align-self: center; font-size: 20px; color: var(--dim); transition: color 0.2s ease, transform 0.2s ease; }
-      .pv-row:hover .pv-arrow, .pv-row.pv-active .pv-arrow { color: var(--accent); transform: translateX(4px); }
-      .pv-row:focus-visible, .pv-gcard:focus-visible, .pv-toggle button:focus-visible, .pv-ov-close:focus-visible, .pv-ov-navbtn:focus-visible, .pv-ov-visit:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .sig-card .pv-media { position: relative; overflow: hidden; background: var(--surface); aspect-ratio: 16 / 10; }
+      .sig-card .pv-media-img { filter: grayscale(1); transition: filter 0.35s ease; }
+      .sig-card:hover .pv-media-img, .sig-card:focus-visible .pv-media-img { filter: grayscale(0); }
+      .sig-cap { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 16px 18px 18px; }
+      .sig-cap .t { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 19px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; overflow-wrap: break-word; }
+      .sig-cap .c { margin: 5px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
+      .sig-cap .meta { display: flex; align-items: center; gap: 12px; flex: none; padding-top: 2px; }
+      .sig-cap .yr { font-size: 13px; color: var(--label); white-space: nowrap; }
+      .sig-card .pv-arrow { display: inline-flex; font-size: 20px; color: var(--dim); transition: color 0.2s ease, transform 0.2s ease; }
+      .sig-card .pv-arrow svg { display: block; width: 20px; height: 20px; }
+      .sig-card:hover .pv-arrow, .sig-card:focus-visible .pv-arrow { color: var(--accent); transform: translateX(4px); }
+      .sig-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .sig-cap .c, .sig-cap .yr { font-family: var(--font-mono); letter-spacing: 0.12em; }
+
+      /* ---------- Brand kit: browser frame around project media ---------- */
       .pv-media { position: relative; overflow: hidden; background: var(--surface); aspect-ratio: 16 / 10; }
       .pv-media-img, .pv-media-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
       .pv-media-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--surface2); color: var(--label); font-family: var(--font-display); font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
-      .pv-inline { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
-      .pv-inline.open { grid-template-rows: 1fr; }
-      .pv-inline-in { overflow: hidden; min-height: 0; }
-      .pv-inline .pv-media { border: 1px solid var(--border); border-top: 0; }
-      .pv-inline-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 2px 20px; }
-      .pv-inline-foot .t { margin: 0; font-family: var(--font-display); font-size: 16px; text-transform: uppercase; letter-spacing: -0.01em; }
-      .pv-inline-foot .v { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
-      .pv-card { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--surface); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55); opacity: 0; transition: opacity 0.22s ease; will-change: transform; }
-      .pv-card.pv-show { opacity: 1; transition: opacity 0.22s ease; }
-      .pv-card.pv-hide { transition: opacity 0.16s ease; }
-      .pv-card.pv-fixed { left: auto; right: 4vw; top: 50%; transform: translateY(-50%) scale(0.96); transition: opacity 0.22s ease, transform 0.22s ease; }
-      .pv-card.pv-fixed.pv-show { transform: translateY(-50%) scale(1); }
-      .pv-card .pv-media { position: absolute; inset: 0; aspect-ratio: auto; }
-      .pv-card-foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 30px 14px 12px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)); }
-      .pv-card-title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; }
-      .pv-card-cat { margin: 4px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
-      .pv-card-view { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
-      .pv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
-      @media (min-width: 1200px) { .pv-grid { grid-template-columns: repeat(3, 1fr); } }
-      @media (max-width: 560px) { .pv-grid { grid-template-columns: 1fr; } }
-      .pv-gcard { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--border); background: var(--surface); cursor: pointer; transition: opacity 0.3s ease; }
-      .pv-grid.pv-dim .pv-gcard:not(.pv-active) { opacity: 0.55; }
-      .pv-gcard .pv-media { position: absolute; inset: 0; aspect-ratio: auto; }
-      .pv-gcard .pv-media-img, .pv-gcard .pv-media-vid { filter: grayscale(1); transition: filter 0.35s ease, transform 0.6s ease; }
-      .pv-gcard:hover .pv-media-img, .pv-gcard:hover .pv-media-vid, .pv-gcard.pv-active .pv-media-img, .pv-gcard.pv-active .pv-media-vid, .pv-gcard:focus-visible .pv-media-img, .pv-gcard:focus-visible .pv-media-vid { filter: grayscale(0); }
-      .pv-gcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 16px 14px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)); transform: translateY(10px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; }
-      .pv-gcard:hover .pv-gcap, .pv-gcard.pv-active .pv-gcap, .pv-gcard:focus-visible .pv-gcap { transform: none; opacity: 1; }
-      @media (hover: none) { .pv-gcap { transform: none; opacity: 1; } }
-      .pv-gcap .t { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 19px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
-      .pv-gcap .c { margin: 5px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
-      .pv-overlay { position: fixed; inset: 0; z-index: 200; overflow-y: auto; background: rgba(8, 7, 8, 0.97); }
-      .pv-overlay[hidden] { display: none !important; }
-      .pv-ov-panel { max-width: 1060px; margin: 0 auto; padding: 84px 24px 72px; }
-      .pv-ov-close { position: fixed; top: 18px; right: 20px; z-index: 2; width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; background: rgba(20, 19, 20, 0.9); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
-      .pv-ov-close:hover { border-color: var(--accent); color: var(--accent); }
-      .pv-ov-media { border: 1px solid var(--border); }
-      .pv-ov-meta { margin: 26px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
-      .pv-ov-title { margin: 10px 0 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; font-size: clamp(2.2rem, 5.5vw, 4rem); }
-      .pv-ov-summary { margin: 18px 0 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
-      .pv-ov-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-      .pv-ov-tag { border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); }
-      .pv-ov-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
-      @media (max-width: 560px) { .pv-ov-gallery { grid-template-columns: 1fr; } }
-      .pv-ov-gallery figure { margin: 0; border: 1px solid var(--border); overflow: hidden; }
-      .pv-ov-gallery img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16 / 10; }
-      .pv-ov-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: 36px; }
-      .pv-ov-nav { display: flex; gap: 10px; margin-left: auto; }
-      .pv-ov-navbtn { appearance: none; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 12px 18px; font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
-      .pv-ov-navbtn:hover { border-color: var(--accent); color: var(--accent); }
-      @media (prefers-reduced-motion: reduce) {
-        .pv-card, .pv-inline, .pv-gcap, .pv-gcard, .pv-gcard .pv-media-img, .pv-gcard .pv-media-vid, .pv-row > *, .pv-row .pv-arrow { transition: none !important; }
-        .pv-list .pv-row { animation: none; }
-      }
-
-      /* ---------- Brand kit: browser frame around project media + mono labels ---------- */
       .pv-frame { position: absolute; inset: 0; }
       .pv-frame .pv-media-img, .pv-frame .pv-media-vid { position: absolute; left: 1.40625%; top: 11.25%; width: 97.1875%; height: 86.5%; object-fit: cover; }
       .pv-frame .pv-media-ph { position: absolute; left: 1.40625%; top: 11.25%; width: 97.1875%; height: 86.5%; }
       .pv-frame .pv-frame-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
-      .pv-row .pv-arrow svg { display: block; width: 20px; height: 20px; }
-      .pv-ov-close svg { display: block; width: 20px; height: 20px; margin: auto; }
-      .pv-toggle button, .pv-card-cat, .pv-card-view, .pv-inline-foot .v,
-      .pv-ov-meta, .pv-ov-tag, .pv-ov-navbtn, .pv-gcap .c {
-        font-family: var(--font-mono);
-        letter-spacing: 0.12em;
+      @media (prefers-reduced-motion: reduce) {
+        .sig-card { animation: none; }
+        .sig-card .pv-media-img, .sig-card .pv-arrow { transition: none !important; }
       }
-</style>
+    </style>
     <script>
-      /* Project showcase engine: renders content.json projects[] as a
-         motion-preview index (list + grid + overlay). Driven entirely by
-         content.json -> settings.motion; safe defaults when absent. */
+      /* Signature projects: the homepage shows the first three published
+         projects from content.json as framed cards in one line, each linking
+         to its overlay on /portfolio. The full index (list / grid / overlay)
+         lives on portfolio.html. With no published projects, the honest
+         empty state below stays. */
       (function () {
         "use strict";
-        var DEFAULTS = { defaultView: "list", showViewToggle: true, previewMode: "follow", cardSize: 360, tilt: true, spring: "normal", dimOthers: true, maxMobilePlaying: 2, mobileBehaviour: "accordion" };
-        var SPRINGS = { slow: 0.1, normal: 0.2, snappy: 0.38 };
-        var mqReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
-        var mqFine = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : { matches: true };
-        function REDUCED() { return !!mqReduce.matches; }
-        function SAVE_DATA() { return !!(navigator.connection && navigator.connection.saveData); }
         function esc(s) {
           return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
           });
         }
         var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
-        var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
-        var FRAME_SVG = '<svg class="pv-frame-svg" viewBox="0 0 640 400" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path fill-rule="evenodd" fill="#131315" d="M13 1h614a12 12 0 0 1 12 12v374a12 12 0 0 1-12 12H13A12 12 0 0 1 1 387V13A12 12 0 0 1 13 1Z M13 45h614a4 4 0 0 1 4 4v338a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4V49a4 4 0 0 1 4-4Z"/><rect x="1" y="1" width="638" height="398" rx="12" fill="none" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><path d="M1 37h638" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><circle cx="20" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="40" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="60" cy="19" r="5" fill="rgba(242,239,234,.28)"/><rect x="86" y="10" width="300" height="18" rx="9" fill="rgba(242,239,234,.07)"/></svg>';
+        var FRAME_SVG = '<svg class="pv-frame-svg" viewBox="0 0 640 400" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path fill-rule="evenodd" fill="#131315" d="M13 1h614a12 12 0 0 1 12 12v374a12 12 0 0 1-12 12H13A12 12 0 0 1 1 387V13A12 12 0 0 1 13 1Z M13 45h614a4 4 0 0 1 4 4v338a4 4 0 0 1-4 4H13a4 4 0 0 1 4-4V49a4 4 0 0 1 4-4Z"/><rect x="1" y="1" width="638" height="398" rx="12" fill="none" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><path d="M1 37h638" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><circle cx="20" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="40" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="60" cy="19" r="5" fill="rgba(242,239,234,.28)"/><rect x="86" y="10" width="300" height="18" rx="9" fill="rgba(242,239,234,.07)"/></svg>';
         function frameWrap(inner) { return '<div class="pv-frame">' + inner + FRAME_SVG + "</div>"; }
-        function settingsOf(data) {
-          var s = (data && data.settings && typeof data.settings === "object" && data.settings.motion && typeof data.settings.motion === "object") ? data.settings.motion : {};
-          var o = {}, k;
-          for (k in DEFAULTS) o[k] = s[k] === undefined ? DEFAULTS[k] : s[k];
-          o.defaultView = o.defaultView === "grid" ? "grid" : "list";
-          o.previewMode = o.previewMode === "fixed" ? "fixed" : "follow";
-          o.mobileBehaviour = o.mobileBehaviour === "open" ? "open" : "accordion";
-          if (!SPRINGS[o.spring]) o.spring = "normal";
-          o.cardSize = Math.min(560, Math.max(240, parseInt(o.cardSize, 10) || 360));
-          o.maxMobilePlaying = Math.min(3, Math.max(1, parseInt(o.maxMobilePlaying, 10) || 2));
-          o.showViewToggle = !!o.showViewToggle;
-          o.tilt = !!o.tilt;
-          o.dimOthers = !!o.dimOthers;
-          return o;
-        }
         function publishedProjects(data) {
           var arr = Array.isArray(data.projects) ? data.projects : [];
           var out = [];
@@ -1696,192 +1557,25 @@
           if (p.cover && p.cover.alt) return p.cover.alt;
           return p.title || "Project preview";
         }
-        function isVideo(p) { return !!(p.preview && p.preview.type === "video" && p.preview.src); }
+        function slugOf(p) {
+          if (p && typeof p.id === "string" && p.id.trim()) return p.id.trim();
+          var t = String((p && p.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          return t || "project";
+        }
         function mediaHTML(p) {
           var poster = posterOf(p);
           var html = "";
           if (poster) html += '<img class="pv-media-img" src="' + esc(poster) + '" alt="' + esc(altOf(p)) + '" width="640" height="400" loading="lazy">';
           else html += '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(p.title || "Project") + "</span></div>";
-          if (isVideo(p) && !SAVE_DATA()) {
-            html += '<video class="pv-media-vid" muted loop playsinline preload="metadata"' + (poster ? ' poster="' + esc(poster) + '"' : "") + ' data-src="' + esc(p.preview.src) + '" aria-hidden="true" tabindex="-1"></video>';
-          }
           return frameWrap(html);
         }
-        function ensureVideo(scope) {
-          if (!scope) return null;
-          var v = scope.querySelector("video.pv-media-vid");
-          if (v && !v.getAttribute("src") && v.getAttribute("data-src")) {
-            v.setAttribute("src", v.getAttribute("data-src"));
-            try { v.load(); } catch (e) {}
-          }
-          return v;
-        }
-        function playVideo(v) {
-          if (!v || REDUCED() || SAVE_DATA()) return;
-          try { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
-        }
-        function stopVideo(v) {
-          if (!v) return;
-          try { v.pause(); v.currentTime = 0; } catch (e) {}
-        }
-
-        /* ---------------- Overlay (single shared instance) ---------------- */
-        var overlayEl = null, ov = { open: false, idx: -1, projects: [], returnEl: null };
-        function buildOverlay() {
-          if (overlayEl) return overlayEl;
-          overlayEl = document.createElement("div");
-          overlayEl.className = "pv-overlay";
-          overlayEl.id = "pvOverlay";
-          overlayEl.setAttribute("role", "dialog");
-          overlayEl.setAttribute("aria-modal", "true");
-          overlayEl.setAttribute("aria-labelledby", "pvOvTitle");
-          overlayEl.hidden = true;
-          overlayEl.innerHTML =
-            '<button class="pv-ov-close" type="button" aria-label="Close project">' + CLOSE_SVG + '</button>' +
-            '<div class="pv-ov-panel">' +
-              '<div class="pv-ov-media pv-media"></div>' +
-              '<p class="pv-ov-meta"></p>' +
-              '<h3 class="pv-ov-title" id="pvOvTitle"></h3>' +
-              '<p class="pv-ov-summary"></p>' +
-              '<div class="pv-ov-tags"></div>' +
-              '<div class="pv-ov-gallery"></div>' +
-              '<div class="pv-ov-actions">' +
-                '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + '</a>' +
-                '<div class="pv-ov-nav">' +
-                  '<button class="pv-ov-navbtn" type="button" data-pv-prev>&#8592; Prev</button>' +
-                  '<button class="pv-ov-navbtn" type="button" data-pv-next>Next &#8594;</button>' +
-                "</div>" +
-              "</div>" +
-            "</div>";
-          document.body.appendChild(overlayEl);
-          overlayEl.querySelector(".pv-ov-close").addEventListener("click", function () { closeOverlay(); });
-          overlayEl.querySelector("[data-pv-prev]").addEventListener("click", function () { ovNav(-1); });
-          overlayEl.querySelector("[data-pv-next]").addEventListener("click", function () { ovNav(1); });
-          overlayEl.addEventListener("mousedown", function (e) { if (e.target === overlayEl) closeOverlay(); });
-          document.addEventListener("keydown", onOverlayKey, true);
-          return overlayEl;
-        }
-        function onOverlayKey(e) {
-          if (!ov.open) return;
-          if (e.key === "Escape") { e.preventDefault(); closeOverlay(); return; }
-          if (e.key === "ArrowLeft") { ovNav(-1); return; }
-          if (e.key === "ArrowRight") { ovNav(1); return; }
-          if (e.key === "Tab") {
-            var f = overlayEl.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
-            var list = [];
-            f.forEach(function (el) { if (el.offsetParent !== null || el === document.activeElement) list.push(el); });
-            if (!list.length) return;
-            var first = list[0], last = list[list.length - 1];
-            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-          }
-        }
-        function ovNav(d) {
-          if (!ov.projects.length) return;
-          fillOverlay((ov.idx + d + ov.projects.length) % ov.projects.length);
-        }
-        function fillOverlay(i) {
-          var p = ov.projects[i];
-          if (!p) return;
-          ov.idx = i;
-          var media = overlayEl.querySelector(".pv-ov-media");
-          stopVideo(media.querySelector("video"));
-          if (isVideo(p) && !SAVE_DATA()) {
-            media.innerHTML = frameWrap('<video class="pv-media-vid" muted loop playsinline preload="metadata"' + (REDUCED() ? " controls" : "") + ' src="' + esc(p.preview.src) + '"' + (posterOf(p) ? ' poster="' + esc(posterOf(p)) + '"' : "") + ' aria-hidden="true" tabindex="-1"></video>');
-            media.style.display = "";
-            if (!REDUCED()) playVideo(media.querySelector("video"));
-          } else {
-            var src = (p.cover && p.cover.src) || posterOf(p);
-            if (src) { media.innerHTML = frameWrap('<img class="pv-media-img" src="' + esc(src) + '" alt="' + esc(altOf(p)) + '" width="1280" height="800">'); media.style.display = ""; }
-            else { media.innerHTML = ""; media.style.display = "none"; }
-          }
-          var meta = [p.category, p.year, p.role].filter(function (x) { return !!x; }).join(" · ");
-          var metaEl = overlayEl.querySelector(".pv-ov-meta");
-          metaEl.textContent = meta; metaEl.style.display = meta ? "" : "none";
-          overlayEl.querySelector(".pv-ov-title").textContent = p.title || "Untitled project";
-          var sum = p.summary || p.description || "";
-          var sumEl = overlayEl.querySelector(".pv-ov-summary");
-          sumEl.textContent = sum; sumEl.style.display = sum ? "" : "none";
-          var tagsEl = overlayEl.querySelector(".pv-ov-tags");
-          if (Array.isArray(p.tags) && p.tags.length) {
-            tagsEl.innerHTML = p.tags.map(function (tg) { return '<span class="pv-ov-tag">' + esc(tg) + "</span>"; }).join("");
-            tagsEl.style.display = "";
-          } else { tagsEl.innerHTML = ""; tagsEl.style.display = "none"; }
-          var galEl = overlayEl.querySelector(".pv-ov-gallery");
-          if (Array.isArray(p.gallery) && p.gallery.length) {
-            galEl.innerHTML = p.gallery.filter(function (g) { return g && g.src; }).map(function (g) {
-              return '<figure><img src="' + esc(g.src) + '" alt="' + esc(g.alt || "") + '" width="640" height="400" loading="lazy"></figure>';
-            }).join("");
-            galEl.style.display = "";
-          } else { galEl.innerHTML = ""; galEl.style.display = "none"; }
-          var visit = overlayEl.querySelector(".pv-ov-visit");
-          if (p.url) { visit.setAttribute("href", p.url); visit.style.display = ""; }
-          else { visit.removeAttribute("href"); visit.style.display = "none"; }
-          var nav = overlayEl.querySelector(".pv-ov-nav");
-          nav.style.display = ov.projects.length > 1 ? "" : "none";
-          overlayEl.scrollTop = 0;
-        }
-        function openOverlay(i, projects, returnEl) {
-          buildOverlay();
-          ov.projects = projects; ov.returnEl = returnEl || null;
-          fillOverlay(i);
-          ov.open = true;
-          overlayEl.hidden = false;
-          document.documentElement.style.overflow = "hidden";
-          if (!REDUCED() && returnEl && returnEl.getBoundingClientRect && overlayEl.animate) {
-            var rr = returnEl.getBoundingClientRect();
-            var clipFrom = "inset(" + Math.max(0, rr.top) + "px " + Math.max(0, window.innerWidth - rr.right) + "px " + Math.max(0, window.innerHeight - rr.bottom) + "px " + Math.max(0, rr.left) + "px)";
-            try {
-              var oa = overlayEl.animate([{ clipPath: clipFrom }, { clipPath: "inset(0px 0px 0px 0px)" }], { duration: 320, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
-              if (oa && oa.finished) oa.finished.catch(function () {});
-            } catch (e) {}
-          }
-          var closeBtn = overlayEl.querySelector(".pv-ov-close");
-          if (closeBtn) closeBtn.focus();
-        }
-        function closeOverlay(silent) {
-          if (!overlayEl || !ov.open) { if (overlayEl) overlayEl.hidden = true; return; }
-          stopVideo(overlayEl.querySelector(".pv-ov-media video"));
-          ov.open = false;
-          document.documentElement.style.overflow = "";
-          if (!silent && ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
-          var ret = ov.returnEl;
-          ov.returnEl = null;
-          var done = false;
-          function finish() { if (done) return; done = true; if (overlayEl) overlayEl.hidden = true; }
-          if (!silent && !REDUCED() && ret && ret.getBoundingClientRect && overlayEl.animate) {
-            var cr = ret.getBoundingClientRect();
-            var clipTo = "inset(" + Math.max(0, cr.top) + "px " + Math.max(0, window.innerWidth - cr.right) + "px " + Math.max(0, window.innerHeight - cr.bottom) + "px " + Math.max(0, cr.left) + "px)";
-            try {
-              var ca = overlayEl.animate([{ clipPath: "inset(0px 0px 0px 0px)" }, { clipPath: clipTo }], { duration: 180, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" });
-              if (ca && ca.finished) ca.finished.then(finish).catch(finish);
-              window.setTimeout(finish, 240);
-              return;
-            } catch (e) {}
-          }
-          finish();
-        }
-
-        /* ---------------- Renderer (called by the content loader) ---------------- */
-        var session = null;
-        function teardown() {
-          if (!session) return;
-          if (session.raf) cancelAnimationFrame(session.raf);
-          session.observers.forEach(function (o) { try { o.disconnect(); } catch (e) {} });
-          if (session.card && session.card.parentNode) session.card.parentNode.removeChild(session.card);
-          if (session.toolbar && session.toolbar.parentNode) session.toolbar.parentNode.removeChild(session.toolbar);
-          closeOverlay(true);
-          session = null;
-        }
         function renderProjects(data) {
-          var wrap = document.getElementById("projectsList");
+          var wrap = document.getElementById("sigRow");
           if (!wrap || !data || typeof data !== "object") return;
-          teardown();
           if (!Array.isArray(data.projects)) return;
-          var section = wrap.closest ? wrap.closest("section") : null;
           var projects = publishedProjects(data);
           if (!projects.length) {
-            if (section) section.classList.remove("pv-on", "pv-grid-on");
+            wrap.classList.remove("has-cards");
             if (data.projectsEmpty) {
               var e = data.projectsEmpty;
               wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">Project index</p><p class="big">' +
@@ -1891,243 +1585,17 @@
             }
             return;
           }
-          var S = settingsOf(data);
-          session = { raf: 0, observers: [], card: null, toolbar: null };
-          if (section) section.classList.add("pv-on");
-          var view = S.defaultView;
-
-          /* ----- build list + grid ----- */
-          var listBox = document.createElement("div");
-          listBox.className = "pv-list";
-          var gridBox = document.createElement("div");
-          gridBox.className = "pv-grid";
-          var rows = [], cards = [], inlines = [];
-          function rowInner(p, i) {
-            var note = p.summary || p.description || "";
-            return '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
-              "<div><p class=\"big\">" + esc(p.title || "Untitled project") + "</p>" +
-              (note ? '<p class="note">' + esc(note) + "</p>" : "") + "</div>" +
-              '<span class="cat">' + esc(p.category || "") + '</span><span class="yr">' + esc(p.year || "") + "</span>" +
-              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + '</span>';
-          }
-          projects.forEach(function (p, i) {
-            var row = document.createElement("div");
-            row.className = "index-row pv-row reveal-fade is-visible";
-            row.setAttribute("role", "button");
-            row.setAttribute("tabindex", "0");
-            row.setAttribute("aria-haspopup", "dialog");
-            row.setAttribute("aria-label", (p.title || "Project") + " — view project");
-            row.style.setProperty("--pv-i", String(Math.min(i, 8)));
-            if (S.mobileBehaviour === "accordion") row.setAttribute("aria-expanded", "false");
-            row.innerHTML = rowInner(p, i);
-            listBox.appendChild(row);
-            rows.push(row);
-            var card = document.createElement("div");
-            card.className = "pv-gcard";
-            card.setAttribute("role", "button");
-            card.setAttribute("tabindex", "0");
-            card.setAttribute("aria-haspopup", "dialog");
-            card.setAttribute("aria-label", (p.title || "Project") + " — view project");
-            card.innerHTML = '<div class="pv-media">' + mediaHTML(p) + '</div><div class="pv-gcap"><p class="t">' + esc(p.title || "Untitled project") + '</p><p class="c">' + esc(p.category || "") + "</p></div>";
-            gridBox.appendChild(card);
-            cards.push(card);
+          var html = "";
+          projects.slice(0, 3).forEach(function (p, i) {
+            html += '<a class="sig-card" href="/portfolio#' + esc(slugOf(p)) + '" style="--pv-i:' + Math.min(i, 8) + '" aria-label="' + esc(p.title || "Project") + ' — view in portfolio">' +
+              '<div class="pv-media">' + mediaHTML(p) + "</div>" +
+              '<div class="sig-cap"><div><p class="t">' + esc(p.title || "Untitled project") + "</p>" +
+              (p.category ? '<p class="c">' + esc(p.category) + "</p>" : "") + "</div>" +
+              '<span class="meta">' + (p.year ? '<span class="yr">' + esc(p.year) + "</span>" : "") +
+              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + "</span></span></div></a>";
           });
-          wrap.innerHTML = "";
-          wrap.appendChild(listBox);
-          wrap.appendChild(gridBox);
-
-          /* ----- floating preview card ----- */
-          var useFixed = S.previewMode === "fixed" || REDUCED();
-          var card = document.createElement("div");
-          card.className = "pv-card" + (useFixed ? " pv-fixed" : "");
-          card.setAttribute("aria-hidden", "true");
-          card.style.width = Math.min(S.cardSize, Math.floor(window.innerWidth * 0.92)) + "px";
-          card.innerHTML = '<div class="pv-media"></div><div class="pv-card-foot"><div><p class="pv-card-title"></p><p class="pv-card-cat"></p></div><span class="pv-card-view">View project</span></div>';
-          document.body.appendChild(card);
-          session.card = card;
-          var cardMedia = card.querySelector(".pv-media");
-          var pos = { x: 0, y: 0, tx: 0, ty: 0, rot: 0, scale: 0.96, visible: false, until: 0, snapped: false };
-          function loop() {
-            if (!session) return;
-            if (!pos.visible && performance.now() > pos.until) { session.raf = 0; return; }
-            var k = SPRINGS[S.spring];
-            pos.x += (pos.tx - pos.x) * k;
-            pos.y += (pos.ty - pos.y) * k;
-            var targetRot = (S.tilt && !REDUCED() && !useFixed) ? Math.max(-4, Math.min(4, (pos.tx - pos.x) * 0.05)) : 0;
-            pos.rot += (targetRot - pos.rot) * 0.2;
-            var targetScale = card.classList.contains("pv-show") ? 1 : 0.96;
-            pos.scale += (targetScale - pos.scale) * 0.25;
-            if (!useFixed) card.style.transform = "translate(" + pos.x.toFixed(1) + "px," + pos.y.toFixed(1) + "px) rotate(" + pos.rot.toFixed(2) + "deg) scale(" + pos.scale.toFixed(3) + ")";
-            session.raf = requestAnimationFrame(loop);
-          }
-          function kickLoop() { if (session && !session.raf) session.raf = requestAnimationFrame(loop); }
-
-          var activeIdx = -1;
-          function setCardContent(p) {
-            stopVideo(cardMedia.querySelector("video"));
-            cardMedia.innerHTML = mediaHTML(p);
-            card.querySelector(".pv-card-title").textContent = p.title || "Untitled project";
-            card.querySelector(".pv-card-cat").textContent = p.category || "";
-            var v = ensureVideo(cardMedia);
-            playVideo(v);
-          }
-          function activate(i) {
-            if (view !== "list" || activeIdx === i) return;
-            activeIdx = i;
-            rows.forEach(function (r, j) { r.classList.toggle("pv-active", j === i); });
-            if (S.dimOthers) listBox.classList.add("pv-dim");
-            setCardContent(projects[i]);
-            if (!pos.snapped) {
-              var w = card.offsetWidth || Math.min(S.cardSize, window.innerWidth * 0.92);
-              var h = card.offsetHeight || w * 10 / 16;
-              pos.x = pos.tx = Math.max(8, (window.innerWidth - w) / 2);
-              pos.y = pos.ty = Math.max(8, (window.innerHeight - h) / 2);
-              pos.snapped = true;
-            }
-            card.classList.remove("pv-hide");
-            card.classList.add("pv-show");
-            card.setAttribute("aria-hidden", "false");
-            pos.visible = true;
-            kickLoop();
-          }
-          function deactivate() {
-            if (activeIdx < 0) return;
-            activeIdx = -1;
-            rows.forEach(function (r) { r.classList.remove("pv-active"); });
-            listBox.classList.remove("pv-dim");
-            stopVideo(cardMedia.querySelector("video"));
-            card.classList.add("pv-hide");
-            card.classList.remove("pv-show");
-            card.setAttribute("aria-hidden", "true");
-            pos.visible = false;
-            pos.until = performance.now() + 200;
-            kickLoop();
-          }
-          function canHoverCard() { return mqFine.matches || REDUCED(); }
-          listBox.addEventListener("mousemove", function (e) {
-            if (view !== "list" || useFixed || !canHoverCard()) return;
-            var w = card.offsetWidth || Math.min(S.cardSize, window.innerWidth * 0.92);
-            var h = card.offsetHeight || w * 10 / 16;
-            var tx = e.clientX + 28;
-            if (tx + w > window.innerWidth - 8) tx = e.clientX - w - 28;
-            pos.tx = Math.max(8, Math.min(window.innerWidth - w - 8, tx));
-            pos.ty = Math.max(8, Math.min(window.innerHeight - h - 8, e.clientY - h / 2));
-            if (activeIdx >= 0 && !pos.snapped) { pos.x = pos.tx; pos.y = pos.ty; pos.snapped = true; }
-          });
-
-          /* ----- accordion (touch list) ----- */
-          var expandedIdx = -1;
-          function collapseInline() {
-            if (expandedIdx < 0) return;
-            var prev = inlines[expandedIdx];
-            if (prev) { stopVideo(prev.querySelector("video")); prev.classList.remove("open"); }
-            if (rows[expandedIdx]) rows[expandedIdx].setAttribute("aria-expanded", "false");
-            expandedIdx = -1;
-          }
-          function expandInline(i) {
-            collapseInline();
-            var inline = inlines[i];
-            if (!inline) {
-              inline = document.createElement("div");
-              inline.className = "pv-inline";
-              inline.innerHTML = '<div class="pv-inline-in"><div class="pv-media">' + mediaHTML(projects[i]) + '</div><div class="pv-inline-foot"><p class="t">' + esc(projects[i].title || "Project") + '</p><span class="v">View project &#8594;</span></div></div>';
-              inline.addEventListener("click", function () { openOverlay(i, projects, rows[i]); });
-              listBox.insertBefore(inline, rows[i].nextSibling);
-              inlines[i] = inline;
-            }
-            inline.classList.add("open");
-            rows[i].setAttribute("aria-expanded", "true");
-            expandedIdx = i;
-            playVideo(ensureVideo(inline));
-          }
-
-          /* ----- row + card wiring ----- */
-          rows.forEach(function (row, i) {
-            row.addEventListener("mouseenter", function () { if (mqFine.matches) activate(i); });
-            row.addEventListener("mouseleave", function () { if (mqFine.matches) deactivate(); });
-            row.addEventListener("focus", function () { if (canHoverCard()) activate(i); });
-            row.addEventListener("blur", function () { deactivate(); });
-            row.addEventListener("click", function () {
-              if (mqFine.matches) { openOverlay(i, projects, row); return; }
-              if (S.mobileBehaviour === "open") { openOverlay(i, projects, row); return; }
-              if (expandedIdx === i) openOverlay(i, projects, row);
-              else expandInline(i);
-            });
-            row.addEventListener("keydown", function (e) {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openOverlay(i, projects, row); }
-            });
-          });
-          var gridPlaying = [];
-          function gridStop(card) {
-            stopVideo(card.querySelector("video"));
-            gridPlaying = gridPlaying.filter(function (c) { return c !== card; });
-          }
-          cards.forEach(function (gc, i) {
-            gc.addEventListener("mouseenter", function () {
-              if (!mqFine.matches) return;
-              cards.forEach(function (c, j) { c.classList.toggle("pv-active", j === i); });
-              if (S.dimOthers) gridBox.classList.add("pv-dim");
-              playVideo(ensureVideo(gc));
-            });
-            gc.addEventListener("mouseleave", function () {
-              if (!mqFine.matches) return;
-              gc.classList.remove("pv-active");
-              gridBox.classList.remove("pv-dim");
-              gridStop(gc);
-            });
-            gc.addEventListener("focus", function () {
-              cards.forEach(function (c, j) { c.classList.toggle("pv-active", j === i); });
-              if (mqFine.matches) playVideo(ensureVideo(gc));
-            });
-            gc.addEventListener("blur", function () { gc.classList.remove("pv-active"); gridStop(gc); });
-            gc.addEventListener("click", function () { openOverlay(i, projects, gc); });
-            gc.addEventListener("keydown", function (e) {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openOverlay(i, projects, gc); }
-            });
-          });
-          if (!mqFine.matches && !REDUCED() && !SAVE_DATA() && "IntersectionObserver" in window) {
-            var io = new IntersectionObserver(function (entries) {
-              entries.forEach(function (en) {
-                var gc = en.target;
-                if (en.intersectionRatio >= 0.6) {
-                  if (gridPlaying.indexOf(gc) === -1) {
-                    if (gridPlaying.length >= S.maxMobilePlaying) gridStop(gridPlaying[0]);
-                    playVideo(ensureVideo(gc));
-                    if (gc.querySelector("video")) gridPlaying.push(gc);
-                  }
-                } else gridStop(gc);
-              });
-            }, { threshold: [0, 0.6] });
-            cards.forEach(function (gc) { io.observe(gc); });
-            session.observers.push(io);
-          }
-
-          /* ----- view toggle ----- */
-          var btnList = null, btnGrid = null;
-          if (S.showViewToggle) {
-            var toolbar = document.createElement("div");
-            toolbar.className = "pv-toolbar";
-            toolbar.innerHTML = '<div class="pv-toggle" role="group" aria-label="Project view"><button type="button" data-pv-view="list">List</button><button type="button" data-pv-view="grid">Grid</button></div>';
-            var head = section ? section.querySelector(".index-head") : null;
-            if (head && head.parentNode) head.parentNode.insertBefore(toolbar, head);
-            else if (wrap.parentNode) wrap.parentNode.insertBefore(toolbar, wrap);
-            session.toolbar = toolbar;
-            btnList = toolbar.querySelector('[data-pv-view="list"]');
-            btnGrid = toolbar.querySelector('[data-pv-view="grid"]');
-            btnList.addEventListener("click", function () { setView("list"); });
-            btnGrid.addEventListener("click", function () { setView("grid"); });
-          }
-          function setView(v) {
-            view = v;
-            listBox.hidden = v !== "list";
-            gridBox.hidden = v !== "grid";
-            if (section) section.classList.toggle("pv-grid-on", v === "grid");
-            if (btnList) btnList.setAttribute("aria-pressed", v === "list" ? "true" : "false");
-            if (btnGrid) btnGrid.setAttribute("aria-pressed", v === "grid" ? "true" : "false");
-            if (v !== "list") { deactivate(); collapseInline(); }
-            if (v !== "grid") { cards.forEach(gridStop); gridBox.classList.remove("pv-dim"); cards.forEach(function (c) { c.classList.remove("pv-active"); }); }
-          }
-          setView(view);
+          wrap.innerHTML = html;
+          wrap.classList.add("has-cards");
         }
         window.__renderProjects = renderProjects;
       })();
@@ -2779,7 +2247,7 @@
           });
         }
         tryFetch("content.json")
-          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJXZWJzaXRlcyBidWlsdCBsaWtlIHN0b3JlZnJvbnRzLCBub3QgYnJvY2h1cmVzLiIsInN0b3J5IjpbIkkgY2FtZSBpbnRvIHdlYiBkZXNpZ24gdGhyb3VnaCBlLWNvbW1lcmNlLiBGb3IgbW9yZSB0aGFuIHNpeCB5ZWFycyBJIHdvcmtlZCB3aXRoIG9ubGluZSBzdG9yZXMgb24gQW1hem9uLCBlQmF5LCBXYWxtYXJ0LCBTaG9waWZ5IGFuZCBUZW11LiBNeSBmaXJzdCBqb2Igd2FzIGF0IFRyYWRlY296b25lLCBiZWZvcmUgSSBoYWQgZXZlbiBzdGFydGVkIG15IGRlZ3JlZSwgYW5kIEkga2VwdCB3b3JraW5nIGluIGUtY29tbWVyY2UgYWxsIHRoZSB3YXkgdGhyb3VnaCBteSBzdHVkaWVzLiBUaG9zZSB5ZWFycyB0YXVnaHQgbWUgaG93IHNlbGxpbmcgb25saW5lIGFjdHVhbGx5IHdvcmtzIOKAlCB3aGF0IGEgcHJvZHVjdCBwYWdlIGhhcyB0byBzaG93LCB3aGVyZSBhIGNoZWNrb3V0IGxvc2VzIHBlb3BsZSwgYW5kIHdoeSBhIHN0b3JlIHRoYXQgaXMgaGFyZCB0byBidXkgZnJvbSBzdGF5cyBxdWlldC4iLCJJbiAyMDI2IEkgY29tcGxldGVkIG15IEJhY2hlbG9y4oCZcyBpbiBDb21wdXRlciBTY2llbmNlLCBtYWpvcmluZyBpbiB3ZWIgYW5kIG1vYmlsZSBhcHBsaWNhdGlvbiBkZXZlbG9wbWVudC4gTXkgZmluYWwgeWVhciBwcm9qZWN0IHRvb2sgZmlyc3QgcHJpemUgaW4gdGhlIGdyYWR1YXRpb24gcHJvamVjdCBwcm9ncmFtLCBhbmQgSSBhbHNvIHdvbiBmaXJzdCBwcml6ZSBpbiB0aGUgbW9jayBpbnRlcnZpZXcgcHJvZ3JhbS4gV2hpbGUgc3R1ZHlpbmcsIEkgYnVpbHQgYXBwcyBhbmQgd2Vic2l0ZXMgb2YgbXkgb3duIGFuZCBrZXB0IHRha2luZyBvbiBlLWNvbW1lcmNlIHdvcmsgd2hlcmV2ZXIgaXQgY2FtZS4iLCJOb3cgSSBidWlsZCB0aGUga2luZCBvZiBzdG9yZXMgSSB1c2VkIHRvIHdvcmsgaW4uIEkga25vdyB3aGF0IGEgbWFya2V0cGxhY2UgbGlzdGluZyBoYXMgdG8gZG8gdG8gc2VsbCBiZWNhdXNlIEkgaGF2ZSBkb25lIHRoYXQgam9iLCBhbmQgSSBrbm93IGhvdyB0byBidWlsZCB0aGUgc2l0ZSBiZWNhdXNlIHRoYXQgaXMgd2hhdCBJIHRyYWluZWQgZm9yLiBJZiB5b3VyIHByb2R1Y3RzIHNlbGwgb24gYSBtYXJrZXRwbGFjZSBidXQgeW91ciBvd24gd2Vic2l0ZSBkb2VzIG5vdCwgdGhhdCBnYXAgaXMgZXhhY3RseSB3aGF0IEkgZml4LiIsIkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLCBhbmQgZXZlcnl0aGluZyBydW5zIHRocm91Z2ggbXkgc29jaWFsIGNoYW5uZWxzIOKAlCB0aGF04oCZcyB3aGVyZSBJIHBvc3QgbXkgYnVpbGRzLCBhbmQgd2hlcmUgZXZlcnkgcHJvamVjdCBzdGFydHMuIE1lc3NhZ2UgbWUgdGhlcmUgb3IgYnkgZW1haWwsIHRlbGwgbWUgd2hhdCB5b3Ugc2VsbCBhbmQgd2hhdCBpc27igJl0IHdvcmtpbmcgb24geW91ciBjdXJyZW50IHNpdGUsIGFuZCB5b3XigJlsbCBzZWUgYSBmaXJzdCB2ZXJzaW9uIHRvIHJlYWN0IHRvIGJlZm9yZSBJIGJ1aWxkIHRoZSBmdWxsIHNpdGUuIFRoZW4gd2UgbGF1bmNoIHRvZ2V0aGVyLiJdfSwiY2xpZW50cyI6eyJpdGVtcyI6W10sIm5vdGUiOiJDbGllbnQgbGlzdCBpcyBncm93aW5nIOKAlCBuZXcgbmFtZXMgYXJlIGFkZGVkIGFzIHByb2plY3RzIGxhdW5jaC4gWW91cnMgY291bGQgYmUgbmV4dC4ifSwiZm9vdGVyIjp7ImhlYWRpbmciOiJMZXTigJlzIGJ1aWxkIHlvdXJzIiwia2ljayI6IkdvdCBhIHN0b3JlLCBhIGxhdW5jaCwgb3IgYSBzaXRlIHRoYXQgbmVlZHMgYSByZWJ1aWxkPyIsIm5vdGUiOiJUaGUgZmFzdGVzdCB3YXkgaW4gaXMgYSBUaWtUb2sgRE0g4oCUIHNlbmQg4oCcV0VC4oCdIGFuZCB0ZWxsIG1lIGFib3V0IHlvdXIgc3RvcmUsIGxhbmRpbmcgcGFnZSwgb3IgcmVkZXNpZ24uIn0sImludHJvIjp7Im1ldGEiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIMK3IFdvcmxkd2lkZSDCtyBBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInRleHQiOiJJ4oCZbSBIZW5yeSDigJQgSSBidWlsZCBib2xkIHdlYnNpdGVzIGZvciBidXNpbmVzc2VzIHdvcmxkd2lkZS4gU3RvcmVzLCBsYW5kaW5nIHBhZ2VzLCBhbmQgcmVkZXNpZ25zIHRoYXQgYXJlIG1hZGUgdG8gYmUgc2hvcHBlZCwgbm90IGp1c3Qgc2Nyb2xsZWQgcGFzdDogYSBjbGVhciBvZmZlciB1cCBmcm9udCwgYW4gZWFzeSBwYXRoIHRvIGJ1eSBvciBib29rLCBhbmQgdGhlIGRldGFpbHMgY3VzdG9tZXJzIGFjdHVhbGx5IGxvb2sgZm9yIOKAlCBtZW51LCBwcmljZXMsIGxvY2F0aW9uLCBob3VycyDigJQgd2l0aG91dCB0aGUgaHVudGluZy4ifSwicHJvZmlsZSI6eyJhdmFpbGFiaWxpdHkiOiLil48gQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJjbGllbnRzSW4iOiJXb3JsZHdpZGUiLCJjdGFMYWJlbCI6IkRNIFdFQiIsImN0YVRleHQiOiJETSBXRUIg4oaXIiwibmFtZSI6IkhlbnJ5Iiwicm9sZSI6IldlYiBEZXNpZ25lciAmIEJ1aWxkZXIiLCJzdGF0dXMiOiJBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInN1YiI6IldlYiBEZXNpZ25lciAmIEJ1aWxkZXIg4oCUIGZvciBjbGllbnRzIHdvcmxkd2lkZS4iLCJ0YWdsaW5lIjoiQm9sZCB3ZWJzaXRlcyBmb3Igc3RvcmVzICYgYnJhbmRzIiwidGlrdG9rSGFuZGxlIjoiQGhlbnJ5a25vd3N3ZWIiLCJ0aWt0b2tVcmwiOiJodHRwczovL3d3dy50aWt0b2suY29tL0BoZW5yeWtub3dzd2ViIiwiZW1haWwiOiJoZW5yeWtub3dzd2ViQGdtYWlsLmNvbSJ9LCJwcm9qZWN0cyI6W10sInByb2plY3RzRW1wdHkiOnsiY2F0ZWdvcnkiOiJTdG9yZXMgwrcgTGFuZGluZyBQYWdlcyDCtyBSZWRlc2lnbnMiLCJjdGFOb3RlIjoiV2FudCB5b3VyIHN0b3JlIG9yIGxhbmRpbmcgcGFnZSB0byBiZSBvbmUgb2YgdGhlIGZpcnN0IGZlYXR1cmVkIGhlcmU/IE1lc3NhZ2UgbWUgb24gVGlrVG9rLiIsIm5vdGUiOiJUaGUgZmlyc3Qgc2hvd2Nhc2UgYnVpbGRzIGFyZSBvbiB0aGUgd2F5LiBETSBXRUIgaWYgeW914oCZZCBsaWtlIHlvdXJzIHRvIGJlIG9uZSBvZiB0aGVtLiIsInRpdGxlIjoiTmV3IHByb2plY3RzIGNvbWluZyBzb29uLiIsInllYXIiOiJTb29uIn0sInNlcnZpY2VzIjpbeyJkZXNjcmlwdGlvbiI6Ik9ubGluZSBzdG9yZXMgYnVpbHQgdG8gc2VsbCDigJQgY2xlYXIgcHJvZHVjdCBwYXRocywgZWFzeSBjaGVja291dCBmbG93LCBhbmQgYSBob21lcGFnZSB0aGF0IHdvcmtzIGxpa2UgYSBzdG9yZWZyb250LiBCdWlsdCBvbiBTaG9waWZ5LCBXb29Db21tZXJjZSBvciBIb3N0aW5nZXIg4oCUIHdoaWNoZXZlciBmaXRzIHlvdXIgYnVzaW5lc3MuIiwidGl0bGUiOiJTdG9yZXMgJiBFLWNvbW1lcmNlIiwicHJpY2luZyI6IkZyb20gJDEsMDAwIMK3IFVwIHRvIDMwIHByb2R1Y3RzIMK3IENoZWNrb3V0ICYgcGF5bWVudHMgc2V0IHVwIMK3IFVwIHRvIDUgcGFnZXMgwrcgM+KAkzUgd2Vla3MgwrcgMiByZXZpc2lvbiByb3VuZHMifSx7ImRlc2NyaXB0aW9uIjoiT25lIGZvY3VzZWQgcGFnZSwgb25lIGNsZWFyIG9mZmVyLCBvbmUgb2J2aW91cyBuZXh0IHN0ZXAuIEJ1aWx0IGZvciBjYW1wYWlnbnMsIGxhdW5jaGVzLCBhbmQgbGVhZCBnZW5lcmF0aW9uLiIsInRpdGxlIjoiTGFuZGluZyBQYWdlcyIsInByaWNpbmciOiJGcm9tICQzNTAgwrcgMSBwYWdlLCB1cCB0byA2IHNlY3Rpb25zIMK3IEJhc2ljIFNFTyBzZXR1cCDCtyA14oCTNyBkYXlzIMK3IDIgcmV2aXNpb24gcm91bmRzIn0seyJkZXNjcmlwdGlvbiI6IllvdXIgZXhpc3Rpbmcgc2l0ZSwgcmVidWlsdCBib2xkOiBzaGFycGVyIGhpZXJhcmNoeSwgZmFzdGVyIHBhdGhzIHRvIGJ1eSBvciBib29rLCBhbmQgdGhlIGRldGFpbHMgY3VzdG9tZXJzIGxvb2sgZm9yIGZpbmFsbHkgZWFzeSB0byBmaW5kLiIsInRpdGxlIjoiUmVkZXNpZ25zIiwicHJpY2luZyI6IkZyb20gJDcwMCDCtyBVcCB0byA1IHBhZ2VzIMK3IE5ldyBkZXNpZ24gJiBtb2JpbGUgbGF5b3V0IMK3IDLigJM0IHdlZWtzIMK3IDIgcmV2aXNpb24gcm91bmRzIn1dLCJzZXR0aW5ncyI6eyJtb3Rpb24iOnsiZGVmYXVsdFZpZXciOiJsaXN0Iiwic2hvd1ZpZXdUb2dnbGUiOnRydWUsInByZXZpZXdNb2RlIjoiZm9sbG93IiwiY2FyZFNpemUiOjM2MCwidGlsdCI6dHJ1ZSwic3ByaW5nIjoibm9ybWFsIiwiZGltT3RoZXJzIjp0cnVlLCJtYXhNb2JpbGVQbGF5aW5nIjoyLCJtb2JpbGVCZWhhdmlvdXIiOiJhY2NvcmRpb24ifSwidGVzdGltb25pYWxzIjp7ImxheW91dCI6ImZlYXR1cmVkIiwic2hvd1NlY3Rpb24iOmZhbHNlLCJhdXRvUm90YXRlIjpmYWxzZSwicm90YXRlU2Vjb25kcyI6Niwic2hvd0F2YXRhcnMiOnRydWUsInNob3dQcm9qZWN0TGluayI6dHJ1ZX19LCJ0ZXN0aW1vbmlhbHMiOltdLCJmYXEiOlt7Imdyb3VwIjoiV29ya2luZyB3aXRoIG1lIiwiaXRlbXMiOlt7InEiOiJXaGF0IGRvIHlvdSBidWlsZD8iLCJhIjoiT25saW5lIHN0b3JlcywgbGFuZGluZyBwYWdlcywgYW5kIHJlZGVzaWducyBvZiBleGlzdGluZyBzaXRlcy4gRWFjaCBvbmUgaXMgYnVpbHQgdG8gbWFrZSBpdCBlYXN5IGZvciBjdXN0b21lcnMgdG8gYnV5LCBib29rLCBvciBjb250YWN0IHlvdS4ifSx7InEiOiJXaG8gZG8geW91IHdvcmsgd2l0aD8iLCJhIjoiU21hbGwgYnVzaW5lc3NlcywgY3JlYXRvcnMsIGFuZCBicmFuZHMgd29ybGR3aWRlLiBJZiB5b3Ugc2VsbCBzb21ldGhpbmcgb3IgbmVlZCBwZW9wbGUgdG8gZ2V0IGluIHRvdWNoLCBJIGNhbiBoZWxwLiJ9LHsicSI6IkhvdyBkbyB3ZSBzdGFydD8iLCJhIjoiU2VuZCBtZSBhIERNIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGFuIGVtYWlsIHdpdGggd2hhdCB5b3Ugc2VsbCwgd2hvIHlvdXIgY3VzdG9tZXJzIGFyZSwgYW5kIHdoYXQgaXNu4oCZdCB3b3JraW5nIG9uIHlvdXIgY3VycmVudCBzaXRlLiBJ4oCZbGwgcmVwbHkgd2l0aCBxdWVzdGlvbnMgYW5kIG5leHQgc3RlcHMuIn1dfSx7Imdyb3VwIjoiQ29zdCBhbmQgdGltaW5nIiwiaXRlbXMiOlt7InEiOiJIb3cgZG9lcyBwcmljaW5nIHdvcms/IiwiYSI6IkV2ZXJ5IHByb2plY3QgaXMgcXVvdGVkIGFzIGEgZml4ZWQgcHJpY2UgYWZ0ZXIgd2UgdGFsayB0aHJvdWdoIHlvdXIgYnJpZWYsIGFuZCBiZWZvcmUgYW55IHdvcmsgc3RhcnRzLiBObyBzdXJwcmlzZSBjb3N0cy4ifSx7InEiOiJIb3cgbXVjaCBkb2VzIGEgd2Vic2l0ZSBjb3N0PyIsImEiOiJJdCBkZXBlbmRzIG9uIHRoZSBwYWdlcywgZmVhdHVyZXMsIGFuZCBjb250ZW50LiBTdGFydGluZyBwcmljZXM6IGEgbGFuZGluZyBwYWdlIGZyb20gJDM1MCAob25lIHBhZ2UsIHVwIHRvIDYgc2VjdGlvbnMsIG1vYmlsZSBsYXlvdXQsIDIgcmV2aXNpb24gcm91bmRzLCBiYXNpYyBTRU8gc2V0dXApOyBhbiBvbmxpbmUgc3RvcmUgZnJvbSAkMSwwMDAgKHVwIHRvIDMwIHByb2R1Y3RzLCBjaGVja291dCBhbmQgcGF5bWVudHMgc2V0IHVwLCB1cCB0byA1IHBhZ2VzLCAyIHJldmlzaW9uIHJvdW5kcyk7IGEgcmVkZXNpZ24gZnJvbSAkNzAwICh1cCB0byA1IHBhZ2VzLCBuZXcgZGVzaWduLCBtb2JpbGUgbGF5b3V0LCAyIHJldmlzaW9uIHJvdW5kcykuIEFmdGVyIHRoZSBicmllZiBJ4oCZbGwgc2VuZCBhIGZpeGVkIHF1b3RlIGJlZm9yZSBhbnkgd29yayBzdGFydHMuIn0seyJxIjoiSG93IGxvbmcgZG9lcyBpdCB0YWtlPyIsImEiOiJBIGxhbmRpbmcgcGFnZSB1c3VhbGx5IHRha2VzIDXigJM3IGRheXMsIGEgc3RvcmUgM+KAkzUgd2Vla3MsIGFuZCBhIHJlZGVzaWduIDLigJM0IHdlZWtzLCBjb3VudGVkIGZyb20gdGhlIGRheSBJIHJlY2VpdmUgeW91ciB0ZXh0LCBwaG90b3MsIGFuZCBjb250ZW50LiBUaGUgdGltZWxpbmUgbW9zdGx5IGRlcGVuZHMgb24gaG93IHF1aWNrbHkgSSBnZXQgeW91ciBjb250ZW50IGFuZCBmZWVkYmFjay4ifSx7InEiOiJEbyB5b3UgdGFrZSBhIGRlcG9zaXQ/IiwiYSI6IlllcyDigJQgMzAlIHVwZnJvbnQsIGFuZCB0aGUgcmVzdCBiZWZvcmUgdGhlIGZpbmFsIGZpbGVzIGFyZSBoYW5kZWQgb3ZlciBhbmQgdGhlIHNpdGUgbGF1bmNoZXMuIEnigJlsbCBwdXQgaXQgaW4gd3JpdGluZyBiZWZvcmUgc3RhcnRpbmcuIn0seyJxIjoiV2hhdCBwYXltZW50IG1ldGhvZHMgZG8geW91IGFjY2VwdD8iLCJhIjoiUGF5b25lZXIsIGJhbmsgdHJhbnNmZXIsIG9yIGNyeXB0by4gQWxsIHF1b3RlcyBhcmUgaW4gVVNELiJ9XX0seyJncm91cCI6IldoYXTigJlzIGluY2x1ZGVkIiwiaXRlbXMiOlt7InEiOiJXaGF04oCZcyB5b3VyIHByb2Nlc3M/IiwiYSI6IkJyaWVmLCBEZXNpZ24sIEJ1aWxkLCBMYXVuY2guIFlvdSB0ZWxsIG1lIHdoYXQgeW91IG5lZWQsIHlvdSBzZWUgYSBmaXJzdCB2ZXJzaW9uLCBJIGJ1aWxkIHRoZSBmdWxsIHNpdGUsIGFuZCB3ZSBnbyBsaXZlIHRvZ2V0aGVyLiJ9LHsicSI6IkNhbiB5b3UgYnVpbGQgYW4gb25saW5lIHN0b3JlPyIsImEiOiJZZXMuIEkgYnVpbGQgc3RvcmVzIG9uIFNob3BpZnkgYW5kIFdvb0NvbW1lcmNlLCBhbmQgb24gSG9zdGluZ2VyLCB3aXRoIGNoZWNrb3V0IGFuZCBwYXltZW50cyBzZXQgdXAgc28geW91IGNhbiBzdGFydCB0YWtpbmcgb3JkZXJzLiJ9LHsicSI6IkRvIHlvdSBoYW5kbGUgZG9tYWluIGFuZCBob3N0aW5nPyIsImEiOiJFaXRoZXIgd2F5IHdvcmtzOiBJIGNhbiBzZXQgaXQgdXAgZm9yIHlvdSwgb3IgZ3VpZGUgeW91IHRocm91Z2ggaXQuIFRoZSBkb21haW4gYW5kIGhvc3RpbmcgYWNjb3VudHMgc3RheSBpbiB5b3VyIG5hbWUsIHNvIHlvdSBhbHdheXMgb3duIHRoZW0uIn0seyJxIjoiRG8gSSBuZWVkIHRvIHByb3ZpZGUgdGhlIHRleHQgYW5kIGltYWdlcz8iLCJhIjoiSXQgaGVscHMgaWYgeW91IGRvLiBJZiB5b3UgZG9u4oCZdCBoYXZlIHRoZW0sIHRlbGwgbWUgd2hhdCB5b3UgY2FuIHNoYXJlIGFuZCB3ZeKAmWxsIHdvcmsgb3V0IHRoZSBnYXBzLiJ9LHsicSI6IldpbGwgbXkgc2l0ZSB3b3JrIG9uIHBob25lcz8iLCJhIjoiWWVzLiBFdmVyeSBzaXRlIGlzIGRlc2lnbmVkIGZvciBwaG9uZSwgdGFibGV0LCBhbmQgZGVza3RvcC4ifSx7InEiOiJXaWxsIHBlb3BsZSBiZSBhYmxlIHRvIGZpbmQgbXkgc2l0ZSBvbiBHb29nbGU/IiwiYSI6Ikkgc2V0IHVwIHRoZSBiYXNpY3M6IHBhZ2UgdGl0bGVzLCBkZXNjcmlwdGlvbnMsIGhlYWRpbmdzLCBmYXN0IGxvYWRpbmcsIGFuZCBhIHNpdGVtYXAuIFJhbmtpbmcgdGFrZXMgdGltZSBhbmQgZGVwZW5kcyBvbiBjb21wZXRpdGlvbiBhbmQgeW91ciBjb250ZW50LCBhbmQgSSBjYW7igJl0IHByb21pc2UgYSBwb3NpdGlvbi4ifV19LHsiZ3JvdXAiOiJBZnRlciBsYXVuY2giLCJpdGVtcyI6W3sicSI6IldobyBvd25zIHRoZSB3ZWJzaXRlPyIsImEiOiJZb3UgZG8uIE9uY2UgdGhlIGZpbmFsIHBheW1lbnQgaXMgbWFkZSwgdGhlIHNpdGUgYW5kIGl0cyBmaWxlcyBhcmUgeW91cnMuIn0seyJxIjoiV2hhdCBpZiBJIG5lZWQgY2hhbmdlcyBhZnRlciBsYXVuY2g/IiwiYSI6IlR3byByb3VuZHMgb2YgcmV2aXNpb25zIGFyZSBpbmNsdWRlZCB3aGlsZSB3ZSBidWlsZC4gQWZ0ZXIgbGF1bmNoLCBzbWFsbCBmaXhlcyBhcmUgZnJlZSBmb3IgMzAgZGF5cy4gQmlnZ2VyIGNoYW5nZXMgYXJlIHF1b3RlZCBzZXBhcmF0ZWx5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBvbmdvaW5nIHN1cHBvcnQ/IiwiYSI6Ik5vdCBhcyBhIG1vbnRobHkgcGxhbiByaWdodCBub3cuIEFmdGVyIHRoZSAzMC1kYXkgZml4IHdpbmRvdywgSSBxdW90ZSBjaGFuZ2VzIGFzIHlvdSBuZWVkIHRoZW0g4oCUIGp1c3QgRE0gb3IgZW1haWwgbWUuIn1dfSx7Imdyb3VwIjoiVHJ1c3QiLCJpdGVtcyI6W3sicSI6IkNhbiBJIHNlZSB5b3VyIHdvcms/IiwiYSI6Ik15IG93biBzaG93Y2FzZSBidWlsZHMgYXJlIGJlaW5nIGFkZGVkIG5vdywgYW5kIEkgb25seSBzaG93IHdvcmsgSSBtYWRlLiBJ4oCZZCByYXRoZXIgd2FpdCB0aGFuIHNob3cgc29tZW9uZSBlbHNl4oCZcyB3b3JrIGFzIG1pbmUuIEZlZWwgZnJlZSB0byBETSBtZSBmb3IgYSBzYW1wbGUgb3IgYSBjYWxsLiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgbW9ja3VwIG9yIGNvbnN1bHRhdGlvbj8iLCJhIjoiQSBmcmVlIDE1LW1pbnV0ZSBjb25zdWx0YXRpb24sIHllcyDigJQgRE0gbWUgYW5kIHdl4oCZbGwgdGFsayB0aHJvdWdoIHlvdXIgcHJvamVjdC4gQSBmcmVlIG1vY2t1cCwgbm8uIn0seyJxIjoiV2hhdCBpZiBJ4oCZbSBub3QgaGFwcHk/IiwiYSI6IkJlZm9yZSB5b3UgcGF5IGEgZGVwb3NpdCwgd2UgYWdyZWUgb24gdGhlIGJyaWVmLCBwcmljZSwgYW5kIGRlbGl2ZXJhYmxlcyBpbiB3cml0aW5nLiBZb3UgZ2V0IHR3byByb3VuZHMgb2YgcmV2aXNpb25zLCBhbmQgaWYgdGhlIGZpcnN0IGRlc2lnbiBpc27igJl0IHJpZ2h0LCBJ4oCZbGwgcmV3b3JrIGl0LiBJZiB5b3UgY2FuY2VsIGJlZm9yZSBJIHN0YXJ0LCB5b3UgZ2V0IHlvdXIgZGVwb3NpdCBiYWNrLiBPbmNlIEnigJl2ZSBzdGFydGVkLCB0aGUgZGVwb3NpdCBjb3ZlcnMgdGhlIHdvcmsgZG9uZSBzbyBmYXIuIElmIEkgY2Fu4oCZdCBkZWxpdmVyIHdoYXQgd2UgYWdyZWVkIGFmdGVyIHlvdXIgcmV2aXNpb25zLCBJ4oCZbGwgcmVmdW5kIHRoZSB1bnVzZWQgcGFydCBvZiB3aGF0IHlvdeKAmXZlIHBhaWQuIEFmdGVyIGxhdW5jaCwgSSBmaXggYW55IGJ1Z3MgSSBjYXVzZWQgZm9yIDMwIGRheXMuIn1dfV19"); })
+          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJXZWJzaXRlcyBidWlsdCBsaWtlIHN0b3JlZnJvbnRzLCBub3QgYnJvY2h1cmVzLiIsInN0b3J5IjpbIk15IHdvcmsgbGl2ZXMgd2hlcmUgbXkgY2xpZW50c+KAmSBjdXN0b21lcnMgYWxyZWFkeSBhcmUuIEkgc2hhcmUgbXkgYnVpbGRzIG9uIFRpa1RvayBhcyBAaGVucnlrbm93c3dlYiwgYnJlYWtpbmcgZG93biB3aGF0IG1ha2VzIGEgaG9tZXBhZ2Ugd29yayBsaWtlIGEgc3RvcmVmcm9udC4gSWYgeW91ciBjdXJyZW50IHNpdGUgZmVlbHMgbGlrZSBhIGJyb2NodXJlLCB0aGF04oCZcyBleGFjdGx5IHdoYXQgSSBmaXguIiwiSSB3b3JrIHJlbW90ZWx5IHdpdGggY2xpZW50cyB3b3JsZHdpZGUuIEV2ZXJ5dGhpbmcgcnVucyB0aHJvdWdoIFRpa1RvayBETSBhbmQgZW1haWwg4oCUIHlvdSBzZWUgYSBmaXJzdCB2ZXJzaW9uIHRvIHJlYWN0IHRvIGJlZm9yZSBJIGJ1aWxkIHRoZSBmdWxsIHNpdGUsIGFuZCB3ZSBsYXVuY2ggdG9nZXRoZXIuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB3ZWIgZGVzaWduIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIG9uIEFtYXpvbiwgZUJheSwgV2FsbWFydCwgU2hvcGlmeSBhbmQgVGVtdS4gTXkgZmlyc3Qgam9iIHdhcyBhdCBUcmFkZWNvem9uZSwgYmVmb3JlIEkgaGFkIGV2ZW4gc3RhcnRlZCBteSBkZWdyZWUsIGFuZCBJIGtlcHQgd29ya2luZyBpbiBlLWNvbW1lcmNlIGFsbCB0aGUgd2F5IHRocm91Z2ggbXkgc3R1ZGllcy4gVGhvc2UgeWVhcnMgdGF1Z2h0IG1lIGhvdyBzZWxsaW5nIG9ubGluZSBhY3R1YWxseSB3b3JrcyDigJQgd2hhdCBhIHByb2R1Y3QgcGFnZSBoYXMgdG8gc2hvdywgd2hlcmUgYSBjaGVja291dCBsb3NlcyBwZW9wbGUsIGFuZCB3aHkgYSBzdG9yZSB0aGF0IGlzIGhhcmQgdG8gYnV5IGZyb20gc3RheXMgcXVpZXQuIiwiSW4gMjAyNiBJIGNvbXBsZXRlZCBteSBCYWNoZWxvcuKAmXMgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB0b29rIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgYWxzbyB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIFdoaWxlIHN0dWR5aW5nLCBJIGJ1aWx0IGFwcHMgYW5kIHdlYnNpdGVzIG9mIG15IG93biBhbmQga2VwdCB0YWtpbmcgb24gZS1jb21tZXJjZSB3b3JrIHdoZXJldmVyIGl0IGNhbWUuIiwiTm93IEkgYnVpbGQgdGhlIGtpbmQgb2Ygc3RvcmVzIEkgdXNlZCB0byB3b3JrIGluLiBJIGtub3cgd2hhdCBhIG1hcmtldHBsYWNlIGxpc3RpbmcgaGFzIHRvIGRvIHRvIHNlbGwgYmVjYXVzZSBJIGhhdmUgZG9uZSB0aGF0IGpvYiwgYW5kIEkga25vdyBob3cgdG8gYnVpbGQgdGhlIHNpdGUgYmVjYXVzZSB0aGF0IGlzIHdoYXQgSSB0cmFpbmVkIGZvci4gSWYgeW91ciBwcm9kdWN0cyBzZWxsIG9uIGEgbWFya2V0cGxhY2UgYnV0IHlvdXIgb3duIHdlYnNpdGUgZG9lcyBub3QsIHRoYXQgZ2FwIGlzIGV4YWN0bHkgd2hhdCBJIGZpeC4iLCJJIHdvcmsgcmVtb3RlbHkgd2l0aCBjbGllbnRzIHdvcmxkd2lkZSwgYW5kIGV2ZXJ5dGhpbmcgcnVucyB0aHJvdWdoIG15IHNvY2lhbCBjaGFubmVscyDigJQgdGhhdOKAmXMgd2hlcmUgSSBwb3N0IG15IGJ1aWxkcywgYW5kIHdoZXJlIGV2ZXJ5IHByb2plY3Qgc3RhcnRzLiBNZXNzYWdlIG1lIHRoZXJlIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoYXQgeW91IHNlbGwgYW5kIHdoYXQgaXNu4oCZdCB3b3JraW5nIG9uIHlvdXIgY3VycmVudCBzaXRlLCBhbmQgeW914oCZbGwgc2VlIGEgZmlyc3QgdmVyc2lvbiB0byByZWFjdCB0byBiZWZvcmUgSSBidWlsZCB0aGUgZnVsbCBzaXRlLiBUaGVuIHdlIGxhdW5jaCB0b2dldGhlci4iXX0sImNsaWVudHMiOnsiaXRlbXMiOltdLCJub3RlIjoiQ2xpZW50IGxpc3QgaXMgZ3Jvd2luZyDigJQgbmV3IG5hbWVzIGFyZSBhZGRlZCBhcyBwcm9qZWN0cyBsYXVuY2guIFlvdXJzIGNvdWxkIGJlIG5leHQuIn0sImZvb3RlciI6eyJoZWFkaW5nIjoiTGV04oCZcyBidWlsZCB5b3VycyIsImtpY2siOiJHb3QgYSBzdG9yZSwgYSBsYXVuY2gsIG9yIGEgc2l0ZSB0aGF0IG5lZWRzIGEgcmVidWlsZD8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSBhYm91dCB5b3VyIHN0b3JlLCBsYW5kaW5nIHBhZ2UsIG9yIHJlZGVzaWduLiJ9LCJpbnRybyI6eyJtZXRhIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSeKAmW0gSGVucnkg4oCUIEkgYnVpbGQgYm9sZCB3ZWJzaXRlcyBmb3IgYnVzaW5lc3NlcyB3b3JsZHdpZGUuIFN0b3JlcywgbGFuZGluZyBwYWdlcywgYW5kIHJlZGVzaWducyB0aGF0IGFyZSBtYWRlIHRvIGJlIHNob3BwZWQsIG5vdCBqdXN0IHNjcm9sbGVkIHBhc3Q6IGEgY2xlYXIgb2ZmZXIgdXAgZnJvbnQsIGFuIGVhc3kgcGF0aCB0byBidXkgb3IgYm9vaywgYW5kIHRoZSBkZXRhaWxzIGN1c3RvbWVycyBhY3R1YWxseSBsb29rIGZvciDigJQgbWVudSwgcHJpY2VzLCBsb2NhdGlvbiwgaG91cnMg4oCUIHdpdGhvdXQgdGhlIGh1bnRpbmcuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIiwic3RhdHVzIjoiQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJzdWIiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIOKAlCBmb3IgY2xpZW50cyB3b3JsZHdpZGUuIiwidGFnbGluZSI6IkJvbGQgd2Vic2l0ZXMgZm9yIHN0b3JlcyAmIGJyYW5kcyIsInRpa3Rva0hhbmRsZSI6IkBoZW5yeWtub3dzd2ViIiwidGlrdG9rVXJsIjoiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AaGVucnlrbm93c3dlYiIsImVtYWlsIjoiaGVucnlrbm93c3dlYkBnbWFpbC5jb20ifSwicHJvamVjdHMiOltdLCJwcm9qZWN0c0VtcHR5Ijp7ImNhdGVnb3J5IjoiU3RvcmVzIMK3IExhbmRpbmcgUGFnZXMgwrcgUmVkZXNpZ25zIiwiY3RhTm90ZSI6IldhbnQgeW91ciBzdG9yZSBvciBsYW5kaW5nIHBhZ2UgdG8gYmUgb25lIG9mIHRoZSBmaXJzdCBmZWF0dXJlZCBoZXJlPyBNZXNzYWdlIG1lIG9uIFRpa1Rvay4iLCJub3RlIjoiVGhlIGZpcnN0IHNob3djYXNlIGJ1aWxkcyBhcmUgb24gdGhlIHdheS4gRE0gV0VCIGlmIHlvdeKAmWQgbGlrZSB5b3VycyB0byBiZSBvbmUgb2YgdGhlbS4iLCJ0aXRsZSI6Ik5ldyBwcm9qZWN0cyBjb21pbmcgc29vbi4iLCJ5ZWFyIjoiU29vbiJ9LCJzZXJ2aWNlcyI6W3siZGVzY3JpcHRpb24iOiJPbmxpbmUgc3RvcmVzIGJ1aWx0IHRvIHNlbGwg4oCUIGNsZWFyIHByb2R1Y3QgcGF0aHMsIGVhc3kgY2hlY2tvdXQgZmxvdywgYW5kIGEgaG9tZXBhZ2UgdGhhdCB3b3JrcyBsaWtlIGEgc3RvcmVmcm9udC4gQnVpbHQgb24gU2hvcGlmeSwgV29vQ29tbWVyY2Ugb3IgSG9zdGluZ2VyIOKAlCB3aGljaGV2ZXIgZml0cyB5b3VyIGJ1c2luZXNzLiIsInRpdGxlIjoiU3RvcmVzICYgRS1jb21tZXJjZSIsInByaWNpbmciOiJGcm9tICQxLDAwMCDCtyBVcCB0byAzMCBwcm9kdWN0cyDCtyBDaGVja291dCAmIHBheW1lbnRzIHNldCB1cCDCtyBVcCB0byA1IHBhZ2VzIMK3IDPigJM1IHdlZWtzIMK3IDIgcmV2aXNpb24gcm91bmRzIn0seyJkZXNjcmlwdGlvbiI6Ik9uZSBmb2N1c2VkIHBhZ2UsIG9uZSBjbGVhciBvZmZlciwgb25lIG9idmlvdXMgbmV4dCBzdGVwLiBCdWlsdCBmb3IgY2FtcGFpZ25zLCBsYXVuY2hlcywgYW5kIGxlYWQgZ2VuZXJhdGlvbi4iLCJ0aXRsZSI6IkxhbmRpbmcgUGFnZXMiLCJwcmljaW5nIjoiRnJvbSAkMzUwIMK3IDEgcGFnZSwgdXAgdG8gNiBzZWN0aW9ucyDCtyBCYXNpYyBTRU8gc2V0dXAgwrcgNeKAkzcgZGF5cyDCtyAyIHJldmlzaW9uIHJvdW5kcyJ9LHsiZGVzY3JpcHRpb24iOiJZb3VyIGV4aXN0aW5nIHNpdGUsIHJlYnVpbHQgYm9sZDogc2hhcnBlciBoaWVyYXJjaHksIGZhc3RlciBwYXRocyB0byBidXkgb3IgYm9vaywgYW5kIHRoZSBkZXRhaWxzIGN1c3RvbWVycyBsb29rIGZvciBmaW5hbGx5IGVhc3kgdG8gZmluZC4iLCJ0aXRsZSI6IlJlZGVzaWducyIsInByaWNpbmciOiJGcm9tICQ3MDAgwrcgVXAgdG8gNSBwYWdlcyDCtyBOZXcgZGVzaWduICYgbW9iaWxlIGxheW91dCDCtyAy4oCTNCB3ZWVrcyDCtyAyIHJldmlzaW9uIHJvdW5kcyJ9XSwic2V0dGluZ3MiOnsibW90aW9uIjp7ImRlZmF1bHRWaWV3IjoibGlzdCIsInNob3dWaWV3VG9nZ2xlIjp0cnVlLCJwcmV2aWV3TW9kZSI6ImZvbGxvdyIsImNhcmRTaXplIjozNjAsInRpbHQiOnRydWUsInNwcmluZyI6Im5vcm1hbCIsImRpbU90aGVycyI6dHJ1ZSwibWF4TW9iaWxlUGxheWluZyI6MiwibW9iaWxlQmVoYXZpb3VyIjoiYWNjb3JkaW9uIn0sInRlc3RpbW9uaWFscyI6eyJsYXlvdXQiOiJmZWF0dXJlZCIsInNob3dTZWN0aW9uIjpmYWxzZSwiYXV0b1JvdGF0ZSI6ZmFsc2UsInJvdGF0ZVNlY29uZHMiOjYsInNob3dBdmF0YXJzIjp0cnVlLCJzaG93UHJvamVjdExpbmsiOnRydWV9fSwidGVzdGltb25pYWxzIjpbXSwiZmFxIjpbeyJncm91cCI6Ildvcmtpbmcgd2l0aCBtZSIsIml0ZW1zIjpbeyJxIjoiV2hhdCBkbyB5b3UgYnVpbGQ/IiwiYSI6Ik9ubGluZSBzdG9yZXMsIGxhbmRpbmcgcGFnZXMsIGFuZCByZWRlc2lnbnMgb2YgZXhpc3Rpbmcgc2l0ZXMuIEVhY2ggb25lIGlzIGJ1aWx0IHRvIG1ha2UgaXQgZWFzeSBmb3IgY3VzdG9tZXJzIHRvIGJ1eSwgYm9vaywgb3IgY29udGFjdCB5b3UuIn0seyJxIjoiV2hvIGRvIHlvdSB3b3JrIHdpdGg/IiwiYSI6IlNtYWxsIGJ1c2luZXNzZXMsIGNyZWF0b3JzLCBhbmQgYnJhbmRzIHdvcmxkd2lkZS4gSWYgeW91IHNlbGwgc29tZXRoaW5nIG9yIG5lZWQgcGVvcGxlIHRvIGdldCBpbiB0b3VjaCwgSSBjYW4gaGVscC4ifSx7InEiOiJIb3cgZG8gd2Ugc3RhcnQ/IiwiYSI6IlNlbmQgbWUgYSBETSBvbiBUaWtUb2sgKEBoZW5yeWtub3dzd2ViKSBvciBhbiBlbWFpbCB3aXRoIHdoYXQgeW91IHNlbGwsIHdobyB5b3VyIGN1c3RvbWVycyBhcmUsIGFuZCB3aGF0IGlzbuKAmXQgd29ya2luZyBvbiB5b3VyIGN1cnJlbnQgc2l0ZS4gSeKAmWxsIHJlcGx5IHdpdGggcXVlc3Rpb25zIGFuZCBuZXh0IHN0ZXBzLiJ9XX0seyJncm91cCI6IkNvc3QgYW5kIHRpbWluZyIsIml0ZW1zIjpbeyJxIjoiSG93IGRvZXMgcHJpY2luZyB3b3JrPyIsImEiOiJFdmVyeSBwcm9qZWN0IGlzIHF1b3RlZCBhcyBhIGZpeGVkIHByaWNlIGFmdGVyIHdlIHRhbGsgdGhyb3VnaCB5b3VyIGJyaWVmLCBhbmQgYmVmb3JlIGFueSB3b3JrIHN0YXJ0cy4gTm8gc3VycHJpc2UgY29zdHMuIn0seyJxIjoiSG93IG11Y2ggZG9lcyBhIHdlYnNpdGUgY29zdD8iLCJhIjoiSXQgZGVwZW5kcyBvbiB0aGUgcGFnZXMsIGZlYXR1cmVzLCBhbmQgY29udGVudC4gU3RhcnRpbmcgcHJpY2VzOiBhIGxhbmRpbmcgcGFnZSBmcm9tICQzNTAgKG9uZSBwYWdlLCB1cCB0byA2IHNlY3Rpb25zLCBtb2JpbGUgbGF5b3V0LCAyIHJldmlzaW9uIHJvdW5kcywgYmFzaWMgU0VPIHNldHVwKTsgYW4gb25saW5lIHN0b3JlIGZyb20gJDEsMDAwICh1cCB0byAzMCBwcm9kdWN0cywgY2hlY2tvdXQgYW5kIHBheW1lbnRzIHNldCB1cCwgdXAgdG8gNSBwYWdlcywgMiByZXZpc2lvbiByb3VuZHMpOyBhIHJlZGVzaWduIGZyb20gJDcwMCAodXAgdG8gNSBwYWdlcywgbmV3IGRlc2lnbiwgbW9iaWxlIGxheW91dCwgMiByZXZpc2lvbiByb3VuZHMpLiBBZnRlciB0aGUgYnJpZWYgSeKAmWxsIHNlbmQgYSBmaXhlZCBxdW90ZSBiZWZvcmUgYW55IHdvcmsgc3RhcnRzLiJ9LHsicSI6IkhvdyBsb25nIGRvZXMgaXQgdGFrZT8iLCJhIjoiQSBsYW5kaW5nIHBhZ2UgdXN1YWxseSB0YWtlcyA14oCTNyBkYXlzLCBhIHN0b3JlIDPigJM1IHdlZWtzLCBhbmQgYSByZWRlc2lnbiAy4oCTNCB3ZWVrcywgY291bnRlZCBmcm9tIHRoZSBkYXkgSSByZWNlaXZlIHlvdXIgdGV4dCwgcGhvdG9zLCBhbmQgY29udGVudC4gVGhlIHRpbWVsaW5lIG1vc3RseSBkZXBlbmRzIG9uIGhvdyBxdWlja2x5IEkgZ2V0IHlvdXIgY29udGVudCBhbmQgZmVlZGJhY2suIn0seyJxIjoiRG8geW91IHRha2UgYSBkZXBvc2l0PyIsImEiOiJZZXMg4oCUIDMwJSB1cGZyb250LCBhbmQgdGhlIHJlc3QgYmVmb3JlIHRoZSBmaW5hbCBmaWxlcyBhcmUgaGFuZGVkIG92ZXIgYW5kIHRoZSBzaXRlIGxhdW5jaGVzLiBJ4oCZbGwgcHV0IGl0IGluIHdyaXRpbmcgYmVmb3JlIHN0YXJ0aW5nLiJ9LHsicSI6IldoYXQgcGF5bWVudCBtZXRob2RzIGRvIHlvdSBhY2NlcHQ/IiwiYSI6IlBheW9uZWVyLCBiYW5rIHRyYW5zZmVyLCBvciBjcnlwdG8uIEFsbCBxdW90ZXMgYXJlIGluIFVTRC4ifV19LHsiZ3JvdXAiOiJXaGF04oCZcyBpbmNsdWRlZCIsIml0ZW1zIjpbeyJxIjoiV2hhdOKAmXMgeW91ciBwcm9jZXNzPyIsImEiOiJCcmllZiwgRGVzaWduLCBCdWlsZCwgTGF1bmNoLiBZb3UgdGVsbCBtZSB3aGF0IHlvdSBuZWVkLCB5b3Ugc2VlIGEgZmlyc3QgdmVyc2lvbiwgSSBidWlsZCB0aGUgZnVsbCBzaXRlLCBhbmQgd2UgZ28gbGl2ZSB0b2dldGhlci4ifSx7InEiOiJDYW4geW91IGJ1aWxkIGFuIG9ubGluZSBzdG9yZT8iLCJhIjoiWWVzLiBJIGJ1aWxkIHN0b3JlcyBvbiBTaG9waWZ5IGFuZCBXb29Db21tZXJjZSwgYW5kIG9uIEhvc3Rpbmdlciwgd2l0aCBjaGVja291dCBhbmQgcGF5bWVudHMgc2V0IHVwIHNvIHlvdSBjYW4gc3RhcnQgdGFraW5nIG9yZGVycy4ifSx7InEiOiJEbyB5b3UgaGFuZGxlIGRvbWFpbiBhbmQgaG9zdGluZz8iLCJhIjoiRWl0aGVyIHdheSB3b3JrczogSSBjYW4gc2V0IGl0IHVwIGZvciB5b3UsIG9yIGd1aWRlIHlvdSB0aHJvdWdoIGl0LiBUaGUgZG9tYWluIGFuZCBob3N0aW5nIGFjY291bnRzIHN0YXkgaW4geW91ciBuYW1lLCBzbyB5b3UgYWx3YXlzIG93biB0aGVtLiJ9LHsicSI6IkRvIEkgbmVlZCB0byBwcm92aWRlIHRoZSB0ZXh0IGFuZCBpbWFnZXM/IiwiYSI6Ikl0IGhlbHBzIGlmIHlvdSBkby4gSWYgeW91IGRvbuKAmXQgaGF2ZSB0aGVtLCB0ZWxsIG1lIHdoYXQgeW91IGNhbiBzaGFyZSBhbmQgd2XigJlsbCB3b3JrIG91dCB0aGUgZ2Fwcy4ifSx7InEiOiJXaWxsIG15IHNpdGUgd29yayBvbiBwaG9uZXM/IiwiYSI6Illlcy4gRXZlcnkgc2l0ZSBpcyBkZXNpZ25lZCBmb3IgcGhvbmUsIHRhYmxldCwgYW5kIGRlc2t0b3AuIn0seyJxIjoiV2lsbCBwZW9wbGUgYmUgYWJsZSB0byBmaW5kIG15IHNpdGUgb24gR29vZ2xlPyIsImEiOiJJIHNldCB1cCB0aGUgYmFzaWNzOiBwYWdlIHRpdGxlcywgZGVzY3JpcHRpb25zLCBoZWFkaW5ncywgZmFzdCBsb2FkaW5nLCBhbmQgYSBzaXRlbWFwLiBSYW5raW5nIHRha2VzIHRpbWUgYW5kIGRlcGVuZHMgb24gY29tcGV0aXRpb24gYW5kIHlvdXIgY29udGVudCwgYW5kIEkgY2Fu4oCZdCBwcm9taXNlIGEgcG9zaXRpb24uIn1dfSx7Imdyb3VwIjoiQWZ0ZXIgbGF1bmNoIiwiaXRlbXMiOlt7InEiOiJXaG8gb3ducyB0aGUgd2Vic2l0ZT8iLCJhIjoiWW91IGRvLiBPbmNlIHRoZSBmaW5hbCBwYXltZW50IGlzIG1hZGUsIHRoZSBzaXRlIGFuZCBpdHMgZmlsZXMgYXJlIHlvdXJzLiJ9LHsicSI6IldoYXQgaWYgSSBuZWVkIGNoYW5nZXMgYWZ0ZXIgbGF1bmNoPyIsImEiOiJUd28gcm91bmRzIG9mIHJldmlzaW9ucyBhcmUgaW5jbHVkZWQgd2hpbGUgd2UgYnVpbGQuIEFmdGVyIGxhdW5jaCwgc21hbGwgZml4ZXMgYXJlIGZyZWUgZm9yIDMwIGRheXMuIEJpZ2dlciBjaGFuZ2VzIGFyZSBxdW90ZWQgc2VwYXJhdGVseS4ifSx7InEiOiJEbyB5b3Ugb2ZmZXIgb25nb2luZyBzdXBwb3J0PyIsImEiOiJOb3QgYXMgYSBtb250aGx5IHBsYW4gcmlnaHQgbm93LiBBZnRlciB0aGUgMzAtZGF5IGZpeCB3aW5kb3csIEkgcXVvdGUgY2hhbmdlcyBhcyB5b3UgbmVlZCB0aGVtIOKAlCBqdXN0IERNIG9yIGVtYWlsIG1lLiJ9XX0seyJncm91cCI6IlRydXN0IiwiaXRlbXMiOlt7InEiOiJDYW4gSSBzZWUgeW91ciB3b3JrPyIsImEiOiJNeSBvd24gc2hvd2Nhc2UgYnVpbGRzIGFyZSBiZWluZyBhZGRlZCBub3csIGFuZCBJIG9ubHkgc2hvdyB3b3JrIEkgbWFkZS4gSeKAmWQgcmF0aGVyIHdhaXQgdGhhbiBzaG93IHNvbWVvbmUgZWxzZeKAmXMgd29yayBhcyBtaW5lLiBGZWVsIGZyZWUgdG8gRE0gbWUgZm9yIGEgc2FtcGxlIG9yIGEgY2FsbC4ifSx7InEiOiJEbyB5b3Ugb2ZmZXIgYSBmcmVlIG1vY2t1cCBvciBjb25zdWx0YXRpb24/IiwiYSI6IkEgZnJlZSAxNS1taW51dGUgY29uc3VsdGF0aW9uLCB5ZXMg4oCUIERNIG1lIGFuZCB3ZeKAmWxsIHRhbGsgdGhyb3VnaCB5b3VyIHByb2plY3QuIEEgZnJlZSBtb2NrdXAsIG5vLiJ9LHsicSI6IldoYXQgaWYgSeKAmW0gbm90IGhhcHB5PyIsImEiOiJCZWZvcmUgeW91IHBheSBhIGRlcG9zaXQsIHdlIGFncmVlIG9uIHRoZSBicmllZiwgcHJpY2UsIGFuZCBkZWxpdmVyYWJsZXMgaW4gd3JpdGluZy4gWW91IGdldCB0d28gcm91bmRzIG9mIHJldmlzaW9ucywgYW5kIGlmIHRoZSBmaXJzdCBkZXNpZ24gaXNu4oCZdCByaWdodCwgSeKAmWxsIHJld29yayBpdC4gSWYgeW91IGNhbmNlbCBiZWZvcmUgSSBzdGFydCwgeW91IGdldCB5b3VyIGRlcG9zaXQgYmFjay4gT25jZSBJ4oCZdmUgc3RhcnRlZCwgdGhlIGRlcG9zaXQgY292ZXJzIHRoZSB3b3JrIGRvbmUgc28gZmFyLiBJZiBJIGNhbuKAmXQgZGVsaXZlciB3aGF0IHdlIGFncmVlZCBhZnRlciB5b3VyIHJldmlzaW9ucywgSeKAmWxsIHJlZnVuZCB0aGUgdW51c2VkIHBhcnQgb2Ygd2hhdCB5b3XigJl2ZSBwYWlkLiBBZnRlciBsYXVuY2gsIEkgZml4IGFueSBidWdzIEkgY2F1c2VkIGZvciAzMCBkYXlzLiJ9XX1dfQ=="); })
           .then(applyContent)
           .catch(function () { /* Embedded verified content stays as-is. */ });
       })();
