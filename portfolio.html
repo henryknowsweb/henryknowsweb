@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0E0D0E" />
+    <meta name="description" content="Selected web design work by Henry — online stores, landing pages and redesigns for clients worldwide." />
+    <meta property="og:title" content="Portfolio | henryknowsweb — Web Design Work" />
+    <meta property="og:description" content="Selected web design work by Henry — online stores, landing pages and redesigns for clients worldwide." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://henryknowsweb.pages.dev/portfolio" />
+    <meta property="og:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Portfolio | henryknowsweb — Web Design Work" />
+    <meta name="twitter:description" content="Selected web design work by Henry — online stores, landing pages and redesigns for clients worldwide." />
+    <meta name="twitter:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
+    <link rel="canonical" href="https://henryknowsweb.pages.dev/portfolio" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/brand/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+    <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <title>Portfolio | henryknowsweb — Web Design Work</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #0E0D0E;
+        --paper: #F2EFEA;
+        --red: #F2281E;
+        --mute: #8C8782;
+        --label: color-mix(in srgb, var(--paper) 62%, var(--ink));
+        --body2: color-mix(in srgb, var(--paper) 72%, var(--ink));
+        --line: rgba(242, 239, 234, 0.12);
+        --bg: var(--ink);
+        --text: var(--paper);
+        --border: var(--line);
+        --accent: var(--red);
+        --surface: #141314;
+        --surface2: #1B1A1B;
+        --dim: var(--mute);
+        --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+        --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+        --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --space-1: 96px;
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --dur-fast: 180ms;
+        --dur-base: 320ms;
+        --dur-slow: 700ms;
+        --dur-hero: 1000ms;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.5;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      ::selection { background: var(--accent); color: var(--paper); }
+      a { color: inherit; }
+      img { max-width: 100%; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .wrap-x { padding-left: 20px; padding-right: 20px; }
+      @media (min-width: 640px) { .wrap-x { padding-left: 56px; padding-right: 56px; } }
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        margin: -1px; padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: fixed; top: -200px; left: 16px; z-index: 400;
+        background: var(--paper); color: var(--ink);
+        padding: 12px 18px;
+        font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+        text-decoration: none;
+        transition: top var(--dur-fast) var(--ease-out);
+      }
+      .skip-link:focus-visible { top: 12px; }
+      .section-label {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--label);
+      }
+      .link-draw { text-decoration: none; }
+      .link-draw:hover { color: var(--accent); }
+
+      /* Top bar */
+      .topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px;
+        padding-top: 22px; padding-bottom: 22px;
+        border-bottom: 1px solid var(--border);
+      }
+      .brand-lockup { display: block; height: 28px; width: auto; }
+      .topbar .back {
+        font-family: var(--font-mono);
+        font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--label);
+        display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+      }
+      .topbar .back:hover { color: var(--paper); }
+      .topbar .back svg { width: 13px; height: 13px; transform: rotate(180deg); }
+
+      /* Page head */
+      .page-head { padding-top: 64px; }
+      .page-head h1 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin: 14px 0 0;
+        font-size: clamp(2.8rem, 8vw, 6.5rem);
+      }
+
+      /* Layout: portrait + story */
+      .about-layout { display: grid; gap: 48px; padding-top: 56px; padding-bottom: var(--space-1); }
+      @media (min-width: 900px) {
+        .about-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: start; }
+        .portrait-col { position: sticky; top: 40px; }
+      }
+      .portrait-frame {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        width: min(100%, 480px);
+        margin: 0;
+        overflow: hidden;
+      }
+      .portrait-frame img.photo {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .portrait-frame.reveal-clip {
+        clip-path: inset(0 0 100% 0);
+        transition: clip-path var(--dur-hero) var(--ease-out);
+      }
+      .portrait-frame.reveal-clip.is-visible { clip-path: inset(0 0 0 0); }
+      .portrait-spot {
+        position: absolute; inset: 0; z-index: 2;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity var(--dur-base) var(--ease-out);
+        background: radial-gradient(560px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(242, 239, 234, 0.13), rgba(242, 239, 234, 0) 60%);
+      }
+      .portrait-frame.spot-on .portrait-spot { opacity: 1; }
+      @media (hover: none), (pointer: coarse) { .portrait-spot { display: none; } }
+      .portrait-caption { margin: 16px 0 0; font-size: 14px; color: var(--mute); }
+
+      .story p { margin: 0 0 16px; max-width: 68ch; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .story p:first-child { font-size: 19px; line-height: 1.6; color: var(--text); }
+
+      .channels { margin-top: 40px; }
+      .channels-label { margin: 0 0 14px; }
+      .channels-list { display: flex; flex-wrap: wrap; gap: 10px; }
+      .channel-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+      .channel-chip:hover { border-color: var(--red); color: var(--red); }
+      .channel-chip .btn-arrow { width: 13px; height: 13px; flex: none; }
+
+      /* Buttons (same system as the homepage) */
+      .btn {
+        display: inline-flex; align-items: center; gap: 10px;
+        min-height: 44px;
+        font-size: 14px; font-weight: 800;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        text-decoration: none;
+      }
+      .btn .btn-arrow { width: 15px; height: 15px; flex: none; transition: transform var(--dur-fast) var(--ease-out); }
+      .btn:hover .btn-arrow, .btn:focus-visible .btn-arrow { transform: translate(2px, -2px); }
+      .btn-secondary { background: transparent; color: var(--paper); border: 1px solid var(--paper); padding: 10px 22px; }
+      .btn-solid { background: var(--paper); color: var(--ink); border: 1px solid var(--paper); padding: 10px 22px; }
+      .btn-lg { font-size: 16px; letter-spacing: 0.06em; padding: 14px 26px; }
+      @media (min-width: 640px) { .btn-lg { font-size: 22px; } }
+
+      /* CTA band + footer */
+      .cta-band { border-top: 1px solid var(--border); padding-top: 64px; padding-bottom: 64px; }
+      .cta-band h2 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin: 12px 0 0;
+        font-size: clamp(2.4rem, 6vw, 4.5rem);
+      }
+      .cta-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+      .page-foot {
+        border-top: 1px solid var(--border);
+        padding-top: 24px; padding-bottom: 32px;
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+        font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--mute);
+      }
+
+      /* Reveal helpers (same as the homepage) */
+      .reveal-fade {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-fade.is-visible { opacity: 1; transform: translateY(0); }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .reveal-fade { opacity: 1; transform: none; transition: none; }
+        .portrait-frame.reveal-clip { clip-path: none; transition: none; }
+        .portrait-spot { display: none; }
+      }
+
+      /* ---------- Work / project index (same rules as the homepage) ---------- */
+      /* ---------- Work / project index ---------- */
+      .work-sec { position: relative; border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
+      .index-head {
+        display: none;
+        grid-template-columns: 4rem minmax(0, 1.4fr) minmax(0, 1fr) 6rem 2rem;
+        gap: 16px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 12px;
+        margin-top: 40px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--label);
+      }
+      .index-head .r { text-align: right; }
+      @media (min-width: 768px) { .work-sec.pv-on .index-head { display: grid; } }
+      .index-empty { display: flex; flex-direction: column; align-items: center; text-align: center; border-bottom: 1px solid var(--border); padding: 56px 20px; }
+      .index-empty .ieb-label { margin: 0; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
+      .index-empty .big {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        margin: 14px 0 0;
+        font-size: 30px;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+      @media (min-width: 640px) { .index-empty .big { font-size: 36px; } }
+      .index-empty .note { margin: 14px 0 0; max-width: 520px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .work-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+      .work-cta p { margin: 0; font-size: 16px; color: var(--body2); max-width: 420px; line-height: 1.6; }
+      .index-row { display: flex; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--border); padding: 28px 0; text-decoration: none; }
+      @media (min-width: 768px) { .index-row { display: grid; grid-template-columns: 4rem minmax(0, 1.4fr) minmax(0, 1fr) 6rem 2rem; align-items: center; } }
+      .index-row .no { font-family: var(--font-display); font-size: 18px; color: var(--label); }
+      .index-row .big { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; margin: 0; font-size: 30px; text-transform: uppercase; line-height: 1; }
+      @media (min-width: 640px) { .index-row .big { font-size: 36px; } }
+      .index-row .note { margin: 10px 0 0; max-width: 520px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .index-row .cat { display: none; font-size: 14px; color: var(--label); }
+      @media (min-width: 768px) { .index-row .cat { display: block; } }
+      .index-row .yr { display: none; text-align: right; font-size: 14px; color: var(--label); }
+      @media (min-width: 768px) { .index-row .yr { display: block; } }
+      .index-row > div, .index-empty > div { min-width: 0; }
+      .index-row .big, .index-empty .big { overflow-wrap: break-word; }
+      a.index-row:hover .big { color: var(--accent); }
+      .client-names { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+      .client-names li { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+      /* Process: shown in the Clients section while the client list is empty */
+      .process-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px 32px; }
+      @media (min-width: 700px) { .process-steps { grid-template-columns: 1fr 1fr; } }
+      .clients-sec .process-steps .ps-t { margin: 0; max-width: none; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; color: var(--text); }
+      .clients-sec .process-steps .ps-t .num { margin-right: 12px; font-size: 16px; color: var(--accent); }
+      .clients-sec .process-steps .ps-d { margin: 8px 0 0; max-width: 420px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .work-sec { padding-top: 56px; }
+      .cta-btn {
+        display: inline-block;
+        border: 1px solid var(--text);
+        padding: 14px 24px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      }
+      .btn-arrow { width: 13px; height: 13px; flex: none; }
+
+      /* ---- Project showcase: motion previews (list / grid / overlay) ---- */
+      .pv-toolbar { display: flex; justify-content: flex-end; margin: 26px 0 2px; }
+      .pv-toggle { display: inline-flex; border: 1px solid var(--border); }
+      .pv-toggle button { appearance: none; background: transparent; border: 0; margin: 0; padding: 10px 18px; color: var(--label); font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: color 0.2s ease, background-color 0.2s ease; }
+      .pv-toggle button:hover { color: var(--text); }
+      .pv-toggle button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+      .pv-list[hidden], .pv-grid[hidden] { display: none !important; }
+      .work-sec.pv-grid-on .index-head { display: none !important; }
+      .pv-row { cursor: pointer; position: relative; }
+      .pv-list .pv-row { animation: pv-row-in var(--dur-base) var(--ease-out) both; animation-delay: calc(var(--pv-i, 0) * 60ms); }
+      @keyframes pv-row-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+      .pv-row > * { transition: opacity 0.25s ease; }
+      .pv-list.pv-dim .pv-row:not(.pv-active) > * { opacity: 0.4; }
+      .pv-row .pv-arrow { margin-left: auto; align-self: center; font-size: 20px; color: var(--dim); transition: color 0.2s ease, transform 0.2s ease; }
+      .pv-row:hover .pv-arrow, .pv-row.pv-active .pv-arrow { color: var(--accent); transform: translateX(4px); }
+      .pv-row:focus-visible, .pv-gcard:focus-visible, .pv-toggle button:focus-visible, .pv-ov-close:focus-visible, .pv-ov-navbtn:focus-visible, .pv-ov-visit:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .pv-media { position: relative; overflow: hidden; background: var(--surface); aspect-ratio: 16 / 10; }
+      .pv-media-img, .pv-media-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+      .pv-media-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--surface2); color: var(--label); font-family: var(--font-display); font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
+      .pv-inline { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+      .pv-inline.open { grid-template-rows: 1fr; }
+      .pv-inline-in { overflow: hidden; min-height: 0; }
+      .pv-inline .pv-media { border: 1px solid var(--border); border-top: 0; }
+      .pv-inline-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 2px 20px; }
+      .pv-inline-foot .t { margin: 0; font-family: var(--font-display); font-size: 16px; text-transform: uppercase; letter-spacing: -0.01em; }
+      .pv-inline-foot .v { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+      .pv-card { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--surface); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55); opacity: 0; transition: opacity 0.22s ease; will-change: transform; }
+      .pv-card.pv-show { opacity: 1; transition: opacity 0.22s ease; }
+      .pv-card.pv-hide { transition: opacity 0.16s ease; }
+      .pv-card.pv-fixed { left: auto; right: 4vw; top: 50%; transform: translateY(-50%) scale(0.96); transition: opacity 0.22s ease, transform 0.22s ease; }
+      .pv-card.pv-fixed.pv-show { transform: translateY(-50%) scale(1); }
+      .pv-card .pv-media { position: absolute; inset: 0; aspect-ratio: auto; }
+      .pv-card-foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 30px 14px 12px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)); }
+      .pv-card-title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; }
+      .pv-card-cat { margin: 4px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
+      .pv-card-view { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+      .pv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
+      @media (min-width: 1200px) { .pv-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 560px) { .pv-grid { grid-template-columns: 1fr; } }
+      .pv-gcard { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--border); background: var(--surface); cursor: pointer; transition: opacity 0.3s ease; }
+      .pv-grid.pv-dim .pv-gcard:not(.pv-active) { opacity: 0.55; }
+      .pv-gcard .pv-media { position: absolute; inset: 0; aspect-ratio: auto; }
+      .pv-gcard .pv-media-img, .pv-gcard .pv-media-vid { filter: grayscale(1); transition: filter 0.35s ease, transform 0.6s ease; }
+      .pv-gcard:hover .pv-media-img, .pv-gcard:hover .pv-media-vid, .pv-gcard.pv-active .pv-media-img, .pv-gcard.pv-active .pv-media-vid, .pv-gcard:focus-visible .pv-media-img, .pv-gcard:focus-visible .pv-media-vid { filter: grayscale(0); }
+      .pv-gcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 16px 14px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)); transform: translateY(10px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; }
+      .pv-gcard:hover .pv-gcap, .pv-gcard.pv-active .pv-gcap, .pv-gcard:focus-visible .pv-gcap { transform: none; opacity: 1; }
+      @media (hover: none) { .pv-gcap { transform: none; opacity: 1; } }
+      .pv-gcap .t { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 19px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
+      .pv-gcap .c { margin: 5px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
+      .pv-overlay { position: fixed; inset: 0; z-index: 200; overflow-y: auto; background: rgba(8, 7, 8, 0.97); }
+      .pv-overlay[hidden] { display: none !important; }
+      .pv-ov-panel { max-width: 1060px; margin: 0 auto; padding: 84px 24px 72px; }
+      .pv-ov-close { position: fixed; top: 18px; right: 20px; z-index: 2; width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; background: rgba(20, 19, 20, 0.9); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
+      .pv-ov-close:hover { border-color: var(--accent); color: var(--accent); }
+      .pv-ov-media { border: 1px solid var(--border); }
+      .pv-ov-meta { margin: 26px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+      .pv-ov-title { margin: 10px 0 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; font-size: clamp(2.2rem, 5.5vw, 4rem); }
+      .pv-ov-summary { margin: 18px 0 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .pv-ov-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+      .pv-ov-tag { border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); }
+      .pv-ov-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+      @media (max-width: 560px) { .pv-ov-gallery { grid-template-columns: 1fr; } }
+      .pv-ov-gallery figure { margin: 0; border: 1px solid var(--border); overflow: hidden; }
+      .pv-ov-gallery img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16 / 10; }
+      .pv-ov-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: 36px; }
+      .pv-ov-nav { display: flex; gap: 10px; margin-left: auto; }
+      .pv-ov-navbtn { appearance: none; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 12px 18px; font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+      .pv-ov-navbtn:hover { border-color: var(--accent); color: var(--accent); }
+      @media (prefers-reduced-motion: reduce) {
+        .pv-card, .pv-inline, .pv-gcap, .pv-gcard, .pv-gcard .pv-media-img, .pv-gcard .pv-media-vid, .pv-row > *, .pv-row .pv-arrow { transition: none !important; }
+        .pv-list .pv-row { animation: none; }
+      }
+
+      /* ---------- Brand kit: browser frame around project media + mono labels ---------- */
+      .pv-frame { position: absolute; inset: 0; }
+      .pv-frame .pv-media-img, .pv-frame .pv-media-vid { position: absolute; left: 1.40625%; top: 11.25%; width: 97.1875%; height: 86.5%; object-fit: cover; }
+      .pv-frame .pv-media-ph { position: absolute; left: 1.40625%; top: 11.25%; width: 97.1875%; height: 86.5%; }
+      .pv-frame .pv-frame-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+      .pv-row .pv-arrow svg { display: block; width: 20px; height: 20px; }
+      .pv-ov-close svg { display: block; width: 20px; height: 20px; margin: auto; }
+      .pv-toggle button, .pv-card-cat, .pv-card-view, .pv-inline-foot .v,
+      .pv-ov-meta, .pv-ov-tag, .pv-ov-navbtn, .pv-gcap .c {
+        font-family: var(--font-mono);
+        letter-spacing: 0.12em;
+      }
+    </style>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar wrap-x">
+      <a class="brand" href="/" aria-label="henryknowsweb — back to home"><img class="brand-lockup" src="assets/brand/lockup.svg" alt="Henry." width="94" height="28" /></a>
+      <a class="back link-draw" href="/#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a>
+    </header>
+
+    <main id="main">
+      <div class="page-head wrap-x">
+        <p class="section-label">Selected work</p>
+        <h1>Portfolio</h1>
+      </div>
+
+      <section class="work-sec wrap-x" id="work" aria-labelledby="workHeading">
+        <h2 id="workHeading" class="visually-hidden">Project index</h2>
+        <div class="index-head" aria-hidden="true">
+          <span>No.</span><span>Project</span><span>Category</span><span class="r">Year</span><span></span>
+        </div>
+        <div id="projectsList">
+          <div class="index-empty reveal-fade">
+            <p class="ieb-label">Project index</p>
+            <p class="big">New projects coming soon.</p>
+            <p class="note">The first showcase builds are on the way. DM WEB if you&rsquo;d like yours to be one of them.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-band wrap-x" aria-labelledby="ctaHeading">
+        <p class="section-label">Start a project</p>
+        <h2 id="ctaHeading">Want a site built<br />like a storefront?</h2>
+        <div class="cta-actions">
+          <a class="btn btn-solid btn-lg" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB on TikTok<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+          <a class="btn btn-secondary btn-lg" href="mailto:henryknowsweb@gmail.com">Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot wrap-x">
+      <span>henryknowsweb — Bold websites for stores &amp; brands</span>
+      <a class="link-draw" href="/">Back to home</a>
+    </footer>
+
+    <script>
+      /* Reveal for static blocks (dynamic project rows arrive visible). */
+      (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var revealEls = document.querySelectorAll(".reveal-fade");
+        if (!reduced && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+            });
+          }, { threshold: 0.15 });
+          revealEls.forEach(function (el) { io.observe(el); });
+        } else {
+          revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+        }
+      })();
+    </script>
+    <script>
+      /* Project showcase engine: renders content.json projects[] as a
+         motion-preview index (list + grid + overlay). Driven entirely by
+         content.json -> settings.motion; safe defaults when absent. */
+      (function () {
+        "use strict";
+        var DEFAULTS = { defaultView: "list", showViewToggle: true, previewMode: "follow", cardSize: 360, tilt: true, spring: "normal", dimOthers: true, maxMobilePlaying: 2, mobileBehaviour: "accordion" };
+        var SPRINGS = { slow: 0.1, normal: 0.2, snappy: 0.38 };
+        var mqReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+        var mqFine = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : { matches: true };
+        function REDUCED() { return !!mqReduce.matches; }
+        function SAVE_DATA() { return !!(navigator.connection && navigator.connection.saveData); }
+        function esc(s) {
+          return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+          });
+        }
+        var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
+        var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+        var FRAME_SVG = '<svg class="pv-frame-svg" viewBox="0 0 640 400" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path fill-rule="evenodd" fill="#131315" d="M13 1h614a12 12 0 0 1 12 12v374a12 12 0 0 1-12 12H13A12 12 0 0 1 1 387V13A12 12 0 0 1 13 1Z M13 45h614a4 4 0 0 1 4 4v338a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4V49a4 4 0 0 1 4-4Z"/><rect x="1" y="1" width="638" height="398" rx="12" fill="none" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><path d="M1 37h638" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><circle cx="20" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="40" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="60" cy="19" r="5" fill="rgba(242,239,234,.28)"/><rect x="86" y="10" width="300" height="18" rx="9" fill="rgba(242,239,234,.07)"/></svg>';
+        function frameWrap(inner) { return '<div class="pv-frame">' + inner + FRAME_SVG + "</div>"; }
+        function settingsOf(data) {
+          var s = (data && data.settings && typeof data.settings === "object" && data.settings.motion && typeof data.settings.motion === "object") ? data.settings.motion : {};
+          var o = {}, k;
+          for (k in DEFAULTS) o[k] = s[k] === undefined ? DEFAULTS[k] : s[k];
+          o.defaultView = o.defaultView === "grid" ? "grid" : "list";
+          o.previewMode = o.previewMode === "fixed" ? "fixed" : "follow";
+          o.mobileBehaviour = o.mobileBehaviour === "open" ? "open" : "accordion";
+          if (!SPRINGS[o.spring]) o.spring = "normal";
+          o.cardSize = Math.min(560, Math.max(240, parseInt(o.cardSize, 10) || 360));
+          o.maxMobilePlaying = Math.min(3, Math.max(1, parseInt(o.maxMobilePlaying, 10) || 2));
+          o.showViewToggle = !!o.showViewToggle;
+          o.tilt = !!o.tilt;
+          o.dimOthers = !!o.dimOthers;
+          return o;
+        }
+        function publishedProjects(data) {
+          var arr = Array.isArray(data.projects) ? data.projects : [];
+          var out = [];
+          arr.forEach(function (p, i) {
+            if (!p || typeof p !== "object") return;
+            if (String(p.status || "published").toLowerCase() === "draft") return;
+            out.push({ p: p, i: i, ord: (typeof p.order === "number" && isFinite(p.order)) ? p.order : Number.MAX_SAFE_INTEGER });
+          });
+          out.sort(function (a, b) { return (a.ord - b.ord) || (a.i - b.i); });
+          return out.map(function (x) { return x.p; });
+        }
+        function posterOf(p) {
+          if (p.preview && p.preview.poster) return p.preview.poster;
+          if (p.cover && p.cover.src) return p.cover.src;
+          if (p.preview && p.preview.type === "image" && p.preview.src) return p.preview.src;
+          return "";
+        }
+        function altOf(p) {
+          if (p.cover && p.cover.alt) return p.cover.alt;
+          return p.title || "Project preview";
+        }
+        function slugOf(p) {
+          if (p && typeof p.id === "string" && p.id.trim()) return p.id.trim();
+          var t = String((p && p.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          return t || "project";
+        }
+        function isVideo(p) { return !!(p.preview && p.preview.type === "video" && p.preview.src); }
+        function mediaHTML(p) {
+          var poster = posterOf(p);
+          var html = "";
+          if (poster) html += '<img class="pv-media-img" src="' + esc(poster) + '" alt="' + esc(altOf(p)) + '" width="640" height="400" loading="lazy">';
+          else html += '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(p.title || "Project") + "</span></div>";
+          if (isVideo(p) && !SAVE_DATA()) {
+            html += '<video class="pv-media-vid" muted loop playsinline preload="metadata"' + (poster ? ' poster="' + esc(poster) + '"' : "") + ' data-src="' + esc(p.preview.src) + '" aria-hidden="true" tabindex="-1"></video>';
+          }
+          return frameWrap(html);
+        }
+        function ensureVideo(scope) {
+          if (!scope) return null;
+          var v = scope.querySelector("video.pv-media-vid");
+          if (v && !v.getAttribute("src") && v.getAttribute("data-src")) {
+            v.setAttribute("src", v.getAttribute("data-src"));
+            try { v.load(); } catch (e) {}
+          }
+          return v;
+        }
+        function playVideo(v) {
+          if (!v || REDUCED() || SAVE_DATA()) return;
+          try { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
+        }
+        function stopVideo(v) {
+          if (!v) return;
+          try { v.pause(); v.currentTime = 0; } catch (e) {}
+        }
+
+        /* ---------------- Overlay (single shared instance) ---------------- */
+        var overlayEl = null, ov = { open: false, idx: -1, projects: [], returnEl: null };
+        function buildOverlay() {
+          if (overlayEl) return overlayEl;
+          overlayEl = document.createElement("div");
+          overlayEl.className = "pv-overlay";
+          overlayEl.id = "pvOverlay";
+          overlayEl.setAttribute("role", "dialog");
+          overlayEl.setAttribute("aria-modal", "true");
+          overlayEl.setAttribute("aria-labelledby", "pvOvTitle");
+          overlayEl.hidden = true;
+          overlayEl.innerHTML =
+            '<button class="pv-ov-close" type="button" aria-label="Close project">' + CLOSE_SVG + '</button>' +
+            '<div class="pv-ov-panel">' +
+              '<div class="pv-ov-media pv-media"></div>' +
+              '<p class="pv-ov-meta"></p>' +
+              '<h3 class="pv-ov-title" id="pvOvTitle"></h3>' +
+              '<p class="pv-ov-summary"></p>' +
+              '<div class="pv-ov-tags"></div>' +
+              '<div class="pv-ov-gallery"></div>' +
+              '<div class="pv-ov-actions">' +
+                '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + '</a>' +
+                '<div class="pv-ov-nav">' +
+                  '<button class="pv-ov-navbtn" type="button" data-pv-prev>&#8592; Prev</button>' +
+                  '<button class="pv-ov-navbtn" type="button" data-pv-next>Next &#8594;</button>' +
+                "</div>" +
+              "</div>" +
+            "</div>";
+          document.body.appendChild(overlayEl);
+          overlayEl.querySelector(".pv-ov-close").addEventListener("click", function () { closeOverlay(); });
+          overlayEl.querySelector("[data-pv-prev]").addEventListener("click", function () { ovNav(-1); });
+          overlayEl.querySelector("[data-pv-next]").addEventListener("click", function () { ovNav(1); });
+          overlayEl.addEventListener("mousedown", function (e) { if (e.target === overlayEl) closeOverlay(); });
+          document.addEventListener("keydown", onOverlayKey, true);
+          return overlayEl;
+        }
+        function onOverlayKey(e) {
+          if (!ov.open) return;
+          if (e.key === "Escape") { e.preventDefault(); closeOverlay(); return; }
+          if (e.key === "ArrowLeft") { ovNav(-1); return; }
+          if (e.key === "ArrowRight") { ovNav(1); return; }
+          if (e.key === "Tab") {
+            var f = overlayEl.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+            var list = [];
+            f.forEach(function (el) { if (el.offsetParent !== null || el === document.activeElement) list.push(el); });
+            if (!list.length) return;
+            var first = list[0], last = list[list.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
+        function ovNav(d) {
+          if (!ov.projects.length) return;
+          fillOverlay((ov.idx + d + ov.projects.length) % ov.projects.length);
+        }
+        function fillOverlay(i) {
+          var p = ov.projects[i];
+          if (!p) return;
+          ov.idx = i;
+          var media = overlayEl.querySelector(".pv-ov-media");
+          stopVideo(media.querySelector("video"));
+          if (isVideo(p) && !SAVE_DATA()) {
+            media.innerHTML = frameWrap('<video class="pv-media-vid" muted loop playsinline preload="metadata"' + (REDUCED() ? " controls" : "") + ' src="' + esc(p.preview.src) + '"' + (posterOf(p) ? ' poster="' + esc(posterOf(p)) + '"' : "") + ' aria-hidden="true" tabindex="-1"></video>');
+            media.style.display = "";
+            if (!REDUCED()) playVideo(media.querySelector("video"));
+          } else {
+            var src = (p.cover && p.cover.src) || posterOf(p);
+            if (src) { media.innerHTML = frameWrap('<img class="pv-media-img" src="' + esc(src) + '" alt="' + esc(altOf(p)) + '" width="1280" height="800">'); media.style.display = ""; }
+            else { media.innerHTML = ""; media.style.display = "none"; }
+          }
+          var meta = [p.category, p.year, p.role].filter(function (x) { return !!x; }).join(" · ");
+          var metaEl = overlayEl.querySelector(".pv-ov-meta");
+          metaEl.textContent = meta; metaEl.style.display = meta ? "" : "none";
+          overlayEl.querySelector(".pv-ov-title").textContent = p.title || "Untitled project";
+          var sum = p.summary || p.description || "";
+          var sumEl = overlayEl.querySelector(".pv-ov-summary");
+          sumEl.textContent = sum; sumEl.style.display = sum ? "" : "none";
+          var tagsEl = overlayEl.querySelector(".pv-ov-tags");
+          if (Array.isArray(p.tags) && p.tags.length) {
+            tagsEl.innerHTML = p.tags.map(function (tg) { return '<span class="pv-ov-tag">' + esc(tg) + "</span>"; }).join("");
+            tagsEl.style.display = "";
+          } else { tagsEl.innerHTML = ""; tagsEl.style.display = "none"; }
+          var galEl = overlayEl.querySelector(".pv-ov-gallery");
+          if (Array.isArray(p.gallery) && p.gallery.length) {
+            galEl.innerHTML = p.gallery.filter(function (g) { return g && g.src; }).map(function (g) {
+              return '<figure><img src="' + esc(g.src) + '" alt="' + esc(g.alt || "") + '" width="640" height="400" loading="lazy"></figure>';
+            }).join("");
+            galEl.style.display = "";
+          } else { galEl.innerHTML = ""; galEl.style.display = "none"; }
+          var visit = overlayEl.querySelector(".pv-ov-visit");
+          if (p.url) { visit.setAttribute("href", p.url); visit.style.display = ""; }
+          else { visit.removeAttribute("href"); visit.style.display = "none"; }
+          var nav = overlayEl.querySelector(".pv-ov-nav");
+          nav.style.display = ov.projects.length > 1 ? "" : "none";
+          overlayEl.scrollTop = 0;
+        }
+        function openOverlay(i, projects, returnEl) {
+          buildOverlay();
+          ov.projects = projects; ov.returnEl = returnEl || null;
+          fillOverlay(i);
+          ov.open = true;
+          overlayEl.hidden = false;
+          document.documentElement.style.overflow = "hidden";
+          if (!REDUCED() && returnEl && returnEl.getBoundingClientRect && overlayEl.animate) {
+            var rr = returnEl.getBoundingClientRect();
+            var clipFrom = "inset(" + Math.max(0, rr.top) + "px " + Math.max(0, window.innerWidth - rr.right) + "px " + Math.max(0, window.innerHeight - rr.bottom) + "px " + Math.max(0, rr.left) + "px)";
+            try {
+              var oa = overlayEl.animate([{ clipPath: clipFrom }, { clipPath: "inset(0px 0px 0px 0px)" }], { duration: 320, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
+              if (oa && oa.finished) oa.finished.catch(function () {});
+            } catch (e) {}
+          }
+          var closeBtn = overlayEl.querySelector(".pv-ov-close");
+          if (closeBtn) closeBtn.focus();
+        }
+        function closeOverlay(silent) {
+          if (!overlayEl || !ov.open) { if (overlayEl) overlayEl.hidden = true; return; }
+          stopVideo(overlayEl.querySelector(".pv-ov-media video"));
+          ov.open = false;
+          document.documentElement.style.overflow = "";
+          if (!silent && ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
+          var ret = ov.returnEl;
+          ov.returnEl = null;
+          var done = false;
+          function finish() { if (done) return; done = true; if (overlayEl) overlayEl.hidden = true; }
+          if (!silent && !REDUCED() && ret && ret.getBoundingClientRect && overlayEl.animate) {
+            var cr = ret.getBoundingClientRect();
+            var clipTo = "inset(" + Math.max(0, cr.top) + "px " + Math.max(0, window.innerWidth - cr.right) + "px " + Math.max(0, window.innerHeight - cr.bottom) + "px " + Math.max(0, cr.left) + "px)";
+            try {
+              var ca = overlayEl.animate([{ clipPath: "inset(0px 0px 0px 0px)" }, { clipPath: clipTo }], { duration: 180, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" });
+              if (ca && ca.finished) ca.finished.then(finish).catch(finish);
+              window.setTimeout(finish, 240);
+              return;
+            } catch (e) {}
+          }
+          finish();
+        }
+
+        /* ---------------- Renderer (called by the content loader) ---------------- */
+        var session = null;
+        function teardown() {
+          if (!session) return;
+          if (session.raf) cancelAnimationFrame(session.raf);
+          session.observers.forEach(function (o) { try { o.disconnect(); } catch (e) {} });
+          if (session.card && session.card.parentNode) session.card.parentNode.removeChild(session.card);
+          if (session.toolbar && session.toolbar.parentNode) session.toolbar.parentNode.removeChild(session.toolbar);
+          closeOverlay(true);
+          session = null;
+        }
+        function renderProjects(data) {
+          var wrap = document.getElementById("projectsList");
+          if (!wrap || !data || typeof data !== "object") return;
+          teardown();
+          if (!Array.isArray(data.projects)) return;
+          var section = wrap.closest ? wrap.closest("section") : null;
+          var projects = publishedProjects(data);
+          if (!projects.length) {
+            if (section) section.classList.remove("pv-on", "pv-grid-on");
+            if (data.projectsEmpty) {
+              var e = data.projectsEmpty;
+              wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">Project index</p><p class="big">' +
+                esc(e.title) + '</p><p class="note">' + esc(e.note) + "</p></div>";
+              var note = document.getElementById("workCtaNote");
+              if (note && e.ctaNote) note.textContent = e.ctaNote;
+            }
+            return;
+          }
+          var S = settingsOf(data);
+          session = { raf: 0, observers: [], card: null, toolbar: null };
+          if (section) section.classList.add("pv-on");
+          var view = S.defaultView;
+
+          /* ----- build list + grid ----- */
+          var listBox = document.createElement("div");
+          listBox.className = "pv-list";
+          var gridBox = document.createElement("div");
+          gridBox.className = "pv-grid";
+          var rows = [], cards = [], inlines = [];
+          function rowInner(p, i) {
+            var note = p.summary || p.description || "";
+            return '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
+              "<div><p class=\"big\">" + esc(p.title || "Untitled project") + "</p>" +
+              (note ? '<p class="note">' + esc(note) + "</p>" : "") + "</div>" +
+              '<span class="cat">' + esc(p.category || "") + '</span><span class="yr">' + esc(p.year || "") + "</span>" +
+              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + '</span>';
+          }
+          projects.forEach(function (p, i) {
+            var row = document.createElement("div");
+            row.className = "index-row pv-row reveal-fade is-visible";
+            row.setAttribute("role", "button");
+            row.setAttribute("tabindex", "0");
+            row.setAttribute("aria-haspopup", "dialog");
+            row.setAttribute("aria-label", (p.title || "Project") + " — view project");
+            row.style.setProperty("--pv-i", String(Math.min(i, 8)));
+            if (S.mobileBehaviour === "accordion") row.setAttribute("aria-expanded", "false");
+            row.innerHTML = rowInner(p, i);
+            listBox.appendChild(row);
+            rows.push(row);
+            var card = document.createElement("div");
+            card.className = "pv-gcard";
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("aria-haspopup", "dialog");
+            card.setAttribute("aria-label", (p.title || "Project") + " — view project");
+            card.innerHTML = '<div class="pv-media">' + mediaHTML(p) + '</div><div class="pv-gcap"><p class="t">' + esc(p.title || "Untitled project") + '</p><p class="c">' + esc(p.category || "") + "</p></div>";
+            gridBox.appendChild(card);
+            cards.push(card);
+          });
+          wrap.innerHTML = "";
+          wrap.appendChild(listBox);
+          wrap.appendChild(gridBox);
+
+          /* ----- floating preview card ----- */
+          var useFixed = S.previewMode === "fixed" || REDUCED();
+          var card = document.createElement("div");
+          card.className = "pv-card" + (useFixed ? " pv-fixed" : "");
+          card.setAttribute("aria-hidden", "true");
+          card.style.width = Math.min(S.cardSize, Math.floor(window.innerWidth * 0.92)) + "px";
+          card.innerHTML = '<div class="pv-media"></div><div class="pv-card-foot"><div><p class="pv-card-title"></p><p class="pv-card-cat"></p></div><span class="pv-card-view">View project</span></div>';
+          document.body.appendChild(card);
+          session.card = card;
+          var cardMedia = card.querySelector(".pv-media");
+          var pos = { x: 0, y: 0, tx: 0, ty: 0, rot: 0, scale: 0.96, visible: false, until: 0, snapped: false };
+          function loop() {
+            if (!session) return;
+            if (!pos.visible && performance.now() > pos.until) { session.raf = 0; return; }
+            var k = SPRINGS[S.spring];
+            pos.x += (pos.tx - pos.x) * k;
+            pos.y += (pos.ty - pos.y) * k;
+            var targetRot = (S.tilt && !REDUCED() && !useFixed) ? Math.max(-4, Math.min(4, (pos.tx - pos.x) * 0.05)) : 0;
+            pos.rot += (targetRot - pos.rot) * 0.2;
+            var targetScale = card.classList.contains("pv-show") ? 1 : 0.96;
+            pos.scale += (targetScale - pos.scale) * 0.25;
+            if (!useFixed) card.style.transform = "translate(" + pos.x.toFixed(1) + "px," + pos.y.toFixed(1) + "px) rotate(" + pos.rot.toFixed(2) + "deg) scale(" + pos.scale.toFixed(3) + ")";
+            session.raf = requestAnimationFrame(loop);
+          }
+          function kickLoop() { if (session && !session.raf) session.raf = requestAnimationFrame(loop); }
+
+          var activeIdx = -1;
+          function setCardContent(p) {
+            stopVideo(cardMedia.querySelector("video"));
+            cardMedia.innerHTML = mediaHTML(p);
+            card.querySelector(".pv-card-title").textContent = p.title || "Untitled project";
+            card.querySelector(".pv-card-cat").textContent = p.category || "";
+            var v = ensureVideo(cardMedia);
+            playVideo(v);
+          }
+          function activate(i) {
+            if (view !== "list" || activeIdx === i) return;
+            activeIdx = i;
+            rows.forEach(function (r, j) { r.classList.toggle("pv-active", j === i); });
+            if (S.dimOthers) listBox.classList.add("pv-dim");
+            setCardContent(projects[i]);
+            if (!pos.snapped) {
+              var w = card.offsetWidth || Math.min(S.cardSize, window.innerWidth * 0.92);
+              var h = card.offsetHeight || w * 10 / 16;
+              pos.x = pos.tx = Math.max(8, (window.innerWidth - w) / 2);
+              pos.y = pos.ty = Math.max(8, (window.innerHeight - h) / 2);
+              pos.snapped = true;
+            }
+            card.classList.remove("pv-hide");
+            card.classList.add("pv-show");
+            card.setAttribute("aria-hidden", "false");
+            pos.visible = true;
+            kickLoop();
+          }
+          function deactivate() {
+            if (activeIdx < 0) return;
+            activeIdx = -1;
+            rows.forEach(function (r) { r.classList.remove("pv-active"); });
+            listBox.classList.remove("pv-dim");
+            stopVideo(cardMedia.querySelector("video"));
+            card.classList.add("pv-hide");
+            card.classList.remove("pv-show");
+            card.setAttribute("aria-hidden", "true");
+            pos.visible = false;
+            pos.until = performance.now() + 200;
+            kickLoop();
+          }
+          function canHoverCard() { return mqFine.matches || REDUCED(); }
+          listBox.addEventListener("mousemove", function (e) {
+            if (view !== "list" || useFixed || !canHoverCard()) return;
+            var w = card.offsetWidth || Math.min(S.cardSize, window.innerWidth * 0.92);
+            var h = card.offsetHeight || w * 10 / 16;
+            var tx = e.clientX + 28;
+            if (tx + w > window.innerWidth - 8) tx = e.clientX - w - 28;
+            pos.tx = Math.max(8, Math.min(window.innerWidth - w - 8, tx));
+            pos.ty = Math.max(8, Math.min(window.innerHeight - h - 8, e.clientY - h / 2));
+            if (activeIdx >= 0 && !pos.snapped) { pos.x = pos.tx; pos.y = pos.ty; pos.snapped = true; }
+          });
+
+          /* ----- accordion (touch list) ----- */
+          var expandedIdx = -1;
+          function collapseInline() {
+            if (expandedIdx < 0) return;
+            var prev = inlines[expandedIdx];
+            if (prev) { stopVideo(prev.querySelector("video")); prev.classList.remove("open"); }
+            if (rows[expandedIdx]) rows[expandedIdx].setAttribute("aria-expanded", "false");
+            expandedIdx = -1;
+          }
+          function expandInline(i) {
+            collapseInline();
+            var inline = inlines[i];
+            if (!inline) {
+              inline = document.createElement("div");
+              inline.className = "pv-inline";
+              inline.innerHTML = '<div class="pv-inline-in"><div class="pv-media">' + mediaHTML(projects[i]) + '</div><div class="pv-inline-foot"><p class="t">' + esc(projects[i].title || "Project") + '</p><span class="v">View project &#8594;</span></div></div>';
+              inline.addEventListener("click", function () { openOverlay(i, projects, rows[i]); });
+              listBox.insertBefore(inline, rows[i].nextSibling);
+              inlines[i] = inline;
+            }
+            inline.classList.add("open");
+            rows[i].setAttribute("aria-expanded", "true");
+            expandedIdx = i;
+            playVideo(ensureVideo(inline));
+          }
+
+          /* ----- row + card wiring ----- */
+          rows.forEach(function (row, i) {
+            row.addEventListener("mouseenter", function () { if (mqFine.matches) activate(i); });
+            row.addEventListener("mouseleave", function () { if (mqFine.matches) deactivate(); });
+            row.addEventListener("focus", function () { if (canHoverCard()) activate(i); });
+            row.addEventListener("blur", function () { deactivate(); });
+            row.addEventListener("click", function () {
+              if (mqFine.matches) { openOverlay(i, projects, row); return; }
+              if (S.mobileBehaviour === "open") { openOverlay(i, projects, row); return; }
+              if (expandedIdx === i) openOverlay(i, projects, row);
+              else expandInline(i);
+            });
+            row.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openOverlay(i, projects, row); }
+            });
+          });
+          var gridPlaying = [];
+          function gridStop(card) {
+            stopVideo(card.querySelector("video"));
+            gridPlaying = gridPlaying.filter(function (c) { return c !== card; });
+          }
+          cards.forEach(function (gc, i) {
+            gc.addEventListener("mouseenter", function () {
+              if (!mqFine.matches) return;
+              cards.forEach(function (c, j) { c.classList.toggle("pv-active", j === i); });
+              if (S.dimOthers) gridBox.classList.add("pv-dim");
+              playVideo(ensureVideo(gc));
+            });
+            gc.addEventListener("mouseleave", function () {
+              if (!mqFine.matches) return;
+              gc.classList.remove("pv-active");
+              gridBox.classList.remove("pv-dim");
+              gridStop(gc);
+            });
+            gc.addEventListener("focus", function () {
+              cards.forEach(function (c, j) { c.classList.toggle("pv-active", j === i); });
+              if (mqFine.matches) playVideo(ensureVideo(gc));
+            });
+            gc.addEventListener("blur", function () { gc.classList.remove("pv-active"); gridStop(gc); });
+            gc.addEventListener("click", function () { openOverlay(i, projects, gc); });
+            gc.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openOverlay(i, projects, gc); }
+            });
+          });
+          if (!mqFine.matches && !REDUCED() && !SAVE_DATA() && "IntersectionObserver" in window) {
+            var io = new IntersectionObserver(function (entries) {
+              entries.forEach(function (en) {
+                var gc = en.target;
+                if (en.intersectionRatio >= 0.6) {
+                  if (gridPlaying.indexOf(gc) === -1) {
+                    if (gridPlaying.length >= S.maxMobilePlaying) gridStop(gridPlaying[0]);
+                    playVideo(ensureVideo(gc));
+                    if (gc.querySelector("video")) gridPlaying.push(gc);
+                  }
+                } else gridStop(gc);
+              });
+            }, { threshold: [0, 0.6] });
+            cards.forEach(function (gc) { io.observe(gc); });
+            session.observers.push(io);
+          }
+
+          /* ----- view toggle ----- */
+          var btnList = null, btnGrid = null;
+          if (S.showViewToggle) {
+            var toolbar = document.createElement("div");
+            toolbar.className = "pv-toolbar";
+            toolbar.innerHTML = '<div class="pv-toggle" role="group" aria-label="Project view"><button type="button" data-pv-view="list">List</button><button type="button" data-pv-view="grid">Grid</button></div>';
+            var head = section ? section.querySelector(".index-head") : null;
+            if (head && head.parentNode) head.parentNode.insertBefore(toolbar, head);
+            else if (wrap.parentNode) wrap.parentNode.insertBefore(toolbar, wrap);
+            session.toolbar = toolbar;
+            btnList = toolbar.querySelector('[data-pv-view="list"]');
+            btnGrid = toolbar.querySelector('[data-pv-view="grid"]');
+            btnList.addEventListener("click", function () { setView("list"); });
+            btnGrid.addEventListener("click", function () { setView("grid"); });
+          }
+          function setView(v) {
+            view = v;
+            listBox.hidden = v !== "list";
+            gridBox.hidden = v !== "grid";
+            if (section) section.classList.toggle("pv-grid-on", v === "grid");
+            if (btnList) btnList.setAttribute("aria-pressed", v === "list" ? "true" : "false");
+            if (btnGrid) btnGrid.setAttribute("aria-pressed", v === "grid" ? "true" : "false");
+            if (v !== "list") { deactivate(); collapseInline(); }
+            if (v !== "grid") { cards.forEach(gridStop); gridBox.classList.remove("pv-dim"); cards.forEach(function (c) { c.classList.remove("pv-active"); }); }
+          }
+          setView(view);
+          /* Deep link: /portfolio#<project id or title slug> opens that
+             project's overlay on load (the homepage signature cards link here). */
+          var hash = String(window.location.hash || "").replace(/^#/, "");
+          if (hash) {
+            var hi = -1;
+            projects.forEach(function (p, j) { if (hi < 0 && slugOf(p) === hash) hi = j; });
+            if (hi >= 0) openOverlay(hi, projects, view === "grid" ? cards[hi] : rows[hi]);
+          }
+        }
+        window.__renderProjects = renderProjects;
+      })();
+    </script>
+    <script>
+      /* Content loader: projects live in content.json beside this file.
+         If the fetch fails, the static empty state above stays. */
+      (function () {
+        "use strict";
+        fetch("content.json", { cache: "no-cache" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("content fetch failed");
+            return r.json();
+          })
+          .then(function (data) { if (window.__renderProjects) window.__renderProjects(data); })
+          .catch(function () { /* Static content stays as-is. */ });
+      })();
+    </script>
+  </body>
+</html>
