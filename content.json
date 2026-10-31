@@ -42,7 +42,39 @@
     "intro": "I build bold websites for businesses worldwide — stores that sell, landing pages that convert, and redesigns that make a business look as good as it is.",
     "story": "I came into web design through e-commerce. For more than six years I worked with online stores on Amazon, eBay, Walmart, Shopify and Temu. My first job was at Tradecozone, before I had even started my degree, and I kept working in e-commerce all the way through my studies. Those years taught me how selling online actually works — what a product page has to show, where a checkout loses people, and why a store that is hard to buy from stays quiet.\n\nIn 2026 I completed my Bachelor’s in Computer Science, majoring in web and mobile application development. My final year project took first prize in the graduation project program, and I also won first prize in the mock interview program. While studying, I built apps and websites of my own and kept taking on e-commerce work wherever it came.\n\nNow I build the kind of stores I used to work in. I know what a marketplace listing has to do to sell because I have done that job, and I know how to build the site because that is what I trained for. If your products sell on a marketplace but your own website does not, that gap is exactly what I fix.\n\nI work remotely with clients worldwide, and everything runs through my social channels — that’s where I post my builds, and where every project starts. Message me there or by email, tell me what you sell and what isn’t working on your current site, and you’ll see a first version to react to before I build the full site. Then we launch together."
   },
-  "projects": [],
+  "projects": [
+    {
+      "id": "sellomize-reach",
+      "title": "Sellomize Reach",
+      "slug": "sellomize-reach",
+      "category": "Web App",
+      "year": "2026",
+      "role": "Design & build",
+      "summary": "Cold email outreach platform built for Sellomize, an Amazon growth agency. Campaigns, multi-step sequences, lead management, deliverability tracking and AI-assisted drafting — a React front end on Cloudflare Workers, D1 and queues. Try the live demo (sample data), or visit the production version.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Cloudflare",
+        "AI agents"
+      ],
+      "url": "https://reach.sellomize.com/",
+      "demoUrl": "https://sellomize-reach-demo.pages.dev/",
+      "cover": {
+        "src": "assets/projects/sellomize-reach-cover.svg",
+        "alt": "Sellomize Reach — cold email outreach platform"
+      },
+      "preview": {
+        "type": "image",
+        "src": "assets/projects/sellomize-reach-cover.svg",
+        "poster": "",
+        "durationSec": 0
+      },
+      "gallery": [],
+      "status": "published",
+      "featured": false,
+      "order": 1
+    }
+  ],
   "projectsEmpty": {
     "category": "Stores · Landing Pages · Redesigns",
     "ctaNote": "Want your store or landing page to be one of the first featured here? Message me on TikTok.",
