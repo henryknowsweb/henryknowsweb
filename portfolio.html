@@ -575,6 +575,7 @@
               '<div class="pv-ov-gallery"></div>' +
               '<div class="pv-ov-actions">' +
                 '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + '</a>' +
+                '<a class="pv-ov-demo cta-btn" target="_blank" rel="noreferrer" style="display:none">Live demo ' + ARROW_UR + '</a>' +
                 '<div class="pv-ov-nav">' +
                   '<button class="pv-ov-navbtn" type="button" data-pv-prev>&#8592; Prev</button>' +
                   '<button class="pv-ov-navbtn" type="button" data-pv-next>Next &#8594;</button>' +
@@ -645,6 +646,9 @@
           var visit = overlayEl.querySelector(".pv-ov-visit");
           if (p.url) { visit.setAttribute("href", p.url); visit.style.display = ""; }
           else { visit.removeAttribute("href"); visit.style.display = "none"; }
+          var demo = overlayEl.querySelector(".pv-ov-demo");
+          if (p.demoUrl) { demo.setAttribute("href", p.demoUrl); demo.style.display = ""; }
+          else { demo.removeAttribute("href"); demo.style.display = "none"; }
           var nav = overlayEl.querySelector(".pv-ov-nav");
           nav.style.display = ov.projects.length > 1 ? "" : "none";
           overlayEl.scrollTop = 0;
