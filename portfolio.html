@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <script>
       /* Swarm: mark build sections hidden pre-paint only when the effect
-         can actually run (toggle on, fine pointer, motion allowed, and
-         this page not already built). The engine confirms the content
+         can actually run (toggle on, fine pointer, motion allowed). The
+         build plays on every load. The engine confirms the content
          setting after load; anything ineligible removes the class. */
       (function () {
         try {
@@ -14,7 +14,6 @@
           var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : "home");
           window.__swarmPage = page;
           if (window.localStorage.getItem("hk.swarm.enabled") === "off") return;
-          if (window.localStorage.getItem("hk.swarm.done." + page)) return;
           if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
           if (window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches) return;
           document.documentElement.classList.add("swarm-on");
@@ -1291,12 +1290,14 @@
          Scrolling only QUEUES sections (IntersectionObserver, ~25% in
          view); it never drives build speed. One canvas, one rAF loop,
          element rects cached when a section's build starts — no layout
-         reads inside the loop. Runs once per page (localStorage), fine
-         pointers only, never under reduced motion. */
+         reads inside the loop. The build plays on EVERY page load;
+         within one page view each section builds exactly once, tracked
+         in memory only. The one thing persisted is the header on/off
+         toggle (hk.swarm.enabled); legacy hk.swarm.done.* keys from
+         the old once-only build are deleted on init and never read or
+         written again. Fine pointers only, never under reduced motion. */
       (function () {
         "use strict";
-        var PAGE = window.__swarmPage || "home";
-        var DONE_KEY = "hk.swarm.done." + PAGE;
         var PREF_KEY = "hk.swarm.enabled";
         var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
         var DEFAULT_LABELS = ["Listing", "A+ Content", "PPC", "Reconciliation", "Shopify", "Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari"];
@@ -1316,6 +1317,18 @@
 
         function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
         function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+        /* The old once-only build persisted a per-page done flag
+           (hk.swarm.done.<page>). Those keys are never read or written
+           again — delete any leftovers so returning visitors' storage
+           is cleaned. The toggle key above is the only key this engine
+           ever writes. */
+        function cleanLegacyDone() {
+          try {
+            var ls = window.localStorage, kill = [];
+            for (var i = 0; i < ls.length; i++) { var k = ls.key(i); if (k && k.indexOf("hk.swarm.done.") === 0) kill.push(k); }
+            kill.forEach(function (k) { ls.removeItem(k); });
+          } catch (e) {}
+        }
         function coarse() { return window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches; }
         function reducedM() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
         function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
@@ -1462,6 +1475,39 @@
               var gapAfter = gi2 < tgroups.length - 1 ? 180 : 0;
               steps.push({ type: "chips", els: chips, rects: chips.map(function (li) { return docRect(li); }), rect: docRect(g), anchor: anchorOf("box", docRect(g)), dur: DUR.chip + STAGGER * (chips.length - 1) + gapAfter });
             });
+          } else if (sec.isHero) {
+            /* Hero: the standard step sequence over hand-picked targets,
+               in the same phase order as every other section (image,
+               heading, text, button). The heading step reuses the hero's
+               own masked-type letter reveal (#heroName .hero-letter CSS
+               animation) instead of a clip-path wipe — see holdLetters /
+               releaseLetters. The portrait is the image step; role,
+               tagline, sub, availability and the handle/scroll lines are
+               text steps; the CTA is the button step. */
+            var hq = function (sel) { return sec.el.querySelector(sel); };
+            var portrait = hq(".hero-portrait");
+            if (portrait && isShown(portrait)) {
+              var pr = docRect(portrait);
+              steps.push({ type: "image", el: portrait, item: { el: portrait, kind: "image", rect: pr, phase: PHASE.image, subs: [] }, rect: pr, anchor: anchorOf("image", pr), dur: DUR.image });
+            }
+            var nameEl = hq("#heroName");
+            if (nameEl) {
+              var nr = docRect(nameEl);
+              steps.push({ type: "heading", el: nameEl, letters: Array.prototype.slice.call(nameEl.querySelectorAll(".hero-letter")), rect: nr, anchor: anchorOf("heading", nr), dur: 1300 });
+            }
+            ["#heroRole", "#heroTagline", "#heroSub", "#heroAvailability", ".handle-line", ".scroll-hint"].forEach(function (sel) {
+              var te = hq(sel);
+              if (!te || !isShown(te)) return;
+              var tr = docRect(te);
+              var tit = { el: te, kind: "text", rect: tr, phase: PHASE.text, subs: [] };
+              var ln = textLines(tit);
+              steps.push({ type: "text", el: te, item: tit, rect: tr, anchor: anchorOf("text", tr), lines: ln, dur: clamp(ln * DUR.textLine, MIN_ACTION, 960) });
+            });
+            var cta = hq("a.cta-btn");
+            if (cta && isShown(cta)) {
+              var cr = docRect(cta);
+              steps.push({ type: "button", el: cta, item: { el: cta, kind: "button", rect: cr, phase: PHASE.button, subs: [] }, rect: cr, anchor: anchorOf("button", cr), dur: DUR.button });
+            }
           } else {
             var items = classify(sec);
             sec._items = items;
@@ -1516,7 +1562,8 @@
         }
         function hideItem(sec, it) {
           touch(sec, it.el);
-          if (it.kind === "box" || it.kind === "image" || it.kind === "button") it.el.style.opacity = "0";
+          if (it.kind === "image" && sec.isHero) it.el.style.clipPath = "inset(0 0 100% 0)"; /* hero portrait: its fill-forwards CSS entrance animation would override inline opacity; clip-path is not animated by it */
+          else if (it.kind === "box" || it.kind === "image" || it.kind === "button") it.el.style.opacity = "0";
           else if (it.kind === "heading") it.el.style.clipPath = "inset(0 100% 0 0)";
           else if (it.kind === "text") it.el.style.clipPath = "inset(0 0 100% 0)";
           else if (it.kind === "details") it.group.forEach(function (g) { touch(sec, g.el); g.el.style.opacity = "0"; });
@@ -1525,12 +1572,34 @@
         function restoreSection(sec) {
           sec.touched.forEach(function (t) {
             t.el.style.opacity = t.opacity; t.el.style.clipPath = t.clipPath; t.el.style.transform = t.transform;
+            if (t.animationName !== undefined) { t.el.style.animationName = t.animationName; t.el.style.animationPlayState = t.animationPlayState; }
           });
           sec.touched = [];
           sec.el.style.clipPath = "";
         }
+        /* Hero heading: hold the masked-type letters at their first
+           frame — animation restarted and play-state paused via inline
+           style, so the page's own body.is-loaded rule cannot run them
+           before the heading step. The step then releases them and the
+           hero's existing CSS animation plays the reveal. Inline values
+           are recorded in sec.touched and restored with the section. */
+        function holdLetters(sec, st) {
+          st._lettersHeld = true;
+          st.letters.forEach(function (l) {
+            sec.touched.push({ el: l, opacity: l.style.opacity, clipPath: l.style.clipPath, transform: l.style.transform, animationName: l.style.animationName, animationPlayState: l.style.animationPlayState });
+            l.style.animationName = "none";
+          });
+          if (st.el) void st.el.offsetWidth; /* flush: restart the animation clock */
+          st.letters.forEach(function (l) { l.style.animationName = ""; l.style.animationPlayState = "paused"; });
+        }
+        function releaseLetters(st) {
+          if (!st._lettersHeld || st._lettersReleased) return;
+          st._lettersReleased = true;
+          st.letters.forEach(function (l) { l.style.animationPlayState = "running"; });
+        }
         function hideForStep(sec, st) {
           if (st.type === "bg") { touch(sec, sec.el); sec.el.style.clipPath = "inset(0 100% 100% 0)"; return; }
+          if (st.letters) { holdLetters(sec, st); return; }
           if (st.type === "chips") { st.els.forEach(function (li) { touch(sec, li); li.style.opacity = "0"; }); return; }
           if (st.type === "text" && st.toolLabel !== true && st.el && sec.isTools) { touch(sec, st.el); st.el.style.clipPath = "inset(0 0 100% 0)"; return; }
           if (st.item) hideItem(sec, st.item);
@@ -1648,7 +1717,7 @@
         /* ---------------- build runner ---------------- */
         function collect() {
           sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el, i) {
-            return { el: el, index: i, state: "idle", rect: docRect(el), touched: [], _items: null, isTools: !!el.querySelector(".tools-groups") };
+            return { el: el, index: i, state: "idle", rect: docRect(el), touched: [], _items: null, isTools: !!el.querySelector(".tools-groups"), isHero: el.classList.contains("hero") };
           });
         }
         function measureSections() { sections.forEach(function (s) { s.rect = docRect(s.el); }); }
@@ -1680,14 +1749,11 @@
         }
         function pickNext() {
           if (active || !queue.length) return;
-          var sy = window.scrollY || 0, vh = window.innerHeight, pick = null;
-          for (var i = 0; i < queue.length; i++) {
-            var s = queue[i];
-            if (s.rect.t < sy + vh && s.rect.t + s.rect.h > sy) { pick = s; break; }
-          }
-          if (!pick) pick = queue[0];
-          queue.splice(queue.indexOf(pick), 1);
-          startBuild(pick);
+          /* Strict document order: trigger() keeps the queue sorted by
+             section index, so a fresh load builds the hero first, then
+             the sections above and at the viewport (queued by the init
+             triggerCheck), then the rest as scrolling queues them. */
+          startBuild(queue.shift());
         }
         function startBuild(sec) {
           sec.state = "building";
@@ -1772,12 +1838,14 @@
           } else if (st.type === "image") {
             if (p < 0.35 && ctx) { ctx.save(); ctx.strokeStyle = "rgba(242,239,234,0.7)"; ctx.lineWidth = 1; ctx.setLineDash([6, 4]); ctx.strokeRect(r.l + 0.5, r.t - sy + 0.5, r.w - 1, r.h - 1); ctx.restore(); }
             var ip = clamp((p - 0.35) / 0.65, 0, 1);
-            st.item.el.style.opacity = String(ip);
+            if (b.sec.isHero) st.item.el.style.clipPath = "inset(0 0 " + ((1 - ip) * 100) + "% 0)"; /* hero portrait reveals by clip (see hideItem) */
+            else st.item.el.style.opacity = String(ip);
             var img = st.item.el.tagName === "FIGURE" ? st.item.el.querySelector("img") : st.item.el;
             if (img) { touch(b.sec, img); img.style.transform = "scale(" + (1.04 - 0.04 * ip) + ")"; }
           } else if (st.type === "heading") {
+            if (st.letters) releaseLetters(st); /* hero: the masked-type CSS reveal plays instead of a clip wipe */
             var hp = easeIO(p);
-            st.el.style.clipPath = "inset(0 " + ((1 - hp) * 100) + "% 0 0)";
+            if (!st.letters) st.el.style.clipPath = "inset(0 " + ((1 - hp) * 100) + "% 0 0)";
             if (perf) { perf.x = r.l + r.w * hp; perf.y = r.t - sy + r.h / 2; }
           } else if (st.type === "text") {
             var lines = st.lines || 1, q = Math.ceil(easeIO(p) * lines) / lines;
@@ -1865,13 +1933,12 @@
           cursors.forEach(function (c, i) { setPath(c, c.x + (i - cursors.length / 2) * 44, -90 - (i % 3) * 24, 700); });
         }
         function restoreAllSections() { sections.forEach(restoreSection); }
-        function endEffect(markDone) {
+        function endEffect() {
           if (finished) return;
           finished = true;
           restoreAllSections();
           sections.forEach(function (s) { s.el.classList.remove("swarm-building", "swarm-anim"); s.el.classList.add("revealed"); s.state = "built"; });
           document.documentElement.classList.remove("swarm-on");
-          if (markDone) lsSet(DONE_KEY, "1");
           stopLoop();
           if (canvas) canvas.style.display = "none";
         }
@@ -1894,7 +1961,7 @@
             }
           });
           if (exiting) {
-            if (engT - exitStart > 780) { endEffect(true); return; }
+            if (engT - exitStart > 780) { endEffect(); return; }
           } else if (active) {
             runBuild();
           } else {
@@ -1942,7 +2009,7 @@
           if (finished || exiting || !inited) return;
           var t = e.target;
           if (t && t.closest && t.closest("#swarmToggle")) return;
-          endEffect(true);
+          endEffect();
         }
         var resizeT = 0;
         function onResize() {
@@ -1974,7 +2041,7 @@
           } else {
             lsSet(PREF_KEY, "on");
             syncToggle();
-            if (!contentEnabled || coarse() || reducedM() || lsGet(DONE_KEY)) return;
+            if (!contentEnabled || coarse() || reducedM()) return;
             disabled = false; finished = false; exiting = false; active = null; queue = [];
             collect();
             document.documentElement.classList.add("swarm-on");
@@ -1988,6 +2055,7 @@
         var b0 = btn();
         if (b0) { syncToggle(); b0.addEventListener("click", handleToggle); }
         window.__initSwarm = function (data) {
+          cleanLegacyDone();
           if (inited) return;
           inited = true;
           var sw = (data && data.settings && data.settings.swarm) || {};
@@ -1996,7 +2064,7 @@
           buildSpeed = clampSpeed(sw.buildSpeed);
           if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.map(function (x) { return String(x); });
           syncToggle();
-          if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM() || lsGet(DONE_KEY)) {
+          if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM()) {
             document.documentElement.classList.remove("swarm-on");
             return;
           }
