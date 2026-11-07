@@ -3,19 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>
+      /* Swarm: mark build sections hidden pre-paint only when the effect
+         can actually run (toggle on, fine pointer, motion allowed, and
+         this page not already built). The engine confirms the content
+         setting after load; anything ineligible removes the class. */
+      (function () {
+        try {
+          var path = window.location.pathname || "/";
+          var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : "home");
+          window.__swarmPage = page;
+          if (window.localStorage.getItem("hk.swarm.enabled") === "off") return;
+          if (window.localStorage.getItem("hk.swarm.done." + page)) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          if (window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches) return;
+          document.documentElement.classList.add("swarm-on");
+        } catch (e) {}
+      })();
+    </script>
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0E0D0E" />
-    <meta name="description" content="Selected web design work by Henry — online stores, landing pages and redesigns for clients worldwide." />
-    <meta property="og:title" content="Portfolio | henryknowsweb — Web Design Work" />
-    <meta property="og:description" content="Selected web design work by Henry — online stores, landing pages and redesigns for clients worldwide." />
+    <meta name="description" content="Marketplace case studies and work by Henry — account fixes on Amazon, eBay, TikTok Shop, Walmart, Temu and Mercari, Shopify website work, and side projects." />
+    <meta property="og:title" content="Case Studies &amp; Work | henryknowsweb" />
+    <meta property="og:description" content="Marketplace case studies and work by Henry — account fixes across Amazon, eBay, TikTok Shop, Walmart, Temu and Mercari, Shopify website work, and side projects." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://henryknowsweb.pages.dev/portfolio" />
     <meta property="og:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Portfolio | henryknowsweb — Web Design Work" />
-    <meta name="twitter:description" content="Selected web design work by Henry — online stores, landing pages and redesigns for clients worldwide." />
+    <meta name="twitter:title" content="Case Studies &amp; Work | henryknowsweb" />
+    <meta name="twitter:description" content="Marketplace case studies and work by Henry — account fixes across Amazon, eBay, TikTok Shop, Walmart, Temu and Mercari, Shopify website work, and side projects." />
     <meta name="twitter:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
     <link rel="canonical" href="https://henryknowsweb.pages.dev/portfolio" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -25,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-    <title>Portfolio | henryknowsweb — Web Design Work</title>
+    <title>Case Studies &amp; Work | henryknowsweb</title>
     <style>
       :root {
         color-scheme: dark;
@@ -379,6 +397,46 @@
         letter-spacing: 0.12em;
       }
     
+      /* ---------- Swarm cursor effect ---------- */
+      #swarmCanvas { position: fixed; inset: 0; z-index: 85; pointer-events: none; }
+      html.swarm-on [data-swarm-section] { opacity: 0; transform: translateY(24px); }
+      html.swarm-on [data-swarm-section].revealed { opacity: 1; transform: none; transition: opacity var(--dur-slow) ease, transform var(--dur-slow) cubic-bezier(0.16, 1, 0.3, 1); }
+      .swarm-toggle { appearance: none; background: transparent; border: 1px solid var(--line); color: var(--label); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 10px; min-height: 32px; cursor: pointer; }
+      .swarm-toggle:hover { color: var(--paper); border-color: var(--paper); }
+      @media (prefers-reduced-motion: reduce) { html.swarm-on [data-swarm-section] { opacity: 1; transform: none; } }
+      /* ---------- Case study overlay + before/after slider ---------- */
+      .cs-block { margin-top: 26px; }
+      .cs-block h4 { margin: 0 0 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+      .cs-block p { margin: 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .cs-steps { margin: 0; padding-left: 22px; max-width: 640px; }
+      .cs-steps li { font-size: 16px; line-height: 1.7; color: var(--body2); margin: 0 0 6px; }
+      .cs-gallery { display: grid; gap: 22px; margin-top: 28px; }
+      .ba-fig { margin: 0; }
+      .ba { position: relative; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--surface); }
+      .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+      .ba .ba-after { clip-path: inset(0 0 0 50%); }
+      .ba input[type="range"] { position: absolute; left: 16px; right: 16px; bottom: 12px; width: calc(100% - 32px); margin: 0; accent-color: var(--red); z-index: 3; cursor: ew-resize; }
+      .ba-tag { position: absolute; top: 10px; z-index: 2; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(14, 13, 14, 0.78); color: var(--paper); padding: 4px 8px; pointer-events: none; }
+      .ba-tag.ba-before { left: 10px; }
+      .ba-tag.ba-after-tag { right: 10px; }
+      .ba-single { border: 1px solid var(--border); overflow: hidden; }
+      .ba-single img { display: block; width: 100%; height: auto; }
+      .ba-cap { margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--body2); }
+      .cs-row { cursor: pointer; }
+      .sig-row.has-rows { display: block; margin-top: 40px; }
+      /* ---------- Tools strip ---------- */
+      .tools-sec { border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
+      .tools-sec h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 5vw, 3.4rem); }
+      .tools-list { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 32px; }
+      .tools-list li { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+      .also-build { margin: 28px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      @media (min-width: 768px) { .services-grid .also-build { grid-column: 5 / span 8; } }
+      /* ---------- Website work (portfolio) ---------- */
+      .ww-item { border-bottom: 1px solid var(--border); padding: 32px 0; }
+      .ww-item h3 { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 28px; text-transform: uppercase; line-height: 1.05; }
+      .ww-item .note { margin: 10px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .ww-item .ba-fig { margin-top: 20px; max-width: 860px; }
+      .ww-item .ww-actions { margin-top: 18px; }
       /* Contact form modal */
       .cf-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(14, 13, 14, 0.72); display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
       .cf-overlay.open { display: flex; }
@@ -406,32 +464,57 @@
 
     <header class="topbar wrap-x">
       <a class="brand" href="/" aria-label="henryknowsweb — back to home"><img class="brand-lockup" src="assets/brand/lockup.svg" alt="Henry." width="94" height="28" /></a>
-      <a class="back link-draw" href="/#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a>
+      <span style="display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap"><button type="button" class="swarm-toggle" id="swarmToggle" aria-pressed="true">Swarm on</button><a class="back link-draw" href="/#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a></span>
     </header>
 
     <main id="main">
       <div class="page-head wrap-x">
-        <p class="section-label">Selected work</p>
-        <h1>Portfolio</h1>
+        <p class="section-label">Marketplace · Shopify · Side projects</p>
+        <h1>Case studies<br />&amp; work</h1>
       </div>
 
-      <section class="work-sec wrap-x" id="work" aria-labelledby="workHeading">
-        <h2 id="workHeading" class="visually-hidden">Project index</h2>
+      <section class="work-sec wrap-x" id="caseStudies" aria-labelledby="caseHeading" data-swarm-section>
+        <p class="section-label">Fixes that shipped</p>
+        <h2 id="caseHeading" style="font-family:var(--font-display);font-weight:500;letter-spacing:-0.04em;margin:12px 0 0;text-transform:uppercase;line-height:0.9;font-size:clamp(2.2rem,5vw,3.4rem)">Marketplace case studies</h2>
         <div class="index-head" aria-hidden="true">
-          <span>No.</span><span>Project</span><span>Category</span><span class="r">Year</span><span></span>
+          <span>No.</span><span>Case study</span><span>Marketplace</span><span class="r">Year</span><span></span>
         </div>
-        <div id="projectsList">
+        <div id="caseList">
           <div class="index-empty reveal-fade">
-            <p class="ieb-label">Project index</p>
-            <p class="big">New projects coming soon.</p>
-            <p class="note">The first showcase builds are on the way. DM WEB if you&rsquo;d like yours to be one of them.</p>
+            <p class="ieb-label">Case studies</p>
+            <p class="big">New case studies coming soon.</p>
+            <p class="note">Want your account to be one of the first featured? Message me on TikTok.</p>
           </div>
         </div>
       </section>
 
-      <section class="cta-band wrap-x" aria-labelledby="ctaHeading">
+      <section class="work-sec wrap-x" id="websiteWork" aria-labelledby="websiteHeading" data-swarm-section>
+        <p class="section-label">Stores &amp; sites</p>
+        <h2 id="websiteHeading" style="font-family:var(--font-display);font-weight:500;letter-spacing:-0.04em;margin:12px 0 0;text-transform:uppercase;line-height:0.9;font-size:clamp(2.2rem,5vw,3.4rem)">Website work</h2>
+        <div id="websiteList">
+          <div class="index-empty reveal-fade">
+            <p class="ieb-label">Website work</p>
+            <p class="big">Website work is being added — before/after examples will appear here.</p>
+            <p class="note">Store redesigns and builds will be shown here with before and after views as they are completed.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="work-sec wrap-x" id="sideProjects" aria-labelledby="sideHeading" data-swarm-section>
+        <p class="section-label">Built on the side</p>
+        <h2 id="sideHeading" style="font-family:var(--font-display);font-weight:500;letter-spacing:-0.04em;margin:12px 0 0;text-transform:uppercase;line-height:0.9;font-size:clamp(2.2rem,5vw,3.4rem)">Side project</h2>
+        <div id="sideList">
+          <div class="index-empty reveal-fade">
+            <p class="ieb-label">Side project</p>
+            <p class="big">Side projects are being added.</p>
+            <p class="note">Custom business software built alongside the marketplace work will appear here.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-band wrap-x" aria-labelledby="ctaHeading" data-swarm-section>
         <p class="section-label">Start a project</p>
-        <h2 id="ctaHeading">Want a site built<br />like a storefront?</h2>
+        <h2 id="ctaHeading">Want your accounts and<br />store working like this?</h2>
         <div class="cta-actions">
           <a class="btn btn-solid btn-lg" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB on TikTok<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <button type="button" class="btn btn-secondary btn-lg" data-contact-open>Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
@@ -441,7 +524,7 @@
     </main>
 
     <footer class="page-foot wrap-x">
-      <span>henryknowsweb — Bold websites for stores &amp; brands</span>
+      <span>henryknowsweb — Marketplace Operator &amp; Shopify Designer</span>
       <a class="link-draw" href="/">Back to home</a>
     </footer>
 
@@ -462,141 +545,117 @@
         }
       })();
     </script>
-    <script>
-      /* Project showcase engine: renders content.json projects[] as a
-         motion-preview index (list + grid + overlay). Driven entirely by
-         content.json -> settings.motion; safe defaults when absent. */
+        <script>
+      /* Case study + side project overlay: one shared dialog in the
+         pv-overlay pattern. Case mode renders issue / found / fix steps /
+         result / before-after gallery / live link; project mode renders
+         cover / summary / tags / live + demo links. Any block whose field
+         is empty is hidden, never rendered as an empty shell. */
       (function () {
         "use strict";
-        var DEFAULTS = { defaultView: "list", showViewToggle: true, previewMode: "follow", cardSize: 360, tilt: true, spring: "normal", dimOthers: true, maxMobilePlaying: 2, mobileBehaviour: "accordion" };
-        var SPRINGS = { slow: 0.1, normal: 0.2, snappy: 0.38 };
-        var mqReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
-        var mqFine = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : { matches: true };
-        function REDUCED() { return !!mqReduce.matches; }
-        function SAVE_DATA() { return !!(navigator.connection && navigator.connection.saveData); }
         function esc(s) {
           return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
           });
         }
+        function trimS(s) { return String(s == null ? "" : s).trim(); }
         var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
         var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
-        var FRAME_SVG = '<svg class="pv-frame-svg" viewBox="0 0 640 400" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path fill-rule="evenodd" fill="#131315" d="M13 1h614a12 12 0 0 1 12 12v374a12 12 0 0 1-12 12H13A12 12 0 0 1 1 387V13A12 12 0 0 1 13 1Z M13 45h614a4 4 0 0 1 4 4v338a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4V49a4 4 0 0 1 4-4Z"/><rect x="1" y="1" width="638" height="398" rx="12" fill="none" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><path d="M1 37h638" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><circle cx="20" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="40" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="60" cy="19" r="5" fill="rgba(242,239,234,.28)"/><rect x="86" y="10" width="300" height="18" rx="9" fill="rgba(242,239,234,.07)"/></svg>';
-        function frameWrap(inner) { return '<div class="pv-frame">' + inner + FRAME_SVG + "</div>"; }
-        function settingsOf(data) {
-          var s = (data && data.settings && typeof data.settings === "object" && data.settings.motion && typeof data.settings.motion === "object") ? data.settings.motion : {};
-          var o = {}, k;
-          for (k in DEFAULTS) o[k] = s[k] === undefined ? DEFAULTS[k] : s[k];
-          o.defaultView = o.defaultView === "grid" ? "grid" : "list";
-          o.previewMode = o.previewMode === "fixed" ? "fixed" : "follow";
-          o.mobileBehaviour = o.mobileBehaviour === "open" ? "open" : "accordion";
-          if (!SPRINGS[o.spring]) o.spring = "normal";
-          o.cardSize = Math.min(560, Math.max(240, parseInt(o.cardSize, 10) || 360));
-          o.maxMobilePlaying = Math.min(3, Math.max(1, parseInt(o.maxMobilePlaying, 10) || 2));
-          o.showViewToggle = !!o.showViewToggle;
-          o.tilt = !!o.tilt;
-          o.dimOthers = !!o.dimOthers;
-          return o;
+        function slugOf(item) {
+          if (item && typeof item.id === "string" && item.id.trim()) return item.id.trim();
+          var t = String((item && item.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          while (t.charAt(0) === "-") t = t.slice(1);
+          while (t.length && t.charAt(t.length - 1) === "-") t = t.slice(0, -1);
+          return t || "item";
         }
-        function publishedProjects(data) {
-          var arr = Array.isArray(data.projects) ? data.projects : [];
-          var out = [];
-          arr.forEach(function (p, i) {
-            if (!p || typeof p !== "object") return;
-            if (String(p.status || "published").toLowerCase() === "draft") return;
-            out.push({ p: p, i: i, ord: (typeof p.order === "number" && isFinite(p.order)) ? p.order : Number.MAX_SAFE_INTEGER });
-          });
-          out.sort(function (a, b) { return (a.ord - b.ord) || (a.i - b.i); });
-          return out.map(function (x) { return x.p; });
-        }
-        function posterOf(p) {
-          if (p.preview && p.preview.poster) return p.preview.poster;
+        function coverOf(p) {
+          if (!p) return "";
+          if (typeof p.cover === "string") return p.cover;
           if (p.cover && p.cover.src) return p.cover.src;
+          if (p.preview && p.preview.poster) return p.preview.poster;
           if (p.preview && p.preview.type === "image" && p.preview.src) return p.preview.src;
           return "";
         }
-        function altOf(p) {
-          if (p.cover && p.cover.alt) return p.cover.alt;
-          return p.title || "Project preview";
+        function coverAltOf(p) {
+          if (p && p.cover && typeof p.cover === "object" && p.cover.alt) return p.cover.alt;
+          return (p && p.title) || "Project preview";
         }
-        function slugOf(p) {
-          if (p && typeof p.id === "string" && p.id.trim()) return p.id.trim();
-          var t = String((p && p.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-          return t || "project";
-        }
-        function isVideo(p) { return !!(p.preview && p.preview.type === "video" && p.preview.src); }
-        function mediaHTML(p) {
-          var poster = posterOf(p);
-          var html = "";
-          if (poster) html += '<img class="pv-media-img" src="' + esc(poster) + '" alt="' + esc(altOf(p)) + '" width="640" height="400" loading="lazy">';
-          else html += '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(p.title || "Project") + "</span></div>";
-          if (isVideo(p) && !SAVE_DATA()) {
-            html += '<video class="pv-media-vid" muted loop playsinline preload="metadata"' + (poster ? ' poster="' + esc(poster) + '"' : "") + ' data-src="' + esc(p.preview.src) + '" aria-hidden="true" tabindex="-1"></video>';
+        function baFigure(item) {
+          var before = trimS(item && item.before), after = trimS(item && item.after), cap = trimS(item && item.caption);
+          var capHtml = cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "";
+          if (before && after) {
+            return '<figure class="ba-fig"><div class="ba" data-ba>' +
+              '<img src="' + esc(before) + '" alt="Before" loading="lazy">' +
+              '<img class="ba-after" src="' + esc(after) + '" alt="After" loading="lazy">' +
+              '<span class="ba-tag ba-before">Before</span><span class="ba-tag ba-after-tag">After</span>' +
+              '<input type="range" min="0" max="100" value="50" aria-label="Compare before and after">' +
+              "</div>" + capHtml + "</figure>";
           }
-          return frameWrap(html);
-        }
-        function ensureVideo(scope) {
-          if (!scope) return null;
-          var v = scope.querySelector("video.pv-media-vid");
-          if (v && !v.getAttribute("src") && v.getAttribute("data-src")) {
-            v.setAttribute("src", v.getAttribute("data-src"));
-            try { v.load(); } catch (e) {}
+          var single = before || after;
+          if (single) {
+            return '<figure class="ba-fig"><div class="ba-single"><img src="' + esc(single) + '" alt="' + esc(cap || "Work example") + '" loading="lazy"></div>' + capHtml + "</figure>";
           }
-          return v;
+          return "";
         }
-        function playVideo(v) {
-          if (!v || REDUCED() || SAVE_DATA()) return;
-          try { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
+        function bindSliders(root) {
+          if (!root) return;
+          Array.prototype.slice.call(root.querySelectorAll("[data-ba]")).forEach(function (w) {
+            var input = w.querySelector("input");
+            var after = w.querySelector(".ba-after");
+            if (!input || !after) return;
+            function upd() { after.style.clipPath = "inset(0 0 0 " + input.value + "%)"; }
+            input.addEventListener("input", upd);
+            upd();
+          });
         }
-        function stopVideo(v) {
-          if (!v) return;
-          try { v.pause(); v.currentTime = 0; } catch (e) {}
-        }
-
-        /* ---------------- Overlay (single shared instance) ---------------- */
-        var overlayEl = null, ov = { open: false, idx: -1, projects: [], returnEl: null };
+        var overlayEl = null;
+        var ov = { open: false, mode: "case", items: [], idx: -1, returnEl: null };
         function buildOverlay() {
           if (overlayEl) return overlayEl;
           overlayEl = document.createElement("div");
           overlayEl.className = "pv-overlay";
-          overlayEl.id = "pvOverlay";
+          overlayEl.id = "csOverlay";
           overlayEl.setAttribute("role", "dialog");
           overlayEl.setAttribute("aria-modal", "true");
-          overlayEl.setAttribute("aria-labelledby", "pvOvTitle");
+          overlayEl.setAttribute("aria-labelledby", "csOvTitle");
           overlayEl.hidden = true;
           overlayEl.innerHTML =
-            '<button class="pv-ov-close" type="button" aria-label="Close project">' + CLOSE_SVG + '</button>' +
+            '<button class="pv-ov-close" type="button" aria-label="Close">' + CLOSE_SVG + "</button>" +
             '<div class="pv-ov-panel">' +
               '<div class="pv-ov-media pv-media"></div>' +
               '<p class="pv-ov-meta"></p>' +
-              '<h3 class="pv-ov-title" id="pvOvTitle"></h3>' +
-              '<p class="pv-ov-summary"></p>' +
-              '<div class="pv-ov-tags"></div>' +
-              '<div class="pv-ov-gallery"></div>' +
+              '<h3 class="pv-ov-title" id="csOvTitle"></h3>' +
+              '<div class="cs-block" data-b="issue"><h4>The issue</h4><p></p></div>' +
+              '<div class="cs-block" data-b="found"><h4>What I found</h4><p></p></div>' +
+              '<div class="cs-block" data-b="fix"><h4>How I fixed it</h4><ol class="cs-steps"></ol></div>' +
+              '<div class="cs-block" data-b="result"><h4>Result</h4><p></p></div>' +
+              '<p class="pv-ov-summary" data-b="summary"></p>' +
+              '<div class="pv-ov-tags" data-b="tags"></div>' +
+              '<div class="cs-gallery" data-b="gallery"></div>' +
               '<div class="pv-ov-actions">' +
-                '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + '</a>' +
-                '<a class="pv-ov-demo cta-btn" target="_blank" rel="noreferrer" style="display:none">Live demo ' + ARROW_UR + '</a>' +
+                '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + "</a>" +
+                '<a class="pv-ov-demo cta-btn" target="_blank" rel="noreferrer" style="display:none">Live demo ' + ARROW_UR + "</a>" +
                 '<div class="pv-ov-nav">' +
-                  '<button class="pv-ov-navbtn" type="button" data-pv-prev>&#8592; Prev</button>' +
-                  '<button class="pv-ov-navbtn" type="button" data-pv-next>Next &#8594;</button>' +
+                  '<button class="pv-ov-navbtn" type="button" data-cs-prev>&#8592; Prev</button>' +
+                  '<button class="pv-ov-navbtn" type="button" data-cs-next>Next &#8594;</button>' +
                 "</div>" +
               "</div>" +
             "</div>";
           document.body.appendChild(overlayEl);
-          overlayEl.querySelector(".pv-ov-close").addEventListener("click", function () { closeOverlay(); });
-          overlayEl.querySelector("[data-pv-prev]").addEventListener("click", function () { ovNav(-1); });
-          overlayEl.querySelector("[data-pv-next]").addEventListener("click", function () { ovNav(1); });
-          overlayEl.addEventListener("mousedown", function (e) { if (e.target === overlayEl) closeOverlay(); });
-          document.addEventListener("keydown", onOverlayKey, true);
+          overlayEl.querySelector(".pv-ov-close").addEventListener("click", function () { closeOv(); });
+          overlayEl.querySelector("[data-cs-prev]").addEventListener("click", function () { navOv(-1); });
+          overlayEl.querySelector("[data-cs-next]").addEventListener("click", function () { navOv(1); });
+          overlayEl.addEventListener("mousedown", function (e) { if (e.target === overlayEl) closeOv(); });
+          document.addEventListener("keydown", onKey, true);
           return overlayEl;
         }
-        function onOverlayKey(e) {
+        function onKey(e) {
           if (!ov.open) return;
-          if (e.key === "Escape") { e.preventDefault(); closeOverlay(); return; }
-          if (e.key === "ArrowLeft") { ovNav(-1); return; }
-          if (e.key === "ArrowRight") { ovNav(1); return; }
+          if (e.key === "Escape") { e.preventDefault(); closeOv(); return; }
+          if (e.key === "ArrowLeft") { navOv(-1); return; }
+          if (e.key === "ArrowRight") { navOv(1); return; }
           if (e.key === "Tab") {
-            var f = overlayEl.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+            var f = overlayEl.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])');
             var list = [];
             f.forEach(function (el) { if (el.offsetParent !== null || el === document.activeElement) list.push(el); });
             if (!list.length) return;
@@ -605,376 +664,497 @@
             else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
           }
         }
-        function ovNav(d) {
-          if (!ov.projects.length) return;
-          fillOverlay((ov.idx + d + ov.projects.length) % ov.projects.length);
+        function navOv(d) {
+          if (!ov.items.length) return;
+          fillOv((ov.idx + d + ov.items.length) % ov.items.length);
         }
-        function fillOverlay(i) {
-          var p = ov.projects[i];
-          if (!p) return;
+        function setBlock(name, show) {
+          var el = overlayEl.querySelector('[data-b="' + name + '"]');
+          if (el) el.style.display = show ? "" : "none";
+        }
+        function fillOv(i) {
+          var it = ov.items[i];
+          if (!it) return;
           ov.idx = i;
+          var isCase = ov.mode === "case";
           var media = overlayEl.querySelector(".pv-ov-media");
-          stopVideo(media.querySelector("video"));
-          if (isVideo(p) && !SAVE_DATA()) {
-            media.innerHTML = frameWrap('<video class="pv-media-vid" muted loop playsinline preload="metadata"' + (REDUCED() ? " controls" : "") + ' src="' + esc(p.preview.src) + '"' + (posterOf(p) ? ' poster="' + esc(posterOf(p)) + '"' : "") + ' aria-hidden="true" tabindex="-1"></video>');
-            media.style.display = "";
-            if (!REDUCED()) playVideo(media.querySelector("video"));
-          } else {
-            var src = (p.cover && p.cover.src) || posterOf(p);
-            if (src) { media.innerHTML = frameWrap('<img class="pv-media-img" src="' + esc(src) + '" alt="' + esc(altOf(p)) + '" width="1280" height="800">'); media.style.display = ""; }
+          if (!isCase) {
+            var cov = coverOf(it);
+            if (cov) { media.innerHTML = '<img class="pv-media-img" src="' + esc(cov) + '" alt="' + esc(coverAltOf(it)) + '" width="1280" height="800">'; media.style.display = ""; }
             else { media.innerHTML = ""; media.style.display = "none"; }
+          } else { media.innerHTML = ""; media.style.display = "none"; }
+          var parts = [];
+          if (isCase) {
+            if (Array.isArray(it.marketplaces)) it.marketplaces.forEach(function (m) { if (trimS(m)) parts.push(trimS(m)); });
+            if (trimS(it.clientType)) parts.push(trimS(it.clientType));
+            if (trimS(it.year)) parts.push(trimS(it.year));
+          } else {
+            if (trimS(it.category)) parts.push(trimS(it.category));
+            if (trimS(it.year)) parts.push(trimS(it.year));
+            if (trimS(it.role)) parts.push(trimS(it.role));
           }
-          var meta = [p.category, p.year, p.role].filter(function (x) { return !!x; }).join(" · ");
           var metaEl = overlayEl.querySelector(".pv-ov-meta");
-          metaEl.textContent = meta; metaEl.style.display = meta ? "" : "none";
-          overlayEl.querySelector(".pv-ov-title").textContent = p.title || "Untitled project";
-          var sum = p.summary || p.description || "";
-          var sumEl = overlayEl.querySelector(".pv-ov-summary");
-          sumEl.textContent = sum; sumEl.style.display = sum ? "" : "none";
-          var tagsEl = overlayEl.querySelector(".pv-ov-tags");
-          if (Array.isArray(p.tags) && p.tags.length) {
-            tagsEl.innerHTML = p.tags.map(function (tg) { return '<span class="pv-ov-tag">' + esc(tg) + "</span>"; }).join("");
-            tagsEl.style.display = "";
-          } else { tagsEl.innerHTML = ""; tagsEl.style.display = "none"; }
-          var galEl = overlayEl.querySelector(".pv-ov-gallery");
-          if (Array.isArray(p.gallery) && p.gallery.length) {
-            galEl.innerHTML = p.gallery.filter(function (g) { return g && g.src; }).map(function (g) {
-              return '<figure><img src="' + esc(g.src) + '" alt="' + esc(g.alt || "") + '" width="640" height="400" loading="lazy"></figure>';
-            }).join("");
-            galEl.style.display = "";
-          } else { galEl.innerHTML = ""; galEl.style.display = "none"; }
+          metaEl.textContent = parts.join(" · ");
+          metaEl.style.display = parts.length ? "" : "none";
+          overlayEl.querySelector(".pv-ov-title").textContent = it.title || (isCase ? "Case study" : "Project");
+          var issueP = overlayEl.querySelector('[data-b="issue"] p');
+          issueP.textContent = trimS(it.issue);
+          setBlock("issue", isCase && !!trimS(it.issue));
+          var foundP = overlayEl.querySelector('[data-b="found"] p');
+          foundP.textContent = trimS(it.found);
+          setBlock("found", isCase && !!trimS(it.found));
+          var steps = (isCase && Array.isArray(it.fixSteps)) ? it.fixSteps.filter(function (s) { return !!trimS(s); }) : [];
+          var ol = overlayEl.querySelector(".cs-steps");
+          ol.innerHTML = steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("");
+          setBlock("fix", steps.length > 0);
+          var resP = overlayEl.querySelector('[data-b="result"] p');
+          resP.textContent = trimS(it.result);
+          setBlock("result", isCase && !!trimS(it.result));
+          var sum = !isCase ? trimS(it.summary || it.description) : "";
+          var sumEl = overlayEl.querySelector('[data-b="summary"]');
+          sumEl.textContent = sum;
+          setBlock("summary", !!sum);
+          var tags = (!isCase && Array.isArray(it.tags)) ? it.tags.filter(function (t) { return !!trimS(t); }) : [];
+          var tagsEl = overlayEl.querySelector('[data-b="tags"]');
+          tagsEl.innerHTML = tags.map(function (t) { return '<span class="pv-ov-tag">' + esc(t) + "</span>"; }).join("");
+          setBlock("tags", tags.length > 0);
+          var gal = overlayEl.querySelector('[data-b="gallery"]');
+          var galHtml = "";
+          if (isCase && Array.isArray(it.gallery)) galHtml = it.gallery.map(function (g) { return baFigure(g); }).join("");
+          gal.innerHTML = galHtml;
+          setBlock("gallery", !!galHtml);
+          if (galHtml) bindSliders(gal);
           var visit = overlayEl.querySelector(".pv-ov-visit");
-          if (p.url) { visit.setAttribute("href", p.url); visit.style.display = ""; }
+          var url = trimS(isCase ? it.liveUrl : it.url);
+          if (url) { visit.setAttribute("href", url); visit.style.display = ""; }
           else { visit.removeAttribute("href"); visit.style.display = "none"; }
           var demo = overlayEl.querySelector(".pv-ov-demo");
-          if (p.demoUrl) { demo.setAttribute("href", p.demoUrl); demo.style.display = ""; }
+          var demoUrl = !isCase ? trimS(it.demoUrl) : "";
+          if (demoUrl) { demo.setAttribute("href", demoUrl); demo.style.display = ""; }
           else { demo.removeAttribute("href"); demo.style.display = "none"; }
           var nav = overlayEl.querySelector(".pv-ov-nav");
-          nav.style.display = ov.projects.length > 1 ? "" : "none";
+          nav.style.display = ov.items.length > 1 ? "" : "none";
           overlayEl.scrollTop = 0;
         }
-        function openOverlay(i, projects, returnEl) {
+        function openOv(mode, items, i, returnEl) {
           buildOverlay();
-          ov.projects = projects; ov.returnEl = returnEl || null;
-          fillOverlay(i);
+          ov.mode = mode; ov.items = items || []; ov.returnEl = returnEl || null;
+          fillOv(i);
           ov.open = true;
           overlayEl.hidden = false;
           document.documentElement.style.overflow = "hidden";
-          if (!REDUCED() && returnEl && returnEl.getBoundingClientRect && overlayEl.animate) {
-            var rr = returnEl.getBoundingClientRect();
-            var clipFrom = "inset(" + Math.max(0, rr.top) + "px " + Math.max(0, window.innerWidth - rr.right) + "px " + Math.max(0, window.innerHeight - rr.bottom) + "px " + Math.max(0, rr.left) + "px)";
-            try {
-              var oa = overlayEl.animate([{ clipPath: clipFrom }, { clipPath: "inset(0px 0px 0px 0px)" }], { duration: 320, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
-              if (oa && oa.finished) oa.finished.catch(function () {});
-            } catch (e) {}
-          }
           var closeBtn = overlayEl.querySelector(".pv-ov-close");
           if (closeBtn) closeBtn.focus();
         }
-        function closeOverlay(silent) {
+        function closeOv() {
           if (!overlayEl || !ov.open) { if (overlayEl) overlayEl.hidden = true; return; }
-          stopVideo(overlayEl.querySelector(".pv-ov-media video"));
           ov.open = false;
+          overlayEl.hidden = true;
           document.documentElement.style.overflow = "";
-          if (!silent && ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
-          var ret = ov.returnEl;
+          if (ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
           ov.returnEl = null;
-          var done = false;
-          function finish() { if (done) return; done = true; if (overlayEl) overlayEl.hidden = true; }
-          if (!silent && !REDUCED() && ret && ret.getBoundingClientRect && overlayEl.animate) {
-            var cr = ret.getBoundingClientRect();
-            var clipTo = "inset(" + Math.max(0, cr.top) + "px " + Math.max(0, window.innerWidth - cr.right) + "px " + Math.max(0, window.innerHeight - cr.bottom) + "px " + Math.max(0, cr.left) + "px)";
-            try {
-              var ca = overlayEl.animate([{ clipPath: "inset(0px 0px 0px 0px)" }, { clipPath: clipTo }], { duration: 180, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" });
-              if (ca && ca.finished) ca.finished.then(finish).catch(finish);
-              window.setTimeout(finish, 240);
-              return;
-            } catch (e) {}
+        }
+        window.__openCaseOverlay = function (items, i, el) { openOv("case", items, i, el); };
+        window.__openProjectOverlay = function (items, i, el) { openOv("project", items, i, el); };
+        window.__baFigure = baFigure;
+        window.__bindSliders = bindSliders;
+        window.__csEsc = esc;
+        window.__csTrim = trimS;
+        window.__csSlug = slugOf;
+        window.__csCoverOf = coverOf;
+        window.__csCoverAltOf = coverAltOf;
+      })();
+    </script>
+    <script>
+      /* Portfolio renderer: content.json caseStudies[] as a motion-preview
+         showcase (cursor-following preview index + hover-to-play video
+         grid, switched by a view toggle) opening the shared case overlay,
+         websiteWork[] as before/after blocks, and sideProjects[] as
+         preview cards opening the shared project overlay. With no case
+         studies, block A shows the caseStudiesEmpty state from
+         content.json and no toggle — never sample work. */
+      (function () {
+        "use strict";
+        var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
+        function esc(s) { return window.__csEsc ? window.__csEsc(s) : String(s == null ? "" : s); }
+        function trimS(s) { return window.__csTrim ? window.__csTrim(s) : String(s == null ? "" : s).trim(); }
+        function slugOf(item) { return window.__csSlug ? window.__csSlug(item) : "item"; }
+        function emptyHTML(label, big, note) {
+          return '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">' + esc(label) + '</p><p class="big">' + esc(big) + '</p><p class="note">' + esc(note) + "</p></div>";
+        }
+        function bindRow(row, items, i, opener) {
+          function open() { opener(items, i, row); }
+          row.addEventListener("click", open);
+          row.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+          });
+        }
+        /* Case-study preview media: the entry's preview {type, src,
+           poster} first, then its first before/after gallery image,
+           then the shared cover helper (cover / preview poster), else
+           a text placeholder in the preview surfaces. */
+        function previewOf(c) {
+          if (!c || typeof c !== "object") return null;
+          var pv = c.preview;
+          if (pv && typeof pv === "object" && trimS(pv.src)) {
+            return { type: pv.type === "video" ? "video" : "image", src: trimS(pv.src), poster: trimS(pv.poster) };
           }
-          finish();
+          if (Array.isArray(c.gallery) && c.gallery.length) {
+            var g = c.gallery[0] || {};
+            var gs = trimS(g.after) || trimS(g.before);
+            if (gs) return { type: "image", src: gs, poster: "" };
+          }
+          var cov = window.__csCoverOf ? window.__csCoverOf(c) : "";
+          if (cov) return { type: "image", src: cov, poster: "" };
+          return null;
         }
-
-        /* ---------------- Renderer (called by the content loader) ---------------- */
-        var session = null;
-        function teardown() {
-          if (!session) return;
-          if (session.raf) cancelAnimationFrame(session.raf);
-          session.observers.forEach(function (o) { try { o.disconnect(); } catch (e) {} });
-          if (session.card && session.card.parentNode) session.card.parentNode.removeChild(session.card);
-          if (session.toolbar && session.toolbar.parentNode) session.toolbar.parentNode.removeChild(session.toolbar);
-          closeOverlay(true);
-          session = null;
+        function mediaHTML(c) {
+          var pv = previewOf(c);
+          var title = c.title || "Case study";
+          if (!pv) return '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(title) + "</span></div>";
+          if (pv.type === "video") {
+            return '<video class="pv-media-vid" data-src="' + esc(pv.src) + '"' + (pv.poster ? ' poster="' + esc(pv.poster) + '"' : "") + ' muted loop playsinline preload="metadata"></video>';
+          }
+          return '<img class="pv-media-img" src="' + esc(pv.src) + '" alt="' + esc(title) + '" width="640" height="400" loading="lazy">';
         }
-        function renderProjects(data) {
-          var wrap = document.getElementById("projectsList");
-          if (!wrap || !data || typeof data !== "object") return;
-          teardown();
-          if (!Array.isArray(data.projects)) return;
-          var section = wrap.closest ? wrap.closest("section") : null;
-          var projects = publishedProjects(data);
-          if (!projects.length) {
-            if (section) section.classList.remove("pv-on", "pv-grid-on");
-            if (data.projectsEmpty) {
-              var e = data.projectsEmpty;
-              wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">Project index</p><p class="big">' +
-                esc(e.title) + '</p><p class="note">' + esc(e.note) + "</p></div>";
-              var note = document.getElementById("workCtaNote");
-              if (note && e.ctaNote) note.textContent = e.ctaNote;
-            }
+        function marketplacesOf(c) {
+          return Array.isArray(c.marketplaces) ? c.marketplaces.filter(function (m) { return !!trimS(m); }).join(" · ") : "";
+        }
+        function renderCases(data) {
+          var wrap = document.getElementById("caseList");
+          if (!wrap) return;
+          var section = document.getElementById("caseStudies");
+          var items = (Array.isArray(data.caseStudies) ? data.caseStudies : []).filter(function (c) { return c && typeof c === "object"; });
+          var stale = document.querySelector(".pv-card.cs-pv-card");
+          if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+          if (!items.length) {
+            if (section) { section.classList.remove("pv-on"); section.classList.remove("pv-grid-on"); }
+            var empty = (data.caseStudiesEmpty && typeof data.caseStudiesEmpty === "object") ? data.caseStudiesEmpty : {};
+            var emptyTitle = trimS(empty.title) || "New case studies coming soon.";
+            var emptyNote = trimS(empty.note) || "Want your account to be one of the first featured? Message me on TikTok.";
+            wrap.innerHTML = emptyHTML("Case studies", emptyTitle, emptyNote);
             return;
           }
-          var S = settingsOf(data);
-          session = { raf: 0, observers: [], card: null, toolbar: null };
+          var motion = (data.settings && data.settings.motion) || {};
+          var defaultView = motion.defaultView === "grid" ? "grid" : "list";
+          var showToggle = motion.showViewToggle !== false;
+          var previewMode = typeof motion.previewMode === "string" && motion.previewMode ? motion.previewMode : "follow";
+          var cardSize = (typeof motion.cardSize === "number" && isFinite(motion.cardSize) && motion.cardSize > 0) ? motion.cardSize : 360;
+          var tiltOn = motion.tilt !== false;
+          var dimOthers = motion.dimOthers !== false;
+          var maxMobilePlaying = (typeof motion.maxMobilePlaying === "number" && isFinite(motion.maxMobilePlaying) && motion.maxMobilePlaying > 0) ? Math.floor(motion.maxMobilePlaying) : 2;
+          var coarse = window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches;
+          var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var useFollow = !coarse && !reduced && previewMode !== "fixed";
+          var ease = motion.spring === "snappy" ? 0.3 : (motion.spring === "soft" ? 0.12 : 0.18);
+          var accordion = coarse && motion.mobileBehaviour === "accordion";
+          function openCase(list, idx, el) { if (window.__openCaseOverlay) window.__openCaseOverlay(list, idx, el); }
+          function promoteVid(v) { if (v && !v.getAttribute("src")) { var ds = v.getAttribute("data-src"); if (ds) v.setAttribute("src", ds); } }
+          function playVid(v) { if (v && v.play) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } }
+          function pauseVid(v) { if (v && v.pause) v.pause(); }
           if (section) section.classList.add("pv-on");
-          var view = S.defaultView;
-
-          /* ----- build list + grid ----- */
-          var listBox = document.createElement("div");
-          listBox.className = "pv-list";
-          var gridBox = document.createElement("div");
-          gridBox.className = "pv-grid";
-          var rows = [], cards = [], inlines = [];
-          function rowInner(p, i) {
-            var note = p.summary || p.description || "";
-            return '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
-              "<div><p class=\"big\">" + esc(p.title || "Untitled project") + "</p>" +
-              (note ? '<p class="note">' + esc(note) + "</p>" : "") + "</div>" +
-              '<span class="cat">' + esc(p.category || "") + '</span><span class="yr">' + esc(p.year || "") + "</span>" +
-              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + '</span>';
+          wrap.innerHTML = "";
+          var btnList = null, btnGrid = null;
+          if (showToggle) {
+            var toolbar = document.createElement("div");
+            toolbar.className = "pv-toolbar";
+            toolbar.innerHTML = '<div class="pv-toggle" role="group" aria-label="Case studies view">' +
+              '<button type="button" data-pv-view="list">List</button>' +
+              '<button type="button" data-pv-view="grid">Grid</button></div>';
+            wrap.appendChild(toolbar);
+            btnList = toolbar.querySelector('[data-pv-view="list"]');
+            btnGrid = toolbar.querySelector('[data-pv-view="grid"]');
           }
-          projects.forEach(function (p, i) {
+          var listEl = document.createElement("div");
+          listEl.className = "pv-list";
+          var rows = [];
+          items.forEach(function (c, i) {
             var row = document.createElement("div");
-            row.className = "index-row pv-row reveal-fade is-visible";
+            row.className = "index-row cs-row pv-row";
+            row.style.setProperty("--pv-i", String(i));
             row.setAttribute("role", "button");
             row.setAttribute("tabindex", "0");
             row.setAttribute("aria-haspopup", "dialog");
-            row.setAttribute("aria-label", (p.title || "Project") + " — view project");
-            row.style.setProperty("--pv-i", String(Math.min(i, 8)));
-            if (S.mobileBehaviour === "accordion") row.setAttribute("aria-expanded", "false");
-            row.innerHTML = rowInner(p, i);
-            listBox.appendChild(row);
+            row.setAttribute("aria-label", (c.title || "Case study") + " — view case study");
+            row.innerHTML = '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
+              '<div><p class="big">' + esc(c.title || "Case study") + "</p></div>" +
+              '<span class="cat">' + esc(marketplacesOf(c)) + '</span><span class="yr">' + esc(c.year || "") + "</span>" +
+              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + "</span>";
+            listEl.appendChild(row);
             rows.push(row);
+            if (accordion) {
+              row.setAttribute("aria-expanded", "false");
+              var inline = document.createElement("div");
+              inline.className = "pv-inline";
+              inline.innerHTML = '<div class="pv-inline-in"><div class="pv-media">' + mediaHTML(c) + "</div>" +
+                '<div class="pv-inline-foot"><p class="t">' + esc(c.title || "Case study") + '</p><span class="v">View</span></div></div>';
+              listEl.appendChild(inline);
+              row.__pvInline = inline;
+              inline.addEventListener("click", function () { openCase(items, i, row); });
+            }
+          });
+          wrap.appendChild(listEl);
+          var gridEl = document.createElement("div");
+          gridEl.className = "pv-grid";
+          var cards = [];
+          items.forEach(function (c, i) {
+            var card = document.createElement("div");
+            card.className = "pv-gcard";
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("aria-haspopup", "dialog");
+            card.setAttribute("aria-label", (c.title || "Case study") + " — view case study");
+            card.innerHTML = '<div class="pv-media">' + mediaHTML(c) + "</div>" +
+              '<div class="pv-gcap"><p class="t">' + esc(c.title || "Case study") + '</p><p class="c">' + esc(marketplacesOf(c)) + "</p></div>";
+            gridEl.appendChild(card);
+            cards.push(card);
+            bindRow(card, items, i, openCase);
+          });
+          wrap.appendChild(gridEl);
+          /* Floating preview card (fine pointers): follows the cursor in
+             follow mode, sits fixed at the side otherwise. */
+          var cardW = Math.min(cardSize, Math.floor(window.innerWidth * 0.9));
+          var cardH = Math.round(cardW * 0.625);
+          var pvCard = null, pvVid = null, rafId = 0, tx = 0, ty = 0, cx = 0, cy = 0, pvShown = false;
+          function place(x, y) {
+            tx = Math.max(8, Math.min(x + 24, window.innerWidth - cardW - 8));
+            ty = Math.max(8, Math.min(y - Math.round(cardH / 2), window.innerHeight - cardH - 8));
+          }
+          function ensureCard() {
+            if (pvCard) return pvCard;
+            pvCard = document.createElement("div");
+            pvCard.className = "pv-card cs-pv-card" + (useFollow ? "" : " pv-fixed");
+            pvCard.setAttribute("aria-hidden", "true");
+            pvCard.style.width = cardW + "px";
+            pvCard.innerHTML = '<div class="pv-media"></div><div class="pv-card-foot"><div><p class="pv-card-title"></p><p class="pv-card-cat"></p></div><span class="pv-card-view">View</span></div>';
+            document.body.appendChild(pvCard);
+            return pvCard;
+          }
+          /* Create the preview card eagerly on non-coarse pointers so it
+             exists (follow mode, or fixed mode under reduced motion /
+             previewMode fixed) before the first hover, not lazily on it. */
+          if (!coarse) ensureCard();
+          function cardLoop() {
+            cx += (tx - cx) * ease;
+            cy += (ty - cy) * ease;
+            var rot = tiltOn ? Math.max(-6, Math.min(6, (tx - cx) * 0.04)) : 0;
+            pvCard.style.transform = "translate(" + Math.round(cx) + "px," + Math.round(cy) + "px) rotate(" + rot.toFixed(2) + "deg)";
+            if (pvShown) rafId = window.requestAnimationFrame(cardLoop);
+          }
+          function showCard(i, x, y) {
+            var card = ensureCard();
+            card.querySelector(".pv-media").innerHTML = mediaHTML(items[i]);
+            card.querySelector(".pv-card-title").textContent = items[i].title || "Case study";
+            card.querySelector(".pv-card-cat").textContent = marketplacesOf(items[i]);
+            pvVid = card.querySelector("video");
+            if (useFollow) {
+              place(x, y);
+              if (!pvShown) { cx = tx; cy = ty; }
+              card.style.left = "0";
+              card.style.top = "0";
+            }
+            card.classList.remove("pv-hide");
+            card.classList.add("pv-show");
+            if (!pvShown) {
+              pvShown = true;
+              if (useFollow) rafId = window.requestAnimationFrame(cardLoop);
+            }
+            promoteVid(pvVid);
+            playVid(pvVid);
+          }
+          function hideCard() {
+            if (!pvCard || !pvShown) return;
+            pvShown = false;
+            if (rafId) window.cancelAnimationFrame(rafId);
+            rafId = 0;
+            pvCard.classList.remove("pv-show");
+            pvCard.classList.add("pv-hide");
+            pauseVid(pvVid);
+          }
+          function closeInlines(except) {
+            rows.forEach(function (r) {
+              if (r.__pvInline && r !== except) {
+                r.__pvInline.classList.remove("open");
+                r.setAttribute("aria-expanded", "false");
+                pauseVid(r.__pvInline.querySelector("video"));
+              }
+            });
+          }
+          rows.forEach(function (row, i) {
+            if (accordion) {
+              function toggleInline() {
+                var inline = row.__pvInline;
+                if (!inline) { openCase(items, i, row); return; }
+                /* First tap expands the inline preview; a second tap on
+                   the already-expanded row opens the case overlay (which
+                   is built by openCase — without this path the overlay
+                   is never created in the touch scenario). */
+                if (inline.classList.contains("open")) { openCase(items, i, row); return; }
+                closeInlines(row);
+                inline.classList.add("open");
+                row.setAttribute("aria-expanded", "true");
+                var v = inline.querySelector("video");
+                promoteVid(v);
+                playVid(v);
+              }
+              row.addEventListener("click", toggleInline);
+              row.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleInline(); }
+              });
+              return;
+            }
+            bindRow(row, items, i, openCase);
+            if (coarse) return;
+            row.addEventListener("mouseenter", function (e) {
+              row.classList.add("pv-active");
+              if (dimOthers) listEl.classList.add("pv-dim");
+              showCard(i, e.clientX, e.clientY);
+            });
+            row.addEventListener("mousemove", function (e) { if (useFollow && pvShown) place(e.clientX, e.clientY); });
+            row.addEventListener("mouseleave", function () {
+              row.classList.remove("pv-active");
+              if (!listEl.querySelector(".pv-active")) listEl.classList.remove("pv-dim");
+              hideCard();
+            });
+            row.addEventListener("focus", function () {
+              row.classList.add("pv-active");
+              if (dimOthers) listEl.classList.add("pv-dim");
+              var r = row.getBoundingClientRect();
+              showCard(i, Math.round(r.left + r.width * 0.55), Math.round(r.top + r.height / 2));
+            });
+            row.addEventListener("blur", function () {
+              row.classList.remove("pv-active");
+              if (!listEl.querySelector(".pv-active")) listEl.classList.remove("pv-dim");
+              hideCard();
+            });
+          });
+          cards.forEach(function (card) {
+            var vid = card.querySelector("video");
+            function activate() {
+              card.classList.add("pv-active");
+              if (dimOthers) gridEl.classList.add("pv-dim");
+              if (vid) {
+                if (coarse) {
+                  var playing = [];
+                  gridEl.querySelectorAll("video").forEach(function (v) { if (v !== vid && !v.paused) playing.push(v); });
+                  while (playing.length >= maxMobilePlaying) pauseVid(playing.shift());
+                }
+                promoteVid(vid);
+                playVid(vid);
+              }
+            }
+            function deactivate() {
+              card.classList.remove("pv-active");
+              if (!gridEl.querySelector(".pv-active")) gridEl.classList.remove("pv-dim");
+              pauseVid(vid);
+            }
+            card.addEventListener("mouseenter", activate);
+            card.addEventListener("mouseleave", deactivate);
+            card.addEventListener("focus", activate);
+            card.addEventListener("blur", deactivate);
+          });
+          var view = defaultView;
+          function setView(v) {
+            view = v;
+            var isGrid = v === "grid";
+            listEl.hidden = isGrid;
+            gridEl.hidden = !isGrid;
+            if (section) section.classList.toggle("pv-grid-on", isGrid);
+            if (btnList) btnList.setAttribute("aria-pressed", isGrid ? "false" : "true");
+            if (btnGrid) btnGrid.setAttribute("aria-pressed", isGrid ? "true" : "false");
+            hideCard();
+            if (isGrid) {
+              closeInlines(null);
+            } else {
+              cards.forEach(function (card) {
+                card.classList.remove("pv-active");
+                pauseVid(card.querySelector("video"));
+              });
+              gridEl.classList.remove("pv-dim");
+            }
+          }
+          if (btnList) btnList.addEventListener("click", function () { setView("list"); });
+          if (btnGrid) btnGrid.addEventListener("click", function () { setView("grid"); });
+          setView(defaultView);
+        }
+        function renderWebsite(data) {
+          var wrap = document.getElementById("websiteList");
+          if (!wrap) return;
+          var items = (Array.isArray(data.websiteWork) ? data.websiteWork : []).filter(function (w) { return w && typeof w === "object"; });
+          if (!items.length) {
+            wrap.innerHTML = emptyHTML("Website work", "Website work is being added — before/after examples will appear here.", "Store redesigns and builds will be shown here with before and after views as they are completed.");
+            return;
+          }
+          wrap.innerHTML = "";
+          items.forEach(function (w) {
+            var el = document.createElement("article");
+            el.className = "ww-item";
+            var html = "<h3>" + esc(w.title || "Website work") + "</h3>";
+            if (trimS(w.note)) html += '<p class="note">' + esc(w.note) + "</p>";
+            if (window.__baFigure) html += window.__baFigure(w);
+            if (trimS(w.liveUrl)) html += '<div class="ww-actions"><a class="cta-btn btn btn-secondary" href="' + esc(w.liveUrl) + '" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + "</a></div>";
+            el.innerHTML = html;
+            wrap.appendChild(el);
+          });
+          if (window.__bindSliders) window.__bindSliders(wrap);
+        }
+        function renderSide(data) {
+          var wrap = document.getElementById("sideList");
+          if (!wrap) return;
+          var items = (Array.isArray(data.sideProjects) ? data.sideProjects : []).filter(function (p) {
+            return p && typeof p === "object" && String(p.status || "published").toLowerCase() !== "draft";
+          });
+          if (!items.length) {
+            wrap.innerHTML = emptyHTML("Side project", "Side projects are being added.", "Custom business software built alongside the marketplace work will appear here.");
+            return;
+          }
+          var grid = document.createElement("div");
+          grid.className = "pv-grid";
+          grid.style.marginTop = "8px";
+          items.forEach(function (p, i) {
             var card = document.createElement("div");
             card.className = "pv-gcard";
             card.setAttribute("role", "button");
             card.setAttribute("tabindex", "0");
             card.setAttribute("aria-haspopup", "dialog");
             card.setAttribute("aria-label", (p.title || "Project") + " — view project");
-            card.innerHTML = '<div class="pv-media">' + mediaHTML(p) + '</div><div class="pv-gcap"><p class="t">' + esc(p.title || "Untitled project") + '</p><p class="c">' + esc(p.category || "") + "</p></div>";
-            gridBox.appendChild(card);
-            cards.push(card);
+            var cov = window.__csCoverOf ? window.__csCoverOf(p) : "";
+            var media = cov
+              ? '<img class="pv-media-img" src="' + esc(cov) + '" alt="' + esc(window.__csCoverAltOf ? window.__csCoverAltOf(p) : (p.title || "Project")) + '" width="640" height="400" loading="lazy">'
+              : '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(p.title || "Project") + "</span></div>";
+            card.innerHTML = '<div class="pv-media">' + media + '</div><div class="pv-gcap"><p class="t">' + esc(p.title || "Project") + '</p><p class="c">' + esc(p.category || "") + "</p></div>";
+            grid.appendChild(card);
+            bindRow(card, items, i, function (list, idx, el) { if (window.__openProjectOverlay) window.__openProjectOverlay(list, idx, el); });
           });
           wrap.innerHTML = "";
-          wrap.appendChild(listBox);
-          wrap.appendChild(gridBox);
-
-          /* ----- floating preview card ----- */
-          var useFixed = S.previewMode === "fixed" || REDUCED();
-          var card = document.createElement("div");
-          card.className = "pv-card" + (useFixed ? " pv-fixed" : "");
-          card.setAttribute("aria-hidden", "true");
-          card.style.width = Math.min(S.cardSize, Math.floor(window.innerWidth * 0.92)) + "px";
-          card.innerHTML = '<div class="pv-media"></div><div class="pv-card-foot"><div><p class="pv-card-title"></p><p class="pv-card-cat"></p></div><span class="pv-card-view">View project</span></div>';
-          document.body.appendChild(card);
-          session.card = card;
-          var cardMedia = card.querySelector(".pv-media");
-          var pos = { x: 0, y: 0, tx: 0, ty: 0, rot: 0, scale: 0.96, visible: false, until: 0, snapped: false };
-          function loop() {
-            if (!session) return;
-            if (!pos.visible && performance.now() > pos.until) { session.raf = 0; return; }
-            var k = SPRINGS[S.spring];
-            pos.x += (pos.tx - pos.x) * k;
-            pos.y += (pos.ty - pos.y) * k;
-            var targetRot = (S.tilt && !REDUCED() && !useFixed) ? Math.max(-4, Math.min(4, (pos.tx - pos.x) * 0.05)) : 0;
-            pos.rot += (targetRot - pos.rot) * 0.2;
-            var targetScale = card.classList.contains("pv-show") ? 1 : 0.96;
-            pos.scale += (targetScale - pos.scale) * 0.25;
-            if (!useFixed) card.style.transform = "translate(" + pos.x.toFixed(1) + "px," + pos.y.toFixed(1) + "px) rotate(" + pos.rot.toFixed(2) + "deg) scale(" + pos.scale.toFixed(3) + ")";
-            session.raf = requestAnimationFrame(loop);
+          wrap.appendChild(grid);
+        }
+        function openFromHash(data) {
+          var hash = (window.location.hash || "").replace("#", "");
+          if (!hash) return;
+          var cases = (Array.isArray(data.caseStudies) ? data.caseStudies : []).filter(function (c) { return c && typeof c === "object"; });
+          for (var i = 0; i < cases.length; i++) {
+            if (slugOf(cases[i]) === hash) { if (window.__openCaseOverlay) window.__openCaseOverlay(cases, i, null); return; }
           }
-          function kickLoop() { if (session && !session.raf) session.raf = requestAnimationFrame(loop); }
-
-          var activeIdx = -1;
-          function setCardContent(p) {
-            stopVideo(cardMedia.querySelector("video"));
-            cardMedia.innerHTML = mediaHTML(p);
-            card.querySelector(".pv-card-title").textContent = p.title || "Untitled project";
-            card.querySelector(".pv-card-cat").textContent = p.category || "";
-            var v = ensureVideo(cardMedia);
-            playVideo(v);
-          }
-          function activate(i) {
-            if (view !== "list" || activeIdx === i) return;
-            activeIdx = i;
-            rows.forEach(function (r, j) { r.classList.toggle("pv-active", j === i); });
-            if (S.dimOthers) listBox.classList.add("pv-dim");
-            setCardContent(projects[i]);
-            if (!pos.snapped) {
-              var w = card.offsetWidth || Math.min(S.cardSize, window.innerWidth * 0.92);
-              var h = card.offsetHeight || w * 10 / 16;
-              pos.x = pos.tx = Math.max(8, (window.innerWidth - w) / 2);
-              pos.y = pos.ty = Math.max(8, (window.innerHeight - h) / 2);
-              pos.snapped = true;
-            }
-            card.classList.remove("pv-hide");
-            card.classList.add("pv-show");
-            card.setAttribute("aria-hidden", "false");
-            pos.visible = true;
-            kickLoop();
-          }
-          function deactivate() {
-            if (activeIdx < 0) return;
-            activeIdx = -1;
-            rows.forEach(function (r) { r.classList.remove("pv-active"); });
-            listBox.classList.remove("pv-dim");
-            stopVideo(cardMedia.querySelector("video"));
-            card.classList.add("pv-hide");
-            card.classList.remove("pv-show");
-            card.setAttribute("aria-hidden", "true");
-            pos.visible = false;
-            pos.until = performance.now() + 200;
-            kickLoop();
-          }
-          function canHoverCard() { return mqFine.matches || REDUCED(); }
-          listBox.addEventListener("mousemove", function (e) {
-            if (view !== "list" || useFixed || !canHoverCard()) return;
-            var w = card.offsetWidth || Math.min(S.cardSize, window.innerWidth * 0.92);
-            var h = card.offsetHeight || w * 10 / 16;
-            var tx = e.clientX + 28;
-            if (tx + w > window.innerWidth - 8) tx = e.clientX - w - 28;
-            pos.tx = Math.max(8, Math.min(window.innerWidth - w - 8, tx));
-            pos.ty = Math.max(8, Math.min(window.innerHeight - h - 8, e.clientY - h / 2));
-            if (activeIdx >= 0 && !pos.snapped) { pos.x = pos.tx; pos.y = pos.ty; pos.snapped = true; }
-          });
-
-          /* ----- accordion (touch list) ----- */
-          var expandedIdx = -1;
-          function collapseInline() {
-            if (expandedIdx < 0) return;
-            var prev = inlines[expandedIdx];
-            if (prev) { stopVideo(prev.querySelector("video")); prev.classList.remove("open"); }
-            if (rows[expandedIdx]) rows[expandedIdx].setAttribute("aria-expanded", "false");
-            expandedIdx = -1;
-          }
-          function expandInline(i) {
-            collapseInline();
-            var inline = inlines[i];
-            if (!inline) {
-              inline = document.createElement("div");
-              inline.className = "pv-inline";
-              inline.innerHTML = '<div class="pv-inline-in"><div class="pv-media">' + mediaHTML(projects[i]) + '</div><div class="pv-inline-foot"><p class="t">' + esc(projects[i].title || "Project") + '</p><span class="v">View project &#8594;</span></div></div>';
-              inline.addEventListener("click", function () { openOverlay(i, projects, rows[i]); });
-              listBox.insertBefore(inline, rows[i].nextSibling);
-              inlines[i] = inline;
-            }
-            inline.classList.add("open");
-            rows[i].setAttribute("aria-expanded", "true");
-            expandedIdx = i;
-            playVideo(ensureVideo(inline));
-          }
-
-          /* ----- row + card wiring ----- */
-          rows.forEach(function (row, i) {
-            row.addEventListener("mouseenter", function () { if (mqFine.matches) activate(i); });
-            row.addEventListener("mouseleave", function () { if (mqFine.matches) deactivate(); });
-            row.addEventListener("focus", function () { if (canHoverCard()) activate(i); });
-            row.addEventListener("blur", function () { deactivate(); });
-            row.addEventListener("click", function () {
-              if (mqFine.matches) { openOverlay(i, projects, row); return; }
-              if (S.mobileBehaviour === "open") { openOverlay(i, projects, row); return; }
-              if (expandedIdx === i) openOverlay(i, projects, row);
-              else expandInline(i);
-            });
-            row.addEventListener("keydown", function (e) {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openOverlay(i, projects, row); }
-            });
-          });
-          var gridPlaying = [];
-          function gridStop(card) {
-            stopVideo(card.querySelector("video"));
-            gridPlaying = gridPlaying.filter(function (c) { return c !== card; });
-          }
-          cards.forEach(function (gc, i) {
-            gc.addEventListener("mouseenter", function () {
-              if (!mqFine.matches) return;
-              cards.forEach(function (c, j) { c.classList.toggle("pv-active", j === i); });
-              if (S.dimOthers) gridBox.classList.add("pv-dim");
-              playVideo(ensureVideo(gc));
-            });
-            gc.addEventListener("mouseleave", function () {
-              if (!mqFine.matches) return;
-              gc.classList.remove("pv-active");
-              gridBox.classList.remove("pv-dim");
-              gridStop(gc);
-            });
-            gc.addEventListener("focus", function () {
-              cards.forEach(function (c, j) { c.classList.toggle("pv-active", j === i); });
-              if (mqFine.matches) playVideo(ensureVideo(gc));
-            });
-            gc.addEventListener("blur", function () { gc.classList.remove("pv-active"); gridStop(gc); });
-            gc.addEventListener("click", function () { openOverlay(i, projects, gc); });
-            gc.addEventListener("keydown", function (e) {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openOverlay(i, projects, gc); }
-            });
-          });
-          if (!mqFine.matches && !REDUCED() && !SAVE_DATA() && "IntersectionObserver" in window) {
-            var io = new IntersectionObserver(function (entries) {
-              entries.forEach(function (en) {
-                var gc = en.target;
-                if (en.intersectionRatio >= 0.6) {
-                  if (gridPlaying.indexOf(gc) === -1) {
-                    if (gridPlaying.length >= S.maxMobilePlaying) gridStop(gridPlaying[0]);
-                    playVideo(ensureVideo(gc));
-                    if (gc.querySelector("video")) gridPlaying.push(gc);
-                  }
-                } else gridStop(gc);
-              });
-            }, { threshold: [0, 0.6] });
-            cards.forEach(function (gc) { io.observe(gc); });
-            session.observers.push(io);
-          }
-
-          /* ----- view toggle ----- */
-          var btnList = null, btnGrid = null;
-          if (S.showViewToggle) {
-            var toolbar = document.createElement("div");
-            toolbar.className = "pv-toolbar";
-            toolbar.innerHTML = '<div class="pv-toggle" role="group" aria-label="Project view"><button type="button" data-pv-view="list">List</button><button type="button" data-pv-view="grid">Grid</button></div>';
-            var head = section ? section.querySelector(".index-head") : null;
-            if (head && head.parentNode) head.parentNode.insertBefore(toolbar, head);
-            else if (wrap.parentNode) wrap.parentNode.insertBefore(toolbar, wrap);
-            session.toolbar = toolbar;
-            btnList = toolbar.querySelector('[data-pv-view="list"]');
-            btnGrid = toolbar.querySelector('[data-pv-view="grid"]');
-            btnList.addEventListener("click", function () { setView("list"); });
-            btnGrid.addEventListener("click", function () { setView("grid"); });
-          }
-          function setView(v) {
-            view = v;
-            listBox.hidden = v !== "list";
-            gridBox.hidden = v !== "grid";
-            if (section) section.classList.toggle("pv-grid-on", v === "grid");
-            if (btnList) btnList.setAttribute("aria-pressed", v === "list" ? "true" : "false");
-            if (btnGrid) btnGrid.setAttribute("aria-pressed", v === "grid" ? "true" : "false");
-            if (v !== "list") { deactivate(); collapseInline(); }
-            if (v !== "grid") { cards.forEach(gridStop); gridBox.classList.remove("pv-dim"); cards.forEach(function (c) { c.classList.remove("pv-active"); }); }
-          }
-          setView(view);
-          /* Deep link: /portfolio#<project id or title slug> opens that
-             project's overlay on load (the homepage signature cards link here). */
-          var hash = String(window.location.hash || "").replace(/^#/, "");
-          if (hash) {
-            var hi = -1;
-            projects.forEach(function (p, j) { if (hi < 0 && slugOf(p) === hash) hi = j; });
-            if (hi >= 0) openOverlay(hi, projects, view === "grid" ? cards[hi] : rows[hi]);
+          var sides = (Array.isArray(data.sideProjects) ? data.sideProjects : []).filter(function (p) { return p && typeof p === "object"; });
+          for (var j = 0; j < sides.length; j++) {
+            if (slugOf(sides[j]) === hash) { if (window.__openProjectOverlay) window.__openProjectOverlay(sides, j, null); return; }
           }
         }
-        window.__renderProjects = renderProjects;
+        function renderPortfolio(data) {
+          if (!data || typeof data !== "object") return;
+          renderCases(data);
+          renderWebsite(data);
+          renderSide(data);
+          openFromHash(data);
+        }
+        window.__renderPortfolio = renderPortfolio;
       })();
     </script>
     <script>
-      /* Content loader: projects live in content.json beside this file.
-         If the fetch fails, the static empty state above stays. */
+      /* Content loader: case studies, website work and side projects
+         live in content.json beside this file. If the fetch fails, the
+         static empty states above stay. */
       (function () {
         "use strict";
         fetch("content.json", { cache: "no-cache" })
@@ -982,8 +1162,11 @@
             if (!r.ok) throw new Error("content fetch failed");
             return r.json();
           })
-          .then(function (data) { if (window.__renderProjects) window.__renderProjects(data); })
-          .catch(function () { /* Static content stays as-is. */ });
+          .then(function (data) {
+            if (window.__renderPortfolio) window.__renderPortfolio(data);
+            if (window.__initSwarm) window.__initSwarm(data);
+          })
+          .catch(function () { if (window.__initSwarm) window.__initSwarm({}); });
       })();
     </script>
   
@@ -1002,11 +1185,11 @@
             <input id="cfEmail" name="email" type="email" autocomplete="email" required />
           </div>
           <div class="cf-field">
-            <label for="cfSells">What do you sell?</label>
+            <label for="cfSells">Which marketplaces or store do you sell on</label>
             <input id="cfSells" name="sells" type="text" />
           </div>
           <div class="cf-field">
-            <label for="cfMessage">What&rsquo;s not working on your current site?</label>
+            <label for="cfMessage">What&rsquo;s not working</label>
             <textarea id="cfMessage" name="message" rows="5" required></textarea>
           </div>
           <div class="cf-hp" aria-hidden="true">
@@ -1095,6 +1278,296 @@
             submitBtn.textContent = "Send message";
           });
         });
+      })();
+    </script>
+    <script>
+      /* Swarm cursor effect: a small crew of Figma-style cursors builds
+         each section as it first scrolls into view, then orbits the real
+         mouse. Runs once per page (localStorage), fine pointers only,
+         never under reduced motion. One canvas, one rAF loop, section
+         positions cached on load/resize/reveal — never per frame. */
+      (function () {
+        "use strict";
+        var PAGE = window.__swarmPage || "home";
+        var DONE_KEY = "hk.swarm.done." + PAGE;
+        var PREF_KEY = "hk.swarm.enabled";
+        var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
+        var DEFAULT_LABELS = ["Alex", "Sam", "Jo", "Kim", "Rae", "Tom", "Ana", "Ben", "Eva", "Leo"];
+        var canvas = null, ctx = null, raf = 0, running = false;
+        var started = false, finished = false, disabled = false, inited = false, exiting = false, exitT = 0;
+        var sections = [], cursors = [], labels = DEFAULT_LABELS, cursorCount = 20, contentEnabled = true;
+        var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
+        var buildTarget = null, arriveT = 0, lastScrollT = 0, orbitA = 0, scatterT = 0, W = 0, H = 0;
+        function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+        function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+        function coarse() { return window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches; }
+        function reducedM() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+        function btn() { return document.getElementById("swarmToggle"); }
+        function syncToggle() {
+          var b = btn(); if (!b) return;
+          var on = lsGet(PREF_KEY) !== "off" && contentEnabled;
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+          b.textContent = on ? "Swarm on" : "Swarm off";
+        }
+        function collect() {
+          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el) {
+            return { el: el, revealed: el.classList.contains("revealed"), top: 0, bottom: 0, left: 0, w: 0, h: 0 };
+          });
+          measure();
+        }
+        function measure() {
+          var sy = window.scrollY || 0;
+          sections.forEach(function (s) {
+            var r = s.el.getBoundingClientRect();
+            s.top = r.top + sy; s.bottom = r.bottom + sy; s.left = r.left; s.w = r.width; s.h = r.height;
+          });
+        }
+        function reveal(s) { if (s && !s.revealed) { s.revealed = true; s.el.classList.add("revealed"); } }
+        function revealAll() { sections.forEach(reveal); }
+        function sizeCanvas() {
+          if (!canvas) return;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = window.innerWidth; H = window.innerHeight;
+          canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+          canvas.style.width = W + "px"; canvas.style.height = H + "px";
+          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        function ensureCanvas() {
+          if (canvas) return;
+          canvas = document.createElement("canvas");
+          canvas.id = "swarmCanvas";
+          canvas.setAttribute("aria-hidden", "true");
+          canvas.style.display = "none";
+          document.body.appendChild(canvas);
+          ctx = canvas.getContext("2d");
+          if (!ctx) { disabled = true; document.documentElement.classList.remove("swarm-on"); }
+          sizeCanvas();
+        }
+        function makeCursors() {
+          var n = cursorCount;
+          if (window.innerWidth < 700) n = Math.min(n, 12);
+          n = Math.max(4, Math.min(40, n));
+          cursors = [];
+          for (var i = 0; i < n; i++) {
+            cursors.push({
+              x: (W || window.innerWidth) / 2 + (Math.random() - 0.5) * 240,
+              y: (H || window.innerHeight) + 40 + Math.random() * 120,
+              tx: (W || window.innerWidth) / 2, ty: (H || window.innerHeight) / 2,
+              color: PALETTE[i % PALETTE.length],
+              label: labels[i % labels.length],
+              ease: 0.05 + Math.random() * 0.07,
+              seed: Math.random() * 6.28
+            });
+          }
+        }
+        function pointIn(s) {
+          var sy = window.scrollY || 0;
+          return {
+            x: s.left + 16 + Math.random() * Math.max(20, s.w - 32),
+            y: s.top - sy + 16 + Math.random() * Math.max(20, s.h - 32)
+          };
+        }
+        function assignBuild(s) {
+          buildTarget = s; arriveT = 0;
+          cursors.forEach(function (c) { var p = pointIn(s); c.tx = p.x; c.ty = p.y; });
+        }
+        function startLoop() { if (!running && !finished && !disabled) { running = true; raf = window.requestAnimationFrame(loop); } }
+        function stopLoop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
+        function endEffect(markDone) {
+          if (finished) return;
+          finished = true;
+          revealAll();
+          document.documentElement.classList.remove("swarm-on");
+          if (markDone) lsSet(DONE_KEY, "1");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+        }
+        function beginExit() {
+          if (exiting || finished) return;
+          exiting = true; exitT = performance.now();
+          cursors.forEach(function (c, i) { c.tx = c.x + (Math.random() - 0.5) * 160; c.ty = -80 - (i % 5) * 26; });
+        }
+        function roundRectPath(x, y, w, h, r) {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+          ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+          ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+          ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+          ctx.closePath();
+        }
+        function drawCursor(c, showTag) {
+          ctx.save(); ctx.translate(c.x, c.y);
+          ctx.beginPath();
+          ctx.moveTo(0, 0); ctx.lineTo(0, 15); ctx.lineTo(4.6, 11.2); ctx.lineTo(7.2, 17); ctx.lineTo(9.8, 15.8); ctx.lineTo(7.2, 10.4); ctx.lineTo(12.4, 10.4);
+          ctx.closePath();
+          ctx.fillStyle = c.color; ctx.fill();
+          ctx.lineWidth = 1.2; ctx.strokeStyle = "#0E0D0E"; ctx.stroke();
+          if (showTag && c.label) {
+            ctx.font = "10px 'JetBrains Mono', monospace";
+            var w = ctx.measureText(c.label).width + 12;
+            roundRectPath(12, 12, w, 16, 8);
+            ctx.fillStyle = c.color; ctx.fill();
+            ctx.fillStyle = (c.color === "#F2281E" || c.color === "#B81E16" || c.color === "#5E5A56") ? "#F2EFEA" : "#0E0D0E";
+            ctx.fillText(c.label, 18, 24);
+          }
+          ctx.restore();
+        }
+        function drawGuides(s) {
+          var sy = window.scrollY || 0;
+          var top = s.top - sy, left = s.left, right = s.left + s.w, bottom = top + s.h;
+          ctx.save();
+          ctx.strokeStyle = "rgba(242,239,234,0.35)"; ctx.lineWidth = 1;
+          ctx.setLineDash([5, 5]);
+          ctx.strokeRect(left + 6, top + 6, Math.max(0, s.w - 12), Math.max(0, s.h - 12));
+          ctx.setLineDash([]);
+          ctx.strokeStyle = "rgba(242,34,30,0.8)";
+          [[left, top], [right, top], [left, bottom], [right, bottom]].forEach(function (pt) {
+            ctx.beginPath();
+            ctx.moveTo(pt[0] - 7, pt[1]); ctx.lineTo(pt[0] + 7, pt[1]);
+            ctx.moveTo(pt[0], pt[1] - 7); ctx.lineTo(pt[0], pt[1] + 7);
+            ctx.stroke();
+          });
+          ctx.restore();
+        }
+        function loop(now) {
+          if (!running) return;
+          raf = window.requestAnimationFrame(loop);
+          if (!ctx) return;
+          ctx.clearRect(0, 0, W, H);
+          var sy = window.scrollY || 0;
+          var vh = window.innerHeight;
+          var idle = now - lastScrollT > 150;
+          if (exiting) {
+            if (now - exitT > 850) { endEffect(true); return; }
+          } else {
+            sections.forEach(function (s) { if (!s.revealed && s.bottom < sy + 10) reveal(s); });
+            var next = null;
+            for (var i = 0; i < sections.length; i++) {
+              var s2 = sections[i];
+              if (!s2.revealed && s2.bottom > sy + 10 && s2.top < sy + vh * 0.92) { next = s2; break; }
+            }
+            if (next) {
+              if (buildTarget !== next) assignBuild(next);
+              var sum = 0;
+              cursors.forEach(function (c) { sum += Math.abs(c.tx - c.x) + Math.abs(c.ty - c.y); });
+              var avg = cursors.length ? sum / cursors.length : 0;
+              if (avg < 46) { if (!arriveT) arriveT = now; if (now - arriveT > 450) { reveal(next); buildTarget = null; arriveT = 0; measure(); } }
+              else arriveT = 0;
+              if (buildTarget) drawGuides(buildTarget);
+            } else if (idle) {
+              buildTarget = null;
+              if (now >= scatterT) {
+                orbitA += 0.0035;
+                var cxp = mouse.x >= 0 ? mouse.x : W / 2, cyp = mouse.y >= 0 ? mouse.y : H / 2;
+                cursors.forEach(function (c, i2) {
+                  var ang = orbitA + c.seed + (i2 / Math.max(1, cursors.length)) * 6.283;
+                  var rad = 64 + (i2 % 4) * 16;
+                  c.tx = cxp + Math.cos(ang) * rad;
+                  c.ty = cyp + Math.sin(ang) * rad * 0.72;
+                });
+              }
+            }
+          }
+          var showTags = !!buildTarget || idle;
+          cursors.forEach(function (c) {
+            c.x += (c.tx - c.x) * c.ease;
+            c.y += (c.ty - c.y) * c.ease;
+            drawCursor(c, showTags);
+          });
+        }
+        function onScroll() {
+          lastScrollT = performance.now();
+          if (finished || disabled) return;
+          if (!started) { started = true; ensureCanvas(); if (canvas) canvas.style.display = ""; if (!cursors.length) makeCursors(); }
+          startLoop();
+          var doc = document.documentElement;
+          var docH = Math.max(doc.scrollHeight, document.body ? document.body.scrollHeight : 0);
+          if ((window.scrollY || 0) + window.innerHeight >= docH - 8) beginExit();
+        }
+        function onMouse(e) {
+          var now = performance.now();
+          if (mouse.lt) {
+            var dt = Math.max(1, now - mouse.lt);
+            var d = Math.abs(e.clientX - mouse.lx) + Math.abs(e.clientY - mouse.ly);
+            mouse.speed = mouse.speed * 0.6 + (d / dt) * 0.4;
+            if (mouse.speed > 2.6 && started && !finished && !exiting && now > scatterT) {
+              scatterT = now + 280;
+              cursors.forEach(function (c) {
+                var dx = c.x - e.clientX, dy = c.y - e.clientY;
+                var dd = Math.max(24, Math.sqrt(dx * dx + dy * dy));
+                var push = 140 + Math.random() * 140;
+                c.tx = c.x + (dx / dd) * push;
+                c.ty = c.y + (dy / dd) * push;
+              });
+            }
+          }
+          mouse.lx = e.clientX; mouse.ly = e.clientY; mouse.lt = now;
+          mouse.x = e.clientX; mouse.y = e.clientY;
+        }
+        function onInterrupt(e) {
+          if (!started || finished || exiting) return;
+          var t = e.target;
+          if (t && t.closest && t.closest("#swarmToggle")) return;
+          endEffect(true);
+        }
+        function onResize() { sizeCanvas(); measure(); }
+        function onVis() {
+          if (document.hidden) { stopLoop(); }
+          else if (started && !finished && !disabled) { startLoop(); }
+        }
+        function handleToggle() {
+          var off = lsGet(PREF_KEY) === "off";
+          if (!off) {
+            lsSet(PREF_KEY, "off");
+            disabled = true;
+            if (!finished) { finished = true; revealAll(); }
+            document.documentElement.classList.remove("swarm-on");
+            stopLoop();
+            if (canvas) canvas.style.display = "none";
+            syncToggle();
+          } else {
+            lsSet(PREF_KEY, "on");
+            syncToggle();
+            if (!contentEnabled || coarse() || reducedM() || lsGet(DONE_KEY)) return;
+            disabled = false; finished = false; exiting = false;
+            if (!sections.length) collect();
+            document.documentElement.classList.add("swarm-on");
+            ensureCanvas();
+            if (canvas) canvas.style.display = "";
+            if (!cursors.length) makeCursors();
+            started = true;
+            lastScrollT = performance.now();
+            measure();
+            startLoop();
+          }
+        }
+        var b0 = btn();
+        if (b0) { syncToggle(); b0.addEventListener("click", handleToggle); }
+        window.__initSwarm = function (data) {
+          if (inited) return;
+          inited = true;
+          var sw = (data && data.settings && data.settings.swarm) || {};
+          contentEnabled = sw.enabled !== false;
+          if (typeof sw.cursorCount === "number" && isFinite(sw.cursorCount)) cursorCount = sw.cursorCount;
+          if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.map(function (x) { return String(x); });
+          syncToggle();
+          if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM() || lsGet(DONE_KEY)) {
+            document.documentElement.classList.remove("swarm-on");
+            return;
+          }
+          collect();
+          makeCursors();
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("mousemove", onMouse, { passive: true });
+          window.addEventListener("pointerdown", onInterrupt, true);
+          window.addEventListener("keydown", onInterrupt, true);
+          window.addEventListener("resize", onResize);
+          document.addEventListener("visibilitychange", onVis);
+        };
+        /* Safety: if content never arrives, initialise with defaults so
+           sections can never stay hidden behind a failed fetch. */
+        window.setTimeout(function () { if (!inited) window.__initSwarm({}); }, 3500);
       })();
     </script>
   </body>

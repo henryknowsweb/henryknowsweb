@@ -3,22 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>
+      /* Swarm: mark build sections hidden pre-paint only when the effect
+         can actually run (toggle on, fine pointer, motion allowed, and
+         this page not already built). The engine confirms the content
+         setting after load; anything ineligible removes the class. */
+      (function () {
+        try {
+          var path = window.location.pathname || "/";
+          var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : "home");
+          window.__swarmPage = page;
+          if (window.localStorage.getItem("hk.swarm.enabled") === "off") return;
+          if (window.localStorage.getItem("hk.swarm.done." + page)) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          if (window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches) return;
+          document.documentElement.classList.add("swarm-on");
+        } catch (e) {}
+      })();
+    </script>
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0E0D0E" />
-    <meta name="description" content="Bold websites for online stores, landing pages &amp; brands, designed and built by Henry for clients worldwide. DM WEB on TikTok or email to start yours." />
-    <meta property="og:title" content="Henry — Bold Websites for Stores &amp; Brands" />
-    <meta property="og:description" content="Bold websites for stores and brands — online stores, landing pages, and redesigns, built for clients worldwide." />
+    <meta name="description" content="Henry runs and fixes marketplace accounts — Amazon, eBay, TikTok Shop, Walmart, Temu and Mercari — and designs and manages the Shopify stores around them, for sellers worldwide." />
+    <meta property="og:title" content="henryknowsweb | Henry, Marketplace Manager &amp; Shopify Designer" />
+    <meta property="og:description" content="I run and fix marketplace accounts, and build the stores around them — marketplace management, listing images and A+ content, PPC, reconciliation and Shopify stores, worldwide." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://henryknowsweb.pages.dev/" />
     <meta property="og:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="HENRY in huge tight type on a near-black background, with Henry's portrait and the tagline 'Bold websites for stores &amp; brands'" />
+    <meta property="og:image:alt" content="HENRY in huge tight type on a near-black background, with Henry's portrait and the tagline 'I run and fix marketplace accounts, and build the stores around them'" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Henry — Bold Websites for Stores &amp; Brands" />
-    <meta name="twitter:description" content="Bold websites for stores and brands — online stores, landing pages, and redesigns, built for clients worldwide." />
+    <meta name="twitter:title" content="henryknowsweb | Henry, Marketplace Manager &amp; Shopify Designer" />
+    <meta name="twitter:description" content="I run and fix marketplace accounts, and build the stores around them — marketplace management, listing images and A+ content, PPC, reconciliation and Shopify stores, worldwide." />
     <meta name="twitter:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
-    <meta name="twitter:image:alt" content="HENRY in huge tight type on a near-black background, with Henry's portrait and the tagline 'Bold websites for stores &amp; brands'" />
+    <meta name="twitter:image:alt" content="HENRY in huge tight type on a near-black background, with Henry's portrait and the tagline 'I run and fix marketplace accounts, and build the stores around them'" />
     <link rel="canonical" href="https://henryknowsweb.pages.dev/" />
     <link rel="preload" as="image" href="assets/portrait/hero.webp" fetchpriority="high" />
     <script type="application/ld+json">
@@ -31,7 +49,7 @@
           "name": "Henry",
           "url": "https://henryknowsweb.pages.dev/",
           "image": "https://henryknowsweb.pages.dev/assets/portrait/pinned.webp",
-          "jobTitle": "Web Designer",
+          "jobTitle": "Marketplace Operator & Shopify Designer",
           "email": "henryknowsweb@gmail.com",
           "sameAs": [
             "https://www.tiktok.com/@henryknowsweb",
@@ -51,7 +69,7 @@
             "https://www.tiktok.com/@henryknowsweb",
             "https://github.com/henryknowsweb"
           ],
-          "serviceType": ["Online stores", "Landing pages", "Website redesigns"]
+          "serviceType": ["Marketplace account management", "Listing images and A+ content", "PPC and advertising", "Reconciliation and account issue-fixing", "Shopify store design and management"]
         }
       ]
     }
@@ -63,7 +81,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-    <title>henryknowsweb | Henry — Web Designer for Stores &amp; Brands</title>
+    <title>henryknowsweb | Henry, Marketplace Manager &amp; Shopify Designer</title>
     <style>
       :root {
         color-scheme: dark;
@@ -763,8 +781,9 @@
       .pl-mono { display: block; width: 44px; height: 44px; }
       .mini-menu .brand { display: inline-flex; align-items: center; text-decoration: none; }
       .brand-lockup { display: block; height: 28px; width: auto; }
-      /* Hero portrait beside the name (own grid column: never overlaps the
-         letters or the eyebrow). Hidden under 768px. */
+      /* Hero portrait beside the name on wide screens (own grid column:
+         never overlaps the letters or the eyebrow); on phones it stacks
+         under the name block, keeping its fade into the background. */
       .hero-portrait { margin: 24px 0 0; max-width: 300px; animation: hero-in var(--dur-slow) var(--ease-out) both; animation-play-state: paused; }
       body.is-loaded .hero-portrait { animation-delay: 0.36s; animation-play-state: running; }
       .hero-portrait img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, #000 78%, transparent 100%); filter: brightness(0.94) contrast(1.02) saturate(0.96); }
@@ -809,7 +828,6 @@
       footer.contact .outline-btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
       footer.contact .outline-btn:hover { background: var(--paper); color: var(--ink); }
 
-      .service-row .price-line{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;line-height:1.7;color:var(--label);margin-top:12px}
       /* ---------- FAQ ---------- */
       .faq-sec { border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
       .faq-sec h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
@@ -880,6 +898,7 @@
             <a class="link-draw" href="#contact">Contact</a>
           </span>
           <span class="clock" aria-label="Local time">Local — <span id="clock">--:--:--</span></span>
+          <span><button type="button" class="swarm-toggle" id="swarmToggle" aria-pressed="true">Swarm on</button></span>
         </nav>
         <a class="touch link-draw" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Get in touch on TikTok — DM WEB">
           Get in touch<br /><span data-tiktok-handle>@henryknowsweb</span> — <span data-cta-short>DM WEB</span>
@@ -890,15 +909,15 @@
     <main id="main">
       <!-- Hero -->
       <section class="hero" aria-labelledby="pageTitle">
-        <h1 class="visually-hidden" id="pageTitle">Henry — Web Designer for Stores & Landing Pages</h1>
+        <h1 class="visually-hidden" id="pageTitle">Henry, Marketplace Manager &amp; Shopify Store Designer</h1>
         <div class="wrap-x kicker-zone">
-          <p class="section-label">Portfolio — Stores · Landing Pages · Redesigns</p>
+          <p class="section-label" id="heroRole">Marketplace Operator &amp; Shopify Designer</p>
         </div>
         <div class="hero-top wrap-x"><div id="heroName" aria-hidden="true"><span class="hero-letter-mask"><span class="hero-letter" style="animation-delay:0s">H</span></span><span class="hero-letter-mask"><span class="hero-letter" style="animation-delay:.05s">E</span></span><span class="hero-letter-mask"><span class="hero-letter" style="animation-delay:.10s">N</span></span><span class="hero-letter-mask"><span class="hero-letter" style="animation-delay:.15s">R</span></span><span class="hero-letter-mask"><span class="hero-letter" style="animation-delay:.20s">Y</span></span></div><figure class="hero-portrait"><img src="assets/portrait/hero.webp" width="801" height="948" alt="Portrait of Henry" fetchpriority="high" /></figure></div>
         <div class="hero-grid wrap-x">
           <div class="left">
-            <p class="tagline" id="heroTagline">Bold websites for stores &amp; brands</p>
-            <p class="sub" id="heroSub">Web Designer &amp; Builder — for clients worldwide.</p>
+            <p class="tagline" id="heroTagline">I run and fix marketplace accounts, and build the stores around them.</p>
+            <p class="sub" id="heroSub">Marketplace Operator &amp; Shopify Designer — for clients worldwide.</p>
             <p class="availability" id="heroAvailability">● Available for new projects</p>
           </div>
           <div class="right">
@@ -910,18 +929,18 @@
       </section>
 
       <!-- Intro: scroll-scrubbed opening paragraph -->
-      <section class="intro wrap-x" aria-labelledby="introLabel">
+      <section class="intro wrap-x" aria-labelledby="introLabel" data-swarm-section>
         <div class="intro-grid">
           <div class="lbl"><p class="section-label" id="introLabel">Intro</p></div>
           <div class="body">
-            <p class="scrub" id="scrubText">I&rsquo;m Henry — I build bold websites for businesses worldwide. Stores, landing pages, and redesigns that are made to be shopped, not just scrolled past: a clear offer up front, an easy path to buy or book, and the details customers actually look for — menu, prices, location, hours — without the hunting.</p>
-            <p class="meta" id="introMeta">Web Designer &amp; Builder · Worldwide · Available for new projects</p>
+            <p class="scrub" id="scrubText">I&rsquo;m Henry — I run and fix marketplace accounts, and build the stores around them. Listings that read clearly, images that show the product properly, accounts kept healthy and payouts reconciled — and a Shopify store that turns marketplace buyers into your own customers.</p>
+            <p class="meta" id="introMeta">Marketplace Operator &amp; Shopify Designer · Worldwide · Available for new projects</p>
           </div>
         </div>
       </section>
 
       <!-- Marquee -->
-      <section aria-label="Services marquee">
+      <section aria-label="Services marquee" data-swarm-section>
         <div class="marquee-desktop">
           <div class="marquee-row" aria-hidden="true">
             <div class="marquee-track marquee-track-left" data-marquee="services"></div>
@@ -938,14 +957,14 @@
       </section>
 
       <!-- Portrait + About -->
-      <section class="portrait-sec" id="about" aria-labelledby="aboutHeading">
+      <section class="portrait-sec" id="about" aria-labelledby="aboutHeading" data-swarm-section>
         <div class="portrait-tall" id="portraitTall">
           <div class="portrait-sticky">
             <div class="portrait-stage" id="portraitStage">
-              <figure class="portrait-frame" id="portraitFrame"><img class="photo" id="portraitImg" src="assets/portrait/pinned.webp" width="819" height="1024" loading="lazy" alt="Portrait of Henry" /></figure>
+              <figure class="portrait-frame" id="portraitFrame"><img class="photo" id="portraitImg" src="assets/portrait/about-portrait.webp" width="1024" height="1280" loading="lazy" alt="Portrait of Henry" /></figure>
               <div class="fade-left" aria-hidden="true"></div>
               <div class="fade-bottom" aria-hidden="true"></div>
-              <p class="about-title reveal-fade" id="aboutPortraitLine">Websites built like storefronts, not brochures.</p>
+              <p class="about-title reveal-fade" id="aboutPortraitLine">Marketplaces first — the store built around them.</p>
               <h2 id="aboutHeading"><span class="reveal-line"><span>Nice to</span></span><span class="reveal-line"><span>meet you</span></span></h2>
             </div>
           </div>
@@ -954,8 +973,8 @@
         <div class="about-grid wrap-x">
           <div class="lbl"><p class="section-label">About / My story</p></div>
           <div class="story reveal-fade" id="aboutStory">
-            <p>My work lives where my clients&rsquo; customers already are. I share my builds on TikTok as @henryknowsweb, breaking down what makes a homepage work like a storefront. If your current site feels like a brochure, that&rsquo;s exactly what I fix.</p>
-            <p>I work remotely with clients worldwide. Everything runs through TikTok DM and email — you see a first version to react to before I build the full site, and we launch together.</p>
+            <p>My work lives where my clients&rsquo; customers already are — the marketplaces. For more than six years I&rsquo;ve worked inside Amazon, eBay, Walmart, Shopify and Temu accounts; now I run and fix those accounts for sellers, and build the Shopify stores around them.</p>
+            <p>I work remotely with clients worldwide. Everything runs through TikTok DM and email — tell me which marketplaces or store you sell on and what&rsquo;s not working, and we&rsquo;ll start with an audit.</p>
           </div>
           <div class="about-more reveal-fade">
             <a class="btn btn-secondary" href="/about">Know more about Henry<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
@@ -978,7 +997,7 @@
       </section>
 
       <!-- Services -->
-      <section class="services-sec wrap-x" id="services" aria-labelledby="servicesHeading">
+      <section class="services-sec wrap-x" id="services" aria-labelledby="servicesHeading" data-swarm-section>
         <div class="services-grid">
           <div class="head">
             <p class="section-label">What I do</p>
@@ -986,47 +1005,65 @@
           </div>
           <div class="list services-list" id="servicesList">
             <div class="service-row reveal-fade">
-              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M13 16h22l-1.7 25.2a3 3 0 0 1-3 2.8H17.7a3 3 0 0 1-3-2.8L13 16Z"/><path d="M18 16v-1.5a6 6 0 0 1 12 0V16"/></svg><span class="num">01</span>Stores &amp; E-commerce<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
-              <p class="d">Online stores built to sell — clear product paths, easy checkout flow, and a homepage that works like a storefront. Built on Shopify, WooCommerce or Hostinger — or as a custom build — whichever fits your business.</p>
-              <p class="price-line">From $1,000 · Up to 30 products · Checkout &amp; payments set up · Up to 5 pages · 3–5 weeks · 2 revision rounds</p>
+              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M13 16h22l-1.7 25.2a3 3 0 0 1-3 2.8H17.7a3 3 0 0 1-3-2.8L13 16Z"/><path d="M18 16v-1.5a6 6 0 0 1 12 0V16"/></svg><span class="num">01</span>Marketplace account management<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
+              <p class="d">Your Amazon, eBay, TikTok Shop, Walmart, Temu and Mercari accounts run day to day — listings kept live, account health watched, and issues dealt with before they cost you sales.</p>
             </div>
             <div class="service-row reveal-fade">
-              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><rect x="11" y="6" width="24" height="36" rx="2"/><path d="M17 14h12M17 21h12M17 28h7"/><path d="M27 31.5 38 37l-4.6 1.1 2.4 4.1-2.6 1.4-2.3-4-3.4 3.4z" fill="currentColor" stroke="none"/></svg><span class="num">02</span>Landing Pages<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
-              <p class="d">One focused page, one clear offer, one obvious next step. Built for campaigns, launches, and lead generation.</p>
-              <p class="price-line">From $350 · 1 page, up to 6 sections · Basic SEO setup · 5–7 days · 2 revision rounds</p>
+              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><rect x="11" y="6" width="24" height="36" rx="2"/><path d="M17 14h12M17 21h12M17 28h7"/><path d="M27 31.5 38 37l-4.6 1.1 2.4 4.1-2.6 1.4-2.3-4-3.4 3.4z" fill="currentColor" stroke="none"/></svg><span class="num">02</span>Listing images, graphics &amp; A+ content<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
+              <p class="d">Listing images and graphics that show the product clearly, and A+ content that answers the questions buyers ask before they buy.</p>
             </div>
             <div class="service-row reveal-fade">
-              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><rect x="15" y="15" width="18" height="18" rx="2"/><path d="M15 21h18"/><path d="M38.6 9.9A17 17 0 0 0 24 7"/><path d="M40.5 5.5v5h-5"/><path d="M9.4 38.1A17 17 0 0 0 24 41"/><path d="M7.5 42.5v-5h5"/></svg><span class="num">03</span>Redesigns<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
-              <p class="d">Your existing site, rebuilt bold: sharper hierarchy, faster paths to buy or book, and the details customers look for finally easy to find.</p>
-              <p class="price-line">From $700 · Up to 5 pages · New design &amp; mobile layout · 2–4 weeks · 2 revision rounds</p>
+              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><rect x="15" y="15" width="18" height="18" rx="2"/><path d="M15 21h18"/><path d="M38.6 9.9A17 17 0 0 0 24 7"/><path d="M40.5 5.5v5h-5"/><path d="M9.4 38.1A17 17 0 0 0 24 41"/><path d="M7.5 42.5v-5h5"/></svg><span class="num">03</span>PPC &amp; advertising<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
+              <p class="d">Marketplace advertising set up and managed around your products — campaigns, budgets and reporting you can actually follow.</p>
+            </div>
+            <div class="service-row reveal-fade">
+              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M13 16h22l-1.7 25.2a3 3 0 0 1-3 2.8H17.7a3 3 0 0 1-3-2.8L13 16Z"/><path d="M18 16v-1.5a6 6 0 0 1 12 0V16"/></svg><span class="num">04</span>Reconciliation &amp; account issue-fixing<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
+              <p class="d">Payouts reconciled against orders and fees so you know what you earned, and account warnings and issues worked through to a fix.</p>
+            </div>
+            <div class="service-row reveal-fade">
+              <h3 class="t"><svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><rect x="11" y="6" width="24" height="36" rx="2"/><path d="M17 14h12M17 21h12M17 28h7"/><path d="M27 31.5 38 37l-4.6 1.1 2.4 4.1-2.6 1.4-2.3-4-3.4 3.4z" fill="currentColor" stroke="none"/></svg><span class="num">05</span>Shopify store design &amp; management<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></h3>
+              <p class="d">A Shopify store designed around your marketplace products and managed day to day — so your own store sells as well as your listings do.</p>
             </div>
           </div>
-          <p class="platforms-line reveal-fade"><span class="section-label">Platforms I build on</span><span class="platforms-names">Shopify · WooCommerce · Hostinger · Custom builds</span></p>
+          <p class="also-build reveal-fade" id="alsoBuild">Also build: custom business software — tools built around how your business actually runs, like Sellomize Reach, the outreach platform in my side projects.</p>
         </div>
       </section>
 
       <!-- Work / project index -->
-      <section class="work-sec wrap-x" id="work" aria-labelledby="workHeading">
-        <p class="section-label">Selected work</p>
-        <h2 id="workHeading"><span class="reveal-line"><span>Project index</span></span></h2>
+      <section class="work-sec wrap-x" id="work" aria-labelledby="workHeading" data-swarm-section>
+        <p class="section-label">Marketplace case studies</p>
+        <h2 id="workHeading"><span class="reveal-line"><span>Case studies</span></span></h2>
 
         <div class="sig-row" id="sigRow">
           <div class="index-empty reveal-fade">
-            <p class="ieb-label">Project index</p>
-            <p class="big">New projects coming soon.</p>
-            <p class="note">The first showcase builds are on the way. DM WEB if you&rsquo;d like yours to be one of them.</p>
+            <p class="ieb-label">Case studies</p>
+            <p class="big">New case studies coming soon.</p>
+            <p class="note">Want your account to be one of the first featured? Message me on TikTok.</p>
           </div>
         </div>
 
         <div class="work-cta reveal-fade">
-          <a class="cta-btn btn btn-secondary" href="/portfolio">View more<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+          <a class="cta-btn btn btn-secondary" href="/portfolio">View all<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <a class="cta-btn btn btn-secondary" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Start your project — DM WEB on TikTok">Start yours — <span data-cta-label>DM WEB</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
-          <p id="workCtaNote">Want your store or landing page to be one of the first featured here? Message me on TikTok.</p>
+          <p id="workCtaNote">Want your accounts and store working like this? Message me on TikTok.</p>
         </div>
       </section>
 
+      <!-- Tools -->
+      <section class="tools-sec wrap-x" id="tools" aria-labelledby="toolsHeading" data-swarm-section>
+        <p class="section-label">Toolbox</p>
+        <h2 id="toolsHeading"><span class="reveal-line"><span>Tools I work in</span></span></h2>
+        <ul class="tools-list reveal-fade" id="toolsList">
+          <li>Figma</li>
+          <li>Klaviyo</li>
+          <li>Gorgias</li>
+          <li>Miracle Connect</li>
+          <li>Shopify</li>
+        </ul>
+      </section>
+
       <!-- Clients -->
-      <section class="clients-sec wrap-x" id="process" aria-labelledby="clientsTitle">
+      <section class="clients-sec wrap-x" id="process" aria-labelledby="clientsTitle" data-swarm-section>
         <div class="clients-grid">
           <div class="head">
             <p class="section-label" id="clientsLabel">How it works</p>
@@ -1034,17 +1071,17 @@
           </div>
           <div class="body reveal-fade" id="clientsBody">
             <ol class="process-steps">
-              <li><h3 class="ps-t"><span class="num">01</span>Brief</h3><p class="ps-d">Tell me what you&rsquo;re selling and what isn&rsquo;t working — a DM is enough to start.</p></li>
-              <li><h3 class="ps-t"><span class="num">02</span>Design</h3><p class="ps-d">You see a bold first version of the page, built around one clear offer.</p></li>
-              <li><h3 class="ps-t"><span class="num">03</span>Build</h3><p class="ps-d">I build the full site — clear paths to buy or book, and the details customers hunt for, easy to find.</p></li>
-              <li><h3 class="ps-t"><span class="num">04</span>Launch</h3><p class="ps-d">We put it live and link it from the places your customers already find you.</p></li>
+              <li><h3 class="ps-t"><span class="num">01</span>Audit</h3><p class="ps-d">I look at your marketplace accounts and store as they are — listings, account health, payouts, and what is stopping sales.</p></li>
+              <li><h3 class="ps-t"><span class="num">02</span>Plan</h3><p class="ps-d">You get a clear plan: what to fix first, what to build, and in what order.</p></li>
+              <li><h3 class="ps-t"><span class="num">03</span>Fix &amp; Build</h3><p class="ps-d">I fix the account issues, rebuild the listings and images, and design or repair the store around them.</p></li>
+              <li><h3 class="ps-t"><span class="num">04</span>Report &amp; Grow</h3><p class="ps-d">You see what changed and what it did — then we keep improving: more products, more marketplaces, better conversion.</p></li>
             </ol>
           </div>
         </div>
       </section>
 
       <!-- FAQ -->
-      <section class="faq-sec wrap-x" aria-labelledby="faqHeading">
+      <section class="faq-sec wrap-x" aria-labelledby="faqHeading" data-swarm-section>
         <div class="faq-grid">
           <div class="head">
             <p class="section-label">FAQ</p>
@@ -1053,38 +1090,22 @@
           <div class="faq-list" id="faqList">
           <div class="faq-group">
             <p class="faq-group-label">Working with me</p>
-            <details class="faq-item"><summary>What do you build?</summary><div class="faq-a"><p>Online stores, landing pages, and redesigns of existing sites. Each one is built to make it easy for customers to buy, book, or contact you.</p></div></details>
-            <details class="faq-item"><summary>Who do you work with?</summary><div class="faq-a"><p>Small businesses, creators, and brands worldwide. If you sell something or need people to get in touch, I can help.</p></div></details>
-            <details class="faq-item"><summary>How do we start?</summary><div class="faq-a"><p>Send me a DM on TikTok (@henryknowsweb) or an email with what you sell, who your customers are, and what isn&rsquo;t working on your current site. I&rsquo;ll reply with questions and next steps.</p></div></details>
+            <details class="faq-item"><summary>What do you do?</summary><div class="faq-a"><p>Marketplace account management, listing images and graphics and A+ content, PPC and advertising, reconciliation and account issue-fixing, and Shopify store design and management.</p></div></details>
+            <details class="faq-item"><summary>Which marketplaces do you work on?</summary><div class="faq-a"><p>Amazon, eBay, TikTok Shop, Walmart, Temu and Mercari.</p></div></details>
+            <details class="faq-item"><summary>Who do you work with?</summary><div class="faq-a"><p>Brands and sellers first. I also work with agencies, and I am open to roles. I work remotely with clients worldwide.</p></div></details>
+            <details class="faq-item"><summary>How do we start?</summary><div class="faq-a"><p>Send me a DM on TikTok (@henryknowsweb) or an email with which marketplaces you sell on and what isn't working. There is a free 15-minute call if you want to talk it through first.</p></div></details>
           </div>
           <div class="faq-group">
-            <p class="faq-group-label">Cost and timing</p>
-            <details class="faq-item"><summary>How does pricing work?</summary><div class="faq-a"><p>Every project is quoted as a fixed price after we talk through your brief, and before any work starts. No surprise costs.</p></div></details>
-            <details class="faq-item"><summary>How much does a website cost?</summary><div class="faq-a"><p>It depends on the pages, features, and content. Starting prices: a landing page from $350 (one page, up to 6 sections, mobile layout, 2 revision rounds, basic SEO setup); an online store from $1,000 (up to 30 products, checkout and payments set up, up to 5 pages, 2 revision rounds); a redesign from $700 (up to 5 pages, new design, mobile layout, 2 revision rounds). After the brief I&rsquo;ll send a fixed quote before any work starts.</p></div></details>
-            <details class="faq-item"><summary>How long does it take?</summary><div class="faq-a"><p>A landing page usually takes 5–7 days, a store 3–5 weeks, and a redesign 2–4 weeks, counted from the day I receive your text, photos, and content. The timeline mostly depends on how quickly I get your content and feedback.</p></div></details>
-            <details class="faq-item"><summary>Do you take a deposit?</summary><div class="faq-a"><p>Yes — 30% upfront, and the rest before the final files are handed over and the site launches. I&rsquo;ll put it in writing before starting.</p></div></details>
-            <details class="faq-item"><summary>What payment methods do you accept?</summary><div class="faq-a"><p>Payoneer, bank transfer, or crypto. All quotes are in USD.</p></div></details>
-          </div>
-          <div class="faq-group">
-            <p class="faq-group-label">What&rsquo;s included</p>
-            <details class="faq-item"><summary>What&rsquo;s your process?</summary><div class="faq-a"><p>Brief, Design, Build, Launch. You tell me what you need, you see a first version, I build the full site, and we go live together.</p></div></details>
-            <details class="faq-item"><summary>Can you build an online store?</summary><div class="faq-a"><p>Yes. I build stores on Shopify and WooCommerce, and on Hostinger — or as a custom build — with checkout and payments set up so you can start taking orders.</p></div></details>
-            <details class="faq-item"><summary>Do you handle domain and hosting?</summary><div class="faq-a"><p>Either way works: I can set it up for you, or guide you through it. The domain and hosting accounts stay in your name, so you always own them.</p></div></details>
-            <details class="faq-item"><summary>Do I need to provide the text and images?</summary><div class="faq-a"><p>It helps if you do. If you don&rsquo;t have them, tell me what you can share and we&rsquo;ll work out the gaps.</p></div></details>
-            <details class="faq-item"><summary>Will my site work on phones?</summary><div class="faq-a"><p>Yes. Every site is designed for phone, tablet, and desktop.</p></div></details>
-            <details class="faq-item"><summary>Will people be able to find my site on Google?</summary><div class="faq-a"><p>I set up the basics: page titles, descriptions, headings, fast loading, and a sitemap. Ranking takes time and depends on competition and your content, and I can&rsquo;t promise a position.</p></div></details>
-          </div>
-          <div class="faq-group">
-            <p class="faq-group-label">After launch</p>
-            <details class="faq-item"><summary>Who owns the website?</summary><div class="faq-a"><p>You do. Once the final payment is made, the site and its files are yours.</p></div></details>
-            <details class="faq-item"><summary>What if I need changes after launch?</summary><div class="faq-a"><p>Two rounds of revisions are included while we build. After launch, small fixes are free for 30 days. Bigger changes are quoted separately.</p></div></details>
-            <details class="faq-item"><summary>Do you offer ongoing support?</summary><div class="faq-a"><p>Not as a monthly plan right now. After the 30-day fix window, I quote changes as you need them — just DM or email me.</p></div></details>
+            <p class="faq-group-label">Stores and software</p>
+            <details class="faq-item"><summary>Can you design a Shopify store?</summary><div class="faq-a"><p>Yes. I design in Figma, run email with Klaviyo and handle support with Gorgias.</p></div></details>
+            <details class="faq-item"><summary>Do you build software?</summary><div class="faq-a"><p>Yes. For example Sellomize Reach, a cold email outreach platform built for an Amazon growth agency.</p></div></details>
+            <details class="faq-item"><summary>Will my site work on phones?</summary><div class="faq-a"><p>Yes. Every site is designed for phone, tablet and desktop.</p></div></details>
+            <details class="faq-item"><summary>Who owns the domain and hosting for a website?</summary><div class="faq-a"><p>You do. The domain and hosting accounts stay in your name, so you always own them.</p></div></details>
           </div>
           <div class="faq-group">
             <p class="faq-group-label">Trust</p>
-            <details class="faq-item"><summary>Can I see your work?</summary><div class="faq-a"><p>My own showcase builds are being added now, and I only show work I made. I&rsquo;d rather wait than show someone else&rsquo;s work as mine. Feel free to DM me for a sample or a call.</p></div></details>
-            <details class="faq-item"><summary>Do you offer a free mockup or consultation?</summary><div class="faq-a"><p>A free 15-minute consultation, yes — DM me and we&rsquo;ll talk through your project. A free mockup, no.</p></div></details>
-            <details class="faq-item"><summary>What if I&rsquo;m not happy?</summary><div class="faq-a"><p>Before you pay a deposit, we agree on the brief, price, and deliverables in writing. You get two rounds of revisions, and if the first design isn&rsquo;t right, I&rsquo;ll rework it. If you cancel before I start, you get your deposit back. Once I&rsquo;ve started, the deposit covers the work done so far. If I can&rsquo;t deliver what we agreed after your revisions, I&rsquo;ll refund the unused part of what you&rsquo;ve paid. After launch, I fix any bugs I caused for 30 days.</p></div></details>
+            <details class="faq-item"><summary>Can I see your work?</summary><div class="faq-a"><p>Yes — and I only show work I made. Case studies are added here as they are ready.</p></div></details>
+            <details class="faq-item"><summary>Do you offer a free consultation?</summary><div class="faq-a"><p>A free 15-minute call, yes. A free mockup, no.</p></div></details>
           </div>
           </div>
         </div>
@@ -1095,16 +1116,16 @@
     <!-- Contact footer -->
     <footer class="contact footer-reveal wrap-x" id="contact" aria-labelledby="footerHeading">
       <img class="footer-watermark" src="assets/ui/h-outline.svg" alt="" width="640" height="640" loading="lazy" aria-hidden="true" />
-      <p class="kick" id="footerKick">Got a store, a launch, or a site that needs a rebuild?</p>
+      <p class="kick" id="footerKick">Got a marketplace account or store that needs fixing?</p>
       <h2 id="footerHeading">Let&rsquo;s build yours</h2>
       <div class="footer-actions">
         <span class="footer-channels" id="footerChannels"><a class="magnet-btn btn btn-primary btn-lg" id="magnetBtn" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Message Henry on TikTok — DM WEB"><span data-tiktok-handle>@henryknowsweb</span> — <span data-cta-label>DM WEB</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a></span>
         <button type="button" class="outline-btn btn btn-secondary" id="footerEmail" data-contact-open aria-label="Email Henry — opens the contact form"><span class="btn-email-text">henryknowsweb@gmail.com</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
         <a class="outline-btn btn btn-secondary" href="https://cal.com/henryknowsweb/15min" target="_blank" rel="noopener">Book a free 15-min call<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
       </div>
-      <p class="footer-note" id="footerNote">The fastest way in is a TikTok DM — send &ldquo;WEB&rdquo; and tell me about your store, landing page, or redesign.</p>
+      <p class="footer-note" id="footerNote">The fastest way in is a TikTok DM — send &ldquo;WEB&rdquo; and tell me which marketplaces or store you sell on, and what&rsquo;s not working.</p>
       <div class="footer-bottom">
-        <span>© <span id="year">2026</span> <span data-profile-name>Henry</span> — <span data-profile-role>Web Designer &amp; Builder</span></span>
+        <span>© <span id="year">2026</span> <span data-profile-name>Henry</span> — <span data-profile-role>Marketplace Operator &amp; Shopify Designer</span></span>
         <span>henryknowsweb.pages.dev</span>
         <span><span data-tiktok-handle>@henryknowsweb</span> · <span data-clients-in>Worldwide</span></span>
       </div>
@@ -1279,8 +1300,8 @@
         window.__rebuildScrub = buildScrub;
 
         /* ---------- Marquee content ---------- */
-        var services = ["Stores & E-commerce", "Landing Pages", "Redesigns"];
-        var phrases = ["Bold websites", "Stores & brands", "Worldwide", "DM WEB"];
+        var services = ["Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari", "Shopify"];
+        var phrases = ["A+ Content", "PPC", "Reconciliation", "Listings", "Klaviyo", "Gorgias"];
         function chunk(items, withThumb) {
           var html = "";
           for (var r = 0; r < 4; r++) {
@@ -1296,16 +1317,15 @@
           }
           return '<span class="marquee-chunk">' + html + '</span><span class="marquee-chunk">' + html + "</span>";
         }
-        function buildMarquees(serviceTitles) {
-          var list = (serviceTitles && serviceTitles.length) ? serviceTitles : services;
+        function buildMarquees() {
           document.querySelectorAll("[data-marquee]").forEach(function (track) {
             var kind = track.getAttribute("data-marquee");
-            if (kind === "services") track.innerHTML = chunk(list, false);
+            if (kind === "services") track.innerHTML = chunk(services, false);
             else if (kind === "phrases") track.innerHTML = chunk(phrases, true);
-            else track.innerHTML = chunk(list.concat(phrases), false);
+            else track.innerHTML = chunk(services.concat(phrases), false);
           });
         }
-        buildMarquees(services);
+        buildMarquees();
         window.__buildMarquees = buildMarquees;
 
         /* ---------- Marquee: speed up briefly with scroll velocity; pause off-screen ---------- */
@@ -1542,12 +1562,12 @@
         .sig-card .pv-media-img, .sig-card .pv-arrow { transition: none !important; }
       }
     </style>
-    <script>
-      /* Signature projects: the homepage shows the first three published
-         projects from content.json as framed cards in one line, each linking
-         to its overlay on /portfolio. The full index (list / grid / overlay)
-         lives on portfolio.html. With no published projects, the honest
-         empty state below stays. */
+        <script>
+      /* Case study + side project overlay: one shared dialog in the
+         pv-overlay pattern. Case mode renders issue / found / fix steps /
+         result / before-after gallery / live link; project mode renders
+         cover / summary / tags / live + demo links. Any block whose field
+         is empty is hidden, never rendered as an empty shell. */
       (function () {
         "use strict";
         function esc(s) {
@@ -1555,74 +1575,322 @@
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
           });
         }
+        function trimS(s) { return String(s == null ? "" : s).trim(); }
         var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
-        var FRAME_SVG = '<svg class="pv-frame-svg" viewBox="0 0 640 400" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path fill-rule="evenodd" fill="#131315" d="M13 1h614a12 12 0 0 1 12 12v374a12 12 0 0 1-12 12H13A12 12 0 0 1 1 387V13A12 12 0 0 1 13 1Z M13 45h614a4 4 0 0 1 4 4v338a4 4 0 0 1-4 4H13a4 4 0 0 1 4-4V49a4 4 0 0 1 4-4Z"/><rect x="1" y="1" width="638" height="398" rx="12" fill="none" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><path d="M1 37h638" stroke="rgba(242,239,234,.18)" stroke-width="1.5"/><circle cx="20" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="40" cy="19" r="5" fill="rgba(242,239,234,.28)"/><circle cx="60" cy="19" r="5" fill="rgba(242,239,234,.28)"/><rect x="86" y="10" width="300" height="18" rx="9" fill="rgba(242,239,234,.07)"/></svg>';
-        function frameWrap(inner) { return '<div class="pv-frame">' + inner + FRAME_SVG + "</div>"; }
-        function publishedProjects(data) {
-          var arr = Array.isArray(data.projects) ? data.projects : [];
-          var out = [];
-          arr.forEach(function (p, i) {
-            if (!p || typeof p !== "object") return;
-            if (String(p.status || "published").toLowerCase() === "draft") return;
-            out.push({ p: p, i: i, ord: (typeof p.order === "number" && isFinite(p.order)) ? p.order : Number.MAX_SAFE_INTEGER });
-          });
-          out.sort(function (a, b) { return (a.ord - b.ord) || (a.i - b.i); });
-          return out.map(function (x) { return x.p; });
+        var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+        function slugOf(item) {
+          if (item && typeof item.id === "string" && item.id.trim()) return item.id.trim();
+          var t = String((item && item.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          while (t.charAt(0) === "-") t = t.slice(1);
+          while (t.length && t.charAt(t.length - 1) === "-") t = t.slice(0, -1);
+          return t || "item";
         }
-        function posterOf(p) {
-          if (p.preview && p.preview.poster) return p.preview.poster;
+        function coverOf(p) {
+          if (!p) return "";
+          if (typeof p.cover === "string") return p.cover;
           if (p.cover && p.cover.src) return p.cover.src;
+          if (p.preview && p.preview.poster) return p.preview.poster;
           if (p.preview && p.preview.type === "image" && p.preview.src) return p.preview.src;
           return "";
         }
-        function altOf(p) {
-          if (p.cover && p.cover.alt) return p.cover.alt;
-          return p.title || "Project preview";
+        function coverAltOf(p) {
+          if (p && p.cover && typeof p.cover === "object" && p.cover.alt) return p.cover.alt;
+          return (p && p.title) || "Project preview";
         }
-        function slugOf(p) {
-          if (p && typeof p.id === "string" && p.id.trim()) return p.id.trim();
-          var t = String((p && p.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-          return t || "project";
-        }
-        function mediaHTML(p) {
-          var poster = posterOf(p);
-          var html = "";
-          if (poster) html += '<img class="pv-media-img" src="' + esc(poster) + '" alt="' + esc(altOf(p)) + '" width="640" height="400" loading="lazy">';
-          else html += '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(p.title || "Project") + "</span></div>";
-          return frameWrap(html);
-        }
-        function renderProjects(data) {
-          var wrap = document.getElementById("sigRow");
-          if (!wrap || !data || typeof data !== "object") return;
-          if (!Array.isArray(data.projects)) return;
-          var projects = publishedProjects(data);
-          if (!projects.length) {
-            wrap.classList.remove("has-cards");
-            if (data.projectsEmpty) {
-              var e = data.projectsEmpty;
-              wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">Project index</p><p class="big">' +
-                esc(e.title) + '</p><p class="note">' + esc(e.note) + "</p></div>";
-              var note = document.getElementById("workCtaNote");
-              if (note && e.ctaNote) note.textContent = e.ctaNote;
-            }
-            return;
+        function baFigure(item) {
+          var before = trimS(item && item.before), after = trimS(item && item.after), cap = trimS(item && item.caption);
+          var capHtml = cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "";
+          if (before && after) {
+            return '<figure class="ba-fig"><div class="ba" data-ba>' +
+              '<img src="' + esc(before) + '" alt="Before" loading="lazy">' +
+              '<img class="ba-after" src="' + esc(after) + '" alt="After" loading="lazy">' +
+              '<span class="ba-tag ba-before">Before</span><span class="ba-tag ba-after-tag">After</span>' +
+              '<input type="range" min="0" max="100" value="50" aria-label="Compare before and after">' +
+              "</div>" + capHtml + "</figure>";
           }
-          var html = "";
-          projects.slice(0, 3).forEach(function (p, i) {
-            html += '<a class="sig-card" href="/portfolio#' + esc(slugOf(p)) + '" style="--pv-i:' + Math.min(i, 8) + '" aria-label="' + esc(p.title || "Project") + ' — view in portfolio">' +
-              '<div class="pv-media">' + mediaHTML(p) + "</div>" +
-              '<div class="sig-cap"><div><p class="t">' + esc(p.title || "Untitled project") + "</p>" +
-              (p.category ? '<p class="c">' + esc(p.category) + "</p>" : "") + "</div>" +
-              '<span class="meta">' + (p.year ? '<span class="yr">' + esc(p.year) + "</span>" : "") +
-              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + "</span></span></div></a>";
-          });
-          wrap.innerHTML = html;
-          wrap.classList.add("has-cards");
+          var single = before || after;
+          if (single) {
+            return '<figure class="ba-fig"><div class="ba-single"><img src="' + esc(single) + '" alt="' + esc(cap || "Work example") + '" loading="lazy"></div>' + capHtml + "</figure>";
+          }
+          return "";
         }
-        window.__renderProjects = renderProjects;
+        function bindSliders(root) {
+          if (!root) return;
+          Array.prototype.slice.call(root.querySelectorAll("[data-ba]")).forEach(function (w) {
+            var input = w.querySelector("input");
+            var after = w.querySelector(".ba-after");
+            if (!input || !after) return;
+            function upd() { after.style.clipPath = "inset(0 0 0 " + input.value + "%)"; }
+            input.addEventListener("input", upd);
+            upd();
+          });
+        }
+        var overlayEl = null;
+        var ov = { open: false, mode: "case", items: [], idx: -1, returnEl: null };
+        function buildOverlay() {
+          if (overlayEl) return overlayEl;
+          overlayEl = document.createElement("div");
+          overlayEl.className = "pv-overlay";
+          overlayEl.id = "csOverlay";
+          overlayEl.setAttribute("role", "dialog");
+          overlayEl.setAttribute("aria-modal", "true");
+          overlayEl.setAttribute("aria-labelledby", "csOvTitle");
+          overlayEl.hidden = true;
+          overlayEl.innerHTML =
+            '<button class="pv-ov-close" type="button" aria-label="Close">' + CLOSE_SVG + "</button>" +
+            '<div class="pv-ov-panel">' +
+              '<div class="pv-ov-media pv-media"></div>' +
+              '<p class="pv-ov-meta"></p>' +
+              '<h3 class="pv-ov-title" id="csOvTitle"></h3>' +
+              '<div class="cs-block" data-b="issue"><h4>The issue</h4><p></p></div>' +
+              '<div class="cs-block" data-b="found"><h4>What I found</h4><p></p></div>' +
+              '<div class="cs-block" data-b="fix"><h4>How I fixed it</h4><ol class="cs-steps"></ol></div>' +
+              '<div class="cs-block" data-b="result"><h4>Result</h4><p></p></div>' +
+              '<p class="pv-ov-summary" data-b="summary"></p>' +
+              '<div class="pv-ov-tags" data-b="tags"></div>' +
+              '<div class="cs-gallery" data-b="gallery"></div>' +
+              '<div class="pv-ov-actions">' +
+                '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + "</a>" +
+                '<a class="pv-ov-demo cta-btn" target="_blank" rel="noreferrer" style="display:none">Live demo ' + ARROW_UR + "</a>" +
+                '<div class="pv-ov-nav">' +
+                  '<button class="pv-ov-navbtn" type="button" data-cs-prev>&#8592; Prev</button>' +
+                  '<button class="pv-ov-navbtn" type="button" data-cs-next>Next &#8594;</button>' +
+                "</div>" +
+              "</div>" +
+            "</div>";
+          document.body.appendChild(overlayEl);
+          overlayEl.querySelector(".pv-ov-close").addEventListener("click", function () { closeOv(); });
+          overlayEl.querySelector("[data-cs-prev]").addEventListener("click", function () { navOv(-1); });
+          overlayEl.querySelector("[data-cs-next]").addEventListener("click", function () { navOv(1); });
+          overlayEl.addEventListener("mousedown", function (e) { if (e.target === overlayEl) closeOv(); });
+          document.addEventListener("keydown", onKey, true);
+          return overlayEl;
+        }
+        function onKey(e) {
+          if (!ov.open) return;
+          if (e.key === "Escape") { e.preventDefault(); closeOv(); return; }
+          if (e.key === "ArrowLeft") { navOv(-1); return; }
+          if (e.key === "ArrowRight") { navOv(1); return; }
+          if (e.key === "Tab") {
+            var f = overlayEl.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])');
+            var list = [];
+            f.forEach(function (el) { if (el.offsetParent !== null || el === document.activeElement) list.push(el); });
+            if (!list.length) return;
+            var first = list[0], last = list[list.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
+        function navOv(d) {
+          if (!ov.items.length) return;
+          fillOv((ov.idx + d + ov.items.length) % ov.items.length);
+        }
+        function setBlock(name, show) {
+          var el = overlayEl.querySelector('[data-b="' + name + '"]');
+          if (el) el.style.display = show ? "" : "none";
+        }
+        function fillOv(i) {
+          var it = ov.items[i];
+          if (!it) return;
+          ov.idx = i;
+          var isCase = ov.mode === "case";
+          var media = overlayEl.querySelector(".pv-ov-media");
+          if (!isCase) {
+            var cov = coverOf(it);
+            if (cov) { media.innerHTML = '<img class="pv-media-img" src="' + esc(cov) + '" alt="' + esc(coverAltOf(it)) + '" width="1280" height="800">'; media.style.display = ""; }
+            else { media.innerHTML = ""; media.style.display = "none"; }
+          } else { media.innerHTML = ""; media.style.display = "none"; }
+          var parts = [];
+          if (isCase) {
+            if (Array.isArray(it.marketplaces)) it.marketplaces.forEach(function (m) { if (trimS(m)) parts.push(trimS(m)); });
+            if (trimS(it.clientType)) parts.push(trimS(it.clientType));
+            if (trimS(it.year)) parts.push(trimS(it.year));
+          } else {
+            if (trimS(it.category)) parts.push(trimS(it.category));
+            if (trimS(it.year)) parts.push(trimS(it.year));
+            if (trimS(it.role)) parts.push(trimS(it.role));
+          }
+          var metaEl = overlayEl.querySelector(".pv-ov-meta");
+          metaEl.textContent = parts.join(" · ");
+          metaEl.style.display = parts.length ? "" : "none";
+          overlayEl.querySelector(".pv-ov-title").textContent = it.title || (isCase ? "Case study" : "Project");
+          var issueP = overlayEl.querySelector('[data-b="issue"] p');
+          issueP.textContent = trimS(it.issue);
+          setBlock("issue", isCase && !!trimS(it.issue));
+          var foundP = overlayEl.querySelector('[data-b="found"] p');
+          foundP.textContent = trimS(it.found);
+          setBlock("found", isCase && !!trimS(it.found));
+          var steps = (isCase && Array.isArray(it.fixSteps)) ? it.fixSteps.filter(function (s) { return !!trimS(s); }) : [];
+          var ol = overlayEl.querySelector(".cs-steps");
+          ol.innerHTML = steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("");
+          setBlock("fix", steps.length > 0);
+          var resP = overlayEl.querySelector('[data-b="result"] p');
+          resP.textContent = trimS(it.result);
+          setBlock("result", isCase && !!trimS(it.result));
+          var sum = !isCase ? trimS(it.summary || it.description) : "";
+          var sumEl = overlayEl.querySelector('[data-b="summary"]');
+          sumEl.textContent = sum;
+          setBlock("summary", !!sum);
+          var tags = (!isCase && Array.isArray(it.tags)) ? it.tags.filter(function (t) { return !!trimS(t); }) : [];
+          var tagsEl = overlayEl.querySelector('[data-b="tags"]');
+          tagsEl.innerHTML = tags.map(function (t) { return '<span class="pv-ov-tag">' + esc(t) + "</span>"; }).join("");
+          setBlock("tags", tags.length > 0);
+          var gal = overlayEl.querySelector('[data-b="gallery"]');
+          var galHtml = "";
+          if (isCase && Array.isArray(it.gallery)) galHtml = it.gallery.map(function (g) { return baFigure(g); }).join("");
+          gal.innerHTML = galHtml;
+          setBlock("gallery", !!galHtml);
+          if (galHtml) bindSliders(gal);
+          var visit = overlayEl.querySelector(".pv-ov-visit");
+          var url = trimS(isCase ? it.liveUrl : it.url);
+          if (url) { visit.setAttribute("href", url); visit.style.display = ""; }
+          else { visit.removeAttribute("href"); visit.style.display = "none"; }
+          var demo = overlayEl.querySelector(".pv-ov-demo");
+          var demoUrl = !isCase ? trimS(it.demoUrl) : "";
+          if (demoUrl) { demo.setAttribute("href", demoUrl); demo.style.display = ""; }
+          else { demo.removeAttribute("href"); demo.style.display = "none"; }
+          var nav = overlayEl.querySelector(".pv-ov-nav");
+          nav.style.display = ov.items.length > 1 ? "" : "none";
+          overlayEl.scrollTop = 0;
+        }
+        function openOv(mode, items, i, returnEl) {
+          buildOverlay();
+          ov.mode = mode; ov.items = items || []; ov.returnEl = returnEl || null;
+          fillOv(i);
+          ov.open = true;
+          overlayEl.hidden = false;
+          document.documentElement.style.overflow = "hidden";
+          var closeBtn = overlayEl.querySelector(".pv-ov-close");
+          if (closeBtn) closeBtn.focus();
+        }
+        function closeOv() {
+          if (!overlayEl || !ov.open) { if (overlayEl) overlayEl.hidden = true; return; }
+          ov.open = false;
+          overlayEl.hidden = true;
+          document.documentElement.style.overflow = "";
+          if (ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
+          ov.returnEl = null;
+        }
+        window.__openCaseOverlay = function (items, i, el) { openOv("case", items, i, el); };
+        window.__openProjectOverlay = function (items, i, el) { openOv("project", items, i, el); };
+        window.__baFigure = baFigure;
+        window.__bindSliders = bindSliders;
+        window.__csEsc = esc;
+        window.__csTrim = trimS;
+        window.__csSlug = slugOf;
+        window.__csCoverOf = coverOf;
+        window.__csCoverAltOf = coverAltOf;
       })();
     </script>
-    <style>
+    <script>
+      /* Case studies signature row: the first three case studies from
+         content.json as number / title / marketplace / year / arrow rows
+         in the project-row grid style. Clicking a row opens the shared
+         case study overlay. With no case studies yet, the honest empty
+         state from content.json caseStudiesEmpty is rendered instead. */
+      (function () {
+        "use strict";
+        var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
+        function esc(s) { return window.__csEsc ? window.__csEsc(s) : String(s == null ? "" : s); }
+        function renderCases(data) {
+          var wrap = document.getElementById("sigRow");
+          if (!wrap || !data || typeof data !== "object") return;
+          var items = (Array.isArray(data.caseStudies) ? data.caseStudies : []).filter(function (c) { return c && typeof c === "object"; });
+          if (!items.length) {
+            wrap.classList.remove("has-rows");
+            var empty = (data.caseStudiesEmpty && typeof data.caseStudiesEmpty === "object") ? data.caseStudiesEmpty : {};
+            var emptyTitle = String(empty.title || "New case studies coming soon.").trim() || "New case studies coming soon.";
+            var emptyNote = String(empty.note || "Want your account to be one of the first featured? Message me on TikTok.").trim() || "Want your account to be one of the first featured? Message me on TikTok.";
+            wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">Case studies</p><p class="big">' + esc(emptyTitle) + '</p><p class="note">' + esc(emptyNote) + "</p></div>";
+            return;
+          }
+          var shown = items.slice(0, 3);
+          wrap.classList.add("has-rows");
+          wrap.innerHTML = shown.map(function (c, i) {
+            var mk = Array.isArray(c.marketplaces) ? c.marketplaces.filter(function (m) { return !!String(m == null ? "" : m).trim(); }).join(" · ") : "";
+            return '<div class="index-row cs-row" role="button" tabindex="0" data-cs-i="' + i + '" aria-haspopup="dialog" aria-label="' + esc(c.title || "Case study") + ' — view case study">' +
+              '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
+              '<div><p class="big">' + esc(c.title || "Case study") + "</p></div>" +
+              '<span class="cat">' + esc(mk) + '</span><span class="yr">' + esc(c.year || "") + "</span>" +
+              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + "</span></div>";
+          }).join("");
+          Array.prototype.slice.call(wrap.querySelectorAll(".cs-row")).forEach(function (row) {
+            function open() {
+              if (window.__openCaseOverlay) window.__openCaseOverlay(items, parseInt(row.getAttribute("data-cs-i"), 10) || 0, row);
+            }
+            row.addEventListener("click", open);
+            row.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+            });
+          });
+        }
+        window.__renderCases = renderCases;
+      })();
+    </script>
+        <style>
+      /* ---------- Swarm cursor effect ---------- */
+      #swarmCanvas { position: fixed; inset: 0; z-index: 85; pointer-events: none; }
+      html.swarm-on [data-swarm-section] { opacity: 0; transform: translateY(24px); }
+      html.swarm-on [data-swarm-section].revealed { opacity: 1; transform: none; transition: opacity var(--dur-slow) ease, transform var(--dur-slow) cubic-bezier(0.16, 1, 0.3, 1); }
+      .swarm-toggle { appearance: none; background: transparent; border: 1px solid var(--line); color: var(--label); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 10px; min-height: 32px; cursor: pointer; }
+      .swarm-toggle:hover { color: var(--paper); border-color: var(--paper); }
+      @media (prefers-reduced-motion: reduce) { html.swarm-on [data-swarm-section] { opacity: 1; transform: none; } }
+      /* ---------- Project/case overlay (pv pattern, shared with /portfolio) ---------- */
+      .pv-overlay { position: fixed; inset: 0; z-index: 200; overflow-y: auto; background: rgba(8, 7, 8, 0.97); }
+      .pv-overlay[hidden] { display: none !important; }
+      .pv-ov-panel { max-width: 1060px; margin: 0 auto; padding: 84px 24px 72px; }
+      .pv-ov-close { position: fixed; top: 18px; right: 20px; z-index: 2; width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; background: rgba(20, 19, 20, 0.9); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
+      .pv-ov-close:hover { border-color: var(--accent); color: var(--accent); }
+      .pv-ov-close svg { display: block; width: 20px; height: 20px; margin: auto; }
+      .pv-ov-media { border: 1px solid var(--border); }
+      .pv-ov-meta { margin: 26px 0 0; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+      .pv-ov-title { margin: 10px 0 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; font-size: clamp(2.2rem, 5.5vw, 4rem); }
+      .pv-ov-summary { margin: 18px 0 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .pv-ov-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+      .pv-ov-tag { border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
+      .pv-ov-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: 36px; }
+      .pv-ov-nav { display: flex; gap: 10px; margin-left: auto; }
+      .pv-ov-navbtn { appearance: none; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 12px 18px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+      .pv-ov-navbtn:hover { border-color: var(--accent); color: var(--accent); }
+      .pv-ov-visit, .pv-ov-demo { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
+      .pv-row .pv-arrow, .cs-row .pv-arrow { margin-left: auto; align-self: center; font-size: 20px; color: var(--dim); transition: color 0.2s ease, transform 0.2s ease; }
+      .cs-row:hover .pv-arrow { color: var(--accent); transform: translateX(4px); }
+      .cs-row .pv-arrow svg { display: block; width: 20px; height: 20px; }
+      /* ---------- Case study overlay + before/after slider ---------- */
+      .cs-block { margin-top: 26px; }
+      .cs-block h4 { margin: 0 0 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+      .cs-block p { margin: 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .cs-steps { margin: 0; padding-left: 22px; max-width: 640px; }
+      .cs-steps li { font-size: 16px; line-height: 1.7; color: var(--body2); margin: 0 0 6px; }
+      .cs-gallery { display: grid; gap: 22px; margin-top: 28px; }
+      .ba-fig { margin: 0; }
+      .ba { position: relative; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--surface); }
+      .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+      .ba .ba-after { clip-path: inset(0 0 0 50%); }
+      .ba input[type="range"] { position: absolute; left: 16px; right: 16px; bottom: 12px; width: calc(100% - 32px); margin: 0; accent-color: var(--red); z-index: 3; cursor: ew-resize; }
+      .ba-tag { position: absolute; top: 10px; z-index: 2; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(14, 13, 14, 0.78); color: var(--paper); padding: 4px 8px; pointer-events: none; }
+      .ba-tag.ba-before { left: 10px; }
+      .ba-tag.ba-after-tag { right: 10px; }
+      .ba-single { border: 1px solid var(--border); overflow: hidden; }
+      .ba-single img { display: block; width: 100%; height: auto; }
+      .ba-cap { margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--body2); }
+      .cs-row { cursor: pointer; }
+      .sig-row.has-rows { display: block; margin-top: 40px; }
+      /* ---------- Tools strip ---------- */
+      .tools-sec { border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
+      .tools-sec h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 5vw, 3.4rem); }
+      .tools-list { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 32px; }
+      .tools-list li { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+      .also-build { margin: 28px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      @media (min-width: 768px) { .services-grid .also-build { grid-column: 5 / span 8; } }
+      /* ---------- Website work (portfolio) ---------- */
+      .ww-item { border-bottom: 1px solid var(--border); padding: 32px 0; }
+      .ww-item h3 { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 28px; text-transform: uppercase; line-height: 1.05; }
+      .ww-item .note { margin: 10px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .ww-item .ba-fig { margin-top: 20px; max-width: 860px; }
+      .ww-item .ww-actions { margin-top: 18px; }
+    </style>
+<style>
       /* ---- Testimonials: rendered by the testimonials engine below, only
          when content.json holds published + permitted testimonials and
          settings.testimonials.showSection is true. Otherwise no markup. ---- */
@@ -1728,7 +1996,7 @@
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '\"': "&quot;", "'": "&#39;" }[c];
           });
         }
-        function trimStr(s) { return String(s == null ? "" : s).replace(/^\s+|\s+$/g, ""); }
+        function trimStr(s) { return String(s == null ? "" : s).trim(); }
         function cutAt(str, n) {
           if (str.length <= n) return str;
           var c = str.slice(0, n);
@@ -1817,7 +2085,7 @@
         }
         function projectLinkHTML(t, data, S) {
           if (!S.showProjectLink || !t.projectId) return "";
-          var projs = (data && Array.isArray(data.projects)) ? data.projects : [];
+          var projs = (data && Array.isArray(data.sideProjects)) ? data.sideProjects : [];
           var match = null;
           for (var i = 0; i < projs.length; i++) {
             var p = projs[i];
@@ -2071,7 +2339,9 @@
           var main = document.querySelector("main");
           var clientsSec = document.querySelector(".clients-sec");
           var hosting = document.querySelector(".hosting-sec");
-          if (clientsSec && clientsSec.parentNode) clientsSec.parentNode.insertBefore(section, clientsSec.nextSibling);
+          var faqSec = document.querySelector(".faq-sec");
+          if (faqSec && faqSec.parentNode) faqSec.parentNode.insertBefore(section, faqSec.nextSibling);
+          else if (clientsSec && clientsSec.parentNode) clientsSec.parentNode.insertBefore(section, clientsSec.nextSibling);
           else if (hosting && hosting.parentNode) hosting.parentNode.insertBefore(section, hosting);
           else if (main) main.appendChild(section);
           else document.body.appendChild(section);
@@ -2129,10 +2399,10 @@
           document.querySelectorAll(selector).forEach(function (el) { el.textContent = value; });
         }
         var PROCESS_HTML = '<ol class="process-steps">' +
-          '<li><h3 class="ps-t"><span class="num">01</span>Brief</h3><p class="ps-d">Tell me what you\u2019re selling and what isn\u2019t working \u2014 a DM is enough to start.</p></li>' +
-          '<li><h3 class="ps-t"><span class="num">02</span>Design</h3><p class="ps-d">You see a bold first version of the page, built around one clear offer.</p></li>' +
-          '<li><h3 class="ps-t"><span class="num">03</span>Build</h3><p class="ps-d">I build the full site \u2014 clear paths to buy or book, and the details customers hunt for, easy to find.</p></li>' +
-          '<li><h3 class="ps-t"><span class="num">04</span>Launch</h3><p class="ps-d">We put it live and link it from the places your customers already find you.</p></li></ol>';
+          '<li><h3 class="ps-t"><span class="num">01</span>Audit</h3><p class="ps-d">I look at your marketplace accounts and store as they are \u2014 listings, account health, payouts, and what is stopping sales.</p></li>' +
+          '<li><h3 class="ps-t"><span class="num">02</span>Plan</h3><p class="ps-d">You get a clear plan: what to fix first, what to build, and in what order.</p></li>' +
+          '<li><h3 class="ps-t"><span class="num">03</span>Fix &amp; Build</h3><p class="ps-d">I fix the account issues, rebuild the listings and images, and design or repair the store around them.</p></li>' +
+          '<li><h3 class="ps-t"><span class="num">04</span>Report &amp; Grow</h3><p class="ps-d">You see what changed and what it did, then we keep improving.</p></li></ol>';
         function applyContent(data) {
           if (!data || typeof data !== "object") return;
           var p = data.profile || {};
@@ -2145,13 +2415,14 @@
              from labels inside icon buttons so it never doubles up. */
           document.querySelectorAll("[data-cta-label]").forEach(function (el) {
             var host = el.closest ? el.closest("a, button") : null;
-            if (host && host.querySelector(".btn-arrow")) el.textContent = el.textContent.replace(/\s*[↗→]\s*$/, "");
+            if (host && host.querySelector(".btn-arrow")) { var tx = el.textContent; while (tx.length && (tx.charAt(tx.length - 1) === " " || tx.charAt(tx.length - 1) === "↗" || tx.charAt(tx.length - 1) === "→")) tx = tx.slice(0, -1); el.textContent = tx; }
           });
           setAll("[data-cta-short]", p.ctaLabel);
           setAll("[data-profile-name]", p.name);
           if (p.role) document.querySelectorAll("[data-profile-role]").forEach(function (el) { el.textContent = p.role; });
           setAll("[data-clients-in]", p.clientsIn);
           setText("heroTagline", p.tagline);
+          setText("heroRole", p.role);
           setText("heroSub", p.sub);
           setText("heroAvailability", p.availability);
           setText("factClientsIn", p.clientsIn);
@@ -2159,7 +2430,7 @@
           if (p.name) {
             var h1 = document.getElementById("heroName");
             if (h1) h1.setAttribute("aria-label", p.name);
-            document.title = "henryknowsweb | " + p.name + " — Web Designer for Stores & Brands";
+            document.title = "henryknowsweb | Henry, Marketplace Manager & Shopify Designer";
           }
           var intro = data.intro || {};
           if (intro.text && window.__rebuildScrub) window.__rebuildScrub(intro.text);
@@ -2177,27 +2448,36 @@
               list.innerHTML = data.services.map(function (s, i) {
                 return '<div class="service-row reveal-fade is-visible"><h3 class="t">' + SVC_ICONS[i % SVC_ICONS.length] + '<span class="num">' +
                   esc(String(i + 1).padStart(2, "0")) + "</span>" + esc(s.title) +
-                  '<span class="arrow" aria-hidden="true">' + ARROW_UR + '</span></h3><p class="d">' + esc(s.description) + "</p>" + (s.pricing ? '<p class="price-line">' + esc(s.pricing) + "</p>" : "") + "</div>";
+                  '<span class="arrow" aria-hidden="true">' + ARROW_UR + '</span></h3><p class="d">' + esc(s.description) + "</p>" + "</div>";
               }).join("");
             }
-            if (window.__buildMarquees) window.__buildMarquees(data.services.map(function (s) { return s.title; }));
+            if (window.__buildMarquees) window.__buildMarquees();
           }
-          if (window.__renderProjects) window.__renderProjects(data);
+          if (typeof data.alsoBuild === "string") {
+            var abEl = document.getElementById("alsoBuild");
+            if (abEl) { abEl.textContent = data.alsoBuild; abEl.hidden = data.alsoBuild.trim() === ""; }
+          }
+          if (Array.isArray(data.tools)) {
+            var toolsEl = document.getElementById("toolsList");
+            if (toolsEl) {
+              toolsEl.innerHTML = data.tools.map(function (t) {
+                var n = typeof t === "string" ? t : (t && t.name) || "";
+                return n ? "<li>" + esc(n) + "</li>" : "";
+              }).join("");
+            }
+          }
+          if (window.__renderCases) window.__renderCases(data);
           if (window.__renderTestimonials) window.__renderTestimonials(data);
-          var clients = data.clients || {};
-          var clientsBody = document.getElementById("clientsBody");
-          if (Array.isArray(clients.items) && clients.items.length) {
-            setText("clientsLabel", "Who I\u2019ve built for");
-            setText("clientsHeading", "Clients");
+          var clients = data.clients || {};var clientsBody = document.getElementById("clientsBody");
+          if (Array.isArray(data.process) && data.process.length) {
+            setText("clientsLabel", "How it works");
+            setText("clientsHeading", "Process");
             if (clientsBody) {
-              clientsBody.innerHTML = '<ul class="client-names">' + clients.items.map(function (c) {
-                var name = typeof c === "string" ? c : (c && c.name) || "";
-                return "<li>" + esc(name) + "</li>";
-              }).join("") + "</ul>" + (clients.note ? "<p>" + esc(clients.note) + "</p>" : "");
+              clientsBody.innerHTML = '<ol class="process-steps">' + data.process.map(function (s, i) {
+                return '<li><h3 class="ps-t"><span class="num">' + esc(String(i + 1).padStart(2, "0")) + "</span>" + esc(s.title || "") + '</h3><p class="ps-d">' + esc(s.text || "") + "</p></li>";
+              }).join("") + "</ol>";
             }
           } else {
-            /* No clients yet: show the 4-step process instead of an empty
-               list or a growth claim. The content model is unchanged. */
             setText("clientsLabel", "How it works");
             setText("clientsHeading", "Process");
             if (clientsBody) clientsBody.innerHTML = PROCESS_HTML;
@@ -2260,6 +2540,7 @@
               emailEl.hidden = true;
             }
           }
+          if (window.__initSwarm) window.__initSwarm(data);
         }
         window.__applyPortfolioContent = applyContent;
         function tryFetch(url) {
@@ -2269,7 +2550,7 @@
           });
         }
         tryFetch("content.json")
-          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJXZWJzaXRlcyBidWlsdCBsaWtlIHN0b3JlZnJvbnRzLCBub3QgYnJvY2h1cmVzLiIsInN0b3J5IjpbIk15IHdvcmsgbGl2ZXMgd2hlcmUgbXkgY2xpZW50c+KAmSBjdXN0b21lcnMgYWxyZWFkeSBhcmUuIEkgc2hhcmUgbXkgYnVpbGRzIG9uIFRpa1RvayBhcyBAaGVucnlrbm93c3dlYiwgYnJlYWtpbmcgZG93biB3aGF0IG1ha2VzIGEgaG9tZXBhZ2Ugd29yayBsaWtlIGEgc3RvcmVmcm9udC4gSWYgeW91ciBjdXJyZW50IHNpdGUgZmVlbHMgbGlrZSBhIGJyb2NodXJlLCB0aGF04oCZcyBleGFjdGx5IHdoYXQgSSBmaXguIiwiSSB3b3JrIHJlbW90ZWx5IHdpdGggY2xpZW50cyB3b3JsZHdpZGUuIEV2ZXJ5dGhpbmcgcnVucyB0aHJvdWdoIFRpa1RvayBETSBhbmQgZW1haWwg4oCUIHlvdSBzZWUgYSBmaXJzdCB2ZXJzaW9uIHRvIHJlYWN0IHRvIGJlZm9yZSBJIGJ1aWxkIHRoZSBmdWxsIHNpdGUsIGFuZCB3ZSBsYXVuY2ggdG9nZXRoZXIuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB3ZWIgZGVzaWduIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIG9uIEFtYXpvbiwgZUJheSwgV2FsbWFydCwgU2hvcGlmeSBhbmQgVGVtdS4gTXkgZmlyc3Qgam9iIHdhcyBhdCBUcmFkZWNvem9uZSwgYmVmb3JlIEkgaGFkIGV2ZW4gc3RhcnRlZCBteSBkZWdyZWUsIGFuZCBJIGtlcHQgd29ya2luZyBpbiBlLWNvbW1lcmNlIGFsbCB0aGUgd2F5IHRocm91Z2ggbXkgc3R1ZGllcy4gVGhvc2UgeWVhcnMgdGF1Z2h0IG1lIGhvdyBzZWxsaW5nIG9ubGluZSBhY3R1YWxseSB3b3JrcyDigJQgd2hhdCBhIHByb2R1Y3QgcGFnZSBoYXMgdG8gc2hvdywgd2hlcmUgYSBjaGVja291dCBsb3NlcyBwZW9wbGUsIGFuZCB3aHkgYSBzdG9yZSB0aGF0IGlzIGhhcmQgdG8gYnV5IGZyb20gc3RheXMgcXVpZXQuIiwiSW4gMjAyNiBJIGNvbXBsZXRlZCBteSBCYWNoZWxvcuKAmXMgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB0b29rIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgYWxzbyB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIFdoaWxlIHN0dWR5aW5nLCBJIGJ1aWx0IGFwcHMgYW5kIHdlYnNpdGVzIG9mIG15IG93biBhbmQga2VwdCB0YWtpbmcgb24gZS1jb21tZXJjZSB3b3JrIHdoZXJldmVyIGl0IGNhbWUuIiwiTm93IEkgYnVpbGQgdGhlIGtpbmQgb2Ygc3RvcmVzIEkgdXNlZCB0byB3b3JrIGluLiBJIGtub3cgd2hhdCBhIG1hcmtldHBsYWNlIGxpc3RpbmcgaGFzIHRvIGRvIHRvIHNlbGwgYmVjYXVzZSBJIGhhdmUgZG9uZSB0aGF0IGpvYiwgYW5kIEkga25vdyBob3cgdG8gYnVpbGQgdGhlIHNpdGUgYmVjYXVzZSB0aGF0IGlzIHdoYXQgSSB0cmFpbmVkIGZvci4gSWYgeW91ciBwcm9kdWN0cyBzZWxsIG9uIGEgbWFya2V0cGxhY2UgYnV0IHlvdXIgb3duIHdlYnNpdGUgZG9lcyBub3QsIHRoYXQgZ2FwIGlzIGV4YWN0bHkgd2hhdCBJIGZpeC4iLCJJIHdvcmsgcmVtb3RlbHkgd2l0aCBjbGllbnRzIHdvcmxkd2lkZSwgYW5kIGV2ZXJ5dGhpbmcgcnVucyB0aHJvdWdoIG15IHNvY2lhbCBjaGFubmVscyDigJQgdGhhdOKAmXMgd2hlcmUgSSBwb3N0IG15IGJ1aWxkcywgYW5kIHdoZXJlIGV2ZXJ5IHByb2plY3Qgc3RhcnRzLiBNZXNzYWdlIG1lIHRoZXJlIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoYXQgeW91IHNlbGwgYW5kIHdoYXQgaXNu4oCZdCB3b3JraW5nIG9uIHlvdXIgY3VycmVudCBzaXRlLCBhbmQgeW914oCZbGwgc2VlIGEgZmlyc3QgdmVyc2lvbiB0byByZWFjdCB0byBiZWZvcmUgSSBidWlsZCB0aGUgZnVsbCBzaXRlLiBUaGVuIHdlIGxhdW5jaCB0b2dldGhlci4iXX0sImNsaWVudHMiOnsiaXRlbXMiOltdLCJub3RlIjoiQ2xpZW50IGxpc3QgaXMgZ3Jvd2luZyDigJQgbmV3IG5hbWVzIGFyZSBhZGRlZCBhcyBwcm9qZWN0cyBsYXVuY2guIFlvdXJzIGNvdWxkIGJlIG5leHQuIn0sImZvb3RlciI6eyJoZWFkaW5nIjoiTGV04oCZcyBidWlsZCB5b3VycyIsImtpY2siOiJHb3QgYSBzdG9yZSwgYSBsYXVuY2gsIG9yIGEgc2l0ZSB0aGF0IG5lZWRzIGEgcmVidWlsZD8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSBhYm91dCB5b3VyIHN0b3JlLCBsYW5kaW5nIHBhZ2UsIG9yIHJlZGVzaWduLiJ9LCJpbnRybyI6eyJtZXRhIjoiV2ViIERlc2lnbmVyICYgQnVpbGRlciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSeKAmW0gSGVucnkg4oCUIEkgYnVpbGQgYm9sZCB3ZWJzaXRlcyBmb3IgYnVzaW5lc3NlcyB3b3JsZHdpZGUuIFN0b3JlcywgbGFuZGluZyBwYWdlcywgYW5kIHJlZGVzaWducyB0aGF0IGFyZSBtYWRlIHRvIGJlIHNob3BwZWQsIG5vdCBqdXN0IHNjcm9sbGVkIHBhc3Q6IGEgY2xlYXIgb2ZmZXIgdXAgZnJvbnQsIGFuIGVhc3kgcGF0aCB0byBidXkgb3IgYm9vaywgYW5kIHRoZSBkZXRhaWxzIGN1c3RvbWVycyBhY3R1YWxseSBsb29rIGZvciDigJQgbWVudSwgcHJpY2VzLCBsb2NhdGlvbiwgaG91cnMg4oCUIHdpdGhvdXQgdGhlIGh1bnRpbmcuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIiwic3RhdHVzIjoiQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJzdWIiOiJXZWIgRGVzaWduZXIgJiBCdWlsZGVyIOKAlCBmb3IgY2xpZW50cyB3b3JsZHdpZGUuIiwidGFnbGluZSI6IkJvbGQgd2Vic2l0ZXMgZm9yIHN0b3JlcyAmIGJyYW5kcyIsInRpa3Rva0hhbmRsZSI6IkBoZW5yeWtub3dzd2ViIiwidGlrdG9rVXJsIjoiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AaGVucnlrbm93c3dlYiIsImVtYWlsIjoiaGVucnlrbm93c3dlYkBnbWFpbC5jb20ifSwicHJvamVjdHMiOlt7ImlkIjoic2VsbG9taXplLXJlYWNoIiwidGl0bGUiOiJTZWxsb21pemUgUmVhY2giLCJzbHVnIjoic2VsbG9taXplLXJlYWNoIiwiY2F0ZWdvcnkiOiJXZWIgQXBwIiwieWVhciI6IjIwMjYiLCJyb2xlIjoiRGVzaWduICYgYnVpbGQiLCJzdW1tYXJ5IjoiQ29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSBidWlsdCBmb3IgU2VsbG9taXplLCBhbiBBbWF6b24gZ3Jvd3RoIGFnZW5jeS4gQ2FtcGFpZ25zLCBtdWx0aS1zdGVwIHNlcXVlbmNlcywgbGVhZCBtYW5hZ2VtZW50LCBkZWxpdmVyYWJpbGl0eSB0cmFja2luZyBhbmQgQUktYXNzaXN0ZWQgZHJhZnRpbmcg4oCUIGEgUmVhY3QgZnJvbnQgZW5kIG9uIENsb3VkZmxhcmUgV29ya2VycywgRDEgYW5kIHF1ZXVlcy4gVHJ5IHRoZSBsaXZlIGRlbW8gKHNhbXBsZSBkYXRhKSwgb3IgdmlzaXQgdGhlIHByb2R1Y3Rpb24gdmVyc2lvbi4iLCJ0YWdzIjpbIlJlYWN0IiwiVHlwZVNjcmlwdCIsIkNsb3VkZmxhcmUiLCJBSSBhZ2VudHMiXSwidXJsIjoiaHR0cHM6Ly9yZWFjaC5zZWxsb21pemUuY29tLyIsImRlbW9VcmwiOiJodHRwczovL3NlbGxvbWl6ZS1yZWFjaC1kZW1vLnBhZ2VzLmRldi8iLCJjb3ZlciI6eyJzcmMiOiJhc3NldHMvcHJvamVjdHMvc2VsbG9taXplLXJlYWNoLWNvdmVyLnN2ZyIsImFsdCI6IlNlbGxvbWl6ZSBSZWFjaCDigJQgY29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSJ9LCJwcmV2aWV3Ijp7InR5cGUiOiJpbWFnZSIsInNyYyI6ImFzc2V0cy9wcm9qZWN0cy9zZWxsb21pemUtcmVhY2gtY292ZXIuc3ZnIiwicG9zdGVyIjoiIiwiZHVyYXRpb25TZWMiOjB9LCJnYWxsZXJ5IjpbXSwic3RhdHVzIjoicHVibGlzaGVkIiwiZmVhdHVyZWQiOmZhbHNlLCJvcmRlciI6MX1dLCJwcm9qZWN0c0VtcHR5Ijp7ImNhdGVnb3J5IjoiU3RvcmVzIMK3IExhbmRpbmcgUGFnZXMgwrcgUmVkZXNpZ25zIiwiY3RhTm90ZSI6IldhbnQgeW91ciBzdG9yZSBvciBsYW5kaW5nIHBhZ2UgdG8gYmUgb25lIG9mIHRoZSBmaXJzdCBmZWF0dXJlZCBoZXJlPyBNZXNzYWdlIG1lIG9uIFRpa1Rvay4iLCJub3RlIjoiVGhlIGZpcnN0IHNob3djYXNlIGJ1aWxkcyBhcmUgb24gdGhlIHdheS4gRE0gV0VCIGlmIHlvdeKAmWQgbGlrZSB5b3VycyB0byBiZSBvbmUgb2YgdGhlbS4iLCJ0aXRsZSI6Ik5ldyBwcm9qZWN0cyBjb21pbmcgc29vbi4iLCJ5ZWFyIjoiU29vbiJ9LCJzZXJ2aWNlcyI6W3siZGVzY3JpcHRpb24iOiJPbmxpbmUgc3RvcmVzIGJ1aWx0IHRvIHNlbGwg4oCUIGNsZWFyIHByb2R1Y3QgcGF0aHMsIGVhc3kgY2hlY2tvdXQgZmxvdywgYW5kIGEgaG9tZXBhZ2UgdGhhdCB3b3JrcyBsaWtlIGEgc3RvcmVmcm9udC4gQnVpbHQgb24gU2hvcGlmeSwgV29vQ29tbWVyY2Ugb3IgSG9zdGluZ2VyIOKAlCBvciBhcyBhIGN1c3RvbSBidWlsZCDigJQgd2hpY2hldmVyIGZpdHMgeW91ciBidXNpbmVzcy4iLCJ0aXRsZSI6IlN0b3JlcyAmIEUtY29tbWVyY2UiLCJwcmljaW5nIjoiRnJvbSAkMSwwMDAgwrcgVXAgdG8gMzAgcHJvZHVjdHMgwrcgQ2hlY2tvdXQgJiBwYXltZW50cyBzZXQgdXAgwrcgVXAgdG8gNSBwYWdlcyDCtyAz4oCTNSB3ZWVrcyDCtyAyIHJldmlzaW9uIHJvdW5kcyJ9LHsiZGVzY3JpcHRpb24iOiJPbmUgZm9jdXNlZCBwYWdlLCBvbmUgY2xlYXIgb2ZmZXIsIG9uZSBvYnZpb3VzIG5leHQgc3RlcC4gQnVpbHQgZm9yIGNhbXBhaWducywgbGF1bmNoZXMsIGFuZCBsZWFkIGdlbmVyYXRpb24uIiwidGl0bGUiOiJMYW5kaW5nIFBhZ2VzIiwicHJpY2luZyI6IkZyb20gJDM1MCDCtyAxIHBhZ2UsIHVwIHRvIDYgc2VjdGlvbnMgwrcgQmFzaWMgU0VPIHNldHVwIMK3IDXigJM3IGRheXMgwrcgMiByZXZpc2lvbiByb3VuZHMifSx7ImRlc2NyaXB0aW9uIjoiWW91ciBleGlzdGluZyBzaXRlLCByZWJ1aWx0IGJvbGQ6IHNoYXJwZXIgaGllcmFyY2h5LCBmYXN0ZXIgcGF0aHMgdG8gYnV5IG9yIGJvb2ssIGFuZCB0aGUgZGV0YWlscyBjdXN0b21lcnMgbG9vayBmb3IgZmluYWxseSBlYXN5IHRvIGZpbmQuIiwidGl0bGUiOiJSZWRlc2lnbnMiLCJwcmljaW5nIjoiRnJvbSAkNzAwIMK3IFVwIHRvIDUgcGFnZXMgwrcgTmV3IGRlc2lnbiAmIG1vYmlsZSBsYXlvdXQgwrcgMuKAkzQgd2Vla3MgwrcgMiByZXZpc2lvbiByb3VuZHMifV0sInNldHRpbmdzIjp7Im1vdGlvbiI6eyJkZWZhdWx0VmlldyI6Imxpc3QiLCJzaG93Vmlld1RvZ2dsZSI6dHJ1ZSwicHJldmlld01vZGUiOiJmb2xsb3ciLCJjYXJkU2l6ZSI6MzYwLCJ0aWx0Ijp0cnVlLCJzcHJpbmciOiJub3JtYWwiLCJkaW1PdGhlcnMiOnRydWUsIm1heE1vYmlsZVBsYXlpbmciOjIsIm1vYmlsZUJlaGF2aW91ciI6ImFjY29yZGlvbiJ9LCJ0ZXN0aW1vbmlhbHMiOnsibGF5b3V0IjoiZmVhdHVyZWQiLCJzaG93U2VjdGlvbiI6ZmFsc2UsImF1dG9Sb3RhdGUiOmZhbHNlLCJyb3RhdGVTZWNvbmRzIjo2LCJzaG93QXZhdGFycyI6dHJ1ZSwic2hvd1Byb2plY3RMaW5rIjp0cnVlfX0sInRlc3RpbW9uaWFscyI6W10sImZhcSI6W3siZ3JvdXAiOiJXb3JraW5nIHdpdGggbWUiLCJpdGVtcyI6W3sicSI6IldoYXQgZG8geW91IGJ1aWxkPyIsImEiOiJPbmxpbmUgc3RvcmVzLCBsYW5kaW5nIHBhZ2VzLCBhbmQgcmVkZXNpZ25zIG9mIGV4aXN0aW5nIHNpdGVzLiBFYWNoIG9uZSBpcyBidWlsdCB0byBtYWtlIGl0IGVhc3kgZm9yIGN1c3RvbWVycyB0byBidXksIGJvb2ssIG9yIGNvbnRhY3QgeW91LiJ9LHsicSI6IldobyBkbyB5b3Ugd29yayB3aXRoPyIsImEiOiJTbWFsbCBidXNpbmVzc2VzLCBjcmVhdG9ycywgYW5kIGJyYW5kcyB3b3JsZHdpZGUuIElmIHlvdSBzZWxsIHNvbWV0aGluZyBvciBuZWVkIHBlb3BsZSB0byBnZXQgaW4gdG91Y2gsIEkgY2FuIGhlbHAuIn0seyJxIjoiSG93IGRvIHdlIHN0YXJ0PyIsImEiOiJTZW5kIG1lIGEgRE0gb24gVGlrVG9rIChAaGVucnlrbm93c3dlYikgb3IgYW4gZW1haWwgd2l0aCB3aGF0IHlvdSBzZWxsLCB3aG8geW91ciBjdXN0b21lcnMgYXJlLCBhbmQgd2hhdCBpc27igJl0IHdvcmtpbmcgb24geW91ciBjdXJyZW50IHNpdGUuIEnigJlsbCByZXBseSB3aXRoIHF1ZXN0aW9ucyBhbmQgbmV4dCBzdGVwcy4ifV19LHsiZ3JvdXAiOiJDb3N0IGFuZCB0aW1pbmciLCJpdGVtcyI6W3sicSI6IkhvdyBkb2VzIHByaWNpbmcgd29yaz8iLCJhIjoiRXZlcnkgcHJvamVjdCBpcyBxdW90ZWQgYXMgYSBmaXhlZCBwcmljZSBhZnRlciB3ZSB0YWxrIHRocm91Z2ggeW91ciBicmllZiwgYW5kIGJlZm9yZSBhbnkgd29yayBzdGFydHMuIE5vIHN1cnByaXNlIGNvc3RzLiJ9LHsicSI6IkhvdyBtdWNoIGRvZXMgYSB3ZWJzaXRlIGNvc3Q/IiwiYSI6Ikl0IGRlcGVuZHMgb24gdGhlIHBhZ2VzLCBmZWF0dXJlcywgYW5kIGNvbnRlbnQuIFN0YXJ0aW5nIHByaWNlczogYSBsYW5kaW5nIHBhZ2UgZnJvbSAkMzUwIChvbmUgcGFnZSwgdXAgdG8gNiBzZWN0aW9ucywgbW9iaWxlIGxheW91dCwgMiByZXZpc2lvbiByb3VuZHMsIGJhc2ljIFNFTyBzZXR1cCk7IGFuIG9ubGluZSBzdG9yZSBmcm9tICQxLDAwMCAodXAgdG8gMzAgcHJvZHVjdHMsIGNoZWNrb3V0IGFuZCBwYXltZW50cyBzZXQgdXAsIHVwIHRvIDUgcGFnZXMsIDIgcmV2aXNpb24gcm91bmRzKTsgYSByZWRlc2lnbiBmcm9tICQ3MDAgKHVwIHRvIDUgcGFnZXMsIG5ldyBkZXNpZ24sIG1vYmlsZSBsYXlvdXQsIDIgcmV2aXNpb24gcm91bmRzKS4gQWZ0ZXIgdGhlIGJyaWVmIEnigJlsbCBzZW5kIGEgZml4ZWQgcXVvdGUgYmVmb3JlIGFueSB3b3JrIHN0YXJ0cy4ifSx7InEiOiJIb3cgbG9uZyBkb2VzIGl0IHRha2U/IiwiYSI6IkEgbGFuZGluZyBwYWdlIHVzdWFsbHkgdGFrZXMgNeKAkzcgZGF5cywgYSBzdG9yZSAz4oCTNSB3ZWVrcywgYW5kIGEgcmVkZXNpZ24gMuKAkzQgd2Vla3MsIGNvdW50ZWQgZnJvbSB0aGUgZGF5IEkgcmVjZWl2ZSB5b3VyIHRleHQsIHBob3RvcywgYW5kIGNvbnRlbnQuIFRoZSB0aW1lbGluZSBtb3N0bHkgZGVwZW5kcyBvbiBob3cgcXVpY2tseSBJIGdldCB5b3VyIGNvbnRlbnQgYW5kIGZlZWRiYWNrLiJ9LHsicSI6IkRvIHlvdSB0YWtlIGEgZGVwb3NpdD8iLCJhIjoiWWVzIOKAlCAzMCUgdXBmcm9udCwgYW5kIHRoZSByZXN0IGJlZm9yZSB0aGUgZmluYWwgZmlsZXMgYXJlIGhhbmRlZCBvdmVyIGFuZCB0aGUgc2l0ZSBsYXVuY2hlcy4gSeKAmWxsIHB1dCBpdCBpbiB3cml0aW5nIGJlZm9yZSBzdGFydGluZy4ifSx7InEiOiJXaGF0IHBheW1lbnQgbWV0aG9kcyBkbyB5b3UgYWNjZXB0PyIsImEiOiJQYXlvbmVlciwgYmFuayB0cmFuc2Zlciwgb3IgY3J5cHRvLiBBbGwgcXVvdGVzIGFyZSBpbiBVU0QuIn1dfSx7Imdyb3VwIjoiV2hhdOKAmXMgaW5jbHVkZWQiLCJpdGVtcyI6W3sicSI6IldoYXTigJlzIHlvdXIgcHJvY2Vzcz8iLCJhIjoiQnJpZWYsIERlc2lnbiwgQnVpbGQsIExhdW5jaC4gWW91IHRlbGwgbWUgd2hhdCB5b3UgbmVlZCwgeW91IHNlZSBhIGZpcnN0IHZlcnNpb24sIEkgYnVpbGQgdGhlIGZ1bGwgc2l0ZSwgYW5kIHdlIGdvIGxpdmUgdG9nZXRoZXIuIn0seyJxIjoiQ2FuIHlvdSBidWlsZCBhbiBvbmxpbmUgc3RvcmU/IiwiYSI6Illlcy4gSSBidWlsZCBzdG9yZXMgb24gU2hvcGlmeSBhbmQgV29vQ29tbWVyY2UsIGFuZCBvbiBIb3N0aW5nZXIg4oCUIG9yIGFzIGEgY3VzdG9tIGJ1aWxkIOKAlCB3aXRoIGNoZWNrb3V0IGFuZCBwYXltZW50cyBzZXQgdXAgc28geW91IGNhbiBzdGFydCB0YWtpbmcgb3JkZXJzLiJ9LHsicSI6IkRvIHlvdSBoYW5kbGUgZG9tYWluIGFuZCBob3N0aW5nPyIsImEiOiJFaXRoZXIgd2F5IHdvcmtzOiBJIGNhbiBzZXQgaXQgdXAgZm9yIHlvdSwgb3IgZ3VpZGUgeW91IHRocm91Z2ggaXQuIFRoZSBkb21haW4gYW5kIGhvc3RpbmcgYWNjb3VudHMgc3RheSBpbiB5b3VyIG5hbWUsIHNvIHlvdSBhbHdheXMgb3duIHRoZW0uIn0seyJxIjoiRG8gSSBuZWVkIHRvIHByb3ZpZGUgdGhlIHRleHQgYW5kIGltYWdlcz8iLCJhIjoiSXQgaGVscHMgaWYgeW91IGRvLiBJZiB5b3UgZG9u4oCZdCBoYXZlIHRoZW0sIHRlbGwgbWUgd2hhdCB5b3UgY2FuIHNoYXJlIGFuZCB3ZeKAmWxsIHdvcmsgb3V0IHRoZSBnYXBzLiJ9LHsicSI6IldpbGwgbXkgc2l0ZSB3b3JrIG9uIHBob25lcz8iLCJhIjoiWWVzLiBFdmVyeSBzaXRlIGlzIGRlc2lnbmVkIGZvciBwaG9uZSwgdGFibGV0LCBhbmQgZGVza3RvcC4ifSx7InEiOiJXaWxsIHBlb3BsZSBiZSBhYmxlIHRvIGZpbmQgbXkgc2l0ZSBvbiBHb29nbGU/IiwiYSI6Ikkgc2V0IHVwIHRoZSBiYXNpY3M6IHBhZ2UgdGl0bGVzLCBkZXNjcmlwdGlvbnMsIGhlYWRpbmdzLCBmYXN0IGxvYWRpbmcsIGFuZCBhIHNpdGVtYXAuIFJhbmtpbmcgdGFrZXMgdGltZSBhbmQgZGVwZW5kcyBvbiBjb21wZXRpdGlvbiBhbmQgeW91ciBjb250ZW50LCBhbmQgSSBjYW7igJl0IHByb21pc2UgYSBwb3NpdGlvbi4ifV19LHsiZ3JvdXAiOiJBZnRlciBsYXVuY2giLCJpdGVtcyI6W3sicSI6IldobyBvd25zIHRoZSB3ZWJzaXRlPyIsImEiOiJZb3UgZG8uIE9uY2UgdGhlIGZpbmFsIHBheW1lbnQgaXMgbWFkZSwgdGhlIHNpdGUgYW5kIGl0cyBmaWxlcyBhcmUgeW91cnMuIn0seyJxIjoiV2hhdCBpZiBJIG5lZWQgY2hhbmdlcyBhZnRlciBsYXVuY2g/IiwiYSI6IlR3byByb3VuZHMgb2YgcmV2aXNpb25zIGFyZSBpbmNsdWRlZCB3aGlsZSB3ZSBidWlsZC4gQWZ0ZXIgbGF1bmNoLCBzbWFsbCBmaXhlcyBhcmUgZnJlZSBmb3IgMzAgZGF5cy4gQmlnZ2VyIGNoYW5nZXMgYXJlIHF1b3RlZCBzZXBhcmF0ZWx5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBvbmdvaW5nIHN1cHBvcnQ/IiwiYSI6Ik5vdCBhcyBhIG1vbnRobHkgcGxhbiByaWdodCBub3cuIEFmdGVyIHRoZSAzMC1kYXkgZml4IHdpbmRvdywgSSBxdW90ZSBjaGFuZ2VzIGFzIHlvdSBuZWVkIHRoZW0g4oCUIGp1c3QgRE0gb3IgZW1haWwgbWUuIn1dfSx7Imdyb3VwIjoiVHJ1c3QiLCJpdGVtcyI6W3sicSI6IkNhbiBJIHNlZSB5b3VyIHdvcms/IiwiYSI6Ik15IG93biBzaG93Y2FzZSBidWlsZHMgYXJlIGJlaW5nIGFkZGVkIG5vdywgYW5kIEkgb25seSBzaG93IHdvcmsgSSBtYWRlLiBJ4oCZZCByYXRoZXIgd2FpdCB0aGFuIHNob3cgc29tZW9uZSBlbHNl4oCZcyB3b3JrIGFzIG1pbmUuIEZlZWwgZnJlZSB0byBETSBtZSBmb3IgYSBzYW1wbGUgb3IgYSBjYWxsLiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgbW9ja3VwIG9yIGNvbnN1bHRhdGlvbj8iLCJhIjoiQSBmcmVlIDE1LW1pbnV0ZSBjb25zdWx0YXRpb24sIHllcyDigJQgRE0gbWUgYW5kIHdl4oCZbGwgdGFsayB0aHJvdWdoIHlvdXIgcHJvamVjdC4gQSBmcmVlIG1vY2t1cCwgbm8uIn0seyJxIjoiV2hhdCBpZiBJ4oCZbSBub3QgaGFwcHk/IiwiYSI6IkJlZm9yZSB5b3UgcGF5IGEgZGVwb3NpdCwgd2UgYWdyZWUgb24gdGhlIGJyaWVmLCBwcmljZSwgYW5kIGRlbGl2ZXJhYmxlcyBpbiB3cml0aW5nLiBZb3UgZ2V0IHR3byByb3VuZHMgb2YgcmV2aXNpb25zLCBhbmQgaWYgdGhlIGZpcnN0IGRlc2lnbiBpc27igJl0IHJpZ2h0LCBJ4oCZbGwgcmV3b3JrIGl0LiBJZiB5b3UgY2FuY2VsIGJlZm9yZSBJIHN0YXJ0LCB5b3UgZ2V0IHlvdXIgZGVwb3NpdCBiYWNrLiBPbmNlIEnigJl2ZSBzdGFydGVkLCB0aGUgZGVwb3NpdCBjb3ZlcnMgdGhlIHdvcmsgZG9uZSBzbyBmYXIuIElmIEkgY2Fu4oCZdCBkZWxpdmVyIHdoYXQgd2UgYWdyZWVkIGFmdGVyIHlvdXIgcmV2aXNpb25zLCBJ4oCZbGwgcmVmdW5kIHRoZSB1bnVzZWQgcGFydCBvZiB3aGF0IHlvdeKAmXZlIHBhaWQuIEFmdGVyIGxhdW5jaCwgSSBmaXggYW55IGJ1Z3MgSSBjYXVzZWQgZm9yIDMwIGRheXMuIn1dfV19"); })
+          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJBY2NvdW50cyBhbmQgc3RvcmVzLCBydW4gcHJvcGVybHkuIiwic3RvcnkiOlsiSSBjYW1lIHVwIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSd2ZSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXMgYWNyb3NzIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBkZXNpZ25lZCBTaG9waWZ5IHN0b3Jlcy4gSSBrbm93IHdoYXQgYSBsaXN0aW5nIGhhcyB0byBzaG93LCB3aGVyZSBhbiBhY2NvdW50IGxvc2VzIG1vbmV5LCBhbmQgd2hhdCBhIHN0b3JlIG5lZWRzIHRvIGNvbnZlcnQuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuIiwiVGhlIHdvcmsgY292ZXJzIGxpc3RpbmcgaW1hZ2VzIGFuZCBncmFwaGljcywgQSsgY29udGVudCwgUFBDLCByZWNvbmNpbGlhdGlvbiBhbmQgZml4aW5nIGFjY291bnRzIHRoYXQgaGF2ZSBwcm9ibGVtcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcyBhbmQgTWlyYWNsZSBDb25uZWN0LiIsIkluIDIwMjYgSSBjb21wbGV0ZWQgYSBCYWNoZWxvcidzIGluIENvbXB1dGVyIFNjaWVuY2UsIG1ham9yaW5nIGluIHdlYiBhbmQgbW9iaWxlIGFwcGxpY2F0aW9uIGRldmVsb3BtZW50LiBNeSBmaW5hbCB5ZWFyIHByb2plY3Qgd29uIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgd29uIGZpcnN0IHByaXplIGluIHRoZSBtb2NrIGludGVydmlldyBwcm9ncmFtLiBCZWNhdXNlIEkgY2FuIGJ1aWxkLCBJIGFsc28gbWFrZSBzb2Z0d2FyZSBmb3IgYnVzaW5lc3NlcywgbGlrZSBTZWxsb21pemUgUmVhY2gsIGFzIGEgc2lkZSBwcm9qZWN0LiIsIkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4iXX0sImNsaWVudHMiOltdLCJmb290ZXIiOnsiaGVhZGluZyI6IkxldCdzIGJ1aWxkIHlvdXJzIiwia2ljayI6IkdvdCBhbiBhY2NvdW50IHRvIGZpeCwgYSBzdG9yZSB0byBidWlsZCwgb3IgbGlzdGluZ3MgdGhhdCBhcmVuJ3QgY29udmVydGluZz8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4ifSwiaW50cm8iOnsibWV0YSI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJNYXJrZXRwbGFjZSBPcGVyYXRvciAmIFNob3BpZnkgRGVzaWduZXIiLCJzdGF0dXMiOiJBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInN1YiI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJJIHJ1biBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzLCBhbmQgYnVpbGQgdGhlIHN0b3JlcyBhcm91bmQgdGhlbS4iLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIiwiYXJlYSI6Ildvcmxkd2lkZSIsInRpa3RvayI6IkBoZW5yeWtub3dzd2ViIiwiY3RhIjoiRE0gV0VCIiwieWVhcnMiOiI2KyIsImludHJvIjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIiwic3RvcnkiOiJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuXG5cblRoZSB3b3JrIGNvdmVycyBsaXN0aW5nIGltYWdlcyBhbmQgZ3JhcGhpY3MsIEErIGNvbnRlbnQsIFBQQywgcmVjb25jaWxpYXRpb24gYW5kIGZpeGluZyBhY2NvdW50cyB0aGF0IGhhdmUgcHJvYmxlbXMuIEkgZGVzaWduIGluIEZpZ21hLCBydW4gZW1haWwgd2l0aCBLbGF2aXlvIGFuZCBoYW5kbGUgc3VwcG9ydCB3aXRoIEdvcmdpYXMgYW5kIE1pcmFjbGUgQ29ubmVjdC5cblxuSW4gMjAyNiBJIGNvbXBsZXRlZCBhIEJhY2hlbG9yJ3MgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB3b24gZmlyc3QgcHJpemUgaW4gdGhlIGdyYWR1YXRpb24gcHJvamVjdCBwcm9ncmFtLCBhbmQgSSB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIEJlY2F1c2UgSSBjYW4gYnVpbGQsIEkgYWxzbyBtYWtlIHNvZnR3YXJlIGZvciBidXNpbmVzc2VzLCBsaWtlIFNlbGxvbWl6ZSBSZWFjaCwgYXMgYSBzaWRlIHByb2plY3QuXG5cbkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4ifSwic2VydmljZXMiOlt7InRpdGxlIjoiTWFya2V0cGxhY2UgYWNjb3VudCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJMaXN0aW5ncywgY2F0YWxvZyBhbmQgZGF5LXRvLWRheSBvcGVyYXRpb25zIGFjcm9zcyBBbWF6b24sIGVCYXksIFRpa1RvayBTaG9wLCBXYWxtYXJ0LCBUZW11IGFuZCBNZXJjYXJpLiJ9LHsidGl0bGUiOiJMaXN0aW5nIGltYWdlcywgZ3JhcGhpY3MgYW5kIEErIGNvbnRlbnQiLCJkZXNjcmlwdGlvbiI6IkltYWdlcyBhbmQgbGF5b3V0cyBidWlsdCB0byBjb252ZXJ0LiJ9LHsidGl0bGUiOiJQUEMgYW5kIGFkdmVydGlzaW5nIiwiZGVzY3JpcHRpb24iOiJDYW1wYWlnbiBzZXR1cCwgb3B0aW1pemF0aW9uIGFuZCByZXBvcnRpbmcuIn0seyJ0aXRsZSI6IlJlY29uY2lsaWF0aW9uIGFuZCBhY2NvdW50IGlzc3VlLWZpeGluZyIsImRlc2NyaXB0aW9uIjoiRmluZGluZyB3aGVyZSB0aGUgbW9uZXkgb3IgdGhlIGFjY291bnQgaGVhbHRoIGlzIGxlYWtpbmcsIGFuZCBmaXhpbmcgaXQuIn0seyJ0aXRsZSI6IlNob3BpZnkgc3RvcmUgZGVzaWduIGFuZCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJEZXNpZ24gaW4gRmlnbWEsIGJ1aWxkLCBlbWFpbCB3aXRoIEtsYXZpeW8sIHN1cHBvcnQgd2l0aCBHb3JnaWFzLiJ9XSwiYWxzb0J1aWxkIjoiQWxzbyBidWlsZDogY3VzdG9tIGJ1c2luZXNzIHNvZnR3YXJlLCBmb3IgZXhhbXBsZSBTZWxsb21pemUgUmVhY2guIiwicHJvY2VzcyI6W3sidGl0bGUiOiJBdWRpdCIsInRleHQiOiJSZXZpZXdpbmcgbGlzdGluZ3MsIGFjY291bnQgaGVhbHRoIGFuZCBudW1iZXJzIHRvIGZpbmQgd2hhdCBpcyB3cm9uZy4ifSx7InRpdGxlIjoiUGxhbiIsInRleHQiOiJTZXR0aW5nIG91dCB3aGF0IHRvIGZpeCBvciBidWlsZCwgYW5kIGluIHdoYXQgb3JkZXIuIn0seyJ0aXRsZSI6IkZpeCAmIEJ1aWxkIiwidGV4dCI6IkZpeGluZyBhY2NvdW50IGFuZCBsaXN0aW5nIGlzc3VlcywgYW5kIGJ1aWxkaW5nIG9yIHVwZGF0aW5nIHRoZSBTaG9waWZ5IHN0b3JlIHdoZXJlIG5lZWRlZC4ifSx7InRpdGxlIjoiUmVwb3J0ICYgR3JvdyIsInRleHQiOiJSZXBvcnRpbmcgd2hhdCB3YXMgZG9uZSBhbmQgd2hhdCB3YXMgZm91bmQsIGFuZCBwbGFubmluZyB0aGUgbmV4dCB3b3JrLiJ9XSwidG9vbHMiOlt7Im5hbWUiOiJGaWdtYSJ9LHsibmFtZSI6IktsYXZpeW8ifSx7Im5hbWUiOiJHb3JnaWFzIn0seyJuYW1lIjoiTWlyYWNsZSBDb25uZWN0In0seyJuYW1lIjoiU2hvcGlmeSJ9XSwiY2FzZVN0dWRpZXMiOltdLCJjYXNlU3R1ZGllc0VtcHR5Ijp7InRpdGxlIjoiTmV3IGNhc2Ugc3R1ZGllcyBjb21pbmcgc29vbi4iLCJub3RlIjoiV2FudCB5b3VyIGFjY291bnQgdG8gYmUgb25lIG9mIHRoZSBmaXJzdCBmZWF0dXJlZD8gTWVzc2FnZSBtZSBvbiBUaWtUb2suIn0sIndlYnNpdGVXb3JrIjpbXSwic2lkZVByb2plY3RzIjpbeyJpZCI6InNlbGxvbWl6ZS1yZWFjaCIsInRpdGxlIjoiU2VsbG9taXplIFJlYWNoIiwiY2F0ZWdvcnkiOiJXZWIgQXBwIiwieWVhciI6IjIwMjYiLCJyb2xlIjoiRGVzaWduICYgYnVpbGQiLCJzdW1tYXJ5IjoiQ29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSBidWlsdCBmb3IgU2VsbG9taXplLCBhbiBBbWF6b24gZ3Jvd3RoIGFnZW5jeS4gQ2FtcGFpZ25zLCBtdWx0aS1zdGVwIHNlcXVlbmNlcywgbGVhZCBtYW5hZ2VtZW50LCBkZWxpdmVyYWJpbGl0eSB0cmFja2luZyBhbmQgQUktYXNzaXN0ZWQgZHJhZnRpbmcg4oCUIGEgUmVhY3QgZnJvbnQgZW5kIG9uIENsb3VkZmxhcmUgV29ya2VycywgRDEgYW5kIHF1ZXVlcy4gVHJ5IHRoZSBsaXZlIGRlbW8gKHNhbXBsZSBkYXRhKSwgb3IgdmlzaXQgdGhlIHByb2R1Y3Rpb24gdmVyc2lvbi4iLCJ0YWdzIjpbIlJlYWN0IiwiVHlwZVNjcmlwdCIsIkNsb3VkZmxhcmUiLCJBSSBhZ2VudHMiXSwidXJsIjoiaHR0cHM6Ly9yZWFjaC5zZWxsb21pemUuY29tLyIsImRlbW9VcmwiOiJodHRwczovL3NlbGxvbWl6ZS1yZWFjaC1kZW1vLnBhZ2VzLmRldi8iLCJjb3ZlciI6eyJzcmMiOiJhc3NldHMvcHJvamVjdHMvc2VsbG9taXplLXJlYWNoLWNvdmVyLnN2ZyIsImFsdCI6IlNlbGxvbWl6ZSBSZWFjaCDigJQgY29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSJ9fV0sInNldHRpbmdzIjp7Im1vdGlvbiI6eyJkZWZhdWx0VmlldyI6Imxpc3QiLCJzaG93Vmlld1RvZ2dsZSI6dHJ1ZSwicHJldmlld01vZGUiOiJmb2xsb3ciLCJjYXJkU2l6ZSI6MzYwLCJ0aWx0Ijp0cnVlLCJzcHJpbmciOiJub3JtYWwiLCJkaW1PdGhlcnMiOnRydWUsIm1heE1vYmlsZVBsYXlpbmciOjIsIm1vYmlsZUJlaGF2aW91ciI6ImFjY29yZGlvbiJ9LCJ0ZXN0aW1vbmlhbHMiOnsic2hvd1NlY3Rpb24iOmZhbHNlLCJsYXlvdXQiOiJmZWF0dXJlZCIsImF1dG9Sb3RhdGUiOmZhbHNlLCJyb3RhdGVTZWNvbmRzIjo2LCJzaG93QXZhdGFycyI6dHJ1ZSwic2hvd1Byb2plY3RMaW5rIjp0cnVlfSwic3dhcm0iOnsiZW5hYmxlZCI6dHJ1ZSwiY3Vyc29yQ291bnQiOjIwLCJsYWJlbHMiOlsiTGlzdGluZyIsIkErIENvbnRlbnQiLCJQUEMiLCJSZWNvbmNpbGlhdGlvbiIsIlNob3BpZnkiLCJBbWF6b24iLCJlQmF5IiwiVGlrVG9rIFNob3AiLCJXYWxtYXJ0IiwiVGVtdSIsIk1lcmNhcmkiXX19LCJzb2NpYWxzIjpbeyJwbGF0Zm9ybSI6IlRpa1RvayIsImhhbmRsZSI6IkBoZW5yeWtub3dzd2ViIiwidXJsIjoiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AaGVucnlrbm93c3dlYiIsInZpc2libGUiOnRydWV9XSwidGVzdGltb25pYWxzIjpbXSwiZmFxIjpbeyJncm91cCI6Ildvcmtpbmcgd2l0aCBtZSIsIml0ZW1zIjpbeyJxIjoiV2hhdCBkbyB5b3UgZG8/IiwiYSI6Ik1hcmtldHBsYWNlIGFjY291bnQgbWFuYWdlbWVudCwgbGlzdGluZyBpbWFnZXMgYW5kIGdyYXBoaWNzIGFuZCBBKyBjb250ZW50LCBQUEMgYW5kIGFkdmVydGlzaW5nLCByZWNvbmNpbGlhdGlvbiBhbmQgYWNjb3VudCBpc3N1ZS1maXhpbmcsIGFuZCBTaG9waWZ5IHN0b3JlIGRlc2lnbiBhbmQgbWFuYWdlbWVudC4ifSx7InEiOiJXaGljaCBtYXJrZXRwbGFjZXMgZG8geW91IHdvcmsgb24/IiwiYSI6IkFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmkuIn0seyJxIjoiV2hvIGRvIHlvdSB3b3JrIHdpdGg/IiwiYSI6IkJyYW5kcyBhbmQgc2VsbGVycyBmaXJzdC4gSSBhbHNvIHdvcmsgd2l0aCBhZ2VuY2llcywgYW5kIEkgYW0gb3BlbiB0byByb2xlcy4gSSB3b3JrIHJlbW90ZWx5IHdpdGggY2xpZW50cyB3b3JsZHdpZGUuIn0seyJxIjoiSG93IGRvIHdlIHN0YXJ0PyIsImEiOiJTZW5kIG1lIGEgRE0gb24gVGlrVG9rIChAaGVucnlrbm93c3dlYikgb3IgYW4gZW1haWwgd2l0aCB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4gVGhlcmUgaXMgYSBmcmVlIDE1LW1pbnV0ZSBjYWxsIGlmIHlvdSB3YW50IHRvIHRhbGsgaXQgdGhyb3VnaCBmaXJzdC4ifV19LHsiZ3JvdXAiOiJTdG9yZXMgYW5kIHNvZnR3YXJlIiwiaXRlbXMiOlt7InEiOiJDYW4geW91IGRlc2lnbiBhIFNob3BpZnkgc3RvcmU/IiwiYSI6Illlcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcy4ifSx7InEiOiJEbyB5b3UgYnVpbGQgc29mdHdhcmU/IiwiYSI6Illlcy4gRm9yIGV4YW1wbGUgU2VsbG9taXplIFJlYWNoLCBhIGNvbGQgZW1haWwgb3V0cmVhY2ggcGxhdGZvcm0gYnVpbHQgZm9yIGFuIEFtYXpvbiBncm93dGggYWdlbmN5LiJ9LHsicSI6IldpbGwgbXkgc2l0ZSB3b3JrIG9uIHBob25lcz8iLCJhIjoiWWVzLiBFdmVyeSBzaXRlIGlzIGRlc2lnbmVkIGZvciBwaG9uZSwgdGFibGV0IGFuZCBkZXNrdG9wLiJ9LHsicSI6IldobyBvd25zIHRoZSBkb21haW4gYW5kIGhvc3RpbmcgZm9yIGEgd2Vic2l0ZT8iLCJhIjoiWW91IGRvLiBUaGUgZG9tYWluIGFuZCBob3N0aW5nIGFjY291bnRzIHN0YXkgaW4geW91ciBuYW1lLCBzbyB5b3UgYWx3YXlzIG93biB0aGVtLiJ9XX0seyJncm91cCI6IlRydXN0IiwiaXRlbXMiOlt7InEiOiJDYW4gSSBzZWUgeW91ciB3b3JrPyIsImEiOiJZZXMg4oCUIGFuZCBJIG9ubHkgc2hvdyB3b3JrIEkgbWFkZS4gQ2FzZSBzdHVkaWVzIGFyZSBhZGRlZCBoZXJlIGFzIHRoZXkgYXJlIHJlYWR5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgY29uc3VsdGF0aW9uPyIsImEiOiJBIGZyZWUgMTUtbWludXRlIGNhbGwsIHllcy4gQSBmcmVlIG1vY2t1cCwgbm8uIn1dfV19"); })
           .then(applyContent)
           .catch(function () { /* Embedded verified content stays as-is. */ });
       })();
@@ -2290,11 +2571,11 @@
             <input id="cfEmail" name="email" type="email" autocomplete="email" required />
           </div>
           <div class="cf-field">
-            <label for="cfSells">What do you sell?</label>
+            <label for="cfSells">Which marketplaces or store do you sell on</label>
             <input id="cfSells" name="sells" type="text" />
           </div>
           <div class="cf-field">
-            <label for="cfMessage">What&rsquo;s not working on your current site?</label>
+            <label for="cfMessage">What&rsquo;s not working</label>
             <textarea id="cfMessage" name="message" rows="5" required></textarea>
           </div>
           <div class="cf-hp" aria-hidden="true">
@@ -2383,6 +2664,296 @@
             submitBtn.textContent = "Send message";
           });
         });
+      })();
+    </script>
+    <script>
+      /* Swarm cursor effect: a small crew of Figma-style cursors builds
+         each section as it first scrolls into view, then orbits the real
+         mouse. Runs once per page (localStorage), fine pointers only,
+         never under reduced motion. One canvas, one rAF loop, section
+         positions cached on load/resize/reveal — never per frame. */
+      (function () {
+        "use strict";
+        var PAGE = window.__swarmPage || "home";
+        var DONE_KEY = "hk.swarm.done." + PAGE;
+        var PREF_KEY = "hk.swarm.enabled";
+        var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
+        var DEFAULT_LABELS = ["Alex", "Sam", "Jo", "Kim", "Rae", "Tom", "Ana", "Ben", "Eva", "Leo"];
+        var canvas = null, ctx = null, raf = 0, running = false;
+        var started = false, finished = false, disabled = false, inited = false, exiting = false, exitT = 0;
+        var sections = [], cursors = [], labels = DEFAULT_LABELS, cursorCount = 20, contentEnabled = true;
+        var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
+        var buildTarget = null, arriveT = 0, lastScrollT = 0, orbitA = 0, scatterT = 0, W = 0, H = 0;
+        function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+        function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+        function coarse() { return window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches; }
+        function reducedM() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+        function btn() { return document.getElementById("swarmToggle"); }
+        function syncToggle() {
+          var b = btn(); if (!b) return;
+          var on = lsGet(PREF_KEY) !== "off" && contentEnabled;
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+          b.textContent = on ? "Swarm on" : "Swarm off";
+        }
+        function collect() {
+          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el) {
+            return { el: el, revealed: el.classList.contains("revealed"), top: 0, bottom: 0, left: 0, w: 0, h: 0 };
+          });
+          measure();
+        }
+        function measure() {
+          var sy = window.scrollY || 0;
+          sections.forEach(function (s) {
+            var r = s.el.getBoundingClientRect();
+            s.top = r.top + sy; s.bottom = r.bottom + sy; s.left = r.left; s.w = r.width; s.h = r.height;
+          });
+        }
+        function reveal(s) { if (s && !s.revealed) { s.revealed = true; s.el.classList.add("revealed"); } }
+        function revealAll() { sections.forEach(reveal); }
+        function sizeCanvas() {
+          if (!canvas) return;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = window.innerWidth; H = window.innerHeight;
+          canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+          canvas.style.width = W + "px"; canvas.style.height = H + "px";
+          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        function ensureCanvas() {
+          if (canvas) return;
+          canvas = document.createElement("canvas");
+          canvas.id = "swarmCanvas";
+          canvas.setAttribute("aria-hidden", "true");
+          canvas.style.display = "none";
+          document.body.appendChild(canvas);
+          ctx = canvas.getContext("2d");
+          if (!ctx) { disabled = true; document.documentElement.classList.remove("swarm-on"); }
+          sizeCanvas();
+        }
+        function makeCursors() {
+          var n = cursorCount;
+          if (window.innerWidth < 700) n = Math.min(n, 12);
+          n = Math.max(4, Math.min(40, n));
+          cursors = [];
+          for (var i = 0; i < n; i++) {
+            cursors.push({
+              x: (W || window.innerWidth) / 2 + (Math.random() - 0.5) * 240,
+              y: (H || window.innerHeight) + 40 + Math.random() * 120,
+              tx: (W || window.innerWidth) / 2, ty: (H || window.innerHeight) / 2,
+              color: PALETTE[i % PALETTE.length],
+              label: labels[i % labels.length],
+              ease: 0.05 + Math.random() * 0.07,
+              seed: Math.random() * 6.28
+            });
+          }
+        }
+        function pointIn(s) {
+          var sy = window.scrollY || 0;
+          return {
+            x: s.left + 16 + Math.random() * Math.max(20, s.w - 32),
+            y: s.top - sy + 16 + Math.random() * Math.max(20, s.h - 32)
+          };
+        }
+        function assignBuild(s) {
+          buildTarget = s; arriveT = 0;
+          cursors.forEach(function (c) { var p = pointIn(s); c.tx = p.x; c.ty = p.y; });
+        }
+        function startLoop() { if (!running && !finished && !disabled) { running = true; raf = window.requestAnimationFrame(loop); } }
+        function stopLoop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
+        function endEffect(markDone) {
+          if (finished) return;
+          finished = true;
+          revealAll();
+          document.documentElement.classList.remove("swarm-on");
+          if (markDone) lsSet(DONE_KEY, "1");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+        }
+        function beginExit() {
+          if (exiting || finished) return;
+          exiting = true; exitT = performance.now();
+          cursors.forEach(function (c, i) { c.tx = c.x + (Math.random() - 0.5) * 160; c.ty = -80 - (i % 5) * 26; });
+        }
+        function roundRectPath(x, y, w, h, r) {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+          ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+          ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+          ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+          ctx.closePath();
+        }
+        function drawCursor(c, showTag) {
+          ctx.save(); ctx.translate(c.x, c.y);
+          ctx.beginPath();
+          ctx.moveTo(0, 0); ctx.lineTo(0, 15); ctx.lineTo(4.6, 11.2); ctx.lineTo(7.2, 17); ctx.lineTo(9.8, 15.8); ctx.lineTo(7.2, 10.4); ctx.lineTo(12.4, 10.4);
+          ctx.closePath();
+          ctx.fillStyle = c.color; ctx.fill();
+          ctx.lineWidth = 1.2; ctx.strokeStyle = "#0E0D0E"; ctx.stroke();
+          if (showTag && c.label) {
+            ctx.font = "10px 'JetBrains Mono', monospace";
+            var w = ctx.measureText(c.label).width + 12;
+            roundRectPath(12, 12, w, 16, 8);
+            ctx.fillStyle = c.color; ctx.fill();
+            ctx.fillStyle = (c.color === "#F2281E" || c.color === "#B81E16" || c.color === "#5E5A56") ? "#F2EFEA" : "#0E0D0E";
+            ctx.fillText(c.label, 18, 24);
+          }
+          ctx.restore();
+        }
+        function drawGuides(s) {
+          var sy = window.scrollY || 0;
+          var top = s.top - sy, left = s.left, right = s.left + s.w, bottom = top + s.h;
+          ctx.save();
+          ctx.strokeStyle = "rgba(242,239,234,0.35)"; ctx.lineWidth = 1;
+          ctx.setLineDash([5, 5]);
+          ctx.strokeRect(left + 6, top + 6, Math.max(0, s.w - 12), Math.max(0, s.h - 12));
+          ctx.setLineDash([]);
+          ctx.strokeStyle = "rgba(242,34,30,0.8)";
+          [[left, top], [right, top], [left, bottom], [right, bottom]].forEach(function (pt) {
+            ctx.beginPath();
+            ctx.moveTo(pt[0] - 7, pt[1]); ctx.lineTo(pt[0] + 7, pt[1]);
+            ctx.moveTo(pt[0], pt[1] - 7); ctx.lineTo(pt[0], pt[1] + 7);
+            ctx.stroke();
+          });
+          ctx.restore();
+        }
+        function loop(now) {
+          if (!running) return;
+          raf = window.requestAnimationFrame(loop);
+          if (!ctx) return;
+          ctx.clearRect(0, 0, W, H);
+          var sy = window.scrollY || 0;
+          var vh = window.innerHeight;
+          var idle = now - lastScrollT > 150;
+          if (exiting) {
+            if (now - exitT > 850) { endEffect(true); return; }
+          } else {
+            sections.forEach(function (s) { if (!s.revealed && s.bottom < sy + 10) reveal(s); });
+            var next = null;
+            for (var i = 0; i < sections.length; i++) {
+              var s2 = sections[i];
+              if (!s2.revealed && s2.bottom > sy + 10 && s2.top < sy + vh * 0.92) { next = s2; break; }
+            }
+            if (next) {
+              if (buildTarget !== next) assignBuild(next);
+              var sum = 0;
+              cursors.forEach(function (c) { sum += Math.abs(c.tx - c.x) + Math.abs(c.ty - c.y); });
+              var avg = cursors.length ? sum / cursors.length : 0;
+              if (avg < 46) { if (!arriveT) arriveT = now; if (now - arriveT > 450) { reveal(next); buildTarget = null; arriveT = 0; measure(); } }
+              else arriveT = 0;
+              if (buildTarget) drawGuides(buildTarget);
+            } else if (idle) {
+              buildTarget = null;
+              if (now >= scatterT) {
+                orbitA += 0.0035;
+                var cxp = mouse.x >= 0 ? mouse.x : W / 2, cyp = mouse.y >= 0 ? mouse.y : H / 2;
+                cursors.forEach(function (c, i2) {
+                  var ang = orbitA + c.seed + (i2 / Math.max(1, cursors.length)) * 6.283;
+                  var rad = 64 + (i2 % 4) * 16;
+                  c.tx = cxp + Math.cos(ang) * rad;
+                  c.ty = cyp + Math.sin(ang) * rad * 0.72;
+                });
+              }
+            }
+          }
+          var showTags = !!buildTarget || idle;
+          cursors.forEach(function (c) {
+            c.x += (c.tx - c.x) * c.ease;
+            c.y += (c.ty - c.y) * c.ease;
+            drawCursor(c, showTags);
+          });
+        }
+        function onScroll() {
+          lastScrollT = performance.now();
+          if (finished || disabled) return;
+          if (!started) { started = true; ensureCanvas(); if (canvas) canvas.style.display = ""; if (!cursors.length) makeCursors(); }
+          startLoop();
+          var doc = document.documentElement;
+          var docH = Math.max(doc.scrollHeight, document.body ? document.body.scrollHeight : 0);
+          if ((window.scrollY || 0) + window.innerHeight >= docH - 8) beginExit();
+        }
+        function onMouse(e) {
+          var now = performance.now();
+          if (mouse.lt) {
+            var dt = Math.max(1, now - mouse.lt);
+            var d = Math.abs(e.clientX - mouse.lx) + Math.abs(e.clientY - mouse.ly);
+            mouse.speed = mouse.speed * 0.6 + (d / dt) * 0.4;
+            if (mouse.speed > 2.6 && started && !finished && !exiting && now > scatterT) {
+              scatterT = now + 280;
+              cursors.forEach(function (c) {
+                var dx = c.x - e.clientX, dy = c.y - e.clientY;
+                var dd = Math.max(24, Math.sqrt(dx * dx + dy * dy));
+                var push = 140 + Math.random() * 140;
+                c.tx = c.x + (dx / dd) * push;
+                c.ty = c.y + (dy / dd) * push;
+              });
+            }
+          }
+          mouse.lx = e.clientX; mouse.ly = e.clientY; mouse.lt = now;
+          mouse.x = e.clientX; mouse.y = e.clientY;
+        }
+        function onInterrupt(e) {
+          if (!started || finished || exiting) return;
+          var t = e.target;
+          if (t && t.closest && t.closest("#swarmToggle")) return;
+          endEffect(true);
+        }
+        function onResize() { sizeCanvas(); measure(); }
+        function onVis() {
+          if (document.hidden) { stopLoop(); }
+          else if (started && !finished && !disabled) { startLoop(); }
+        }
+        function handleToggle() {
+          var off = lsGet(PREF_KEY) === "off";
+          if (!off) {
+            lsSet(PREF_KEY, "off");
+            disabled = true;
+            if (!finished) { finished = true; revealAll(); }
+            document.documentElement.classList.remove("swarm-on");
+            stopLoop();
+            if (canvas) canvas.style.display = "none";
+            syncToggle();
+          } else {
+            lsSet(PREF_KEY, "on");
+            syncToggle();
+            if (!contentEnabled || coarse() || reducedM() || lsGet(DONE_KEY)) return;
+            disabled = false; finished = false; exiting = false;
+            if (!sections.length) collect();
+            document.documentElement.classList.add("swarm-on");
+            ensureCanvas();
+            if (canvas) canvas.style.display = "";
+            if (!cursors.length) makeCursors();
+            started = true;
+            lastScrollT = performance.now();
+            measure();
+            startLoop();
+          }
+        }
+        var b0 = btn();
+        if (b0) { syncToggle(); b0.addEventListener("click", handleToggle); }
+        window.__initSwarm = function (data) {
+          if (inited) return;
+          inited = true;
+          var sw = (data && data.settings && data.settings.swarm) || {};
+          contentEnabled = sw.enabled !== false;
+          if (typeof sw.cursorCount === "number" && isFinite(sw.cursorCount)) cursorCount = sw.cursorCount;
+          if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.map(function (x) { return String(x); });
+          syncToggle();
+          if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM() || lsGet(DONE_KEY)) {
+            document.documentElement.classList.remove("swarm-on");
+            return;
+          }
+          collect();
+          makeCursors();
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("mousemove", onMouse, { passive: true });
+          window.addEventListener("pointerdown", onInterrupt, true);
+          window.addEventListener("keydown", onInterrupt, true);
+          window.addEventListener("resize", onResize);
+          document.addEventListener("visibilitychange", onVis);
+        };
+        /* Safety: if content never arrives, initialise with defaults so
+           sections can never stay hidden behind a failed fetch. */
+        window.setTimeout(function () { if (!inited) window.__initSwarm({}); }, 3500);
       })();
     </script>
   </body>

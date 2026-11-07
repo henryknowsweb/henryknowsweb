@@ -3,19 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>
+      /* Swarm: mark build sections hidden pre-paint only when the effect
+         can actually run (toggle on, fine pointer, motion allowed, and
+         this page not already built). The engine confirms the content
+         setting after load; anything ineligible removes the class. */
+      (function () {
+        try {
+          var path = window.location.pathname || "/";
+          var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : "home");
+          window.__swarmPage = page;
+          if (window.localStorage.getItem("hk.swarm.enabled") === "off") return;
+          if (window.localStorage.getItem("hk.swarm.done." + page)) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          if (window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches) return;
+          document.documentElement.classList.add("swarm-on");
+        } catch (e) {}
+      })();
+    </script>
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0E0D0E" />
-    <meta name="description" content="The full story of Henry: 6+ years in e-commerce across Amazon, eBay, Walmart, Shopify and Temu, a computer science degree with two first prizes, now building bold websites worldwide." />
-    <meta property="og:title" content="About Henry — Web Designer | henryknowsweb" />
-    <meta property="og:description" content="6+ years in e-commerce, a computer science degree, two first prizes — and now bold websites for stores and brands worldwide." />
+    <meta name="description" content="The full story of Henry: 6+ years in e-commerce across Amazon, eBay, Walmart, Shopify and Temu, a computer science degree with two first prizes — now a marketplace operator and Shopify designer working worldwide." />
+    <meta property="og:title" content="About Henry | henryknowsweb" />
+    <meta property="og:description" content="6+ years in e-commerce, a computer science degree, two first prizes — now running and fixing marketplace accounts and designing Shopify stores worldwide." />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://henryknowsweb.pages.dev/about" />
     <meta property="og:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="About Henry — Web Designer | henryknowsweb" />
-    <meta name="twitter:description" content="6+ years in e-commerce, a computer science degree, two first prizes — and now bold websites for stores and brands worldwide." />
+    <meta name="twitter:title" content="About Henry | henryknowsweb" />
+    <meta name="twitter:description" content="6+ years in e-commerce, a computer science degree, two first prizes — now running and fixing marketplace accounts and designing Shopify stores worldwide." />
     <meta name="twitter:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
     <link rel="canonical" href="https://henryknowsweb.pages.dev/about" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -25,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-    <title>About Henry | henryknowsweb — Web Designer</title>
+    <title>About Henry | henryknowsweb</title>
     <style>
       :root {
         color-scheme: dark;
@@ -221,6 +239,13 @@
         .portrait-spot { display: none; }
       }
     
+      /* ---------- Swarm cursor effect ---------- */
+      #swarmCanvas { position: fixed; inset: 0; z-index: 85; pointer-events: none; }
+      html.swarm-on [data-swarm-section] { opacity: 0; transform: translateY(24px); }
+      html.swarm-on [data-swarm-section].revealed { opacity: 1; transform: none; transition: opacity var(--dur-slow) ease, transform var(--dur-slow) cubic-bezier(0.16, 1, 0.3, 1); }
+      .swarm-toggle { appearance: none; background: transparent; border: 1px solid var(--line); color: var(--label); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 10px; min-height: 32px; cursor: pointer; }
+      .swarm-toggle:hover { color: var(--paper); border-color: var(--paper); }
+      @media (prefers-reduced-motion: reduce) { html.swarm-on [data-swarm-section] { opacity: 1; transform: none; } }
       /* Contact form modal */
       .cf-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(14, 13, 14, 0.72); display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
       .cf-overlay.open { display: flex; }
@@ -248,7 +273,7 @@
 
     <header class="topbar wrap-x">
       <a class="brand" href="/" aria-label="henryknowsweb — back to home"><img class="brand-lockup" src="assets/brand/lockup.svg" alt="Henry." width="94" height="28" /></a>
-      <a class="back link-draw" href="/#about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a>
+      <span style="display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap"><button type="button" class="swarm-toggle" id="swarmToggle" aria-pressed="true">Swarm on</button><a class="back link-draw" href="/#about"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a></span>
     </header>
 
     <main id="main">
@@ -257,10 +282,10 @@
         <h1>Know more<br />about Henry</h1>
       </div>
 
-      <div class="about-layout wrap-x">
+      <div class="about-layout wrap-x" data-swarm-section>
         <div class="portrait-col">
           <figure class="portrait-frame reveal-clip" id="portraitFrame"><img class="photo" src="assets/portrait/about-portrait.webp" width="1024" height="1280" alt="Portrait of Henry" /><div class="portrait-spot" aria-hidden="true"></div></figure>
-          <p class="portrait-caption">Henry — web designer &amp; builder, working worldwide.</p>
+          <p class="portrait-caption" id="portraitLine">Henry — marketplace operator &amp; Shopify designer, working worldwide.</p>
         </div>
 
         <div class="story-col">
@@ -280,9 +305,9 @@
         </div>
       </div>
 
-      <section class="cta-band wrap-x" aria-labelledby="ctaHeading">
+      <section class="cta-band wrap-x" aria-labelledby="ctaHeading" data-swarm-section>
         <p class="section-label">Start a project</p>
-        <h2 id="ctaHeading">Want a site built<br />like a storefront?</h2>
+        <h2 id="ctaHeading">Want your accounts and<br />store working like this?</h2>
         <div class="cta-actions">
           <a class="btn btn-solid btn-lg" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB on TikTok<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <button type="button" class="btn btn-secondary btn-lg" data-contact-open>Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
@@ -292,7 +317,7 @@
     </main>
 
     <footer class="page-foot wrap-x">
-      <span>henryknowsweb — Bold websites for stores &amp; brands</span>
+      <span>henryknowsweb — Marketplace Operator &amp; Shopify Designer</span>
       <a class="link-draw" href="/">Back to home</a>
     </footer>
 
@@ -350,6 +375,11 @@
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (data) {
             if (!data) return;
+            window.__aboutData = data;
+            if (data.about && data.about.portraitLine) {
+              var capEl = document.getElementById("portraitLine");
+              if (capEl) capEl.textContent = data.about.portraitLine;
+            }
             var story = data.about && data.about.fullStory;
             var storyEl = document.getElementById("fullStory");
             if (storyEl && Array.isArray(story) && story.length) {
@@ -379,7 +409,8 @@
               if (wrapEl) wrapEl.hidden = valid.length === 0;
             }
           })
-          .catch(function () { /* static content stays */ });
+          .then(function () { if (window.__initSwarm) window.__initSwarm(window.__aboutData || {}); })
+          .catch(function () { if (window.__initSwarm) window.__initSwarm({}); /* static content stays */ });
       })();
     </script>
   
@@ -398,11 +429,11 @@
             <input id="cfEmail" name="email" type="email" autocomplete="email" required />
           </div>
           <div class="cf-field">
-            <label for="cfSells">What do you sell?</label>
+            <label for="cfSells">Which marketplaces or store do you sell on</label>
             <input id="cfSells" name="sells" type="text" />
           </div>
           <div class="cf-field">
-            <label for="cfMessage">What&rsquo;s not working on your current site?</label>
+            <label for="cfMessage">What&rsquo;s not working</label>
             <textarea id="cfMessage" name="message" rows="5" required></textarea>
           </div>
           <div class="cf-hp" aria-hidden="true">
@@ -491,6 +522,296 @@
             submitBtn.textContent = "Send message";
           });
         });
+      })();
+    </script>
+    <script>
+      /* Swarm cursor effect: a small crew of Figma-style cursors builds
+         each section as it first scrolls into view, then orbits the real
+         mouse. Runs once per page (localStorage), fine pointers only,
+         never under reduced motion. One canvas, one rAF loop, section
+         positions cached on load/resize/reveal — never per frame. */
+      (function () {
+        "use strict";
+        var PAGE = window.__swarmPage || "home";
+        var DONE_KEY = "hk.swarm.done." + PAGE;
+        var PREF_KEY = "hk.swarm.enabled";
+        var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
+        var DEFAULT_LABELS = ["Alex", "Sam", "Jo", "Kim", "Rae", "Tom", "Ana", "Ben", "Eva", "Leo"];
+        var canvas = null, ctx = null, raf = 0, running = false;
+        var started = false, finished = false, disabled = false, inited = false, exiting = false, exitT = 0;
+        var sections = [], cursors = [], labels = DEFAULT_LABELS, cursorCount = 20, contentEnabled = true;
+        var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
+        var buildTarget = null, arriveT = 0, lastScrollT = 0, orbitA = 0, scatterT = 0, W = 0, H = 0;
+        function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+        function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+        function coarse() { return window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches; }
+        function reducedM() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+        function btn() { return document.getElementById("swarmToggle"); }
+        function syncToggle() {
+          var b = btn(); if (!b) return;
+          var on = lsGet(PREF_KEY) !== "off" && contentEnabled;
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+          b.textContent = on ? "Swarm on" : "Swarm off";
+        }
+        function collect() {
+          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el) {
+            return { el: el, revealed: el.classList.contains("revealed"), top: 0, bottom: 0, left: 0, w: 0, h: 0 };
+          });
+          measure();
+        }
+        function measure() {
+          var sy = window.scrollY || 0;
+          sections.forEach(function (s) {
+            var r = s.el.getBoundingClientRect();
+            s.top = r.top + sy; s.bottom = r.bottom + sy; s.left = r.left; s.w = r.width; s.h = r.height;
+          });
+        }
+        function reveal(s) { if (s && !s.revealed) { s.revealed = true; s.el.classList.add("revealed"); } }
+        function revealAll() { sections.forEach(reveal); }
+        function sizeCanvas() {
+          if (!canvas) return;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = window.innerWidth; H = window.innerHeight;
+          canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+          canvas.style.width = W + "px"; canvas.style.height = H + "px";
+          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        function ensureCanvas() {
+          if (canvas) return;
+          canvas = document.createElement("canvas");
+          canvas.id = "swarmCanvas";
+          canvas.setAttribute("aria-hidden", "true");
+          canvas.style.display = "none";
+          document.body.appendChild(canvas);
+          ctx = canvas.getContext("2d");
+          if (!ctx) { disabled = true; document.documentElement.classList.remove("swarm-on"); }
+          sizeCanvas();
+        }
+        function makeCursors() {
+          var n = cursorCount;
+          if (window.innerWidth < 700) n = Math.min(n, 12);
+          n = Math.max(4, Math.min(40, n));
+          cursors = [];
+          for (var i = 0; i < n; i++) {
+            cursors.push({
+              x: (W || window.innerWidth) / 2 + (Math.random() - 0.5) * 240,
+              y: (H || window.innerHeight) + 40 + Math.random() * 120,
+              tx: (W || window.innerWidth) / 2, ty: (H || window.innerHeight) / 2,
+              color: PALETTE[i % PALETTE.length],
+              label: labels[i % labels.length],
+              ease: 0.05 + Math.random() * 0.07,
+              seed: Math.random() * 6.28
+            });
+          }
+        }
+        function pointIn(s) {
+          var sy = window.scrollY || 0;
+          return {
+            x: s.left + 16 + Math.random() * Math.max(20, s.w - 32),
+            y: s.top - sy + 16 + Math.random() * Math.max(20, s.h - 32)
+          };
+        }
+        function assignBuild(s) {
+          buildTarget = s; arriveT = 0;
+          cursors.forEach(function (c) { var p = pointIn(s); c.tx = p.x; c.ty = p.y; });
+        }
+        function startLoop() { if (!running && !finished && !disabled) { running = true; raf = window.requestAnimationFrame(loop); } }
+        function stopLoop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
+        function endEffect(markDone) {
+          if (finished) return;
+          finished = true;
+          revealAll();
+          document.documentElement.classList.remove("swarm-on");
+          if (markDone) lsSet(DONE_KEY, "1");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+        }
+        function beginExit() {
+          if (exiting || finished) return;
+          exiting = true; exitT = performance.now();
+          cursors.forEach(function (c, i) { c.tx = c.x + (Math.random() - 0.5) * 160; c.ty = -80 - (i % 5) * 26; });
+        }
+        function roundRectPath(x, y, w, h, r) {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+          ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+          ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+          ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+          ctx.closePath();
+        }
+        function drawCursor(c, showTag) {
+          ctx.save(); ctx.translate(c.x, c.y);
+          ctx.beginPath();
+          ctx.moveTo(0, 0); ctx.lineTo(0, 15); ctx.lineTo(4.6, 11.2); ctx.lineTo(7.2, 17); ctx.lineTo(9.8, 15.8); ctx.lineTo(7.2, 10.4); ctx.lineTo(12.4, 10.4);
+          ctx.closePath();
+          ctx.fillStyle = c.color; ctx.fill();
+          ctx.lineWidth = 1.2; ctx.strokeStyle = "#0E0D0E"; ctx.stroke();
+          if (showTag && c.label) {
+            ctx.font = "10px 'JetBrains Mono', monospace";
+            var w = ctx.measureText(c.label).width + 12;
+            roundRectPath(12, 12, w, 16, 8);
+            ctx.fillStyle = c.color; ctx.fill();
+            ctx.fillStyle = (c.color === "#F2281E" || c.color === "#B81E16" || c.color === "#5E5A56") ? "#F2EFEA" : "#0E0D0E";
+            ctx.fillText(c.label, 18, 24);
+          }
+          ctx.restore();
+        }
+        function drawGuides(s) {
+          var sy = window.scrollY || 0;
+          var top = s.top - sy, left = s.left, right = s.left + s.w, bottom = top + s.h;
+          ctx.save();
+          ctx.strokeStyle = "rgba(242,239,234,0.35)"; ctx.lineWidth = 1;
+          ctx.setLineDash([5, 5]);
+          ctx.strokeRect(left + 6, top + 6, Math.max(0, s.w - 12), Math.max(0, s.h - 12));
+          ctx.setLineDash([]);
+          ctx.strokeStyle = "rgba(242,34,30,0.8)";
+          [[left, top], [right, top], [left, bottom], [right, bottom]].forEach(function (pt) {
+            ctx.beginPath();
+            ctx.moveTo(pt[0] - 7, pt[1]); ctx.lineTo(pt[0] + 7, pt[1]);
+            ctx.moveTo(pt[0], pt[1] - 7); ctx.lineTo(pt[0], pt[1] + 7);
+            ctx.stroke();
+          });
+          ctx.restore();
+        }
+        function loop(now) {
+          if (!running) return;
+          raf = window.requestAnimationFrame(loop);
+          if (!ctx) return;
+          ctx.clearRect(0, 0, W, H);
+          var sy = window.scrollY || 0;
+          var vh = window.innerHeight;
+          var idle = now - lastScrollT > 150;
+          if (exiting) {
+            if (now - exitT > 850) { endEffect(true); return; }
+          } else {
+            sections.forEach(function (s) { if (!s.revealed && s.bottom < sy + 10) reveal(s); });
+            var next = null;
+            for (var i = 0; i < sections.length; i++) {
+              var s2 = sections[i];
+              if (!s2.revealed && s2.bottom > sy + 10 && s2.top < sy + vh * 0.92) { next = s2; break; }
+            }
+            if (next) {
+              if (buildTarget !== next) assignBuild(next);
+              var sum = 0;
+              cursors.forEach(function (c) { sum += Math.abs(c.tx - c.x) + Math.abs(c.ty - c.y); });
+              var avg = cursors.length ? sum / cursors.length : 0;
+              if (avg < 46) { if (!arriveT) arriveT = now; if (now - arriveT > 450) { reveal(next); buildTarget = null; arriveT = 0; measure(); } }
+              else arriveT = 0;
+              if (buildTarget) drawGuides(buildTarget);
+            } else if (idle) {
+              buildTarget = null;
+              if (now >= scatterT) {
+                orbitA += 0.0035;
+                var cxp = mouse.x >= 0 ? mouse.x : W / 2, cyp = mouse.y >= 0 ? mouse.y : H / 2;
+                cursors.forEach(function (c, i2) {
+                  var ang = orbitA + c.seed + (i2 / Math.max(1, cursors.length)) * 6.283;
+                  var rad = 64 + (i2 % 4) * 16;
+                  c.tx = cxp + Math.cos(ang) * rad;
+                  c.ty = cyp + Math.sin(ang) * rad * 0.72;
+                });
+              }
+            }
+          }
+          var showTags = !!buildTarget || idle;
+          cursors.forEach(function (c) {
+            c.x += (c.tx - c.x) * c.ease;
+            c.y += (c.ty - c.y) * c.ease;
+            drawCursor(c, showTags);
+          });
+        }
+        function onScroll() {
+          lastScrollT = performance.now();
+          if (finished || disabled) return;
+          if (!started) { started = true; ensureCanvas(); if (canvas) canvas.style.display = ""; if (!cursors.length) makeCursors(); }
+          startLoop();
+          var doc = document.documentElement;
+          var docH = Math.max(doc.scrollHeight, document.body ? document.body.scrollHeight : 0);
+          if ((window.scrollY || 0) + window.innerHeight >= docH - 8) beginExit();
+        }
+        function onMouse(e) {
+          var now = performance.now();
+          if (mouse.lt) {
+            var dt = Math.max(1, now - mouse.lt);
+            var d = Math.abs(e.clientX - mouse.lx) + Math.abs(e.clientY - mouse.ly);
+            mouse.speed = mouse.speed * 0.6 + (d / dt) * 0.4;
+            if (mouse.speed > 2.6 && started && !finished && !exiting && now > scatterT) {
+              scatterT = now + 280;
+              cursors.forEach(function (c) {
+                var dx = c.x - e.clientX, dy = c.y - e.clientY;
+                var dd = Math.max(24, Math.sqrt(dx * dx + dy * dy));
+                var push = 140 + Math.random() * 140;
+                c.tx = c.x + (dx / dd) * push;
+                c.ty = c.y + (dy / dd) * push;
+              });
+            }
+          }
+          mouse.lx = e.clientX; mouse.ly = e.clientY; mouse.lt = now;
+          mouse.x = e.clientX; mouse.y = e.clientY;
+        }
+        function onInterrupt(e) {
+          if (!started || finished || exiting) return;
+          var t = e.target;
+          if (t && t.closest && t.closest("#swarmToggle")) return;
+          endEffect(true);
+        }
+        function onResize() { sizeCanvas(); measure(); }
+        function onVis() {
+          if (document.hidden) { stopLoop(); }
+          else if (started && !finished && !disabled) { startLoop(); }
+        }
+        function handleToggle() {
+          var off = lsGet(PREF_KEY) === "off";
+          if (!off) {
+            lsSet(PREF_KEY, "off");
+            disabled = true;
+            if (!finished) { finished = true; revealAll(); }
+            document.documentElement.classList.remove("swarm-on");
+            stopLoop();
+            if (canvas) canvas.style.display = "none";
+            syncToggle();
+          } else {
+            lsSet(PREF_KEY, "on");
+            syncToggle();
+            if (!contentEnabled || coarse() || reducedM() || lsGet(DONE_KEY)) return;
+            disabled = false; finished = false; exiting = false;
+            if (!sections.length) collect();
+            document.documentElement.classList.add("swarm-on");
+            ensureCanvas();
+            if (canvas) canvas.style.display = "";
+            if (!cursors.length) makeCursors();
+            started = true;
+            lastScrollT = performance.now();
+            measure();
+            startLoop();
+          }
+        }
+        var b0 = btn();
+        if (b0) { syncToggle(); b0.addEventListener("click", handleToggle); }
+        window.__initSwarm = function (data) {
+          if (inited) return;
+          inited = true;
+          var sw = (data && data.settings && data.settings.swarm) || {};
+          contentEnabled = sw.enabled !== false;
+          if (typeof sw.cursorCount === "number" && isFinite(sw.cursorCount)) cursorCount = sw.cursorCount;
+          if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.map(function (x) { return String(x); });
+          syncToggle();
+          if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM() || lsGet(DONE_KEY)) {
+            document.documentElement.classList.remove("swarm-on");
+            return;
+          }
+          collect();
+          makeCursors();
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("mousemove", onMouse, { passive: true });
+          window.addEventListener("pointerdown", onInterrupt, true);
+          window.addEventListener("keydown", onInterrupt, true);
+          window.addEventListener("resize", onResize);
+          document.addEventListener("visibilitychange", onVis);
+        };
+        /* Safety: if content never arrives, initialise with defaults so
+           sections can never stay hidden behind a failed fetch. */
+        window.setTimeout(function () { if (!inited) window.__initSwarm({}); }, 3500);
       })();
     </script>
   </body>
