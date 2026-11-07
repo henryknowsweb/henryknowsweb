@@ -1052,13 +1052,97 @@
       <section class="tools-sec wrap-x" id="tools" aria-labelledby="toolsHeading" data-swarm-section>
         <p class="section-label">Toolbox</p>
         <h2 id="toolsHeading"><span class="reveal-line"><span>Tools I work in</span></span></h2>
-        <ul class="tools-list reveal-fade" id="toolsList">
-          <li>Figma</li>
-          <li>Klaviyo</li>
-          <li>Gorgias</li>
-          <li>Miracle Connect</li>
-          <li>Shopify</li>
-        </ul>
+        <div class="tools-groups reveal-fade" id="toolsList">
+          <div class="tools-group">
+            <p class="tools-group-label">Web and stores</p>
+            <ul class="tools-chips">
+            <li>Shopify</li>
+            <li>Hostinger</li>
+            <li>WooCommerce</li>
+            <li>WordPress</li>
+            <li>Cloudflare</li>
+            <li>Google Analytics</li>
+            <li>Google Search Console</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Design, graphics and AI image tools</p>
+            <ul class="tools-chips">
+            <li>Figma</li>
+            <li>Photoshop</li>
+            <li>Canva</li>
+            <li>ChatGPT</li>
+            <li>Gemini</li>
+            <li>Higgsfield</li>
+            <li>Pixii</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Amazon</p>
+            <ul class="tools-chips">
+            <li>Seller Central</li>
+            <li>Amazon Ads</li>
+            <li>Brand Analytics</li>
+            <li>Helium 10</li>
+            <li>Jungle Scout</li>
+            <li>Keepa</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Shopify tools</p>
+            <ul class="tools-chips">
+            <li>Shopify Flow</li>
+            <li>Shopify Markets</li>
+            <li>Judge.me</li>
+            <li>Recharge</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Email marketing</p>
+            <ul class="tools-chips">
+            <li>Klaviyo</li>
+            <li>Mailchimp</li>
+            <li>Omnisend</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Customer support</p>
+            <ul class="tools-chips">
+            <li>Gorgias</li>
+            <li>Miracle Connect</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Walmart</p>
+            <ul class="tools-chips">
+            <li>Walmart Seller Center</li>
+            <li>Walmart Connect</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">eBay</p>
+            <ul class="tools-chips">
+            <li>Seller Hub</li>
+            <li>Promoted Listings</li>
+            <li>Terapeak</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">TikTok Shop, Temu and Mercari</p>
+            <ul class="tools-chips">
+            <li>TikTok Shop Seller Center</li>
+            <li>Temu Seller Center</li>
+            <li>Mercari</li>
+            </ul>
+          </div>
+          <div class="tools-group">
+            <p class="tools-group-label">Reporting and reconciliation</p>
+            <ul class="tools-chips">
+            <li>Google Sheets</li>
+            <li>Excel</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <!-- Clients -->
@@ -1829,8 +1913,10 @@
         <style>
       /* ---------- Swarm cursor effect ---------- */
       #swarmCanvas { position: fixed; inset: 0; z-index: 85; pointer-events: none; }
-      html.swarm-on [data-swarm-section] { opacity: 0; transform: translateY(24px); }
-      html.swarm-on [data-swarm-section].revealed { opacity: 1; transform: none; transition: opacity var(--dur-slow) ease, transform var(--dur-slow) cubic-bezier(0.16, 1, 0.3, 1); }
+      html.swarm-on [data-swarm-section] { opacity: 0; }
+      html.swarm-on [data-swarm-section].swarm-building { opacity: 1; }
+      html.swarm-on [data-swarm-section].revealed { opacity: 1; }
+      html.swarm-on .swarm-anim, html.swarm-on .swarm-anim * { transition: none !important; }
       .swarm-toggle { appearance: none; background: transparent; border: 1px solid var(--line); color: var(--label); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 10px; min-height: 32px; cursor: pointer; }
       .swarm-toggle:hover { color: var(--paper); border-color: var(--paper); }
       @media (prefers-reduced-motion: reduce) { html.swarm-on [data-swarm-section] { opacity: 1; transform: none; } }
@@ -1878,8 +1964,16 @@
       /* ---------- Tools strip ---------- */
       .tools-sec { border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
       .tools-sec h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 5vw, 3.4rem); }
-      .tools-list { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 32px; }
-      .tools-list li { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+      .tools-groups { margin: 32px 0 0; }
+      .tools-group { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px 24px; align-items: baseline; padding: 16px 0; border-top: 1px solid var(--border); }
+      .tools-group:first-child { border-top: 0; padding-top: 0; }
+      .tools-group-label { grid-column: 1 / 5; margin: 0; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
+      .tools-chips { grid-column: 5 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+      .tools-chips li { border: 1px solid var(--line); padding: 7px 13px; font-size: 16px; line-height: 1.35; color: var(--text); white-space: nowrap; }
+      @media (max-width: 760px) {
+        .tools-group { grid-template-columns: 1fr; }
+        .tools-group-label, .tools-chips { grid-column: 1 / -1; }
+      }
       .also-build { margin: 28px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
       @media (min-width: 768px) { .services-grid .also-build { grid-column: 5 / span 8; } }
       /* ---------- Website work (portfolio) ---------- */
@@ -2459,9 +2553,19 @@
           if (Array.isArray(data.tools)) {
             var toolsEl = document.getElementById("toolsList");
             if (toolsEl) {
-              toolsEl.innerHTML = data.tools.map(function (t) {
-                var n = typeof t === "string" ? t : (t && t.name) || "";
-                return n ? "<li>" + esc(n) + "</li>" : "";
+              /* Grouped tools: [{group, items[]}]. A legacy flat list
+                 (strings / {name}) is migrated into one "Tools" group. */
+              var toolGroups = data.tools;
+              var isGrouped = toolGroups.some(function (g) { return g && typeof g === "object" && ("group" in g || "items" in g); });
+              if (!isGrouped && toolGroups.length) toolGroups = [{ group: "Tools", items: toolGroups }];
+              toolsEl.innerHTML = toolGroups.map(function (g) {
+                if (!g || typeof g !== "object") return "";
+                var items = (Array.isArray(g.items) ? g.items : []).map(function (t) {
+                  return typeof t === "string" ? t : (t && t.name) || "";
+                }).filter(Boolean);
+                if (!items.length) return "";
+                return '<div class="tools-group"><p class="tools-group-label">' + esc(g.group || "") + '</p><ul class="tools-chips">' +
+                  items.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul></div>";
               }).join("");
             }
           }
@@ -2549,7 +2653,7 @@
           });
         }
         tryFetch("content.json")
-          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJBY2NvdW50cyBhbmQgc3RvcmVzLCBydW4gcHJvcGVybHkuIiwic3RvcnkiOlsiSSBjYW1lIHVwIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSd2ZSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXMgYWNyb3NzIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBkZXNpZ25lZCBTaG9waWZ5IHN0b3Jlcy4gSSBrbm93IHdoYXQgYSBsaXN0aW5nIGhhcyB0byBzaG93LCB3aGVyZSBhbiBhY2NvdW50IGxvc2VzIG1vbmV5LCBhbmQgd2hhdCBhIHN0b3JlIG5lZWRzIHRvIGNvbnZlcnQuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuIiwiVGhlIHdvcmsgY292ZXJzIGxpc3RpbmcgaW1hZ2VzIGFuZCBncmFwaGljcywgQSsgY29udGVudCwgUFBDLCByZWNvbmNpbGlhdGlvbiBhbmQgZml4aW5nIGFjY291bnRzIHRoYXQgaGF2ZSBwcm9ibGVtcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcyBhbmQgTWlyYWNsZSBDb25uZWN0LiIsIkluIDIwMjYgSSBjb21wbGV0ZWQgYSBCYWNoZWxvcidzIGluIENvbXB1dGVyIFNjaWVuY2UsIG1ham9yaW5nIGluIHdlYiBhbmQgbW9iaWxlIGFwcGxpY2F0aW9uIGRldmVsb3BtZW50LiBNeSBmaW5hbCB5ZWFyIHByb2plY3Qgd29uIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgd29uIGZpcnN0IHByaXplIGluIHRoZSBtb2NrIGludGVydmlldyBwcm9ncmFtLiBCZWNhdXNlIEkgY2FuIGJ1aWxkLCBJIGFsc28gbWFrZSBzb2Z0d2FyZSBmb3IgYnVzaW5lc3NlcywgbGlrZSBTZWxsb21pemUgUmVhY2gsIGFzIGEgc2lkZSBwcm9qZWN0LiIsIkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4iXX0sImNsaWVudHMiOltdLCJmb290ZXIiOnsiaGVhZGluZyI6IkxldCdzIGJ1aWxkIHlvdXJzIiwia2ljayI6IkdvdCBhbiBhY2NvdW50IHRvIGZpeCwgYSBzdG9yZSB0byBidWlsZCwgb3IgbGlzdGluZ3MgdGhhdCBhcmVuJ3QgY29udmVydGluZz8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4ifSwiaW50cm8iOnsibWV0YSI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJNYXJrZXRwbGFjZSBPcGVyYXRvciAmIFNob3BpZnkgRGVzaWduZXIiLCJzdGF0dXMiOiJBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInN1YiI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJJIHJ1biBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzLCBhbmQgYnVpbGQgdGhlIHN0b3JlcyBhcm91bmQgdGhlbS4iLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIiwiYXJlYSI6Ildvcmxkd2lkZSIsInRpa3RvayI6IkBoZW5yeWtub3dzd2ViIiwiY3RhIjoiRE0gV0VCIiwieWVhcnMiOiI2KyIsImludHJvIjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIiwic3RvcnkiOiJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuXG5cblRoZSB3b3JrIGNvdmVycyBsaXN0aW5nIGltYWdlcyBhbmQgZ3JhcGhpY3MsIEErIGNvbnRlbnQsIFBQQywgcmVjb25jaWxpYXRpb24gYW5kIGZpeGluZyBhY2NvdW50cyB0aGF0IGhhdmUgcHJvYmxlbXMuIEkgZGVzaWduIGluIEZpZ21hLCBydW4gZW1haWwgd2l0aCBLbGF2aXlvIGFuZCBoYW5kbGUgc3VwcG9ydCB3aXRoIEdvcmdpYXMgYW5kIE1pcmFjbGUgQ29ubmVjdC5cblxuSW4gMjAyNiBJIGNvbXBsZXRlZCBhIEJhY2hlbG9yJ3MgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB3b24gZmlyc3QgcHJpemUgaW4gdGhlIGdyYWR1YXRpb24gcHJvamVjdCBwcm9ncmFtLCBhbmQgSSB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIEJlY2F1c2UgSSBjYW4gYnVpbGQsIEkgYWxzbyBtYWtlIHNvZnR3YXJlIGZvciBidXNpbmVzc2VzLCBsaWtlIFNlbGxvbWl6ZSBSZWFjaCwgYXMgYSBzaWRlIHByb2plY3QuXG5cbkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4ifSwic2VydmljZXMiOlt7InRpdGxlIjoiTWFya2V0cGxhY2UgYWNjb3VudCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJMaXN0aW5ncywgY2F0YWxvZyBhbmQgZGF5LXRvLWRheSBvcGVyYXRpb25zIGFjcm9zcyBBbWF6b24sIGVCYXksIFRpa1RvayBTaG9wLCBXYWxtYXJ0LCBUZW11IGFuZCBNZXJjYXJpLiJ9LHsidGl0bGUiOiJMaXN0aW5nIGltYWdlcywgZ3JhcGhpY3MgYW5kIEErIGNvbnRlbnQiLCJkZXNjcmlwdGlvbiI6IkltYWdlcyBhbmQgbGF5b3V0cyBidWlsdCB0byBjb252ZXJ0LiJ9LHsidGl0bGUiOiJQUEMgYW5kIGFkdmVydGlzaW5nIiwiZGVzY3JpcHRpb24iOiJDYW1wYWlnbiBzZXR1cCwgb3B0aW1pemF0aW9uIGFuZCByZXBvcnRpbmcuIn0seyJ0aXRsZSI6IlJlY29uY2lsaWF0aW9uIGFuZCBhY2NvdW50IGlzc3VlLWZpeGluZyIsImRlc2NyaXB0aW9uIjoiRmluZGluZyB3aGVyZSB0aGUgbW9uZXkgb3IgdGhlIGFjY291bnQgaGVhbHRoIGlzIGxlYWtpbmcsIGFuZCBmaXhpbmcgaXQuIn0seyJ0aXRsZSI6IlNob3BpZnkgc3RvcmUgZGVzaWduIGFuZCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJEZXNpZ24gaW4gRmlnbWEsIGJ1aWxkLCBlbWFpbCB3aXRoIEtsYXZpeW8sIHN1cHBvcnQgd2l0aCBHb3JnaWFzLiJ9XSwiYWxzb0J1aWxkIjoiQWxzbyBidWlsZDogY3VzdG9tIGJ1c2luZXNzIHNvZnR3YXJlLCBmb3IgZXhhbXBsZSBTZWxsb21pemUgUmVhY2guIiwicHJvY2VzcyI6W3sidGl0bGUiOiJBdWRpdCIsInRleHQiOiJSZXZpZXdpbmcgbGlzdGluZ3MsIGFjY291bnQgaGVhbHRoIGFuZCBudW1iZXJzIHRvIGZpbmQgd2hhdCBpcyB3cm9uZy4ifSx7InRpdGxlIjoiUGxhbiIsInRleHQiOiJTZXR0aW5nIG91dCB3aGF0IHRvIGZpeCBvciBidWlsZCwgYW5kIGluIHdoYXQgb3JkZXIuIn0seyJ0aXRsZSI6IkZpeCAmIEJ1aWxkIiwidGV4dCI6IkZpeGluZyBhY2NvdW50IGFuZCBsaXN0aW5nIGlzc3VlcywgYW5kIGJ1aWxkaW5nIG9yIHVwZGF0aW5nIHRoZSBTaG9waWZ5IHN0b3JlIHdoZXJlIG5lZWRlZC4ifSx7InRpdGxlIjoiUmVwb3J0ICYgR3JvdyIsInRleHQiOiJSZXBvcnRpbmcgd2hhdCB3YXMgZG9uZSBhbmQgd2hhdCB3YXMgZm91bmQsIGFuZCBwbGFubmluZyB0aGUgbmV4dCB3b3JrLiJ9XSwidG9vbHMiOlt7Im5hbWUiOiJGaWdtYSJ9LHsibmFtZSI6IktsYXZpeW8ifSx7Im5hbWUiOiJHb3JnaWFzIn0seyJuYW1lIjoiTWlyYWNsZSBDb25uZWN0In0seyJuYW1lIjoiU2hvcGlmeSJ9XSwiY2FzZVN0dWRpZXMiOltdLCJjYXNlU3R1ZGllc0VtcHR5Ijp7InRpdGxlIjoiTmV3IGNhc2Ugc3R1ZGllcyBjb21pbmcgc29vbi4iLCJub3RlIjoiV2FudCB5b3VyIGFjY291bnQgdG8gYmUgb25lIG9mIHRoZSBmaXJzdCBmZWF0dXJlZD8gTWVzc2FnZSBtZSBvbiBUaWtUb2suIn0sIndlYnNpdGVXb3JrIjpbXSwic2lkZVByb2plY3RzIjpbeyJpZCI6InNlbGxvbWl6ZS1yZWFjaCIsInRpdGxlIjoiU2VsbG9taXplIFJlYWNoIiwiY2F0ZWdvcnkiOiJXZWIgQXBwIiwieWVhciI6IjIwMjYiLCJyb2xlIjoiRGVzaWduICYgYnVpbGQiLCJzdW1tYXJ5IjoiQ29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSBidWlsdCBmb3IgU2VsbG9taXplLCBhbiBBbWF6b24gZ3Jvd3RoIGFnZW5jeS4gQ2FtcGFpZ25zLCBtdWx0aS1zdGVwIHNlcXVlbmNlcywgbGVhZCBtYW5hZ2VtZW50LCBkZWxpdmVyYWJpbGl0eSB0cmFja2luZyBhbmQgQUktYXNzaXN0ZWQgZHJhZnRpbmcg4oCUIGEgUmVhY3QgZnJvbnQgZW5kIG9uIENsb3VkZmxhcmUgV29ya2VycywgRDEgYW5kIHF1ZXVlcy4gVHJ5IHRoZSBsaXZlIGRlbW8gKHNhbXBsZSBkYXRhKSwgb3IgdmlzaXQgdGhlIHByb2R1Y3Rpb24gdmVyc2lvbi4iLCJ0YWdzIjpbIlJlYWN0IiwiVHlwZVNjcmlwdCIsIkNsb3VkZmxhcmUiLCJBSSBhZ2VudHMiXSwidXJsIjoiaHR0cHM6Ly9yZWFjaC5zZWxsb21pemUuY29tLyIsImRlbW9VcmwiOiJodHRwczovL3NlbGxvbWl6ZS1yZWFjaC1kZW1vLnBhZ2VzLmRldi8iLCJjb3ZlciI6eyJzcmMiOiJhc3NldHMvcHJvamVjdHMvc2VsbG9taXplLXJlYWNoLWNvdmVyLnN2ZyIsImFsdCI6IlNlbGxvbWl6ZSBSZWFjaCDigJQgY29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSJ9fV0sInNldHRpbmdzIjp7Im1vdGlvbiI6eyJkZWZhdWx0VmlldyI6Imxpc3QiLCJzaG93Vmlld1RvZ2dsZSI6dHJ1ZSwicHJldmlld01vZGUiOiJmb2xsb3ciLCJjYXJkU2l6ZSI6MzYwLCJ0aWx0Ijp0cnVlLCJzcHJpbmciOiJub3JtYWwiLCJkaW1PdGhlcnMiOnRydWUsIm1heE1vYmlsZVBsYXlpbmciOjIsIm1vYmlsZUJlaGF2aW91ciI6ImFjY29yZGlvbiJ9LCJ0ZXN0aW1vbmlhbHMiOnsic2hvd1NlY3Rpb24iOmZhbHNlLCJsYXlvdXQiOiJmZWF0dXJlZCIsImF1dG9Sb3RhdGUiOmZhbHNlLCJyb3RhdGVTZWNvbmRzIjo2LCJzaG93QXZhdGFycyI6dHJ1ZSwic2hvd1Byb2plY3RMaW5rIjp0cnVlfSwic3dhcm0iOnsiZW5hYmxlZCI6dHJ1ZSwiY3Vyc29yQ291bnQiOjIwLCJsYWJlbHMiOlsiTGlzdGluZyIsIkErIENvbnRlbnQiLCJQUEMiLCJSZWNvbmNpbGlhdGlvbiIsIlNob3BpZnkiLCJBbWF6b24iLCJlQmF5IiwiVGlrVG9rIFNob3AiLCJXYWxtYXJ0IiwiVGVtdSIsIk1lcmNhcmkiXX19LCJzb2NpYWxzIjpbeyJwbGF0Zm9ybSI6IlRpa1RvayIsImhhbmRsZSI6IkBoZW5yeWtub3dzd2ViIiwidXJsIjoiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AaGVucnlrbm93c3dlYiIsInZpc2libGUiOnRydWV9XSwidGVzdGltb25pYWxzIjpbXSwiZmFxIjpbeyJncm91cCI6Ildvcmtpbmcgd2l0aCBtZSIsIml0ZW1zIjpbeyJxIjoiV2hhdCBkbyB5b3UgZG8/IiwiYSI6Ik1hcmtldHBsYWNlIGFjY291bnQgbWFuYWdlbWVudCwgbGlzdGluZyBpbWFnZXMgYW5kIGdyYXBoaWNzIGFuZCBBKyBjb250ZW50LCBQUEMgYW5kIGFkdmVydGlzaW5nLCByZWNvbmNpbGlhdGlvbiBhbmQgYWNjb3VudCBpc3N1ZS1maXhpbmcsIGFuZCBTaG9waWZ5IHN0b3JlIGRlc2lnbiBhbmQgbWFuYWdlbWVudC4ifSx7InEiOiJXaGljaCBtYXJrZXRwbGFjZXMgZG8geW91IHdvcmsgb24/IiwiYSI6IkFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmkuIn0seyJxIjoiV2hvIGRvIHlvdSB3b3JrIHdpdGg/IiwiYSI6IkJyYW5kcyBhbmQgc2VsbGVycyBmaXJzdC4gSSBhbHNvIHdvcmsgd2l0aCBhZ2VuY2llcywgYW5kIEkgYW0gb3BlbiB0byByb2xlcy4gSSB3b3JrIHJlbW90ZWx5IHdpdGggY2xpZW50cyB3b3JsZHdpZGUuIn0seyJxIjoiSG93IGRvIHdlIHN0YXJ0PyIsImEiOiJTZW5kIG1lIGEgRE0gb24gVGlrVG9rIChAaGVucnlrbm93c3dlYikgb3IgYW4gZW1haWwgd2l0aCB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4gVGhlcmUgaXMgYSBmcmVlIDE1LW1pbnV0ZSBjYWxsIGlmIHlvdSB3YW50IHRvIHRhbGsgaXQgdGhyb3VnaCBmaXJzdC4ifV19LHsiZ3JvdXAiOiJTdG9yZXMgYW5kIHNvZnR3YXJlIiwiaXRlbXMiOlt7InEiOiJDYW4geW91IGRlc2lnbiBhIFNob3BpZnkgc3RvcmU/IiwiYSI6Illlcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcy4ifSx7InEiOiJEbyB5b3UgYnVpbGQgc29mdHdhcmU/IiwiYSI6Illlcy4gRm9yIGV4YW1wbGUgU2VsbG9taXplIFJlYWNoLCBhIGNvbGQgZW1haWwgb3V0cmVhY2ggcGxhdGZvcm0gYnVpbHQgZm9yIGFuIEFtYXpvbiBncm93dGggYWdlbmN5LiJ9LHsicSI6IldpbGwgbXkgc2l0ZSB3b3JrIG9uIHBob25lcz8iLCJhIjoiWWVzLiBFdmVyeSBzaXRlIGlzIGRlc2lnbmVkIGZvciBwaG9uZSwgdGFibGV0IGFuZCBkZXNrdG9wLiJ9LHsicSI6IldobyBvd25zIHRoZSBkb21haW4gYW5kIGhvc3RpbmcgZm9yIGEgd2Vic2l0ZT8iLCJhIjoiWW91IGRvLiBUaGUgZG9tYWluIGFuZCBob3N0aW5nIGFjY291bnRzIHN0YXkgaW4geW91ciBuYW1lLCBzbyB5b3UgYWx3YXlzIG93biB0aGVtLiJ9XX0seyJncm91cCI6IlRydXN0IiwiaXRlbXMiOlt7InEiOiJDYW4gSSBzZWUgeW91ciB3b3JrPyIsImEiOiJZZXMg4oCUIGFuZCBJIG9ubHkgc2hvdyB3b3JrIEkgbWFkZS4gQ2FzZSBzdHVkaWVzIGFyZSBhZGRlZCBoZXJlIGFzIHRoZXkgYXJlIHJlYWR5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgY29uc3VsdGF0aW9uPyIsImEiOiJBIGZyZWUgMTUtbWludXRlIGNhbGwsIHllcy4gQSBmcmVlIG1vY2t1cCwgbm8uIn1dfV19"); })
+          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJBY2NvdW50cyBhbmQgc3RvcmVzLCBydW4gcHJvcGVybHkuIiwic3RvcnkiOlsiSSBjYW1lIHVwIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSd2ZSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXMgYWNyb3NzIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBkZXNpZ25lZCBTaG9waWZ5IHN0b3Jlcy4gSSBrbm93IHdoYXQgYSBsaXN0aW5nIGhhcyB0byBzaG93LCB3aGVyZSBhbiBhY2NvdW50IGxvc2VzIG1vbmV5LCBhbmQgd2hhdCBhIHN0b3JlIG5lZWRzIHRvIGNvbnZlcnQuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuIiwiVGhlIHdvcmsgY292ZXJzIGxpc3RpbmcgaW1hZ2VzIGFuZCBncmFwaGljcywgQSsgY29udGVudCwgUFBDLCByZWNvbmNpbGlhdGlvbiBhbmQgZml4aW5nIGFjY291bnRzIHRoYXQgaGF2ZSBwcm9ibGVtcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcyBhbmQgTWlyYWNsZSBDb25uZWN0LiIsIkluIDIwMjYgSSBjb21wbGV0ZWQgYSBCYWNoZWxvcidzIGluIENvbXB1dGVyIFNjaWVuY2UsIG1ham9yaW5nIGluIHdlYiBhbmQgbW9iaWxlIGFwcGxpY2F0aW9uIGRldmVsb3BtZW50LiBNeSBmaW5hbCB5ZWFyIHByb2plY3Qgd29uIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgd29uIGZpcnN0IHByaXplIGluIHRoZSBtb2NrIGludGVydmlldyBwcm9ncmFtLiBCZWNhdXNlIEkgY2FuIGJ1aWxkLCBJIGFsc28gbWFrZSBzb2Z0d2FyZSBmb3IgYnVzaW5lc3NlcywgbGlrZSBTZWxsb21pemUgUmVhY2gsIGFzIGEgc2lkZSBwcm9qZWN0LiIsIkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4iXX0sImNsaWVudHMiOltdLCJmb290ZXIiOnsiaGVhZGluZyI6IkxldCdzIGJ1aWxkIHlvdXJzIiwia2ljayI6IkdvdCBhbiBhY2NvdW50IHRvIGZpeCwgYSBzdG9yZSB0byBidWlsZCwgb3IgbGlzdGluZ3MgdGhhdCBhcmVuJ3QgY29udmVydGluZz8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4ifSwiaW50cm8iOnsibWV0YSI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJNYXJrZXRwbGFjZSBPcGVyYXRvciAmIFNob3BpZnkgRGVzaWduZXIiLCJzdGF0dXMiOiJBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInN1YiI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJJIHJ1biBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzLCBhbmQgYnVpbGQgdGhlIHN0b3JlcyBhcm91bmQgdGhlbS4iLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIiwiYXJlYSI6Ildvcmxkd2lkZSIsInRpa3RvayI6IkBoZW5yeWtub3dzd2ViIiwiY3RhIjoiRE0gV0VCIiwieWVhcnMiOiI2KyIsImludHJvIjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIiwic3RvcnkiOiJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuXG5cblRoZSB3b3JrIGNvdmVycyBsaXN0aW5nIGltYWdlcyBhbmQgZ3JhcGhpY3MsIEErIGNvbnRlbnQsIFBQQywgcmVjb25jaWxpYXRpb24gYW5kIGZpeGluZyBhY2NvdW50cyB0aGF0IGhhdmUgcHJvYmxlbXMuIEkgZGVzaWduIGluIEZpZ21hLCBydW4gZW1haWwgd2l0aCBLbGF2aXlvIGFuZCBoYW5kbGUgc3VwcG9ydCB3aXRoIEdvcmdpYXMgYW5kIE1pcmFjbGUgQ29ubmVjdC5cblxuSW4gMjAyNiBJIGNvbXBsZXRlZCBhIEJhY2hlbG9yJ3MgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB3b24gZmlyc3QgcHJpemUgaW4gdGhlIGdyYWR1YXRpb24gcHJvamVjdCBwcm9ncmFtLCBhbmQgSSB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIEJlY2F1c2UgSSBjYW4gYnVpbGQsIEkgYWxzbyBtYWtlIHNvZnR3YXJlIGZvciBidXNpbmVzc2VzLCBsaWtlIFNlbGxvbWl6ZSBSZWFjaCwgYXMgYSBzaWRlIHByb2plY3QuXG5cbkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4ifSwic2VydmljZXMiOlt7InRpdGxlIjoiTWFya2V0cGxhY2UgYWNjb3VudCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJMaXN0aW5ncywgY2F0YWxvZyBhbmQgZGF5LXRvLWRheSBvcGVyYXRpb25zIGFjcm9zcyBBbWF6b24sIGVCYXksIFRpa1RvayBTaG9wLCBXYWxtYXJ0LCBUZW11IGFuZCBNZXJjYXJpLiJ9LHsidGl0bGUiOiJMaXN0aW5nIGltYWdlcywgZ3JhcGhpY3MgYW5kIEErIGNvbnRlbnQiLCJkZXNjcmlwdGlvbiI6IkltYWdlcyBhbmQgbGF5b3V0cyBidWlsdCB0byBjb252ZXJ0LiJ9LHsidGl0bGUiOiJQUEMgYW5kIGFkdmVydGlzaW5nIiwiZGVzY3JpcHRpb24iOiJDYW1wYWlnbiBzZXR1cCwgb3B0aW1pemF0aW9uIGFuZCByZXBvcnRpbmcuIn0seyJ0aXRsZSI6IlJlY29uY2lsaWF0aW9uIGFuZCBhY2NvdW50IGlzc3VlLWZpeGluZyIsImRlc2NyaXB0aW9uIjoiRmluZGluZyB3aGVyZSB0aGUgbW9uZXkgb3IgdGhlIGFjY291bnQgaGVhbHRoIGlzIGxlYWtpbmcsIGFuZCBmaXhpbmcgaXQuIn0seyJ0aXRsZSI6IlNob3BpZnkgc3RvcmUgZGVzaWduIGFuZCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJEZXNpZ24gaW4gRmlnbWEsIGJ1aWxkLCBlbWFpbCB3aXRoIEtsYXZpeW8sIHN1cHBvcnQgd2l0aCBHb3JnaWFzLiJ9XSwiYWxzb0J1aWxkIjoiQWxzbyBidWlsZDogY3VzdG9tIGJ1c2luZXNzIHNvZnR3YXJlLCBmb3IgZXhhbXBsZSBTZWxsb21pemUgUmVhY2guIiwicHJvY2VzcyI6W3sidGl0bGUiOiJBdWRpdCIsInRleHQiOiJSZXZpZXdpbmcgbGlzdGluZ3MsIGFjY291bnQgaGVhbHRoIGFuZCBudW1iZXJzIHRvIGZpbmQgd2hhdCBpcyB3cm9uZy4ifSx7InRpdGxlIjoiUGxhbiIsInRleHQiOiJTZXR0aW5nIG91dCB3aGF0IHRvIGZpeCBvciBidWlsZCwgYW5kIGluIHdoYXQgb3JkZXIuIn0seyJ0aXRsZSI6IkZpeCAmIEJ1aWxkIiwidGV4dCI6IkZpeGluZyBhY2NvdW50IGFuZCBsaXN0aW5nIGlzc3VlcywgYW5kIGJ1aWxkaW5nIG9yIHVwZGF0aW5nIHRoZSBTaG9waWZ5IHN0b3JlIHdoZXJlIG5lZWRlZC4ifSx7InRpdGxlIjoiUmVwb3J0ICYgR3JvdyIsInRleHQiOiJSZXBvcnRpbmcgd2hhdCB3YXMgZG9uZSBhbmQgd2hhdCB3YXMgZm91bmQsIGFuZCBwbGFubmluZyB0aGUgbmV4dCB3b3JrLiJ9XSwidG9vbHMiOlt7Imdyb3VwIjoiV2ViIGFuZCBzdG9yZXMiLCJpdGVtcyI6WyJTaG9waWZ5IiwiSG9zdGluZ2VyIiwiV29vQ29tbWVyY2UiLCJXb3JkUHJlc3MiLCJDbG91ZGZsYXJlIiwiR29vZ2xlIEFuYWx5dGljcyIsIkdvb2dsZSBTZWFyY2ggQ29uc29sZSJdfSx7Imdyb3VwIjoiRGVzaWduLCBncmFwaGljcyBhbmQgQUkgaW1hZ2UgdG9vbHMiLCJpdGVtcyI6WyJGaWdtYSIsIlBob3Rvc2hvcCIsIkNhbnZhIiwiQ2hhdEdQVCIsIkdlbWluaSIsIkhpZ2dzZmllbGQiLCJQaXhpaSJdfSx7Imdyb3VwIjoiQW1hem9uIiwiaXRlbXMiOlsiU2VsbGVyIENlbnRyYWwiLCJBbWF6b24gQWRzIiwiQnJhbmQgQW5hbHl0aWNzIiwiSGVsaXVtIDEwIiwiSnVuZ2xlIFNjb3V0IiwiS2VlcGEiXX0seyJncm91cCI6IlNob3BpZnkgdG9vbHMiLCJpdGVtcyI6WyJTaG9waWZ5IEZsb3ciLCJTaG9waWZ5IE1hcmtldHMiLCJKdWRnZS5tZSIsIlJlY2hhcmdlIl19LHsiZ3JvdXAiOiJFbWFpbCBtYXJrZXRpbmciLCJpdGVtcyI6WyJLbGF2aXlvIiwiTWFpbGNoaW1wIiwiT21uaXNlbmQiXX0seyJncm91cCI6IkN1c3RvbWVyIHN1cHBvcnQiLCJpdGVtcyI6WyJHb3JnaWFzIiwiTWlyYWNsZSBDb25uZWN0Il19LHsiZ3JvdXAiOiJXYWxtYXJ0IiwiaXRlbXMiOlsiV2FsbWFydCBTZWxsZXIgQ2VudGVyIiwiV2FsbWFydCBDb25uZWN0Il19LHsiZ3JvdXAiOiJlQmF5IiwiaXRlbXMiOlsiU2VsbGVyIEh1YiIsIlByb21vdGVkIExpc3RpbmdzIiwiVGVyYXBlYWsiXX0seyJncm91cCI6IlRpa1RvayBTaG9wLCBUZW11IGFuZCBNZXJjYXJpIiwiaXRlbXMiOlsiVGlrVG9rIFNob3AgU2VsbGVyIENlbnRlciIsIlRlbXUgU2VsbGVyIENlbnRlciIsIk1lcmNhcmkiXX0seyJncm91cCI6IlJlcG9ydGluZyBhbmQgcmVjb25jaWxpYXRpb24iLCJpdGVtcyI6WyJHb29nbGUgU2hlZXRzIiwiRXhjZWwiXX1dLCJjYXNlU3R1ZGllcyI6W10sImNhc2VTdHVkaWVzRW1wdHkiOnsidGl0bGUiOiJOZXcgY2FzZSBzdHVkaWVzIGNvbWluZyBzb29uLiIsIm5vdGUiOiJXYW50IHlvdXIgYWNjb3VudCB0byBiZSBvbmUgb2YgdGhlIGZpcnN0IGZlYXR1cmVkPyBNZXNzYWdlIG1lIG9uIFRpa1Rvay4ifSwid2Vic2l0ZVdvcmsiOltdLCJzaWRlUHJvamVjdHMiOlt7ImlkIjoic2VsbG9taXplLXJlYWNoIiwidGl0bGUiOiJTZWxsb21pemUgUmVhY2giLCJjYXRlZ29yeSI6IldlYiBBcHAiLCJ5ZWFyIjoiMjAyNiIsInJvbGUiOiJEZXNpZ24gJiBidWlsZCIsInN1bW1hcnkiOiJDb2xkIGVtYWlsIG91dHJlYWNoIHBsYXRmb3JtIGJ1aWx0IGZvciBTZWxsb21pemUsIGFuIEFtYXpvbiBncm93dGggYWdlbmN5LiBDYW1wYWlnbnMsIG11bHRpLXN0ZXAgc2VxdWVuY2VzLCBsZWFkIG1hbmFnZW1lbnQsIGRlbGl2ZXJhYmlsaXR5IHRyYWNraW5nIGFuZCBBSS1hc3Npc3RlZCBkcmFmdGluZyDigJQgYSBSZWFjdCBmcm9udCBlbmQgb24gQ2xvdWRmbGFyZSBXb3JrZXJzLCBEMSBhbmQgcXVldWVzLiBUcnkgdGhlIGxpdmUgZGVtbyAoc2FtcGxlIGRhdGEpLCBvciB2aXNpdCB0aGUgcHJvZHVjdGlvbiB2ZXJzaW9uLiIsInRhZ3MiOlsiUmVhY3QiLCJUeXBlU2NyaXB0IiwiQ2xvdWRmbGFyZSIsIkFJIGFnZW50cyJdLCJ1cmwiOiJodHRwczovL3JlYWNoLnNlbGxvbWl6ZS5jb20vIiwiZGVtb1VybCI6Imh0dHBzOi8vc2VsbG9taXplLXJlYWNoLWRlbW8ucGFnZXMuZGV2LyIsImNvdmVyIjp7InNyYyI6ImFzc2V0cy9wcm9qZWN0cy9zZWxsb21pemUtcmVhY2gtY292ZXIuc3ZnIiwiYWx0IjoiU2VsbG9taXplIFJlYWNoIOKAlCBjb2xkIGVtYWlsIG91dHJlYWNoIHBsYXRmb3JtIn19XSwic2V0dGluZ3MiOnsibW90aW9uIjp7ImRlZmF1bHRWaWV3IjoibGlzdCIsInNob3dWaWV3VG9nZ2xlIjp0cnVlLCJwcmV2aWV3TW9kZSI6ImZvbGxvdyIsImNhcmRTaXplIjozNjAsInRpbHQiOnRydWUsInNwcmluZyI6Im5vcm1hbCIsImRpbU90aGVycyI6dHJ1ZSwibWF4TW9iaWxlUGxheWluZyI6MiwibW9iaWxlQmVoYXZpb3VyIjoiYWNjb3JkaW9uIn0sInRlc3RpbW9uaWFscyI6eyJzaG93U2VjdGlvbiI6ZmFsc2UsImxheW91dCI6ImZlYXR1cmVkIiwiYXV0b1JvdGF0ZSI6ZmFsc2UsInJvdGF0ZVNlY29uZHMiOjYsInNob3dBdmF0YXJzIjp0cnVlLCJzaG93UHJvamVjdExpbmsiOnRydWV9LCJzd2FybSI6eyJlbmFibGVkIjp0cnVlLCJjdXJzb3JDb3VudCI6MjAsImJ1aWxkU3BlZWQiOjEsImxhYmVscyI6WyJMaXN0aW5nIiwiQSsgQ29udGVudCIsIlBQQyIsIlJlY29uY2lsaWF0aW9uIiwiU2hvcGlmeSIsIkFtYXpvbiIsImVCYXkiLCJUaWtUb2sgU2hvcCIsIldhbG1hcnQiLCJUZW11IiwiTWVyY2FyaSJdfX0sInNvY2lhbHMiOlt7InBsYXRmb3JtIjoiVGlrVG9rIiwiaGFuZGxlIjoiQGhlbnJ5a25vd3N3ZWIiLCJ1cmwiOiJodHRwczovL3d3dy50aWt0b2suY29tL0BoZW5yeWtub3dzd2ViIiwidmlzaWJsZSI6dHJ1ZX1dLCJ0ZXN0aW1vbmlhbHMiOltdLCJmYXEiOlt7Imdyb3VwIjoiV29ya2luZyB3aXRoIG1lIiwiaXRlbXMiOlt7InEiOiJXaGF0IGRvIHlvdSBkbz8iLCJhIjoiTWFya2V0cGxhY2UgYWNjb3VudCBtYW5hZ2VtZW50LCBsaXN0aW5nIGltYWdlcyBhbmQgZ3JhcGhpY3MgYW5kIEErIGNvbnRlbnQsIFBQQyBhbmQgYWR2ZXJ0aXNpbmcsIHJlY29uY2lsaWF0aW9uIGFuZCBhY2NvdW50IGlzc3VlLWZpeGluZywgYW5kIFNob3BpZnkgc3RvcmUgZGVzaWduIGFuZCBtYW5hZ2VtZW50LiJ9LHsicSI6IldoaWNoIG1hcmtldHBsYWNlcyBkbyB5b3Ugd29yayBvbj8iLCJhIjoiQW1hem9uLCBlQmF5LCBUaWtUb2sgU2hvcCwgV2FsbWFydCwgVGVtdSBhbmQgTWVyY2FyaS4ifSx7InEiOiJXaG8gZG8geW91IHdvcmsgd2l0aD8iLCJhIjoiQnJhbmRzIGFuZCBzZWxsZXJzIGZpcnN0LiBJIGFsc28gd29yayB3aXRoIGFnZW5jaWVzLCBhbmQgSSBhbSBvcGVuIHRvIHJvbGVzLiBJIHdvcmsgcmVtb3RlbHkgd2l0aCBjbGllbnRzIHdvcmxkd2lkZS4ifSx7InEiOiJIb3cgZG8gd2Ugc3RhcnQ/IiwiYSI6IlNlbmQgbWUgYSBETSBvbiBUaWtUb2sgKEBoZW5yeWtub3dzd2ViKSBvciBhbiBlbWFpbCB3aXRoIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLiBUaGVyZSBpcyBhIGZyZWUgMTUtbWludXRlIGNhbGwgaWYgeW91IHdhbnQgdG8gdGFsayBpdCB0aHJvdWdoIGZpcnN0LiJ9XX0seyJncm91cCI6IlN0b3JlcyBhbmQgc29mdHdhcmUiLCJpdGVtcyI6W3sicSI6IkNhbiB5b3UgZGVzaWduIGEgU2hvcGlmeSBzdG9yZT8iLCJhIjoiWWVzLiBJIGRlc2lnbiBpbiBGaWdtYSwgcnVuIGVtYWlsIHdpdGggS2xhdml5byBhbmQgaGFuZGxlIHN1cHBvcnQgd2l0aCBHb3JnaWFzLiJ9LHsicSI6IkRvIHlvdSBidWlsZCBzb2Z0d2FyZT8iLCJhIjoiWWVzLiBGb3IgZXhhbXBsZSBTZWxsb21pemUgUmVhY2gsIGEgY29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSBidWlsdCBmb3IgYW4gQW1hem9uIGdyb3d0aCBhZ2VuY3kuIn0seyJxIjoiV2lsbCBteSBzaXRlIHdvcmsgb24gcGhvbmVzPyIsImEiOiJZZXMuIEV2ZXJ5IHNpdGUgaXMgZGVzaWduZWQgZm9yIHBob25lLCB0YWJsZXQgYW5kIGRlc2t0b3AuIn0seyJxIjoiV2hvIG93bnMgdGhlIGRvbWFpbiBhbmQgaG9zdGluZyBmb3IgYSB3ZWJzaXRlPyIsImEiOiJZb3UgZG8uIFRoZSBkb21haW4gYW5kIGhvc3RpbmcgYWNjb3VudHMgc3RheSBpbiB5b3VyIG5hbWUsIHNvIHlvdSBhbHdheXMgb3duIHRoZW0uIn1dfSx7Imdyb3VwIjoiVHJ1c3QiLCJpdGVtcyI6W3sicSI6IkNhbiBJIHNlZSB5b3VyIHdvcms/IiwiYSI6IlllcyDigJQgYW5kIEkgb25seSBzaG93IHdvcmsgSSBtYWRlLiBDYXNlIHN0dWRpZXMgYXJlIGFkZGVkIGhlcmUgYXMgdGhleSBhcmUgcmVhZHkuIn0seyJxIjoiRG8geW91IG9mZmVyIGEgZnJlZSBjb25zdWx0YXRpb24/IiwiYSI6IkEgZnJlZSAxNS1taW51dGUgY2FsbCwgeWVzLiBBIGZyZWUgbW9ja3VwLCBuby4ifV19XX0="); })
           .then(applyContent)
           .catch(function () { /* Embedded verified content stays as-is. */ });
       })();
@@ -2665,28 +2769,45 @@
         });
       })();
     </script>
-    <script>
-      /* Swarm cursor effect: a small crew of Figma-style cursors builds
-         each section as it first scrolls into view, then orbits the real
-         mouse. Runs once per page (localStorage), fine pointers only,
-         never under reduced motion. One canvas, one rAF loop, section
-         positions cached on load/resize/reveal — never per frame. */
+                <script>
+      /* Swarm cursor effect v2 — time-based sequenced build.
+         A small crew of Figma-style cursors builds each section step by
+         step (background, boxes, images, headings, text, buttons,
+         details) on a timeline driven by accumulated frame time, so a
+         build takes the same wall-clock time at 60 Hz and 120 Hz.
+         Scrolling only QUEUES sections (IntersectionObserver, ~25% in
+         view); it never drives build speed. One canvas, one rAF loop,
+         element rects cached when a section's build starts — no layout
+         reads inside the loop. Runs once per page (localStorage), fine
+         pointers only, never under reduced motion. */
       (function () {
         "use strict";
         var PAGE = window.__swarmPage || "home";
         var DONE_KEY = "hk.swarm.done." + PAGE;
         var PREF_KEY = "hk.swarm.enabled";
         var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
-        var DEFAULT_LABELS = ["Alex", "Sam", "Jo", "Kim", "Rae", "Tom", "Ana", "Ben", "Eva", "Leo"];
+        var DEFAULT_LABELS = ["Listing", "A+ Content", "PPC", "Reconciliation", "Shopify", "Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari"];
+        /* Brand motion tokens (ms) and step durations at speed 1. */
+        var DWELL = 180, STAGGER = 60;
+        var DUR = { bg: 1000, box: 700, image: 700, heading: 700, textLine: 240, button: 320, detail: 180, chip: 300, tag: 700 };
+        var MIN_ACTION = 180, MAX_TRAVEL = 700;
+        var BUDGET_FIRST = 7000, BUDGET_SECTION = 5500;
         var canvas = null, ctx = null, raf = 0, running = false;
-        var started = false, finished = false, disabled = false, inited = false, exiting = false, exitT = 0;
-        var sections = [], cursors = [], labels = DEFAULT_LABELS, cursorCount = 20, contentEnabled = true;
+        var inited = false, bound = false, finished = false, disabled = false, exiting = false, exitStart = 0;
+        var contentEnabled = true, cursorCount = 20, buildSpeed = 1, labels = DEFAULT_LABELS.slice();
+        var sections = [], queue = [], active = null, cursors = [], io = null;
+        var engT = 0, lastNow = 0;
         var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
-        var buildTarget = null, arriveT = 0, lastScrollT = 0, orbitA = 0, scatterT = 0, W = 0, H = 0;
+        var scatterUntil = 0, scatterPts = [], orbitA = 0, W = 0, H = 0;
+        var firstSectionPending = true;
+
         function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
         function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
         function coarse() { return window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches; }
         function reducedM() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+        function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+        function clampSpeed(v) { v = Number(v); if (!isFinite(v)) v = 1; return clamp(v, 0.5, 2); }
+        function easeIO(p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
         function btn() { return document.getElementById("swarmToggle"); }
         function syncToggle() {
           var b = btn(); if (!b) return;
@@ -2694,29 +2815,216 @@
           b.setAttribute("aria-pressed", on ? "true" : "false");
           b.textContent = on ? "Swarm on" : "Swarm off";
         }
-        function collect() {
-          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el) {
-            return { el: el, revealed: el.classList.contains("revealed"), top: 0, bottom: 0, left: 0, w: 0, h: 0 };
+        function docRect(el) {
+          var r = el.getBoundingClientRect();
+          return { l: r.left + (window.scrollX || 0), t: r.top + (window.scrollY || 0), w: r.width, h: r.height };
+        }
+        function anchorOf(kind, r) {
+          if (kind === "bg") return { x: r.l, y: r.t };
+          if (kind === "button") return { x: r.l + 6, y: r.t + r.h / 2 };
+          return { x: r.l + 4, y: r.t + r.h / 2 };
+        }
+
+        /* ---------------- classification ----------------
+           Deterministic rules (outermost wins; a classified element's
+           descendants are only classified when their phase is later and
+           the ancestor is a box — they become that box's sub-sequence):
+           box     .service-row, .faq-item, .process-steps li, .index-empty,
+                   .index-row, .pv-card, .facts, form
+           image   figure (with img) or img
+           heading h1, h2, h3
+           text    p, summary, dt, dd, label, figcaption (+ safe fallback)
+           button  a, button, [role="button"] not inside a text leaf
+           detail  .num, .arrow, .pv-arrow, .star, marquee words, index-head
+                   cells — grouped by container, 60 ms stagger
+           The tools section is special-cased (group label, then chips). */
+        var BOX_SEL = ".service-row, .faq-item, .process-steps li, .index-empty, .index-row, .pv-card, .facts, form";
+        var DETAIL_SEL = ".num, .arrow, .pv-arrow, .star, .marquee-track .word, .index-head span";
+        var PHASE = { box: 2, image: 3, heading: 4, text: 5, button: 6, detail: 7 };
+
+        function isShown(el) {
+          /* Shown = not in a [hidden] subtree and computed display/visibility
+             are on. (No rect test: a zero-size box can still be a real,
+             visible element, and display:none — e.g. the off-breakpoint
+             marquee track — is the reliable hidden signal.) */
+          if (el.closest && el.closest("[hidden]")) return false;
+          var cs = window.getComputedStyle(el);
+          return cs.display !== "none" && cs.visibility !== "hidden";
+        }
+        function kindOf(el) {
+          var tag = el.tagName;
+          if (tag === "FIGURE" && el.querySelector("img")) return "image";
+          if (tag === "IMG") return "image";
+          if (el.matches && el.matches(BOX_SEL)) return "box";
+          if (tag === "H1" || tag === "H2" || tag === "H3") return "heading";
+          if (tag === "P" || tag === "SUMMARY" || tag === "DT" || tag === "DD" || tag === "LABEL" || tag === "FIGCAPTION") return "text";
+          if (tag === "A" || tag === "BUTTON" || el.getAttribute("role") === "button") return "button";
+          if (el.matches && el.matches(DETAIL_SEL)) return "detail";
+          return null;
+        }
+        function nearestClaimed(el, sec, claimed) {
+          var n = el.parentElement;
+          while (n && n !== sec.el) { if (claimed.has(n)) return claimed.get(n); n = n.parentElement; }
+          return null;
+        }
+        function hasClaimedDescendant(el, claimed) {
+          var d = el.querySelectorAll("*");
+          for (var i = 0; i < d.length; i++) if (claimed.has(d[i])) return true;
+          return false;
+        }
+        function classify(sec) {
+          var claimed = new Map();
+          var items = [];
+          var els = sec.el.querySelectorAll("*");
+          var i, el, kind, anc;
+          for (i = 0; i < els.length; i++) {
+            el = els[i];
+            if (el.tagName === "SCRIPT" || el.tagName === "STYLE" || el.tagName === "BR") continue;
+            kind = kindOf(el);
+            if (!kind) continue;
+            anc = nearestClaimed(el, sec, claimed);
+            if (anc && anc.kind !== "box") continue;         /* inside a leaf: rides with it */
+            if (anc && kind === "box") continue;             /* nested box: outermost only */
+            if (!isShown(el)) continue;
+            var item = { el: el, kind: kind, rect: docRect(el), phase: PHASE[kind], subs: [] };
+            claimed.set(el, item);
+            items.push(item);
+          }
+          /* coverage sweep: visible leaves nobody claimed -> text (step 5) */
+          for (i = 0; i < els.length; i++) {
+            el = els[i];
+            if (claimed.has(el) || el.tagName === "SCRIPT" || el.tagName === "STYLE" || el.tagName === "BR") continue;
+            anc = nearestClaimed(el, sec, claimed);
+            if (anc && anc.kind !== "box") continue;
+            if (el.children.length) continue;                /* containers stay transparent */
+            if (hasClaimedDescendant(el, claimed)) continue;
+            if (!isShown(el)) continue;
+            var leaf = { el: el, kind: "text", rect: docRect(el), phase: PHASE.text, subs: [] };
+            claimed.set(el, leaf);
+            items.push(leaf);
+          }
+          /* fold box descendants into their box's sub-sequence */
+          var top = [];
+          items.forEach(function (it) {
+            var owner = null, n = it.el.parentElement;
+            while (n && n !== sec.el) { if (claimed.has(n) && claimed.get(n).kind === "box") { owner = claimed.get(n); break; } n = n.parentElement; }
+            if (owner && owner !== it) owner.subs.push(it); else top.push(it);
           });
-          measure();
-        }
-        function measure() {
-          var sy = window.scrollY || 0;
-          sections.forEach(function (s) {
-            var r = s.el.getBoundingClientRect();
-            s.top = r.top + sy; s.bottom = r.bottom + sy; s.left = r.left; s.w = r.width; s.h = r.height;
+          top.forEach(function (it) {
+            if (it.kind === "box") it.subs.sort(function (a, b) { return a.phase - b.phase; });
           });
+          /* group details by container */
+          var grouped = [], dkey = new Map();
+          top.forEach(function (it) {
+            if (it.kind !== "detail") { grouped.push(it); return; }
+            var key = it.el.closest ? (it.el.closest("[data-marquee]") || it.el.parentElement) : it.el.parentElement;
+            if (dkey.has(key)) { dkey.get(key).group.push(it); }
+            else { var g = { el: it.el, kind: "details", rect: it.rect, phase: PHASE.detail, subs: [], group: [it] }; dkey.set(key, g); grouped.push(g); }
+          });
+          return grouped;
         }
-        function reveal(s) { if (s && !s.revealed) { s.revealed = true; s.el.classList.add("revealed"); } }
-        function revealAll() { sections.forEach(reveal); }
-        function sizeCanvas() {
-          if (!canvas) return;
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
-          W = window.innerWidth; H = window.innerHeight;
-          canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
-          canvas.style.width = W + "px"; canvas.style.height = H + "px";
-          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        /* ---------------- step table ---------------- */
+        function textLines(item) {
+          var lh = 0;
+          try { lh = parseFloat(window.getComputedStyle(item.el).lineHeight) || 0; } catch (e) {}
+          if (!lh) lh = 26;
+          item.lineH = lh;
+          return clamp(Math.round(item.rect.h / lh), 1, 6);
         }
+        function stepsFor(sec) {
+          var steps = [{ type: "bg", rect: sec.rect, anchor: { x: sec.rect.l, y: sec.rect.t }, dur: DUR.bg }];
+          if (sec.isTools) {
+            var lab = sec.el.querySelector(".section-label");
+            if (lab) steps.push({ type: "text", el: lab, rect: docRect(lab), anchor: anchorOf("text", docRect(lab)), lines: 1, dur: DUR.textLine });
+            var h2 = sec.el.querySelector("h2");
+            if (h2) { var hr = docRect(h2); steps.push({ type: "heading", el: h2, rect: hr, anchor: anchorOf("heading", hr), dur: DUR.heading }); }
+            var tgroups = Array.prototype.slice.call(sec.el.querySelectorAll(".tools-group"));
+            tgroups.forEach(function (g, gi2) {
+              var gl = g.querySelector(".tools-group-label");
+              var chips = Array.prototype.slice.call(g.querySelectorAll(".tools-chips li")).filter(function (li) { return isShown(li); });
+              if (!chips.length) return;
+              if (gl) { var gr = docRect(gl); steps.push({ type: "text", el: gl, rect: gr, anchor: anchorOf("text", gr), lines: 1, dur: DUR.textLine, toolLabel: true }); }
+              /* the ~180 ms between groups rides at the end of each chips step */
+              var gapAfter = gi2 < tgroups.length - 1 ? 180 : 0;
+              steps.push({ type: "chips", els: chips, rects: chips.map(function (li) { return docRect(li); }), rect: docRect(g), anchor: anchorOf("box", docRect(g)), dur: DUR.chip + STAGGER * (chips.length - 1) + gapAfter });
+            });
+          } else {
+            var items = classify(sec);
+            sec._items = items;
+            items.sort(function (a, b) { return a.phase - b.phase; });
+            items.forEach(function (it) {
+              var st = { type: it.kind === "details" ? "details" : it.kind, el: it.el, rect: it.rect, anchor: anchorOf(it.kind, it.rect), item: it };
+              if (it.kind === "box") st.dur = DUR.box;
+              else if (it.kind === "image") st.dur = DUR.image;
+              else if (it.kind === "heading") st.dur = DUR.heading;
+              else if (it.kind === "text") { st.lines = textLines(it); st.dur = clamp(st.lines * DUR.textLine, MIN_ACTION, 960); }
+              else if (it.kind === "button") st.dur = DUR.button;
+              else if (it.kind === "details") st.dur = DUR.detail + STAGGER * (Math.min(it.group.length, 16) - 1);
+              steps.push(st);
+            });
+          }
+          steps.push({ type: "tag", dur: DUR.tag, anchor: steps.length > 1 ? steps[steps.length - 1].anchor : { x: sec.rect.l + sec.rect.w / 2, y: sec.rect.t + sec.rect.h / 2 } });
+          /* Budget scaling: aim for the section budget (first section
+             7000 ms, others 5500 ms at speed 1). The end tag stays 700 ms;
+             travel+action scale down (factor floor 0.3, per-step floors
+             180 ms); only if a step-dense section is still over budget
+             does the arrival dwell compress, from 180 toward 120 ms.
+             Dense sections (10 FAQ rows, 10 tool groups) cannot reach
+             5.5 s without breaking the 180 ms minimums — they land at
+             their floor-bound total instead of ever snapping. */
+          var budget = sec.index === 0 ? BUDGET_FIRST : BUDGET_SECTION;
+          var scalable = 0, prev = { x: sec.rect.l, y: sec.rect.t };
+          steps.forEach(function (st) {
+            var d = Math.sqrt(Math.pow(st.anchor.x - prev.x, 2) + Math.pow(st.anchor.y - prev.y, 2));
+            st.travelEst = clamp(d * 0.55, MIN_ACTION, MAX_TRAVEL);
+            if (st.type !== "tag") scalable += st.travelEst + st.dur;
+            prev = st.anchor;
+          });
+          var dwellPer = DWELL;
+          var factor = 1;
+          if (steps.length * dwellPer + DUR.tag + scalable > budget) {
+            factor = clamp((budget - steps.length * dwellPer - DUR.tag) / Math.max(1, scalable), 0.3, 1);
+            var over = steps.length * dwellPer + DUR.tag + scalable * factor - budget;
+            if (over > 0) dwellPer = Math.max(120, DWELL - Math.ceil(over / steps.length));
+          }
+          steps.forEach(function (st) {
+            st.travelDur = Math.max(MIN_ACTION, Math.round(st.travelEst * factor));
+            st.actionDur = st.type === "tag" ? DUR.tag : Math.max(MIN_ACTION, Math.round(st.dur * factor));
+          });
+          steps.dwell = dwellPer;
+          return steps;
+        }
+
+        /* ---------------- inline style save / restore ---------------- */
+        function touch(sec, el) {
+          for (var i = 0; i < sec.touched.length; i++) if (sec.touched[i].el === el) return;
+          sec.touched.push({ el: el, opacity: el.style.opacity, clipPath: el.style.clipPath, transform: el.style.transform });
+        }
+        function hideItem(sec, it) {
+          touch(sec, it.el);
+          if (it.kind === "box" || it.kind === "image" || it.kind === "button") it.el.style.opacity = "0";
+          else if (it.kind === "heading") it.el.style.clipPath = "inset(0 100% 0 0)";
+          else if (it.kind === "text") it.el.style.clipPath = "inset(0 0 100% 0)";
+          else if (it.kind === "details") it.group.forEach(function (g) { touch(sec, g.el); g.el.style.opacity = "0"; });
+          (it.subs || []).forEach(function (s) { touch(sec, s.el); s.el.style.opacity = "0"; });
+        }
+        function restoreSection(sec) {
+          sec.touched.forEach(function (t) {
+            t.el.style.opacity = t.opacity; t.el.style.clipPath = t.clipPath; t.el.style.transform = t.transform;
+          });
+          sec.touched = [];
+          sec.el.style.clipPath = "";
+        }
+        function hideForStep(sec, st) {
+          if (st.type === "bg") { touch(sec, sec.el); sec.el.style.clipPath = "inset(0 100% 100% 0)"; return; }
+          if (st.type === "chips") { st.els.forEach(function (li) { touch(sec, li); li.style.opacity = "0"; }); return; }
+          if (st.type === "text" && st.toolLabel !== true && st.el && sec.isTools) { touch(sec, st.el); st.el.style.clipPath = "inset(0 0 100% 0)"; return; }
+          if (st.item) hideItem(sec, st.item);
+          else if (st.el) { touch(sec, st.el); if (st.type === "heading") st.el.style.clipPath = "inset(0 100% 0 0)"; else if (st.type === "text") st.el.style.clipPath = "inset(0 0 100% 0)"; }
+        }
+
+        /* ---------------- cursors ---------------- */
         function ensureCanvas() {
           if (canvas) return;
           canvas = document.createElement("canvas");
@@ -2728,49 +3036,38 @@
           if (!ctx) { disabled = true; document.documentElement.classList.remove("swarm-on"); }
           sizeCanvas();
         }
+        function sizeCanvas() {
+          if (!canvas) return;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = window.innerWidth; H = window.innerHeight;
+          canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+          canvas.style.width = W + "px"; canvas.style.height = H + "px";
+          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
         function makeCursors() {
-          var n = cursorCount;
-          if (window.innerWidth < 700) n = Math.min(n, 12);
-          n = Math.max(4, Math.min(40, n));
+          var n = clamp(Math.round(cursorCount) || 4, 3, 5);
           cursors = [];
           for (var i = 0; i < n; i++) {
             cursors.push({
-              x: (W || window.innerWidth) / 2 + (Math.random() - 0.5) * 240,
-              y: (H || window.innerHeight) + 40 + Math.random() * 120,
-              tx: (W || window.innerWidth) / 2, ty: (H || window.innerHeight) / 2,
-              color: PALETTE[i % PALETTE.length],
-              label: labels[i % labels.length],
-              ease: 0.05 + Math.random() * 0.07,
-              seed: Math.random() * 6.28
+              x: (W || window.innerWidth) / 2 + (i - n / 2) * 36, y: (H || window.innerHeight) + 30 + i * 8,
+              color: PALETTE[i % PALETTE.length], label: labels[i % labels.length],
+              seed: i * 1.37, path: null, tx: 0, ty: 0
             });
           }
         }
-        function pointIn(s) {
-          var sy = window.scrollY || 0;
+        function setPath(c, x1, y1, dur) {
+          var dx = x1 - c.x, dy = y1 - c.y, d = Math.sqrt(dx * dx + dy * dy);
+          var bend = clamp(d * 0.25, 0, 120), side = c.seed % 2 < 1 ? 1 : -1;
+          var mx = (c.x + x1) / 2, my = (c.y + y1) / 2, px = -dy / (d || 1), py = dx / (d || 1);
+          c.path = { x0: c.x, y0: c.y, c1x: c.x + dx * 0.35 + px * bend * side * 0.4, c1y: c.y + dy * 0.35 + py * bend * side * 0.4, c2x: mx + px * bend * side, c2y: my + py * bend * side, x1: x1, y1: y1, t0: engT, dur: Math.max(1, dur) };
+        }
+        function pathPos(c, t) {
+          var p = c.path, u = clamp((t - p.t0) / p.dur, 0, 1), e = easeIO(u), v = 1 - e;
           return {
-            x: s.left + 16 + Math.random() * Math.max(20, s.w - 32),
-            y: s.top - sy + 16 + Math.random() * Math.max(20, s.h - 32)
+            x: v * v * v * p.x0 + 3 * v * v * e * p.c1x + 3 * v * e * e * p.c2x + e * e * e * p.x1,
+            y: v * v * v * p.y0 + 3 * v * v * e * p.c1y + 3 * v * e * e * p.c2y + e * e * e * p.y1,
+            done: u >= 1
           };
-        }
-        function assignBuild(s) {
-          buildTarget = s; arriveT = 0;
-          cursors.forEach(function (c) { var p = pointIn(s); c.tx = p.x; c.ty = p.y; });
-        }
-        function startLoop() { if (!running && !finished && !disabled) { running = true; raf = window.requestAnimationFrame(loop); } }
-        function stopLoop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
-        function endEffect(markDone) {
-          if (finished) return;
-          finished = true;
-          revealAll();
-          document.documentElement.classList.remove("swarm-on");
-          if (markDone) lsSet(DONE_KEY, "1");
-          stopLoop();
-          if (canvas) canvas.style.display = "none";
-        }
-        function beginExit() {
-          if (exiting || finished) return;
-          exiting = true; exitT = performance.now();
-          cursors.forEach(function (c, i) { c.tx = c.x + (Math.random() - 0.5) * 160; c.ty = -80 - (i % 5) * 26; });
         }
         function roundRectPath(x, y, w, h, r) {
           ctx.beginPath();
@@ -2798,16 +3095,35 @@
           }
           ctx.restore();
         }
-        function drawGuides(s) {
-          var sy = window.scrollY || 0;
-          var top = s.top - sy, left = s.left, right = s.left + s.w, bottom = top + s.h;
+        function traceRect(r, sy, p, color) {
+          var x = r.l, y = r.t - sy, w = r.w, h = r.h, per = 2 * (w + h), d = p * per;
           ctx.save();
-          ctx.strokeStyle = "rgba(242,239,234,0.35)"; ctx.lineWidth = 1;
+          ctx.strokeStyle = color; ctx.lineWidth = 1;
+          ctx.beginPath();
+          var cx = x, cy = y; ctx.moveTo(cx, cy);
+          var seg = [[x + w, y], [x + w, y + h], [x, y + h], [x, y]];
+          var lens = [w, h, w, h];
+          for (var i = 0; i < 4 && d > 0; i++) {
+            var take = Math.min(d, lens[i]);
+            var f = lens[i] ? take / lens[i] : 0;
+            cx = cx + (seg[i][0] - cx) * f; cy = cy + (seg[i][1] - cy) * f;
+            ctx.lineTo(cx, cy);
+            d -= take;
+          }
+          ctx.stroke();
+          ctx.restore();
+          return { x: cx, y: cy };
+        }
+        function drawGuides(r, sy, alpha) {
+          var top = r.t - sy;
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.strokeStyle = "rgba(242,239,234,0.5)"; ctx.lineWidth = 1;
           ctx.setLineDash([5, 5]);
-          ctx.strokeRect(left + 6, top + 6, Math.max(0, s.w - 12), Math.max(0, s.h - 12));
+          ctx.strokeRect(r.l + 0.5, top + 0.5, Math.max(0, r.w - 1), Math.max(0, r.h - 1));
           ctx.setLineDash([]);
-          ctx.strokeStyle = "rgba(242,34,30,0.8)";
-          [[left, top], [right, top], [left, bottom], [right, bottom]].forEach(function (pt) {
+          ctx.strokeStyle = "rgba(242,34,30,0.9)";
+          [[r.l, top], [r.l + r.w, top], [r.l, top + r.h], [r.l + r.w, top + r.h]].forEach(function (pt) {
             ctx.beginPath();
             ctx.moveTo(pt[0] - 7, pt[1]); ctx.lineTo(pt[0] + 7, pt[1]);
             ctx.moveTo(pt[0], pt[1] - 7); ctx.lineTo(pt[0], pt[1] + 7);
@@ -2815,60 +3131,280 @@
           });
           ctx.restore();
         }
+
+        /* ---------------- build runner ---------------- */
+        function collect() {
+          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el, i) {
+            return { el: el, index: i, state: "idle", rect: docRect(el), touched: [], _items: null, isTools: !!el.querySelector(".tools-groups") };
+          });
+        }
+        function measureSections() { sections.forEach(function (s) { s.rect = docRect(s.el); }); }
+        function trigger(sec) {
+          if (sec.state !== "idle") return;
+          sec.state = "queued";
+          var at = queue.length;
+          while (at > 0 && queue[at - 1].index > sec.index) at--;
+          queue.splice(at, 0, sec);
+        }
+        function triggerCheck() {
+          var sy = window.scrollY || 0, vh = window.innerHeight;
+          sections.forEach(function (s) {
+            if (s.state !== "idle") return;
+            if (s.rect.t + s.rect.h <= sy + 10) trigger(s);                       /* already scrolled past */
+            else if (s.rect.t < sy + vh * 0.75 && s.rect.t + s.rect.h > sy) trigger(s); /* meaningfully in view */
+          });
+        }
+        function onIO(entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            for (var i = 0; i < sections.length; i++) {
+              if (sections[i].el === en.target && (en.intersectionRatio >= 0.2 || en.boundingClientRect.top <= window.innerHeight * 0.6)) {
+                trigger(sections[i]);
+                if (io) io.unobserve(en.target);
+              }
+            }
+          });
+        }
+        function pickNext() {
+          if (active || !queue.length) return;
+          var sy = window.scrollY || 0, vh = window.innerHeight, pick = null;
+          for (var i = 0; i < queue.length; i++) {
+            var s = queue[i];
+            if (s.rect.t < sy + vh && s.rect.t + s.rect.h > sy) { pick = s; break; }
+          }
+          if (!pick) pick = queue[0];
+          queue.splice(queue.indexOf(pick), 1);
+          startBuild(pick);
+        }
+        function startBuild(sec) {
+          sec.state = "building";
+          sec.rect = docRect(sec.el);
+          sec.touched = [];
+          var steps = stepsFor(sec);
+          sec._steps = steps;
+          sec.el.classList.add("swarm-building", "swarm-anim");
+          /* hide everything this build will animate, in this same task,
+             before the section becomes visible — no flash, no pop */
+          steps.forEach(function (st) { hideForStep(sec, st); });
+          active = { sec: sec, steps: steps, i: -1, phase: "travel", phaseEnd: 0, performer: null, stepStart: 0, dwell: steps.dwell || DWELL };
+          nextStep();
+        }
+        function nearestCursor(x, y, exclude) {
+          var best = null, bd = Infinity;
+          cursors.forEach(function (c) {
+            if (exclude && exclude.indexOf(c) >= 0) return;
+            var d = Math.pow(c.x - x, 2) + Math.pow(c.y - y, 2);
+            if (d < bd) { bd = d; best = c; }
+          });
+          return best;
+        }
+        function nextStep() {
+          var b = active; if (!b) return;
+          b.i++;
+          if (b.i >= b.steps.length) { finishBuild(b.sec); return; }
+          var st = b.steps[b.i], sy = window.scrollY || 0;
+          var ax = st.anchor.x, ay = st.anchor.y - sy;
+          var perf = nearestCursor(ax, ay, []);
+          b.performer = perf;
+          var d = Math.sqrt(Math.pow(ax - perf.x, 2) + Math.pow(ay - perf.y, 2));
+          var travelDurAct = 0;
+          if (d > 28) { travelDurAct = clamp(d * 0.55, MIN_ACTION, MAX_TRAVEL); setPath(perf, ax, ay, travelDurAct); }
+          else perf.path = null;
+          /* helpers pre-travel to the next steps' anchors during this step */
+          var used = [perf];
+          for (var j = 1; j <= 3 && b.i + j < b.steps.length; j++) {
+            var nx = b.steps[b.i + j], h = nearestCursor(nx.anchor.x, nx.anchor.y - sy, used);
+            if (!h) break;
+            used.push(h);
+            var hd = Math.sqrt(Math.pow(nx.anchor.x - h.x, 2) + Math.pow(nx.anchor.y - sy - h.y, 2));
+            if (hd > 42) setPath(h, nx.anchor.x + 16, nx.anchor.y - sy - 12, clamp(hd * 0.55, MIN_ACTION, MAX_TRAVEL));
+          }
+          b.phase = travelDurAct > 0 ? "travel" : "dwell";
+          b.stepStart = engT;
+          b.phaseDur = b.phase === "travel" ? travelDurAct : b.dwell;
+          b.detailIdx = -1;
+        }
+        function finishBuild(sec) {
+          restoreSection(sec);
+          sec.el.classList.remove("swarm-building", "swarm-anim");
+          sec.el.classList.add("revealed");
+          sec.state = "built";
+          active = null;
+          measureSections();
+          if (sections.every(function (s) { return s.state === "built"; })) beginExit();
+          else pickNext();
+        }
+        function applyStepFrame(b, st, p, sy) {
+          var perf = b.performer, r = st.rect;
+          if (st.type === "bg") {
+            var rx = easeIO(clamp(p / 0.62, 0, 1)), by = easeIO(clamp((p - 0.38) / 0.62, 0, 1));
+            b.sec.el.style.clipPath = "inset(0 " + ((1 - rx) * 100) + "% " + ((1 - by) * 100) + "% 0)";
+            if (ctx) {
+              ctx.save();
+              ctx.fillStyle = "rgba(242,239,234,0.05)";
+              ctx.fillRect(r.l, r.t - sy, r.w * rx, r.h * by);
+              ctx.restore();
+            }
+            if (perf) { perf.x = r.l + r.w * rx; perf.y = r.t - sy + r.h * by; }
+          } else if (st.type === "box") {
+            var tp = clamp(p / 0.55, 0, 1);
+            if (ctx) { var pt = traceRect(r, sy, easeIO(tp), "rgba(242,239,234,0.85)"); if (perf && p < 0.55) { perf.x = pt.x; perf.y = pt.y; } }
+            var fp = clamp((p - 0.55) / 0.45, 0, 1);
+            st.item.el.style.opacity = String(fp);
+            st.item.subs.forEach(function (s, k) {
+              var sp = clamp(fp * st.item.subs.length - k, 0, 1);
+              s.el.style.opacity = String(sp);
+              s.el.style.transform = "translateY(" + ((1 - sp) * 8) + "px)";
+            });
+          } else if (st.type === "image") {
+            if (p < 0.35 && ctx) { ctx.save(); ctx.strokeStyle = "rgba(242,239,234,0.7)"; ctx.lineWidth = 1; ctx.setLineDash([6, 4]); ctx.strokeRect(r.l + 0.5, r.t - sy + 0.5, r.w - 1, r.h - 1); ctx.restore(); }
+            var ip = clamp((p - 0.35) / 0.65, 0, 1);
+            st.item.el.style.opacity = String(ip);
+            var img = st.item.el.tagName === "FIGURE" ? st.item.el.querySelector("img") : st.item.el;
+            if (img) { touch(b.sec, img); img.style.transform = "scale(" + (1.04 - 0.04 * ip) + ")"; }
+          } else if (st.type === "heading") {
+            var hp = easeIO(p);
+            st.el.style.clipPath = "inset(0 " + ((1 - hp) * 100) + "% 0 0)";
+            if (perf) { perf.x = r.l + r.w * hp; perf.y = r.t - sy + r.h / 2; }
+          } else if (st.type === "text") {
+            var lines = st.lines || 1, q = Math.ceil(easeIO(p) * lines) / lines;
+            st.el.style.clipPath = "inset(0 0 " + ((1 - q) * 100) + "% 0)";
+            if (perf) { perf.x = r.l + 4; perf.y = r.t - sy + Math.max(8, q * r.h - (st.item ? st.item.lineH || 13 : 13)); }
+          } else if (st.type === "button") {
+            if (p < 0.45 && ctx) traceRect(r, sy, easeIO(clamp(p / 0.45, 0, 1)), "rgba(242,239,234,0.85)");
+            if (p >= 0.45) st.item.el.style.opacity = String(clamp((p - 0.45) / 0.35, 0, 1));
+            if (p >= 0.8 && ctx && perf) {
+              var rp = (p - 0.8) / 0.2;
+              ctx.save();
+              ctx.globalAlpha = (1 - rp) * 0.8;
+              ctx.strokeStyle = "#F2281E"; ctx.lineWidth = 1.5;
+              ctx.beginPath(); ctx.arc(perf.x, perf.y, 6 + rp * 24, 0, 6.2832); ctx.stroke();
+              ctx.restore();
+            }
+          } else if (st.type === "details" || st.type === "chips") {
+            var els = st.type === "details" ? st.item.group.slice(0, 16) : st.els;
+            var per = st.type === "details" ? DUR.detail : DUR.chip;
+            var t = p * st.actionDur;
+            els.forEach(function (g, k) {
+              var el2 = st.type === "details" ? g.el : g;
+              var local = clamp((t - k * STAGGER) / per, 0, 1);
+              if (st.type === "chips") {
+                if (local > 0 && local < 0.5 && ctx) {
+                  var pt2 = traceRect(st.rects[k], sy, easeIO(local / 0.5), "rgba(242,239,234,0.7)");
+                  if (perf && k === Math.min(els.length - 1, Math.floor(t / STAGGER))) { perf.x = pt2.x; perf.y = pt2.y; }
+                }
+                el2.style.opacity = String(clamp((local - 0.4) / 0.6, 0, 1));
+              } else {
+                el2.style.opacity = String(local);
+                el2.style.transform = "translateY(" + ((1 - local) * 6) + "px)";
+              }
+            });
+          }
+          /* tag: no DOM writes */
+        }
+        /* Phase machine on the shared engine clock (engT). engT advances
+           in loop() by dt x rate, where rate = buildSpeed x catch-up for
+           the active build and 1 otherwise — so step phases, cursor paths
+           and durations all share one time base at any refresh rate. */
+        function runBuild() {
+          var b = active; if (!b) return;
+          var sy = window.scrollY || 0, guard = 0;
+          while (active && guard++ < 8) {
+            var st = b.steps[b.i];
+            if (engT - b.stepStart < b.phaseDur) break;
+            if (b.phase === "travel") { b.phase = "dwell"; b.stepStart += b.phaseDur; b.phaseDur = b.dwell; }
+            else if (b.phase === "dwell") { b.phase = "action"; b.stepStart += b.phaseDur; b.phaseDur = st.actionDur; }
+            else { nextStep(); if (!active) return; b = active; }
+          }
+          if (!active) return;
+          var cur = b.steps[b.i];
+          if (ctx && (b.phase === "dwell" || b.phase === "action")) {
+            var alpha = b.phase === "dwell" ? 0.35 + 0.55 * ((engT - b.stepStart) / Math.max(1, b.dwell)) : Math.max(0, 0.9 - ((engT - b.stepStart) / Math.max(1, cur.actionDur)) * 1.8);
+            if (cur.rect && cur.type !== "tag") drawGuides(cur.rect, sy, alpha);
+          }
+          if (b.phase === "action" && cur.type !== "tag") {
+            applyStepFrame(b, cur, clamp((engT - b.stepStart) / Math.max(1, cur.actionDur), 0, 1), sy);
+          }
+        }
+
+        /* ---------------- idle, exit, end ---------------- */
+        function idleFrame(dt) {
+          var cxp = mouse.x >= 0 ? mouse.x : W / 2, cyp = mouse.y >= 0 ? mouse.y : H / 2;
+          var scattering = engT < scatterUntil;
+          orbitA += dt * 0.00045;
+          cursors.forEach(function (c, i) {
+            if (c.path) return;
+            var tx2, ty2;
+            if (scattering && scatterPts[i]) { tx2 = scatterPts[i].x; ty2 = scatterPts[i].y; }
+            else {
+              var ang = orbitA + c.seed + (i / Math.max(1, cursors.length)) * 6.283;
+              var rad = 64 + (i % 4) * 16;
+              tx2 = cxp + Math.cos(ang) * rad;
+              ty2 = cyp + Math.sin(ang) * rad * 0.72;
+            }
+            var k = Math.min(1, dt / 90);
+            c.x += (tx2 - c.x) * k; c.y += (ty2 - c.y) * k;
+          });
+        }
+        function beginExit() {
+          if (exiting || finished) return;
+          exiting = true; exitStart = engT;
+          cursors.forEach(function (c, i) { setPath(c, c.x + (i - cursors.length / 2) * 44, -90 - (i % 3) * 24, 700); });
+        }
+        function restoreAllSections() { sections.forEach(restoreSection); }
+        function endEffect(markDone) {
+          if (finished) return;
+          finished = true;
+          restoreAllSections();
+          sections.forEach(function (s) { s.el.classList.remove("swarm-building", "swarm-anim"); s.el.classList.add("revealed"); s.state = "built"; });
+          document.documentElement.classList.remove("swarm-on");
+          if (markDone) lsSet(DONE_KEY, "1");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+        }
         function loop(now) {
           if (!running) return;
           raf = window.requestAnimationFrame(loop);
           if (!ctx) return;
+          var dt = lastNow ? Math.min(50, Math.max(0, now - lastNow)) : 16;
+          lastNow = now;
+          var rate = active ? buildSpeed * (queue.length > 1 ? 1.5 : 1) : 1;
+          engT += dt * rate;
           ctx.clearRect(0, 0, W, H);
-          var sy = window.scrollY || 0;
-          var vh = window.innerHeight;
-          var idle = now - lastScrollT > 150;
-          if (exiting) {
-            if (now - exitT > 850) { endEffect(true); return; }
-          } else {
-            sections.forEach(function (s) { if (!s.revealed && s.bottom < sy + 10) reveal(s); });
-            var next = null;
-            for (var i = 0; i < sections.length; i++) {
-              var s2 = sections[i];
-              if (!s2.revealed && s2.bottom > sy + 10 && s2.top < sy + vh * 0.92) { next = s2; break; }
-            }
-            if (next) {
-              if (buildTarget !== next) assignBuild(next);
-              var sum = 0;
-              cursors.forEach(function (c) { sum += Math.abs(c.tx - c.x) + Math.abs(c.ty - c.y); });
-              var avg = cursors.length ? sum / cursors.length : 0;
-              if (avg < 46) { if (!arriveT) arriveT = now; if (now - arriveT > 450) { reveal(next); buildTarget = null; arriveT = 0; measure(); } }
-              else arriveT = 0;
-              if (buildTarget) drawGuides(buildTarget);
-            } else if (idle) {
-              buildTarget = null;
-              if (now >= scatterT) {
-                orbitA += 0.0035;
-                var cxp = mouse.x >= 0 ? mouse.x : W / 2, cyp = mouse.y >= 0 ? mouse.y : H / 2;
-                cursors.forEach(function (c, i2) {
-                  var ang = orbitA + c.seed + (i2 / Math.max(1, cursors.length)) * 6.283;
-                  var rad = 64 + (i2 % 4) * 16;
-                  c.tx = cxp + Math.cos(ang) * rad;
-                  c.ty = cyp + Math.sin(ang) * rad * 0.72;
-                });
-              }
-            }
-          }
-          var showTags = !!buildTarget || idle;
+          /* advance cursor paths on the shared clock; the step renderer
+             may override the performer's position afterwards */
           cursors.forEach(function (c) {
-            c.x += (c.tx - c.x) * c.ease;
-            c.y += (c.ty - c.y) * c.ease;
-            drawCursor(c, showTags);
+            if (c.path) {
+              var pos = pathPos(c, engT);
+              c.x = pos.x; c.y = pos.y;
+              if (pos.done) c.path = null;
+            }
+          });
+          if (exiting) {
+            if (engT - exitStart > 780) { endEffect(true); return; }
+          } else if (active) {
+            runBuild();
+          } else {
+            pickNext();
+            if (!active) idleFrame(dt);
+          }
+          var showAll = exiting || !active;
+          cursors.forEach(function (c) {
+            var midPath = c.path && (engT - c.path.t0) / c.path.dur > 0.2 && (engT - c.path.t0) / c.path.dur < 0.85;
+            var isPerf = active && active.performer === c;
+            drawCursor(c, showAll || isPerf || !midPath);
           });
         }
+        function startLoop() { if (!running && !finished && !disabled) { running = true; lastNow = 0; raf = window.requestAnimationFrame(loop); } }
+        function stopLoop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
+
+        /* ---------------- events ---------------- */
         function onScroll() {
-          lastScrollT = performance.now();
           if (finished || disabled) return;
-          if (!started) { started = true; ensureCanvas(); if (canvas) canvas.style.display = ""; if (!cursors.length) makeCursors(); }
-          startLoop();
+          triggerCheck();
           var doc = document.documentElement;
           var docH = Math.max(doc.scrollHeight, document.body ? document.body.scrollHeight : 0);
-          if ((window.scrollY || 0) + window.innerHeight >= docH - 8) beginExit();
+          if ((window.scrollY || 0) + window.innerHeight >= docH - 8 && !active && !queue.length && sections.every(function (s) { return s.state === "built"; })) beginExit();
         }
         function onMouse(e) {
           var now = performance.now();
@@ -2876,14 +3412,13 @@
             var dt = Math.max(1, now - mouse.lt);
             var d = Math.abs(e.clientX - mouse.lx) + Math.abs(e.clientY - mouse.ly);
             mouse.speed = mouse.speed * 0.6 + (d / dt) * 0.4;
-            if (mouse.speed > 2.6 && started && !finished && !exiting && now > scatterT) {
-              scatterT = now + 280;
-              cursors.forEach(function (c) {
+            if (mouse.speed > 2.6 && !active && !finished && !exiting && engT > scatterUntil) {
+              scatterUntil = engT + 300;
+              scatterPts = cursors.map(function (c) {
                 var dx = c.x - e.clientX, dy = c.y - e.clientY;
                 var dd = Math.max(24, Math.sqrt(dx * dx + dy * dy));
-                var push = 140 + Math.random() * 140;
-                c.tx = c.x + (dx / dd) * push;
-                c.ty = c.y + (dy / dd) * push;
+                var push = 140 + (c.seed % 1) * 120;
+                return { x: c.x + (dx / dd) * push, y: c.y + (dy / dd) * push };
               });
             }
           }
@@ -2891,39 +3426,49 @@
           mouse.x = e.clientX; mouse.y = e.clientY;
         }
         function onInterrupt(e) {
-          if (!started || finished || exiting) return;
+          if (finished || exiting || !inited) return;
           var t = e.target;
           if (t && t.closest && t.closest("#swarmToggle")) return;
           endEffect(true);
         }
-        function onResize() { sizeCanvas(); measure(); }
+        var resizeT = 0;
+        function onResize() {
+          sizeCanvas();
+          window.clearTimeout(resizeT);
+          resizeT = window.setTimeout(function () {
+            measureSections();
+            if (active) { active.sec.rect = docRect(active.sec.el); active.steps.forEach(function (st) { if (st.item) st.rect = st.item.rect = docRect(st.item.el); else if (st.el && st.type !== "bg") st.rect = docRect(st.el); }); }
+          }, 160);
+        }
         function onVis() {
-          if (document.hidden) { stopLoop(); }
-          else if (started && !finished && !disabled) { startLoop(); }
+          if (document.hidden) stopLoop();
+          else if (!finished && !disabled && inited) startLoop();
         }
         function handleToggle() {
           var off = lsGet(PREF_KEY) === "off";
           if (!off) {
             lsSet(PREF_KEY, "off");
             disabled = true;
-            if (!finished) { finished = true; revealAll(); }
-            document.documentElement.classList.remove("swarm-on");
-            stopLoop();
-            if (canvas) canvas.style.display = "none";
+            if (!finished) {
+              finished = true;
+              restoreAllSections();
+              sections.forEach(function (s) { s.el.classList.remove("swarm-building", "swarm-anim"); s.el.classList.add("revealed"); });
+              document.documentElement.classList.remove("swarm-on");
+              stopLoop();
+              if (canvas) canvas.style.display = "none";
+            }
             syncToggle();
           } else {
             lsSet(PREF_KEY, "on");
             syncToggle();
             if (!contentEnabled || coarse() || reducedM() || lsGet(DONE_KEY)) return;
-            disabled = false; finished = false; exiting = false;
-            if (!sections.length) collect();
+            disabled = false; finished = false; exiting = false; active = null; queue = [];
+            collect();
             document.documentElement.classList.add("swarm-on");
             ensureCanvas();
             if (canvas) canvas.style.display = "";
             if (!cursors.length) makeCursors();
-            started = true;
-            lastScrollT = performance.now();
-            measure();
+            triggerCheck();
             startLoop();
           }
         }
@@ -2935,6 +3480,7 @@
           var sw = (data && data.settings && data.settings.swarm) || {};
           contentEnabled = sw.enabled !== false;
           if (typeof sw.cursorCount === "number" && isFinite(sw.cursorCount)) cursorCount = sw.cursorCount;
+          buildSpeed = clampSpeed(sw.buildSpeed);
           if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.map(function (x) { return String(x); });
           syncToggle();
           if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM() || lsGet(DONE_KEY)) {
@@ -2942,13 +3488,48 @@
             return;
           }
           collect();
+          ensureCanvas();
+          if (disabled) return;
+          if (canvas) canvas.style.display = "";
           makeCursors();
-          window.addEventListener("scroll", onScroll, { passive: true });
-          window.addEventListener("mousemove", onMouse, { passive: true });
-          window.addEventListener("pointerdown", onInterrupt, true);
-          window.addEventListener("keydown", onInterrupt, true);
-          window.addEventListener("resize", onResize);
-          document.addEventListener("visibilitychange", onVis);
+          if (!bound) {
+            bound = true;
+            if ("IntersectionObserver" in window) {
+              io = new IntersectionObserver(onIO, { threshold: [0, 0.2] });
+              sections.forEach(function (s) { io.observe(s.el); });
+            }
+            window.addEventListener("scroll", onScroll, { passive: true });
+            window.addEventListener("mousemove", onMouse, { passive: true });
+            window.addEventListener("pointerdown", onInterrupt, true);
+            window.addEventListener("keydown", onInterrupt, true);
+            window.addEventListener("resize", onResize);
+            document.addEventListener("visibilitychange", onVis);
+          }
+          triggerCheck();
+          startLoop();
+        };
+        /* Test/debug affordance: structural plan for a section without
+           running its build (used by the jsdom suites). */
+        window.__swarmDebug = {
+          version: "2.0",
+          settings: function () { return { buildSpeed: buildSpeed, cursorCount: cursorCount, labels: labels.slice() }; },
+          plan: function (i) {
+            if (!sections.length) collect();
+            var sec = sections[i || 0];
+            if (!sec) return null;
+            sec.rect = docRect(sec.el);
+            var steps = stepsFor(sec);
+            return {
+              isTools: !!sec.isTools,
+              steps: steps.map(function (st) { return { type: st.type, actionDur: st.actionDur, travelDur: st.travelDur }; }),
+              totalAction: steps.reduce(function (n, st) { return n + st.actionDur; }, 0),
+              totalDwell: steps.length * (steps.dwell || DWELL),
+              total: steps.reduce(function (n, st) { return n + st.actionDur + st.travelDur; }, 0) + steps.length * (steps.dwell || DWELL)
+            };
+          },
+          state: function () {
+            return { finished: finished, queue: queue.map(function (s) { return s.index; }), sections: sections.map(function (s) { return s.state; }) };
+          }
         };
         /* Safety: if content never arrives, initialise with defaults so
            sections can never stay hidden behind a failed fetch. */

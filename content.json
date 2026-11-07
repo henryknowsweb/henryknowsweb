@@ -84,19 +84,93 @@
   ],
   "tools": [
     {
-      "name": "Figma"
+      "group": "Web and stores",
+      "items": [
+        "Shopify",
+        "Hostinger",
+        "WooCommerce",
+        "WordPress",
+        "Cloudflare",
+        "Google Analytics",
+        "Google Search Console"
+      ]
     },
     {
-      "name": "Klaviyo"
+      "group": "Design, graphics and AI image tools",
+      "items": [
+        "Figma",
+        "Photoshop",
+        "Canva",
+        "ChatGPT",
+        "Gemini",
+        "Higgsfield",
+        "Pixii"
+      ]
     },
     {
-      "name": "Gorgias"
+      "group": "Amazon",
+      "items": [
+        "Seller Central",
+        "Amazon Ads",
+        "Brand Analytics",
+        "Helium 10",
+        "Jungle Scout",
+        "Keepa"
+      ]
     },
     {
-      "name": "Miracle Connect"
+      "group": "Shopify tools",
+      "items": [
+        "Shopify Flow",
+        "Shopify Markets",
+        "Judge.me",
+        "Recharge"
+      ]
     },
     {
-      "name": "Shopify"
+      "group": "Email marketing",
+      "items": [
+        "Klaviyo",
+        "Mailchimp",
+        "Omnisend"
+      ]
+    },
+    {
+      "group": "Customer support",
+      "items": [
+        "Gorgias",
+        "Miracle Connect"
+      ]
+    },
+    {
+      "group": "Walmart",
+      "items": [
+        "Walmart Seller Center",
+        "Walmart Connect"
+      ]
+    },
+    {
+      "group": "eBay",
+      "items": [
+        "Seller Hub",
+        "Promoted Listings",
+        "Terapeak"
+      ]
+    },
+    {
+      "group": "TikTok Shop, Temu and Mercari",
+      "items": [
+        "TikTok Shop Seller Center",
+        "Temu Seller Center",
+        "Mercari"
+      ]
+    },
+    {
+      "group": "Reporting and reconciliation",
+      "items": [
+        "Google Sheets",
+        "Excel"
+      ]
     }
   ],
   "caseStudies": [],
@@ -150,6 +224,7 @@
     "swarm": {
       "enabled": true,
       "cursorCount": 20,
+      "buildSpeed": 1,
       "labels": [
         "Listing",
         "A+ Content",
