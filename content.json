@@ -178,7 +178,18 @@
     "title": "New case studies coming soon.",
     "note": "Want your account to be one of the first featured? Message me on TikTok."
   },
-  "websiteWork": [],
+  "websiteWork": [
+    {
+      "id": "sally-skoufis",
+      "title": "Sally Skoufis",
+      "note": "",
+      "before": "assets/website-work/sally-skoufis-before.jpg",
+      "after": "assets/website-work/sally-skoufis-after.jpg",
+      "beforeAlt": "Sally Skoufis — Minx Shell collection, before redesign",
+      "afterAlt": "Sally Skoufis — Minx Shell collection, after redesign",
+      "liveUrl": "https://sallyskoufis.com/?preview_theme_id=189763682595"
+    }
+  ],
   "sideProjects": [
     {
       "id": "sellomize-reach",
@@ -297,7 +308,7 @@
       "items": [
         {
           "q": "Can I see your work?",
-          "a": "Yes — and I only show work I made. Case studies are added here as they are ready."
+          "a": "I only show work I made. Case studies and website work are added here as they are ready."
         },
         {
           "q": "Do you offer a free consultation?",

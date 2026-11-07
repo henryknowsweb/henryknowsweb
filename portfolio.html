@@ -481,11 +481,7 @@
           <span>No.</span><span>Case study</span><span>Marketplace</span><span class="r">Year</span><span></span>
         </div>
         <div id="caseList">
-          <div class="index-empty reveal-fade">
-            <p class="ieb-label">Case studies</p>
-            <p class="big">New case studies coming soon.</p>
-            <p class="note">Want your account to be one of the first featured? Message me on TikTok.</p>
-          </div>
+          <div class="index-empty reveal-fade"><p class="big">New case studies coming soon.</p></div>
         </div>
       </section>
 
@@ -493,11 +489,7 @@
         <p class="section-label">Stores &amp; sites</p>
         <h2 id="websiteHeading" style="font-family:var(--font-display);font-weight:500;letter-spacing:-0.04em;margin:12px 0 0;text-transform:uppercase;line-height:0.9;font-size:clamp(2.2rem,5vw,3.4rem)">Website work</h2>
         <div id="websiteList">
-          <div class="index-empty reveal-fade">
-            <p class="ieb-label">Website work</p>
-            <p class="big">Website work is being added — before/after examples will appear here.</p>
-            <p class="note">Store redesigns and builds will be shown here with before and after views as they are completed.</p>
-          </div>
+          <article class="ww-item"><h3>Sally Skoufis</h3><figure class="ba-fig"><div class="ba" data-ba><img src="assets/website-work/sally-skoufis-before.jpg" alt="Sally Skoufis — Minx Shell collection, before redesign" loading="lazy"><img class="ba-after" src="assets/website-work/sally-skoufis-after.jpg" alt="Sally Skoufis — Minx Shell collection, after redesign" loading="lazy"><span class="ba-tag ba-before">Before</span><span class="ba-tag ba-after-tag">After</span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after"></div></figure><div class="ww-actions"><a class="cta-btn btn btn-secondary" href="https://sallyskoufis.com/?preview_theme_id=189763682595" target="_blank" rel="noreferrer">Visit live site <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a></div></article>
         </div>
       </section>
 
@@ -505,11 +497,7 @@
         <p class="section-label">Built on the side</p>
         <h2 id="sideHeading" style="font-family:var(--font-display);font-weight:500;letter-spacing:-0.04em;margin:12px 0 0;text-transform:uppercase;line-height:0.9;font-size:clamp(2.2rem,5vw,3.4rem)">Side project</h2>
         <div id="sideList">
-          <div class="index-empty reveal-fade">
-            <p class="ieb-label">Side project</p>
-            <p class="big">Side projects are being added.</p>
-            <p class="note">Custom business software built alongside the marketplace work will appear here.</p>
-          </div>
+          <div class="pv-grid" style="margin-top:8px"><div class="pv-gcard" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Sellomize Reach — view project"><div class="pv-media"><img class="pv-media-img" src="assets/projects/sellomize-reach-cover.svg" alt="Sellomize Reach — cold email outreach platform" width="640" height="400" loading="lazy"></div><div class="pv-gcap"><p class="t">Sellomize Reach</p><p class="c">Web App</p></div></div></div>
         </div>
       </section>
 
@@ -586,8 +574,8 @@
           var capHtml = cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "";
           if (before && after) {
             return '<figure class="ba-fig"><div class="ba" data-ba>' +
-              '<img src="' + esc(before) + '" alt="Before" loading="lazy">' +
-              '<img class="ba-after" src="' + esc(after) + '" alt="After" loading="lazy">' +
+              '<img src="' + esc(before) + '" alt="' + esc(trimS(item && item.beforeAlt) || "Before") + '" loading="lazy">' +
+              '<img class="ba-after" src="' + esc(after) + '" alt="' + esc(trimS(item && item.afterAlt) || "After") + '" loading="lazy">' +
               '<span class="ba-tag ba-before">Before</span><span class="ba-tag ba-after-tag">After</span>' +
               '<input type="range" min="0" max="100" value="50" aria-label="Compare before and after">' +
               "</div>" + capHtml + "</figure>";
@@ -781,7 +769,7 @@
         function trimS(s) { return window.__csTrim ? window.__csTrim(s) : String(s == null ? "" : s).trim(); }
         function slugOf(item) { return window.__csSlug ? window.__csSlug(item) : "item"; }
         function emptyHTML(label, big, note) {
-          return '<div class="index-empty reveal-fade is-visible"><p class="ieb-label">' + esc(label) + '</p><p class="big">' + esc(big) + '</p><p class="note">' + esc(note) + "</p></div>";
+          return '<div class="index-empty reveal-fade is-visible"><p class="big">' + esc(big) + "</p></div>";
         }
         function bindRow(row, items, i, opener) {
           function open() { opener(items, i, row); }
@@ -1282,38 +1270,93 @@
       })();
     </script>
                 <script>
-      /* Swarm cursor effect v2 — time-based sequenced build.
-         A small crew of Figma-style cursors builds each section step by
-         step (background, boxes, images, headings, text, buttons,
-         details) on a timeline driven by accumulated frame time, so a
-         build takes the same wall-clock time at 60 Hz and 120 Hz.
-         Scrolling only QUEUES sections (IntersectionObserver, ~25% in
-         view); it never drives build speed. One canvas, one rAF loop,
-         element rects cached when a section's build starts — no layout
-         reads inside the loop. The build plays on EVERY page load;
-         within one page view each section builds exactly once, tracked
-         in memory only. The one thing persisted is the header on/off
-         toggle (hk.swarm.enabled); legacy hk.swarm.done.* keys from
-         the old once-only build are deleted on init and never read or
-         written again. Fine pointers only, never under reduced motion. */
+      /* Swarm cursor effect v3 — scroll-linked build.
+         A small crew of Figma-style cursors builds each section as the
+         visitor scrolls: every section has a build window tied to the
+         scroll position (0% when its top enters the bottom of the
+         viewport, 100% when its top reaches ~40% from the top), and
+         inside the window the steps run in bands — background, boxes,
+         images, headings, body text, then buttons and small details.
+         Displayed progress is smoothed toward the scroll target in one
+         requestAnimationFrame loop (exponential approach on delta time)
+         and rate-limited, so a hard flick cannot finish a section in a
+         blink; progress is monotonic — scrolling back up never undoes
+         a built section, and each section builds exactly once per page
+         view, tracked in memory only. The build plays on EVERY page
+         load of /, /about and /portfolio. The one thing persisted is
+         the header on/off toggle (hk.swarm.enabled); legacy done keys
+         from the old once-only build are deleted on init and never
+         read or written again. Fine pointers only, never under
+         reduced motion. With ?swarmdebug=1 the engine records a
+         per-frame log (window.__swarmDebug.frames / .elements). */
       (function () {
         "use strict";
         var PREF_KEY = "hk.swarm.enabled";
         var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
         var DEFAULT_LABELS = ["Listing", "A+ Content", "PPC", "Reconciliation", "Shopify", "Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari"];
-        /* Brand motion tokens (ms) and step durations at speed 1. */
-        var DWELL = 180, STAGGER = 60;
-        var DUR = { bg: 1000, box: 700, image: 700, heading: 700, textLine: 240, button: 320, detail: 180, chip: 300, tag: 700 };
-        var MIN_ACTION = 180, MAX_TRAVEL = 700;
-        var BUDGET_FIRST = 7000, BUDGET_SECTION = 5500;
+        /* Scroll-build constants (Henry's fix-list spec, Nov 7):
+           STAGGER_MS — detail/chip stagger inside a band.
+           RATE_MS — one full section build takes at least this long at
+             buildSpeed 1 (scaled by buildSpeed), even on a hard flick.
+           MIN_REVEAL_MS — internal per-element reveal floor: reveals
+             are rate-clamped to 240 ms of accumulated frame time. The
+             debug clock starts on the first advancing frame, whose own
+             delta (clamped to 50 ms) is already spent, so the measured
+             duration reads up to ~50 ms less than the clamp — 240 ms
+             keeps every measured reveal above the 180 ms spec floor
+             even when a jank frame lands first.
+           ORBIT_IDLE_MS — scroll + build still for this long before
+             the cursors drift into the orbit ring around the mouse. */
+        var STAGGER_MS = 60, STAGGER_PROG = STAGGER_MS / 1200;
+        var RATE_MS = 1200, MIN_REVEAL_MS = 240, ORBIT_IDLE_MS = 250, MAX_BOOST = 3;
+        var BAND_BASE = { bg: 25, box: 25, image: 15, heading: 15, text: 12, button: 8 };
+        var PHASE_ORDER = ["bg", "box", "image", "heading", "text", "button"];
+        var PHASE_RANK = { bg: 0, box: 1, image: 2, heading: 3, text: 4, button: 5 };
         var canvas = null, ctx = null, raf = 0, running = false;
         var inited = false, bound = false, finished = false, disabled = false, exiting = false, exitStart = 0;
         var contentEnabled = true, cursorCount = 20, buildSpeed = 1, labels = DEFAULT_LABELS.slice();
-        var sections = [], queue = [], active = null, cursors = [], io = null;
-        var engT = 0, lastNow = 0;
+        var sections = [], cursors = [];
+        var lastNow = 0, engT = 0, scrollPos = 0, vh = 0, maxScroll = 0;
+        var lastScrollMoveAt = -1e9, lastAdvanceAt = -1e9, builtOrder = [];
+        var curMode = "build";
         var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
         var scatterUntil = 0, scatterPts = [], orbitA = 0, W = 0, H = 0;
-        var firstSectionPending = true;
+        var ro = null, summaryPrinted = false;
+
+        /* ---------------- debug (?swarmdebug=1) ----------------
+           Inert unless the query string is present: no recording, no
+           console output, and window.__swarmDebug carries no frames /
+           elements arrays. When on, every frame appends
+           {t, scrollY, target, displayed, lag, frame} (target /
+           displayed / lag describe the attended front section) and
+           every revealed element appends {section, type, start, end,
+           duration} when its reveal completes. */
+        var debugOn = false;
+        try { debugOn = String(window.location.search || "").indexOf("swarmdebug=1") !== -1; } catch (e) {}
+        var dbgFrames = debugOn ? [] : null, dbgElements = debugOn ? [] : null;
+        function dbgFrame(now, front, frameMs) {
+          if (!debugOn || dbgFrames.length >= 20000) return;
+          dbgFrames.push({
+            t: Math.round(now), scrollY: Math.round(scrollPos),
+            target: front ? Math.round(front.target * 1000) / 1000 : 1,
+            displayed: front ? Math.round(front.displayed * 1000) / 1000 : 1,
+            lag: front ? Math.max(0, Math.round((front.target - front.displayed) * front.len)) : 0,
+            frame: Math.round(frameMs * 10) / 10
+          });
+        }
+        function dbgSummary() {
+          if (!debugOn || summaryPrinted) return;
+          summaryPrinted = true;
+          var maxFrame = 0, maxLag = 0, minDur = Infinity;
+          dbgFrames.forEach(function (f) { if (f.frame > maxFrame) maxFrame = f.frame; if (f.lag > maxLag) maxLag = f.lag; });
+          dbgElements.forEach(function (e) { if (e.duration < minDur) minDur = e.duration; });
+          try {
+            console.log("[swarmdebug] frames=" + dbgFrames.length + " elements=" + dbgElements.length +
+              " maxFrame=" + (Math.round(maxFrame * 10) / 10) + "ms maxLag=" + maxLag + "px" +
+              " minReveal=" + (minDur === Infinity ? "n/a" : Math.round(minDur) + "ms") +
+              " sections=" + sections.length + " buildSpeed=" + buildSpeed);
+          } catch (e) {}
+        }
 
         function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
         function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
@@ -1362,7 +1405,7 @@
            text    p, summary, dt, dd, label, figcaption (+ safe fallback)
            button  a, button, [role="button"] not inside a text leaf
            detail  .num, .arrow, .pv-arrow, .star, marquee words, index-head
-                   cells — grouped by container, 60 ms stagger
+                   cells — revealed in the button band, 60 ms stagger
            The tools section is special-cased (group label, then chips). */
         var BOX_SEL = ".service-row, .faq-item, .process-steps li, .index-empty, .index-row, .pv-card, .facts, form";
         var DETAIL_SEL = ".num, .arrow, .pv-arrow, .star, .marquee-track .word, .index-head span";
@@ -1450,7 +1493,16 @@
           return grouped;
         }
 
-        /* ---------------- step table ---------------- */
+        /* ---------------- plans: bands + element windows ----------------
+           Each section's plan is a flat list of reveal items. Every
+           item owns a [start, end] slice of the section's normalised
+           progress. Generic sections use the band model: band shares
+           start from BAND_BASE and are re-weighted by element counts
+           (weight = base x (0.5 + 0.5 x sqrt(count))), so longer
+           sections give more of the window to boxes and body text;
+           the phase order itself never changes. Items inside a band
+           run in document order, each taking an equal slice (detail
+           items get an extra 60 ms-equivalent stagger offset). */
         function textLines(item) {
           var lh = 0;
           try { lh = parseFloat(window.getComputedStyle(item.el).lineHeight) || 0; } catch (e) {}
@@ -1458,116 +1510,158 @@
           item.lineH = lh;
           return clamp(Math.round(item.rect.h / lh), 1, 6);
         }
-        function stepsFor(sec) {
-          var steps = [{ type: "bg", rect: sec.rect, anchor: { x: sec.rect.l, y: sec.rect.t }, dur: DUR.bg }];
-          if (sec.isTools) {
-            var lab = sec.el.querySelector(".section-label");
-            if (lab) steps.push({ type: "text", el: lab, rect: docRect(lab), anchor: anchorOf("text", docRect(lab)), lines: 1, dur: DUR.textLine });
-            var h2 = sec.el.querySelector("h2");
-            if (h2) { var hr = docRect(h2); steps.push({ type: "heading", el: h2, rect: hr, anchor: anchorOf("heading", hr), dur: DUR.heading }); }
-            var tgroups = Array.prototype.slice.call(sec.el.querySelectorAll(".tools-group"));
-            tgroups.forEach(function (g, gi2) {
-              var gl = g.querySelector(".tools-group-label");
-              var chips = Array.prototype.slice.call(g.querySelectorAll(".tools-chips li")).filter(function (li) { return isShown(li); });
-              if (!chips.length) return;
-              if (gl) { var gr = docRect(gl); steps.push({ type: "text", el: gl, rect: gr, anchor: anchorOf("text", gr), lines: 1, dur: DUR.textLine, toolLabel: true }); }
-              /* the ~180 ms between groups rides at the end of each chips step */
-              var gapAfter = gi2 < tgroups.length - 1 ? 180 : 0;
-              steps.push({ type: "chips", els: chips, rects: chips.map(function (li) { return docRect(li); }), rect: docRect(g), anchor: anchorOf("box", docRect(g)), dur: DUR.chip + STAGGER * (chips.length - 1) + gapAfter });
-            });
-          } else if (sec.isHero) {
-            /* Hero: the standard step sequence over hand-picked targets,
-               in the same phase order as every other section (image,
-               heading, text, button). The heading step reuses the hero's
-               own masked-type letter reveal (#heroName .hero-letter CSS
-               animation) instead of a clip-path wipe — see holdLetters /
-               releaseLetters. The portrait is the image step; role,
-               tagline, sub, availability and the handle/scroll lines are
-               text steps; the CTA is the button step. */
-            var hq = function (sel) { return sec.el.querySelector(sel); };
-            var portrait = hq(".hero-portrait");
-            if (portrait && isShown(portrait)) {
-              var pr = docRect(portrait);
-              steps.push({ type: "image", el: portrait, item: { el: portrait, kind: "image", rect: pr, phase: PHASE.image, subs: [] }, rect: pr, anchor: anchorOf("image", pr), dur: DUR.image });
+        function mkItem(el, kind, phase, rect, order) {
+          return { el: el, kind: kind, phase: phase, rect: rect, start: 0, end: 0, v: 0, _o: order, lines: 0, lineH: 26, letters: null, _dbgS: 0, _dbgE: 0 };
+        }
+        function flattenClassified(sec) {
+          var tops = classify(sec), out = [], order = 0;
+          tops.forEach(function (it) {
+            if (it.kind === "details") {
+              it.group.forEach(function (g) { out.push(mkItem(g.el, "detail", "button", g.rect, order++)); });
+              return;
             }
-            var nameEl = hq("#heroName");
-            if (nameEl) {
-              var nr = docRect(nameEl);
-              steps.push({ type: "heading", el: nameEl, letters: Array.prototype.slice.call(nameEl.querySelectorAll(".hero-letter")), rect: nr, anchor: anchorOf("heading", nr), dur: 1300 });
-            }
-            ["#heroRole", "#heroTagline", "#heroSub", "#heroAvailability", ".handle-line", ".scroll-hint"].forEach(function (sel) {
-              var te = hq(sel);
-              if (!te || !isShown(te)) return;
-              var tr = docRect(te);
-              var tit = { el: te, kind: "text", rect: tr, phase: PHASE.text, subs: [] };
-              var ln = textLines(tit);
-              steps.push({ type: "text", el: te, item: tit, rect: tr, anchor: anchorOf("text", tr), lines: ln, dur: clamp(ln * DUR.textLine, MIN_ACTION, 960) });
+            var phase = it.kind === "detail" ? "button" : it.kind;
+            out.push(mkItem(it.el, it.kind, phase, it.rect, order++));
+            (it.subs || []).forEach(function (s) {
+              out.push(mkItem(s.el, s.kind, s.kind === "detail" ? "button" : s.kind, s.rect, order++));
             });
-            var cta = hq("a.cta-btn");
-            if (cta && isShown(cta)) {
-              var cr = docRect(cta);
-              steps.push({ type: "button", el: cta, item: { el: cta, kind: "button", rect: cr, phase: PHASE.button, subs: [] }, rect: cr, anchor: anchorOf("button", cr), dur: DUR.button });
-            }
-          } else {
-            var items = classify(sec);
-            sec._items = items;
-            items.sort(function (a, b) { return a.phase - b.phase; });
-            items.forEach(function (it) {
-              var st = { type: it.kind === "details" ? "details" : it.kind, el: it.el, rect: it.rect, anchor: anchorOf(it.kind, it.rect), item: it };
-              if (it.kind === "box") st.dur = DUR.box;
-              else if (it.kind === "image") st.dur = DUR.image;
-              else if (it.kind === "heading") st.dur = DUR.heading;
-              else if (it.kind === "text") { st.lines = textLines(it); st.dur = clamp(st.lines * DUR.textLine, MIN_ACTION, 960); }
-              else if (it.kind === "button") st.dur = DUR.button;
-              else if (it.kind === "details") st.dur = DUR.detail + STAGGER * (Math.min(it.group.length, 16) - 1);
-              steps.push(st);
-            });
-          }
-          steps.push({ type: "tag", dur: DUR.tag, anchor: steps.length > 1 ? steps[steps.length - 1].anchor : { x: sec.rect.l + sec.rect.w / 2, y: sec.rect.t + sec.rect.h / 2 } });
-          /* Budget scaling: aim for the section budget (first section
-             7000 ms, others 5500 ms at speed 1). The end tag stays 700 ms;
-             travel+action scale down (factor floor 0.3, per-step floors
-             180 ms); only if a step-dense section is still over budget
-             does the arrival dwell compress, from 180 toward 120 ms.
-             Dense sections (10 FAQ rows, 10 tool groups) cannot reach
-             5.5 s without breaking the 180 ms minimums — they land at
-             their floor-bound total instead of ever snapping. */
-          var budget = sec.index === 0 ? BUDGET_FIRST : BUDGET_SECTION;
-          var scalable = 0, prev = { x: sec.rect.l, y: sec.rect.t };
-          steps.forEach(function (st) {
-            var d = Math.sqrt(Math.pow(st.anchor.x - prev.x, 2) + Math.pow(st.anchor.y - prev.y, 2));
-            st.travelEst = clamp(d * 0.55, MIN_ACTION, MAX_TRAVEL);
-            if (st.type !== "tag") scalable += st.travelEst + st.dur;
-            prev = st.anchor;
           });
-          var dwellPer = DWELL;
-          var factor = 1;
-          if (steps.length * dwellPer + DUR.tag + scalable > budget) {
-            factor = clamp((budget - steps.length * dwellPer - DUR.tag) / Math.max(1, scalable), 0.3, 1);
-            var over = steps.length * dwellPer + DUR.tag + scalable * factor - budget;
-            if (over > 0) dwellPer = Math.max(120, DWELL - Math.ceil(over / steps.length));
+          return out;
+        }
+        function heroItems(sec) {
+          var out = [], order = 0;
+          var hq = function (sel) { return sec.el.querySelector(sel); };
+          var portrait = hq(".hero-portrait");
+          if (portrait && isShown(portrait)) out.push(mkItem(portrait, "image", "image", docRect(portrait), order++));
+          var nameEl = hq("#heroName");
+          if (nameEl) {
+            var ni = mkItem(nameEl, "heading", "heading", docRect(nameEl), order++);
+            ni.letters = Array.prototype.slice.call(nameEl.querySelectorAll(".hero-letter"));
+            out.push(ni);
           }
-          steps.forEach(function (st) {
-            st.travelDur = Math.max(MIN_ACTION, Math.round(st.travelEst * factor));
-            st.actionDur = st.type === "tag" ? DUR.tag : Math.max(MIN_ACTION, Math.round(st.dur * factor));
+          ["#heroRole", "#heroTagline", "#heroSub", "#heroAvailability", ".handle-line", ".scroll-hint"].forEach(function (sel) {
+            var te = hq(sel);
+            if (!te || !isShown(te)) return;
+            out.push(mkItem(te, "text", "text", docRect(te), order++));
           });
-          steps.dwell = dwellPer;
-          return steps;
+          var cta = hq("a.cta-btn");
+          if (cta && isShown(cta)) out.push(mkItem(cta, "button", "button", docRect(cta), order++));
+          return out;
+        }
+        function toolsItems(sec) {
+          /* Tools special case (kept from the previous build): the
+             section label and heading lead, then each group builds as
+             label first, chips in turn. The window after the
+             background band is allocated to that sequence in order,
+             weighted: label 1, heading 2, group label 1, chip 1. */
+          var out = [], order = 0;
+          var lab = sec.el.querySelector(".section-label");
+          if (lab) out.push(mkItem(lab, "label", "text", docRect(lab), order++));
+          var h2 = sec.el.querySelector("h2");
+          if (h2) out.push(mkItem(h2, "heading", "heading", docRect(h2), order++));
+          Array.prototype.slice.call(sec.el.querySelectorAll(".tools-group")).forEach(function (g) {
+            var gl = g.querySelector(".tools-group-label");
+            if (gl) out.push(mkItem(gl, "label", "text", docRect(gl), order++));
+            Array.prototype.slice.call(g.querySelectorAll(".tools-chips li")).forEach(function (li) {
+              if (isShown(li)) out.push(mkItem(li, "chip", "box", docRect(li), order++));
+            });
+          });
+          return out;
+        }
+        function allocateBands(sec, items) {
+          var counts = { box: 0, image: 0, heading: 0, text: 0, button: 0 };
+          items.forEach(function (it) { counts[it.phase] = (counts[it.phase] || 0) + 1; });
+          var w = { bg: BAND_BASE.bg }, total = BAND_BASE.bg;
+          PHASE_ORDER.slice(1).forEach(function (ph) {
+            w[ph] = counts[ph] ? BAND_BASE[ph] * (0.5 + 0.5 * Math.sqrt(counts[ph])) : 0;
+            total += w[ph];
+          });
+          var bands = [], acc = 0;
+          PHASE_ORDER.forEach(function (ph) {
+            if (!w[ph]) return;
+            bands.push({ phase: ph, start: acc / total, end: (acc + w[ph]) / total });
+            acc += w[ph];
+          });
+          bands.forEach(function (b) {
+            var inBand = items.filter(function (it) { return it.phase === b.phase; });
+            inBand.sort(function (a, c) { return a._o - c._o; });
+            var span = b.end - b.start, n = inBand.length, detK = 0;
+            inBand.forEach(function (it, k) {
+              it.start = b.start + span * (k / n);
+              if (it.kind === "detail") it.start = Math.min(0.99, it.start + detK++ * STAGGER_PROG * buildSpeed);
+              it.end = b.start + span * ((k + 1) / n);
+              if (it.end <= it.start) it.end = Math.min(1, it.start + 0.001);
+            });
+          });
+          return bands;
+        }
+        function allocateSequence(sec, items) {
+          /* tools: background takes its base share of the window; the
+             rest is divided among the label/heading/labels/chips
+             sequence in document order. */
+          var weights = items.map(function (it) { return it.kind === "heading" ? 2 : 1; });
+          var seqW = weights.reduce(function (n, x) { return n + x; }, 0);
+          var total = BAND_BASE.bg + seqW, acc = BAND_BASE.bg;
+          var bands = [{ phase: "bg", start: 0, end: BAND_BASE.bg / total }, { phase: "sequence", start: BAND_BASE.bg / total, end: 1 }];
+          items.forEach(function (it, i) {
+            it.start = acc / total;
+            acc += weights[i];
+            it.end = acc / total;
+          });
+          return bands;
+        }
+        function planFor(sec) {
+          if (sec.items) return sec.items;
+          var items;
+          if (sec.isTools) items = toolsItems(sec);
+          else if (sec.isHero) items = heroItems(sec);
+          else items = flattenClassified(sec);
+          items.forEach(function (it) { if (it.kind === "text") it.lines = textLines(it); if (it.kind === "label") it.lines = 1; });
+          var bg = mkItem(sec.el, "bg", "bg", sec.rect, -1);
+          sec.bands = sec.isTools ? allocateSequence(sec, items) : allocateBands(sec, items);
+          bg.start = 0;
+          bg.end = sec.bands.length ? sec.bands[0].end : 1;
+          items.unshift(bg);
+          items.sort(function (a, b) { return (a.start - b.start) || (a._o - b._o); });
+          sec.items = items;
+          return items;
+        }
+
+        /* ---------------- geometry cache ----------------
+           Section offsets and element rects are cached here and in
+           planFor; the animation loop never reads layout. The cache
+           is recomputed only on resize, font load and image load
+           (ResizeObserver on the sections + fonts.ready + load). */
+        function collect() {
+          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el, i) {
+            return { el: el, index: i, state: "idle", started: false, target: 0, displayed: 0, rect: { l: 0, t: 0, w: 0, h: 0 }, top: 0, start: 0, end: 0, len: 1, touched: [], items: null, bands: null, isTools: !!el.querySelector(".tools-groups"), isHero: el.classList.contains("hero") };
+          });
+        }
+        function measureGeometry() {
+          vh = window.innerHeight || 0;
+          var doc = document.documentElement;
+          var docH = Math.max(doc ? doc.scrollHeight : 0, document.body ? document.body.scrollHeight : 0);
+          maxScroll = Math.max(0, docH - vh);
+          sections.forEach(function (sec) {
+            sec.rect = docRect(sec.el);
+            sec.top = sec.rect.t;
+            sec.start = sec.top - vh;
+            sec.end = Math.min(sec.top - 0.4 * vh, maxScroll);
+            if (sec.end < sec.start + 40) sec.end = sec.start + 40;
+            sec.len = sec.end - sec.start;
+            if (sec.items) sec.items.forEach(function (it) { if (it.kind !== "bg") it.rect = docRect(it.el); else it.rect = sec.rect; });
+          });
+        }
+        var recacheT = 0;
+        function scheduleRecache() {
+          window.clearTimeout(recacheT);
+          recacheT = window.setTimeout(measureGeometry, 120);
         }
 
         /* ---------------- inline style save / restore ---------------- */
         function touch(sec, el) {
           for (var i = 0; i < sec.touched.length; i++) if (sec.touched[i].el === el) return;
           sec.touched.push({ el: el, opacity: el.style.opacity, clipPath: el.style.clipPath, transform: el.style.transform });
-        }
-        function hideItem(sec, it) {
-          touch(sec, it.el);
-          if (it.kind === "image" && sec.isHero) it.el.style.clipPath = "inset(0 0 100% 0)"; /* hero portrait: its fill-forwards CSS entrance animation would override inline opacity; clip-path is not animated by it */
-          else if (it.kind === "box" || it.kind === "image" || it.kind === "button") it.el.style.opacity = "0";
-          else if (it.kind === "heading") it.el.style.clipPath = "inset(0 100% 0 0)";
-          else if (it.kind === "text") it.el.style.clipPath = "inset(0 0 100% 0)";
-          else if (it.kind === "details") it.group.forEach(function (g) { touch(sec, g.el); g.el.style.opacity = "0"; });
-          (it.subs || []).forEach(function (s) { touch(sec, s.el); s.el.style.opacity = "0"; });
         }
         function restoreSection(sec) {
           sec.touched.forEach(function (t) {
@@ -1580,9 +1674,10 @@
         /* Hero heading: hold the masked-type letters at their first
            frame — animation restarted and play-state paused via inline
            style, so the page's own body.is-loaded rule cannot run them
-           before the heading step. The step then releases them and the
-           hero's existing CSS animation plays the reveal. Inline values
-           are recorded in sec.touched and restored with the section. */
+           before the heading's window. When the window starts, the
+           step releases them and the hero's existing CSS animation
+           plays the reveal. Inline values are recorded in sec.touched
+           and restored with the section. */
         function holdLetters(sec, st) {
           st._lettersHeld = true;
           st.letters.forEach(function (l) {
@@ -1597,61 +1692,57 @@
           st._lettersReleased = true;
           st.letters.forEach(function (l) { l.style.animationPlayState = "running"; });
         }
-        function hideForStep(sec, st) {
-          if (st.type === "bg") { touch(sec, sec.el); sec.el.style.clipPath = "inset(0 100% 100% 0)"; return; }
-          if (st.letters) { holdLetters(sec, st); return; }
-          if (st.type === "chips") { st.els.forEach(function (li) { touch(sec, li); li.style.opacity = "0"; }); return; }
-          if (st.type === "text" && st.toolLabel !== true && st.el && sec.isTools) { touch(sec, st.el); st.el.style.clipPath = "inset(0 0 100% 0)"; return; }
-          if (st.item) hideItem(sec, st.item);
-          else if (st.el) { touch(sec, st.el); if (st.type === "heading") st.el.style.clipPath = "inset(0 100% 0 0)"; else if (st.type === "text") st.el.style.clipPath = "inset(0 0 100% 0)"; }
-        }
 
-        /* ---------------- cursors ---------------- */
+        /* ---------------- canvas + cursors ---------------- */
         function ensureCanvas() {
-          if (canvas) return;
+          if (canvas) return true;
           canvas = document.createElement("canvas");
           canvas.id = "swarmCanvas";
           canvas.setAttribute("aria-hidden", "true");
-          canvas.style.display = "none";
           document.body.appendChild(canvas);
           ctx = canvas.getContext("2d");
-          if (!ctx) { disabled = true; document.documentElement.classList.remove("swarm-on"); }
+          if (!ctx) { return false; }
           sizeCanvas();
+          return true;
         }
         function sizeCanvas() {
           if (!canvas) return;
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var dpr = Math.min(2, window.devicePixelRatio || 1);
           W = window.innerWidth; H = window.innerHeight;
-          canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+          canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
           canvas.style.width = W + "px"; canvas.style.height = H + "px";
           if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
         function makeCursors() {
-          var n = clamp(Math.round(cursorCount) || 4, 3, 5);
           cursors = [];
-          for (var i = 0; i < n; i++) {
+          var crew = clamp(cursorCount, 3, 5);
+          for (var i = 0; i < crew; i++) {
             cursors.push({
-              x: (W || window.innerWidth) / 2 + (i - n / 2) * 36, y: (H || window.innerHeight) + 30 + i * 8,
-              color: PALETTE[i % PALETTE.length], label: labels[i % labels.length],
-              seed: i * 1.37, path: null, tx: 0, ty: 0
+              x: W * (0.5 + (i - crew / 2) * 0.05), y: H + 40 + i * 26,
+              color: PALETTE[i % PALETTE.length],
+              label: labels[i % labels.length],
+              path: null, hoverX: 0, hoverY: 0, tag: i
             });
           }
         }
-        function setPath(c, x1, y1, dur) {
-          var dx = x1 - c.x, dy = y1 - c.y, d = Math.sqrt(dx * dx + dy * dy);
-          var bend = clamp(d * 0.25, 0, 120), side = c.seed % 2 < 1 ? 1 : -1;
-          var mx = (c.x + x1) / 2, my = (c.y + y1) / 2, px = -dy / (d || 1), py = dx / (d || 1);
-          c.path = { x0: c.x, y0: c.y, c1x: c.x + dx * 0.35 + px * bend * side * 0.4, c1y: c.y + dy * 0.35 + py * bend * side * 0.4, c2x: mx + px * bend * side, c2y: my + py * bend * side, x1: x1, y1: y1, t0: engT, dur: Math.max(1, dur) };
+        function setPath(c, tx, ty, dur) {
+          var dist = Math.hypot(tx - c.x, ty - c.y);
+          if (dist < 2) { c.x = tx; c.y = ty; c.path = null; return; }
+          dur = dur || clamp(dist * 0.55, 180, 700);
+          var mx = (c.x + tx) / 2 + (ty - c.y) * 0.16;
+          var my = (c.y + ty) / 2 - (tx - c.x) * 0.16;
+          c.path = { x0: c.x, y0: c.y, mx: mx, my: my, x1: tx, y1: ty, t0: engT, dur: dur };
         }
-        function pathPos(c, t) {
-          var p = c.path, u = clamp((t - p.t0) / p.dur, 0, 1), e = easeIO(u), v = 1 - e;
-          return {
-            x: v * v * v * p.x0 + 3 * v * v * e * p.c1x + 3 * v * e * e * p.c2x + e * e * e * p.x1,
-            y: v * v * v * p.y0 + 3 * v * v * e * p.c1y + 3 * v * e * e * p.c2y + e * e * e * p.y1,
-            done: u >= 1
-          };
+        function pathPos(c) {
+          if (!c.path) return;
+          var p = clamp((engT - c.path.t0) / c.path.dur, 0, 1), e = easeIO(p);
+          var q = 1 - e, a = c.path;
+          c.x = q * q * a.x0 + 2 * q * e * a.mx + e * e * a.x1;
+          c.y = q * q * a.y0 + 2 * q * e * a.my + e * e * a.y1;
+          if (p >= 1) c.path = null;
         }
         function roundRectPath(x, y, w, h, r) {
+          r = Math.min(r, w / 2, h / 2);
           ctx.beginPath();
           ctx.moveTo(x + r, y);
           ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
@@ -1661,460 +1752,517 @@
           ctx.closePath();
         }
         function drawCursor(c, showTag) {
-          ctx.save(); ctx.translate(c.x, c.y);
+          var x = c.x, y = c.y;
+          ctx.save();
           ctx.beginPath();
-          ctx.moveTo(0, 0); ctx.lineTo(0, 15); ctx.lineTo(4.6, 11.2); ctx.lineTo(7.2, 17); ctx.lineTo(9.8, 15.8); ctx.lineTo(7.2, 10.4); ctx.lineTo(12.4, 10.4);
+          ctx.moveTo(x, y);
+          ctx.lineTo(x, y + 15);
+          ctx.lineTo(x + 3.9, y + 11.4);
+          ctx.lineTo(x + 6.2, y + 17);
+          ctx.lineTo(x + 8.6, y + 15.9);
+          ctx.lineTo(x + 6.3, y + 10.4);
+          ctx.lineTo(x + 10.8, y + 10.4);
           ctx.closePath();
           ctx.fillStyle = c.color; ctx.fill();
-          ctx.lineWidth = 1.2; ctx.strokeStyle = "#0E0D0E"; ctx.stroke();
-          if (showTag && c.label) {
-            ctx.font = "10px 'JetBrains Mono', monospace";
-            var w = ctx.measureText(c.label).width + 12;
-            roundRectPath(12, 12, w, 16, 8);
+          ctx.lineWidth = 1; ctx.strokeStyle = "rgba(14,13,14,.85)"; ctx.stroke();
+          if (showTag) {
+            var text = c.label, fs = 10;
+            ctx.font = "600 " + fs + "px Inter, sans-serif";
+            var tw = ctx.measureText(text).width, bw = tw + 12, bh = 17;
+            var bx = x + 10, by = y + 13;
+            if (bx + bw > W - 4) bx = x - bw - 2;
+            if (by + bh > H - 4) by = y - bh - 2;
+            roundRectPath(bx, by, bw, bh, 8);
             ctx.fillStyle = c.color; ctx.fill();
-            ctx.fillStyle = (c.color === "#F2281E" || c.color === "#B81E16" || c.color === "#5E5A56") ? "#F2EFEA" : "#0E0D0E";
-            ctx.fillText(c.label, 18, 24);
+            ctx.fillStyle = "#0E0D0E";
+            ctx.fillText(text, bx + 6, by + 12.5);
           }
           ctx.restore();
         }
-        function traceRect(r, sy, p, color) {
-          var x = r.l, y = r.t - sy, w = r.w, h = r.h, per = 2 * (w + h), d = p * per;
+        function traceRect(r, sy, d, color, dashed) {
+          var x = r.l - 2, y = r.t - sy - 2, w = r.w + 4, h = r.h + 4, per = 2 * (w + h);
+          if (per <= 0 || d <= 0) return { x: x, y: y };
           ctx.save();
           ctx.strokeStyle = color; ctx.lineWidth = 1;
-          ctx.beginPath();
-          var cx = x, cy = y; ctx.moveTo(cx, cy);
-          var seg = [[x + w, y], [x + w, y + h], [x, y + h], [x, y]];
-          var lens = [w, h, w, h];
-          for (var i = 0; i < 4 && d > 0; i++) {
-            var take = Math.min(d, lens[i]);
-            var f = lens[i] ? take / lens[i] : 0;
-            cx = cx + (seg[i][0] - cx) * f; cy = cy + (seg[i][1] - cy) * f;
-            ctx.lineTo(cx, cy);
-            d -= take;
-          }
-          ctx.stroke();
+          if (dashed) ctx.setLineDash([4, 3]); else ctx.setLineDash([per * d, per]);
+          ctx.beginPath(); ctx.rect(x, y, w, h); ctx.stroke();
+          ctx.setLineDash([]);
           ctx.restore();
-          return { x: cx, y: cy };
+          /* trace head position (walks the rectangle perimeter) */
+          var dd = per * clamp(d, 0, 1), px = x, py = y;
+          if (dd < w) { px = x + dd; py = y; }
+          else if (dd < w + h) { px = x + w; py = y + (dd - w); }
+          else if (dd < 2 * w + h) { px = x + w - (dd - w - h); py = y + h; }
+          else { px = x; py = y + h - (dd - 2 * w - h); }
+          return { x: px, y: py };
         }
         function drawGuides(r, sy, alpha) {
-          var top = r.t - sy;
           ctx.save();
-          ctx.globalAlpha = alpha;
-          ctx.strokeStyle = "rgba(242,239,234,0.5)"; ctx.lineWidth = 1;
-          ctx.setLineDash([5, 5]);
-          ctx.strokeRect(r.l + 0.5, top + 0.5, Math.max(0, r.w - 1), Math.max(0, r.h - 1));
-          ctx.setLineDash([]);
-          ctx.strokeStyle = "rgba(242,34,30,0.9)";
-          [[r.l, top], [r.l + r.w, top], [r.l, top + r.h], [r.l + r.w, top + r.h]].forEach(function (pt) {
-            ctx.beginPath();
-            ctx.moveTo(pt[0] - 7, pt[1]); ctx.lineTo(pt[0] + 7, pt[1]);
-            ctx.moveTo(pt[0], pt[1] - 7); ctx.lineTo(pt[0], pt[1] + 7);
-            ctx.stroke();
-          });
+          ctx.strokeStyle = "rgba(242,239,234," + alpha + ")";
+          ctx.lineWidth = 1;
+          var y = r.t - sy;
+          ctx.beginPath();
+          ctx.moveTo(0.5, Math.round(y) + 0.5); ctx.lineTo(W, Math.round(y) + 0.5);
+          ctx.moveTo(0.5, Math.round(y + r.h) + 0.5); ctx.lineTo(W, Math.round(y + r.h) + 0.5);
+          ctx.stroke();
           ctx.restore();
         }
 
-        /* ---------------- build runner ---------------- */
-        function collect() {
-          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el, i) {
-            return { el: el, index: i, state: "idle", rect: docRect(el), touched: [], _items: null, isTools: !!el.querySelector(".tools-groups"), isHero: el.classList.contains("hero") };
-          });
-        }
-        function measureSections() { sections.forEach(function (s) { s.rect = docRect(s.el); }); }
-        function trigger(sec) {
-          if (sec.state !== "idle") return;
-          sec.state = "queued";
-          var at = queue.length;
-          while (at > 0 && queue[at - 1].index > sec.index) at--;
-          queue.splice(at, 0, sec);
-        }
-        function triggerCheck() {
-          var sy = window.scrollY || 0, vh = window.innerHeight;
-          sections.forEach(function (s) {
-            if (s.state !== "idle") return;
-            if (s.rect.t + s.rect.h <= sy + 10) trigger(s);                       /* already scrolled past */
-            else if (s.rect.t < sy + vh * 0.75 && s.rect.t + s.rect.h > sy) trigger(s); /* meaningfully in view */
-          });
-        }
-        function onIO(entries) {
-          entries.forEach(function (en) {
-            if (!en.isIntersecting) return;
-            for (var i = 0; i < sections.length; i++) {
-              if (sections[i].el === en.target && (en.intersectionRatio >= 0.2 || en.boundingClientRect.top <= window.innerHeight * 0.6)) {
-                trigger(sections[i]);
-                if (io) io.unobserve(en.target);
-              }
-            }
-          });
-        }
-        function pickNext() {
-          if (active || !queue.length) return;
-          /* Strict document order: trigger() keeps the queue sorted by
-             section index, so a fresh load builds the hero first, then
-             the sections above and at the viewport (queued by the init
-             triggerCheck), then the rest as scrolling queues them. */
-          startBuild(queue.shift());
-        }
-        function startBuild(sec) {
-          sec.state = "building";
-          sec.rect = docRect(sec.el);
-          sec.touched = [];
-          var steps = stepsFor(sec);
-          sec._steps = steps;
-          sec.el.classList.add("swarm-building", "swarm-anim");
-          /* hide everything this build will animate, in this same task,
-             before the section becomes visible — no flash, no pop */
-          steps.forEach(function (st) { hideForStep(sec, st); });
-          active = { sec: sec, steps: steps, i: -1, phase: "travel", phaseEnd: 0, performer: null, stepStart: 0, dwell: steps.dwell || DWELL };
-          nextStep();
-        }
-        function nearestCursor(x, y, exclude) {
-          var best = null, bd = Infinity;
-          cursors.forEach(function (c) {
-            if (exclude && exclude.indexOf(c) >= 0) return;
-            var d = Math.pow(c.x - x, 2) + Math.pow(c.y - y, 2);
-            if (d < bd) { bd = d; best = c; }
-          });
-          return best;
-        }
-        function nextStep() {
-          var b = active; if (!b) return;
-          b.i++;
-          if (b.i >= b.steps.length) { finishBuild(b.sec); return; }
-          var st = b.steps[b.i], sy = window.scrollY || 0;
-          var ax = st.anchor.x, ay = st.anchor.y - sy;
-          var perf = nearestCursor(ax, ay, []);
-          b.performer = perf;
-          var d = Math.sqrt(Math.pow(ax - perf.x, 2) + Math.pow(ay - perf.y, 2));
-          var travelDurAct = 0;
-          if (d > 28) { travelDurAct = clamp(d * 0.55, MIN_ACTION, MAX_TRAVEL); setPath(perf, ax, ay, travelDurAct); }
-          else perf.path = null;
-          /* helpers pre-travel to the next steps' anchors during this step */
-          var used = [perf];
-          for (var j = 1; j <= 3 && b.i + j < b.steps.length; j++) {
-            var nx = b.steps[b.i + j], h = nearestCursor(nx.anchor.x, nx.anchor.y - sy, used);
-            if (!h) break;
-            used.push(h);
-            var hd = Math.sqrt(Math.pow(nx.anchor.x - h.x, 2) + Math.pow(nx.anchor.y - sy - h.y, 2));
-            if (hd > 42) setPath(h, nx.anchor.x + 16, nx.anchor.y - sy - 12, clamp(hd * 0.55, MIN_ACTION, MAX_TRAVEL));
-          }
-          b.phase = travelDurAct > 0 ? "travel" : "dwell";
-          b.stepStart = engT;
-          b.phaseDur = b.phase === "travel" ? travelDurAct : b.dwell;
-          b.detailIdx = -1;
-        }
-        function finishBuild(sec) {
-          restoreSection(sec);
-          sec.el.classList.remove("swarm-building", "swarm-anim");
-          sec.el.classList.add("revealed");
-          sec.state = "built";
-          active = null;
-          measureSections();
-          if (sections.every(function (s) { return s.state === "built"; })) beginExit();
-          else pickNext();
-        }
-        function applyStepFrame(b, st, p, sy) {
-          var perf = b.performer, r = st.rect;
-          if (st.type === "bg") {
-            var rx = easeIO(clamp(p / 0.62, 0, 1)), by = easeIO(clamp((p - 0.38) / 0.62, 0, 1));
-            b.sec.el.style.clipPath = "inset(0 " + ((1 - rx) * 100) + "% " + ((1 - by) * 100) + "% 0)";
-            if (ctx) {
+        /* ---------------- per-element renderers ----------------
+           Each renderer maps the item's reveal value v (0..1) onto
+           transform / opacity / clip-path only. When the item belongs
+           to the attended (front) section, guide/trace extras are
+           drawn on the canvas and the lead cursor is driven to the
+           drawing point, so the visitor sees a cursor do the work. */
+        function applyItem(sec, item, v, isFront) {
+          var el = item.el, r = item.rect, sy = scrollPos, lead = cursors[0];
+          if (item.kind === "bg") {
+            touch(sec, el);
+            var rx = easeIO(clamp(v / 0.62, 0, 1)), by = easeIO(clamp((v - 0.38) / 0.62, 0, 1));
+            el.style.clipPath = "inset(0 " + ((1 - rx) * 100).toFixed(2) + "% " + ((1 - by) * 100).toFixed(2) + "% 0)";
+            if (isFront && ctx && v > 0 && v < 1) {
               ctx.save();
               ctx.fillStyle = "rgba(242,239,234,0.05)";
-              ctx.fillRect(r.l, r.t - sy, r.w * rx, r.h * by);
+              ctx.fillRect(r.l, r.t - sy, r.w * rx, r.h);
+              ctx.fillRect(r.l, r.t - sy, r.w, r.h * by);
               ctx.restore();
+              if (lead) { lead.x = r.l + r.w * rx; lead.y = r.t - sy + r.h * by; lead.path = null; }
             }
-            if (perf) { perf.x = r.l + r.w * rx; perf.y = r.t - sy + r.h * by; }
-          } else if (st.type === "box") {
-            var tp = clamp(p / 0.55, 0, 1);
-            if (ctx) { var pt = traceRect(r, sy, easeIO(tp), "rgba(242,239,234,0.85)"); if (perf && p < 0.55) { perf.x = pt.x; perf.y = pt.y; } }
-            var fp = clamp((p - 0.55) / 0.45, 0, 1);
-            st.item.el.style.opacity = String(fp);
-            st.item.subs.forEach(function (s, k) {
-              var sp = clamp(fp * st.item.subs.length - k, 0, 1);
-              s.el.style.opacity = String(sp);
-              s.el.style.transform = "translateY(" + ((1 - sp) * 8) + "px)";
-            });
-          } else if (st.type === "image") {
-            if (p < 0.35 && ctx) { ctx.save(); ctx.strokeStyle = "rgba(242,239,234,0.7)"; ctx.lineWidth = 1; ctx.setLineDash([6, 4]); ctx.strokeRect(r.l + 0.5, r.t - sy + 0.5, r.w - 1, r.h - 1); ctx.restore(); }
-            var ip = clamp((p - 0.35) / 0.65, 0, 1);
-            if (b.sec.isHero) st.item.el.style.clipPath = "inset(0 0 " + ((1 - ip) * 100) + "% 0)"; /* hero portrait reveals by clip (see hideItem) */
-            else st.item.el.style.opacity = String(ip);
-            var img = st.item.el.tagName === "FIGURE" ? st.item.el.querySelector("img") : st.item.el;
-            if (img) { touch(b.sec, img); img.style.transform = "scale(" + (1.04 - 0.04 * ip) + ")"; }
-          } else if (st.type === "heading") {
-            if (st.letters) releaseLetters(st); /* hero: the masked-type CSS reveal plays instead of a clip wipe */
-            var hp = easeIO(p);
-            if (!st.letters) st.el.style.clipPath = "inset(0 " + ((1 - hp) * 100) + "% 0 0)";
-            if (perf) { perf.x = r.l + r.w * hp; perf.y = r.t - sy + r.h / 2; }
-          } else if (st.type === "text") {
-            var lines = st.lines || 1, q = Math.ceil(easeIO(p) * lines) / lines;
-            st.el.style.clipPath = "inset(0 0 " + ((1 - q) * 100) + "% 0)";
-            if (perf) { perf.x = r.l + 4; perf.y = r.t - sy + Math.max(8, q * r.h - (st.item ? st.item.lineH || 13 : 13)); }
-          } else if (st.type === "button") {
-            if (p < 0.45 && ctx) traceRect(r, sy, easeIO(clamp(p / 0.45, 0, 1)), "rgba(242,239,234,0.85)");
-            if (p >= 0.45) st.item.el.style.opacity = String(clamp((p - 0.45) / 0.35, 0, 1));
-            if (p >= 0.8 && ctx && perf) {
-              var rp = (p - 0.8) / 0.2;
+            return;
+          }
+          touch(sec, el);
+          if (item.kind === "box" || item.kind === "chip") {
+            if (isFront && ctx && v > 0 && v < 0.55) {
+              var hp = traceRect(r, sy, v / 0.55, item.kind === "chip" ? "#8C8782" : "#F2281E", false);
+              if (lead) { lead.x = hp.x; lead.y = hp.y; lead.path = null; }
+            }
+            el.style.opacity = String(clamp((v - 0.55) / 0.45, 0, 1));
+          } else if (item.kind === "image") {
+            var fade = clamp((v - 0.35) / 0.65, 0, 1);
+            if (isFront && ctx && v > 0 && v < 0.35) traceRect(r, sy, v / 0.35, "#8C8782", true);
+            if (sec.isHero) {
+              el.style.clipPath = "inset(0 0 " + ((1 - fade) * 100).toFixed(2) + "% 0)";
+            } else {
+              el.style.opacity = String(fade);
+              var img = el.tagName === "FIGURE" ? el.querySelector("img") : (el.tagName === "IMG" ? el : el.querySelector("img"));
+              if (img) { touch(sec, img); img.style.transform = "scale(" + (1.04 - 0.04 * fade).toFixed(3) + ")"; }
+            }
+          } else if (item.kind === "heading") {
+            if (item.letters && item.letters.length) {
+              if (v > 0) releaseLetters(item);
+            } else {
+              var eo = easeIO(v);
+              el.style.clipPath = "inset(0 " + ((1 - eo) * 100).toFixed(2) + "% 0 0)";
+              if (isFront && lead && v > 0 && v < 1) { lead.x = r.l + r.w * eo; lead.y = r.t - sy + r.h / 2; lead.path = null; }
+            }
+          } else if (item.kind === "text" || item.kind === "label") {
+            var lines = item.lines || 1;
+            var q = v <= 0 ? 0 : v >= 1 ? 1 : Math.ceil(easeIO(v) * lines) / lines;
+            el.style.clipPath = "inset(0 0 " + ((1 - q) * 100).toFixed(2) + "% 0)";
+            if (isFront && lead && v > 0 && v < 1) {
+              lead.x = r.l + 4;
+              lead.y = r.t - sy + Math.max(8, q * r.h - (item.lineH || 13));
+              lead.path = null;
+            }
+          } else if (item.kind === "button") {
+            if (isFront && ctx && v > 0 && v < 0.45) {
+              var bp = traceRect(r, sy, v / 0.45, "#F2281E", false);
+              if (lead) { lead.x = bp.x; lead.y = bp.y; lead.path = null; }
+            }
+            el.style.opacity = String(clamp((v - 0.45) / 0.35, 0, 1));
+            if (isFront && ctx && v >= 0.8 && lead) {
+              var rp = (v - 0.8) / 0.2, aa = anchorOf("button", r);
               ctx.save();
-              ctx.globalAlpha = (1 - rp) * 0.8;
-              ctx.strokeStyle = "#F2281E"; ctx.lineWidth = 1.5;
-              ctx.beginPath(); ctx.arc(perf.x, perf.y, 6 + rp * 24, 0, 6.2832); ctx.stroke();
+              ctx.strokeStyle = "rgba(242,32,30," + (0.5 * (1 - rp)).toFixed(3) + ")";
+              ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              ctx.arc(aa.x, aa.y - sy, 4 + rp * 16, 0, Math.PI * 2);
+              ctx.stroke();
               ctx.restore();
             }
-          } else if (st.type === "details" || st.type === "chips") {
-            var els = st.type === "details" ? st.item.group.slice(0, 16) : st.els;
-            var per = st.type === "details" ? DUR.detail : DUR.chip;
-            var t = p * st.actionDur;
-            els.forEach(function (g, k) {
-              var el2 = st.type === "details" ? g.el : g;
-              var local = clamp((t - k * STAGGER) / per, 0, 1);
-              if (st.type === "chips") {
-                if (local > 0 && local < 0.5 && ctx) {
-                  var pt2 = traceRect(st.rects[k], sy, easeIO(local / 0.5), "rgba(242,239,234,0.7)");
-                  if (perf && k === Math.min(els.length - 1, Math.floor(t / STAGGER))) { perf.x = pt2.x; perf.y = pt2.y; }
-                }
-                el2.style.opacity = String(clamp((local - 0.4) / 0.6, 0, 1));
-              } else {
-                el2.style.opacity = String(local);
-                el2.style.transform = "translateY(" + ((1 - local) * 6) + "px)";
-              }
-            });
+          } else if (item.kind === "detail") {
+            el.style.opacity = String(v);
+            el.style.transform = "translateY(" + ((1 - v) * 6).toFixed(2) + "px)";
+          } else {
+            el.style.opacity = String(v);
           }
-          /* tag: no DOM writes */
         }
-        /* Phase machine on the shared engine clock (engT). engT advances
-           in loop() by dt x rate, where rate = buildSpeed x catch-up for
-           the active build and 1 otherwise — so step phases, cursor paths
-           and durations all share one time base at any refresh rate. */
-        function runBuild() {
-          var b = active; if (!b) return;
-          var sy = window.scrollY || 0, guard = 0;
-          while (active && guard++ < 8) {
-            var st = b.steps[b.i];
-            if (engT - b.stepStart < b.phaseDur) break;
-            if (b.phase === "travel") { b.phase = "dwell"; b.stepStart += b.phaseDur; b.phaseDur = b.dwell; }
-            else if (b.phase === "dwell") { b.phase = "action"; b.stepStart += b.phaseDur; b.phaseDur = st.actionDur; }
-            else { nextStep(); if (!active) return; b = active; }
-          }
-          if (!active) return;
-          var cur = b.steps[b.i];
-          if (ctx && (b.phase === "dwell" || b.phase === "action")) {
-            var alpha = b.phase === "dwell" ? 0.35 + 0.55 * ((engT - b.stepStart) / Math.max(1, b.dwell)) : Math.max(0, 0.9 - ((engT - b.stepStart) / Math.max(1, cur.actionDur)) * 1.8);
-            if (cur.rect && cur.type !== "tag") drawGuides(cur.rect, sy, alpha);
-          }
-          if (b.phase === "action" && cur.type !== "tag") {
-            applyStepFrame(b, cur, clamp((engT - b.stepStart) / Math.max(1, cur.actionDur), 0, 1), sy);
-          }
+        function hideAll(sec) {
+          sec.items.forEach(function (it) {
+            if (it.letters && it.letters.length) holdLetters(sec, it);
+            applyItem(sec, it, 0, false);
+          });
+        }
+        function startSection(sec) {
+          sec.started = true;
+          sec.state = "building";
+          sec.el.classList.add("swarm-building");
+          sec.el.classList.add("swarm-anim");
+          /* first touch of this section: every item pinned at v=0 in
+             the same task that flips the section visible, so nothing
+             can flash between the class change and the first frame. */
+          hideAll(sec);
+        }
+        function finishSection(sec) {
+          restoreSection(sec);
+          sec.el.classList.remove("swarm-building");
+          sec.el.classList.remove("swarm-anim");
+          sec.el.classList.add("revealed");
+          sec.state = "built";
+          builtOrder.push(sec.index);
         }
 
-        /* ---------------- idle, exit, end ---------------- */
-        function idleFrame(dt) {
-          var cxp = mouse.x >= 0 ? mouse.x : W / 2, cyp = mouse.y >= 0 ? mouse.y : H / 2;
-          var scattering = engT < scatterUntil;
-          orbitA += dt * 0.00045;
-          cursors.forEach(function (c, i) {
-            if (c.path) return;
-            var tx2, ty2;
-            if (scattering && scatterPts[i]) { tx2 = scatterPts[i].x; ty2 = scatterPts[i].y; }
-            else {
-              var ang = orbitA + c.seed + (i / Math.max(1, cursors.length)) * 6.283;
-              var rad = 64 + (i % 4) * 16;
-              tx2 = cxp + Math.cos(ang) * rad;
-              ty2 = cyp + Math.sin(ang) * rad * 0.72;
+        /* ---------------- the loop ----------------
+           One rAF loop drives everything. scrollY is read ONLY in the
+           passive scroll listener below and cached in scrollPos; the
+           loop uses cached geometry (no layout reads). Per section:
+             target     from scrollPos and the section's window
+             displayed += (target - displayed) * (1 - exp(-dt x 9))
+           clamped so a section never builds faster than one full
+           build per RATE_MS ms / buildSpeed — with a gentle boost
+           (max MAX_BOOST) when the visitor has scrolled far past the
+           section's window, so the front trails the scroll by at most
+           about one viewport height and then catches up. Displayed
+           progress never decreases (monotonic), and once it equals
+           the target it stays bit-identical: stopping the scroll
+           freezes the build. */
+        function frontSection() {
+          for (var i = 0; i < sections.length; i++) {
+            var s = sections[i];
+            if (s.state === "building") return s;
+          }
+          return null;
+        }
+        function currentItem(sec) {
+          if (!sec || !sec.items) return null;
+          for (var i = 0; i < sec.items.length; i++) if (sec.items[i].v < 1) return sec.items[i];
+          return null;
+        }
+        function loop(now) {
+          if (!running) return;
+          raf = requestAnimationFrame(loop);
+          if (!ctx) return;
+          var rawDt = lastNow ? (now - lastNow) : 16;
+          lastNow = now;
+          var dt = clamp(rawDt, 0, 50);
+          engT += dt;
+          var dtSec = dt / 1000;
+          /* 1. progress */
+          var i, sec, s2;
+          for (i = 0; i < sections.length; i++) {
+            sec = sections[i];
+            if (sec.state === "built") continue;
+            sec.target = clamp((scrollPos - sec.start) / sec.len, 0, 1);
+            if (sec.target > sec.displayed) {
+              var adv = (sec.target - sec.displayed) * (1 - Math.exp(-dtSec * 9));
+              var dist = Math.max(0, scrollPos - sec.end);
+              var boost = clamp(1 + dist / (vh || 1), 1, MAX_BOOST);
+              var cap = (buildSpeed / RATE_MS) * boost * dt;
+              if (adv > cap) adv = cap;
+              if (adv > 0) {
+                sec.displayed += adv;
+                if (sec.target - sec.displayed < 0.0008) sec.displayed = sec.target;
+                if (sec.displayed > 1) sec.displayed = 1;
+                lastAdvanceAt = now;
+                if (!sec.started) { planFor(sec); startSection(sec); }
+              }
             }
-            var k = Math.min(1, dt / 90);
-            c.x += (tx2 - c.x) * k; c.y += (ty2 - c.y) * k;
-          });
+            if (sec.started && sec.state === "building" && sec.displayed >= 1) sec.displayed = 1;
+          }
+          var front = frontSection();
+          var cur = currentItem(front);
+          var allBuilt = sections.length > 0 && sections.every(function (s2) { return s2.state === "built"; });
+          /* mode: building while anything advances or the scroll moved
+             recently; orbit once everything has been still ~250 ms. */
+          var advancing = false;
+          for (i = 0; i < sections.length; i++) {
+            s2 = sections[i];
+            if (s2.state !== "built" && s2.target > s2.displayed + 0.0008) { advancing = true; break; }
+          }
+          var mode = exiting || allBuilt ? "done" :
+            (advancing || (now - lastScrollMoveAt) <= ORBIT_IDLE_MS || (now - lastAdvanceAt) <= ORBIT_IDLE_MS) ? "build" : "orbit";
+          curMode = mode;
+          /* 2. render items (canvas extras first, then cursors) */
+          ctx.clearRect(0, 0, W, H);
+          for (i = 0; i < sections.length; i++) {
+            sec = sections[i];
+            if (sec.state !== "building" || !sec.items) continue;
+            var isF = sec === front;
+            for (var j = 0; j < sec.items.length; j++) {
+              var it = sec.items[j];
+              var rawV = it.end > it.start ? clamp((sec.displayed - it.start) / (it.end - it.start), 0, 1) : (sec.displayed >= it.start ? 1 : 0);
+              if (rawV > it.v) {
+                it.v = Math.min(rawV, it.v + dt / MIN_REVEAL_MS);
+                if (it.v >= rawV) it.v = rawV;
+                if (debugOn) {
+                  if (!it._dbgS) it._dbgS = now;
+                  if (it.v >= 1 && !it._dbgE) {
+                    it._dbgE = now;
+                    dbgElements.push({ section: sec.index, type: it.kind, start: Math.round(it._dbgS), end: Math.round(now), duration: Math.round(now - it._dbgS) });
+                  }
+                }
+                applyItem(sec, it, it.v, isF);
+              }
+            }
+            if (sec.displayed >= 1 && sec.items.every(function (it2) { return it2.v >= 1; })) finishSection(sec);
+          }
+          /* 3. cursors */
+          if (exiting) {
+            for (i = 0; i < cursors.length; i++) pathPos(cursors[i]);
+            if (engT - exitStart > 780) { endEffect(); return; }
+          } else if (mode === "orbit") {
+            orbitFrame(dt, now);
+          } else if (front && cur) {
+            guideFrame(front, cur);
+          }
+          /* exit: everything built -> fly off and end */
+          if (!exiting && allBuilt) beginExit();
+          /* draw */
+          if (front && cur && mode === "build" && cur.kind !== "bg") {
+            drawGuides(cur.rect, scrollPos, 0.35 + 0.35 * (1 - cur.v));
+          }
+          for (i = 0; i < cursors.length; i++) drawCursor(cursors[i], mode === "orbit" || !cursors[i].path || cursors[i] === cursors[0]);
+          dbgFrame(now, front, rawDt);
+        }
+        function guideFrame(front, cur) {
+          var lead = cursors[0];
+          if (!lead) return;
+          /* the renderer already parked the lead on the drawing point
+             for step-drawn kinds; for everything else (or when the
+             lead is far away) ease it along a curved path. */
+          var a = anchorOf(cur.kind, cur.rect);
+          var driven = (cur.v > 0 && cur.v < 1 && (cur.kind === "bg" || cur.kind === "box" || cur.kind === "chip" || cur.kind === "heading" || cur.kind === "text" || cur.kind === "label" || (cur.kind === "button" && cur.v < 0.45)));
+          if (!driven) {
+            var ty = a.y - scrollPos;
+            if (!lead.path && Math.hypot(a.x - lead.x, ty - lead.y) > 24) setPath(lead, a.x, ty);
+            pathPos(lead);
+          }
+          /* helpers hover near the next targets */
+          var nexts = [];
+          if (front.items) {
+            var seen = false;
+            for (var i = 0; i < front.items.length && nexts.length < 3; i++) {
+              var it = front.items[i];
+              if (it === cur) { seen = true; continue; }
+              if (seen && it.v < 1) nexts.push(it);
+            }
+          }
+          if (!nexts.length) {
+            var nx = sections[front.index + 1];
+            if (nx && nx.items) { var f0 = currentItem(nx); if (f0) nexts.push(f0); }
+          }
+          for (var h = 1; h < cursors.length; h++) {
+            var c = cursors[h], t = nexts[h - 1];
+            if (!t) { pathPos(c); continue; }
+            var ta = anchorOf(t.kind, t.rect);
+            var hx = ta.x + 16, hy = ta.y - scrollPos - 12;
+            if (!c.path && Math.hypot(hx - c.x, hy - c.y) > 42) setPath(c, hx, hy, clamp(Math.hypot(hx - c.x, hy - c.y) * 0.7, 220, 800));
+            pathPos(c);
+          }
+        }
+        function orbitFrame(dt, now) {
+          var scattering = now < scatterUntil;
+          orbitA += dt * 0.00045;
+          var k = 1 - Math.exp(-dt / 140);
+          for (var i = 0; i < cursors.length; i++) {
+            var c = cursors[i];
+            c.path = null;
+            var tx, ty;
+            if (scattering && scatterPts[i]) { tx = scatterPts[i].x; ty = scatterPts[i].y; }
+            else if (mouse.x < -50) { tx = W - 90 - i * 34; ty = H - 110 + (i % 2) * 26; }
+            else {
+              var ang = orbitA + (i * (Math.PI * 2)) / Math.max(1, cursors.length);
+              var rad = 64 + (i % 4) * 16;
+              tx = mouse.x + Math.cos(ang) * rad;
+              ty = mouse.y + Math.sin(ang) * rad * 0.72;
+            }
+            c.x += (tx - c.x) * k;
+            c.y += (ty - c.y) * k;
+          }
         }
         function beginExit() {
           if (exiting || finished) return;
           exiting = true; exitStart = engT;
-          cursors.forEach(function (c, i) { setPath(c, c.x + (i - cursors.length / 2) * 44, -90 - (i % 3) * 24, 700); });
+          cursors.forEach(function (c, i) { setPath(c, c.x + (i - 2) * 30, -70, 800); });
+          dbgSummary();
         }
-        function restoreAllSections() { sections.forEach(restoreSection); }
         function endEffect() {
-          if (finished) return;
-          finished = true;
-          restoreAllSections();
-          sections.forEach(function (s) { s.el.classList.remove("swarm-building", "swarm-anim"); s.el.classList.add("revealed"); s.state = "built"; });
+          finished = true; exiting = false;
+          sections.forEach(function (sec) {
+            if (sec.state !== "built") {
+              if (sec.started) restoreSection(sec);
+              sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim");
+              sec.el.classList.add("revealed");
+              sec.state = "built";
+            }
+          });
           document.documentElement.classList.remove("swarm-on");
           stopLoop();
           if (canvas) canvas.style.display = "none";
+          dbgSummary();
         }
-        function loop(now) {
-          if (!running) return;
-          raf = window.requestAnimationFrame(loop);
-          if (!ctx) return;
-          var dt = lastNow ? Math.min(50, Math.max(0, now - lastNow)) : 16;
-          lastNow = now;
-          var rate = active ? buildSpeed * (queue.length > 1 ? 1.5 : 1) : 1;
-          engT += dt * rate;
-          ctx.clearRect(0, 0, W, H);
-          /* advance cursor paths on the shared clock; the step renderer
-             may override the performer's position afterwards */
-          cursors.forEach(function (c) {
-            if (c.path) {
-              var pos = pathPos(c, engT);
-              c.x = pos.x; c.y = pos.y;
-              if (pos.done) c.path = null;
-            }
-          });
-          if (exiting) {
-            if (engT - exitStart > 780) { endEffect(); return; }
-          } else if (active) {
-            runBuild();
-          } else {
-            pickNext();
-            if (!active) idleFrame(dt);
-          }
-          var showAll = exiting || !active;
-          cursors.forEach(function (c) {
-            var midPath = c.path && (engT - c.path.t0) / c.path.dur > 0.2 && (engT - c.path.t0) / c.path.dur < 0.85;
-            var isPerf = active && active.performer === c;
-            drawCursor(c, showAll || isPerf || !midPath);
-          });
-        }
-        function startLoop() { if (!running && !finished && !disabled) { running = true; lastNow = 0; raf = window.requestAnimationFrame(loop); } }
-        function stopLoop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
+        function startLoop() { if (!running) { running = true; lastNow = 0; raf = requestAnimationFrame(loop); } }
+        function stopLoop() { running = false; cancelAnimationFrame(raf); }
 
         /* ---------------- events ---------------- */
         function onScroll() {
-          if (finished || disabled) return;
-          triggerCheck();
-          var doc = document.documentElement;
-          var docH = Math.max(doc.scrollHeight, document.body ? document.body.scrollHeight : 0);
-          if ((window.scrollY || 0) + window.innerHeight >= docH - 8 && !active && !queue.length && sections.every(function (s) { return s.state === "built"; })) beginExit();
+          scrollPos = window.scrollY || 0;
+          lastScrollMoveAt = performance.now();
         }
         function onMouse(e) {
           var now = performance.now();
           if (mouse.lt) {
-            var dt = Math.max(1, now - mouse.lt);
-            var d = Math.abs(e.clientX - mouse.lx) + Math.abs(e.clientY - mouse.ly);
-            mouse.speed = mouse.speed * 0.6 + (d / dt) * 0.4;
-            if (mouse.speed > 2.6 && !active && !finished && !exiting && engT > scatterUntil) {
-              scatterUntil = engT + 300;
+            var d = Math.hypot(e.clientX - mouse.x, e.clientY - mouse.y);
+            var dtm = Math.max(1, now - mouse.lt);
+            mouse.speed = d / dtm;
+            if (now >= scatterUntil && mouse.speed > 2.6 && (lastAdvanceAt < now - ORBIT_IDLE_MS)) {
+              scatterUntil = now + 300;
               scatterPts = cursors.map(function (c) {
-                var dx = c.x - e.clientX, dy = c.y - e.clientY;
-                var dd = Math.max(24, Math.sqrt(dx * dx + dy * dy));
-                var push = 140 + (c.seed % 1) * 120;
-                return { x: c.x + (dx / dd) * push, y: c.y + (dy / dd) * push };
+                return { x: clamp(c.x + (mouse.x - c.x) * 0.4 + (Math.random() * 90 - 45), 8, W - 30), y: clamp(c.y + (mouse.y - c.y) * 0.4 + (Math.random() * 70 - 35), 8, H - 40) };
               });
             }
           }
-          mouse.lx = e.clientX; mouse.ly = e.clientY; mouse.lt = now;
-          mouse.x = e.clientX; mouse.y = e.clientY;
+          mouse.x = e.clientX; mouse.y = e.clientY; mouse.lt = now;
         }
         function onInterrupt(e) {
           if (finished || exiting || !inited) return;
-          var t = e.target;
-          if (t && t.closest && t.closest("#swarmToggle")) return;
+          if (e && e.target && e.target.closest && e.target.closest("#swarmToggle")) return;
           endEffect();
         }
-        var resizeT = 0;
-        function onResize() {
-          sizeCanvas();
-          window.clearTimeout(resizeT);
-          resizeT = window.setTimeout(function () {
-            measureSections();
-            if (active) { active.sec.rect = docRect(active.sec.el); active.steps.forEach(function (st) { if (st.item) st.rect = st.item.rect = docRect(st.item.el); else if (st.el && st.type !== "bg") st.rect = docRect(st.el); }); }
-          }, 160);
-        }
-        function onVis() {
-          if (document.hidden) stopLoop();
-          else if (!finished && !disabled && inited) startLoop();
+        function onVis() { if (document.hidden) lastNow = 0; }
+        function onResize() { sizeCanvas(); scheduleRecache(); }
+        function bindEvents() {
+          if (bound) return;
+          bound = true;
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("mousemove", onMouse, { passive: true });
+          window.addEventListener("pointerdown", onInterrupt, true);
+          window.addEventListener("keydown", onInterrupt, true);
+          window.addEventListener("resize", onResize);
+          document.addEventListener("visibilitychange", onVis);
+          if (typeof ResizeObserver !== "undefined") {
+            try {
+              ro = new ResizeObserver(function () { scheduleRecache(); });
+              sections.forEach(function (sec) { ro.observe(sec.el); });
+            } catch (e) { ro = null; }
+          }
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleRecache);
+          window.addEventListener("load", scheduleRecache);
         }
         function handleToggle() {
-          var off = lsGet(PREF_KEY) === "off";
-          if (!off) {
-            lsSet(PREF_KEY, "off");
-            disabled = true;
-            if (!finished) {
-              finished = true;
-              restoreAllSections();
-              sections.forEach(function (s) { s.el.classList.remove("swarm-building", "swarm-anim"); s.el.classList.add("revealed"); });
-              document.documentElement.classList.remove("swarm-on");
-              stopLoop();
-              if (canvas) canvas.style.display = "none";
-            }
-            syncToggle();
-          } else {
+          var b = btn(); if (!b) return;
+          if (lsGet(PREF_KEY) === "off") {
+            /* turning the effect back on: rebuild from the top */
             lsSet(PREF_KEY, "on");
             syncToggle();
             if (!contentEnabled || coarse() || reducedM()) return;
-            disabled = false; finished = false; exiting = false; active = null; queue = [];
-            collect();
+            disabled = false; finished = false; exiting = false; builtOrder = [];
+            if (!sections.length) collect();
+            measureGeometry();
+            sections.forEach(function (sec) { planFor(sec); });
             document.documentElement.classList.add("swarm-on");
-            ensureCanvas();
-            if (canvas) canvas.style.display = "";
+            if (!ensureCanvas() || !ctx) { endEffectCleanup(); return; }
+            canvas.style.display = "";
             if (!cursors.length) makeCursors();
-            triggerCheck();
+            scrollPos = window.scrollY || 0;
+            lastScrollMoveAt = performance.now();
+            bindEvents();
             startLoop();
+            return;
           }
+          lsSet(PREF_KEY, "off");
+          disabled = true;
+          if (!finished) {
+            finished = true;
+            sections.forEach(function (sec) {
+              if (sec.started) restoreSection(sec);
+              sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim");
+              sec.el.classList.add("revealed");
+              sec.state = "built";
+            });
+          }
+          document.documentElement.classList.remove("swarm-on");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+          syncToggle();
         }
-        var b0 = btn();
-        if (b0) { syncToggle(); b0.addEventListener("click", handleToggle); }
-        window.__initSwarm = function (data) {
+        function endEffectCleanup() {
+          document.documentElement.classList.remove("swarm-on");
+          sections.forEach(function (sec) { sec.el.classList.add("revealed"); sec.state = "built"; });
+        }
+
+        /* ---------------- debug API ---------------- */
+        var dbgApi = {
+          version: "3.0",
+          debug: debugOn,
+          settings: function () {
+            return { contentEnabled: contentEnabled, cursorCount: cursorCount, buildSpeed: buildSpeed, disabled: disabled, labels: labels.slice(), crew: clamp(cursorCount, 3, 5), rateMs: RATE_MS, minRevealMs: MIN_REVEAL_MS };
+          },
+          state: function () {
+            var front = frontSection();
+            return {
+              finished: finished, exiting: exiting, disabled: disabled,
+              mode: finished ? "done" : (exiting ? "exit" : curMode),
+              scrolling: performance.now() - lastScrollMoveAt <= ORBIT_IDLE_MS,
+              scattering: performance.now() < scatterUntil,
+              front: front ? front.index : -1,
+              builtOrder: builtOrder.slice(),
+              sections: sections.map(function (s) { return s.state; }),
+              progress: sections.map(function (s) { return { t: Math.round(s.target * 1000) / 1000, d: Math.round(s.displayed * 1000) / 1000 }; })
+            };
+          },
+          plan: function (i) {
+            if (!sections.length) { collect(); measureGeometry(); }
+            var sec = sections[i];
+            if (!sec) return null;
+            planFor(sec);
+            return {
+              isTools: sec.isTools, isHero: sec.isHero,
+              window: { start: Math.round(sec.start), end: Math.round(sec.end) },
+              bands: sec.bands.map(function (b) { return { phase: b.phase, start: Math.round(b.start * 1000) / 1000, end: Math.round(b.end * 1000) / 1000 }; }),
+              items: sec.items.map(function (it) { return { type: it.kind, phase: it.phase, start: Math.round(it.start * 1000) / 1000, end: Math.round(it.end * 1000) / 1000 }; })
+            };
+          }
+        };
+        if (debugOn) { dbgApi.frames = dbgFrames; dbgApi.elements = dbgElements; }
+        window.__swarmDebug = dbgApi;
+
+        /* ---------------- init ---------------- */
+        window.__initSwarm = function (settings) {
           cleanLegacyDone();
           if (inited) return;
           inited = true;
-          var sw = (data && data.settings && data.settings.swarm) || {};
+          settings = settings || {};
+          var sw = (settings.settings && settings.settings.swarm) || settings.swarm || {};
           contentEnabled = sw.enabled !== false;
-          if (typeof sw.cursorCount === "number" && isFinite(sw.cursorCount)) cursorCount = sw.cursorCount;
+          cursorCount = typeof sw.cursorCount === "number" && isFinite(sw.cursorCount) ? sw.cursorCount : 20;
           buildSpeed = clampSpeed(sw.buildSpeed);
-          if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.map(function (x) { return String(x); });
-          syncToggle();
-          if (!contentEnabled || lsGet(PREF_KEY) === "off" || coarse() || reducedM()) {
-            document.documentElement.classList.remove("swarm-on");
-            return;
-          }
+          if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.slice();
+          var b = btn();
+          if (b) { b.addEventListener("click", handleToggle); syncToggle(); }
+          disabled = lsGet(PREF_KEY) === "off" || !contentEnabled;
+          if (disabled || coarse() || reducedM()) return;
+          if (!document.querySelector("[data-swarm-section]")) return;
+          if (!ensureCanvas() || !ctx) { canvas = null; ctx = null; return; }
+          document.documentElement.classList.add("swarm-on");
           collect();
-          ensureCanvas();
-          if (disabled) return;
-          if (canvas) canvas.style.display = "";
+          measureGeometry();
+          sections.forEach(function (sec) { planFor(sec); });
           makeCursors();
-          if (!bound) {
-            bound = true;
-            if ("IntersectionObserver" in window) {
-              io = new IntersectionObserver(onIO, { threshold: [0, 0.2] });
-              sections.forEach(function (s) { io.observe(s.el); });
-            }
-            window.addEventListener("scroll", onScroll, { passive: true });
-            window.addEventListener("mousemove", onMouse, { passive: true });
-            window.addEventListener("pointerdown", onInterrupt, true);
-            window.addEventListener("keydown", onInterrupt, true);
-            window.addEventListener("resize", onResize);
-            document.addEventListener("visibilitychange", onVis);
-          }
-          triggerCheck();
+          scrollPos = window.scrollY || 0;
+          lastScrollMoveAt = performance.now();
+          bindEvents();
           startLoop();
         };
-        /* Test/debug affordance: structural plan for a section without
-           running its build (used by the jsdom suites). */
-        window.__swarmDebug = {
-          version: "2.0",
-          settings: function () { return { buildSpeed: buildSpeed, cursorCount: cursorCount, labels: labels.slice() }; },
-          plan: function (i) {
-            if (!sections.length) collect();
-            var sec = sections[i || 0];
-            if (!sec) return null;
-            sec.rect = docRect(sec.el);
-            var steps = stepsFor(sec);
-            return {
-              isTools: !!sec.isTools,
-              steps: steps.map(function (st) { return { type: st.type, actionDur: st.actionDur, travelDur: st.travelDur }; }),
-              totalAction: steps.reduce(function (n, st) { return n + st.actionDur; }, 0),
-              totalDwell: steps.length * (steps.dwell || DWELL),
-              total: steps.reduce(function (n, st) { return n + st.actionDur + st.travelDur; }, 0) + steps.length * (steps.dwell || DWELL)
-            };
-          },
-          state: function () {
-            return { finished: finished, queue: queue.map(function (s) { return s.index; }), sections: sections.map(function (s) { return s.state; }) };
+        var earlyBtn = btn();
+        if (earlyBtn) earlyBtn.addEventListener("click", function () {
+          if (!inited) {
+            if (lsGet(PREF_KEY) === "off") { lsSet(PREF_KEY, "on"); }
+            else { lsSet(PREF_KEY, "off"); }
+            syncToggle();
           }
-        };
-        /* Safety: if content never arrives, initialise with defaults so
-           sections can never stay hidden behind a failed fetch. */
-        window.setTimeout(function () { if (!inited) window.__initSwarm({}); }, 3500);
+        });
+        setTimeout(function () { if (!inited) window.__initSwarm({}); }, 3500);
       })();
     </script>
   </body>
