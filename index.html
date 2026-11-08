@@ -11,7 +11,7 @@
       (function () {
         try {
           var path = window.location.pathname || "/";
-          var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : "home");
+          var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : (path.indexOf("case-studies") >= 0 ? "case-studies" : (path.indexOf("projects") >= 0 ? "projects" : "home")));
           window.__swarmPage = page;
           if (window.localStorage.getItem("hk.swarm.enabled") === "off") return;
           if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -878,6 +878,15 @@
       .cf-success h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; margin: 12px 0 10px; font-size: 1.8rem; }
       .cf-success p { color: var(--body2); margin: 0 0 20px; line-height: 1.6; }
       button.btn { cursor: pointer; font-family: inherit; }
+
+      /* ---------- Mini nav (all pages) ---------- */
+      .mini-nav { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+      .mini-nav a { color: var(--label); text-decoration: none; display: inline-flex; align-items: center; min-height: 32px; }
+      .mini-nav a:hover { color: var(--paper); }
+      .mini-nav .mini-dm { border: 1px solid var(--paper); color: var(--paper); padding: 6px 12px; }
+      .mini-nav .mini-dm:hover { color: var(--red); border-color: var(--red); }
+
+      .index-row .cat { font-family: var(--font-mono); letter-spacing: 0.04em; }
     </style>
   </head>
   <body class="grain" id="top">
@@ -904,6 +913,7 @@
           <span class="clock" aria-label="Local time">Local — <span id="clock">--:--:--</span></span>
           <span><button type="button" class="swarm-toggle" id="swarmToggle" aria-pressed="true">Swarm on</button></span>
         </nav>
+        <nav class="mini-nav" aria-label="Pages"><a href="/">Home</a><a href="/case-studies">Case studies</a><a href="/projects">Projects</a><a href="/about">About</a><a class="mini-dm" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB</a></nav>
         <a class="touch link-draw" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Get in touch on TikTok — DM WEB">
           Get in touch<br /><span data-tiktok-handle>@henryknowsweb</span> — <span data-cta-short>DM WEB</span>
         </a>
@@ -1041,10 +1051,23 @@
           <div class="index-empty reveal-fade"><p class="big">New case studies coming soon.</p></div>
         </div>
 
-        <div class="side-row" id="sideRow"><article class="side-card"><p class="side-card-label">Side project</p><h3 class="side-card-title">Sellomize Reach</h3><p class="side-card-meta">Web App · 2026</p><p class="side-card-tags">React · TypeScript · Cloudflare · AI agents</p><div class="side-card-links"><a class="side-card-link" href="https://reach.sellomize.com/" target="_blank" rel="noreferrer">Visit live site</a><a class="side-card-link" href="https://sellomize-reach-demo.pages.dev/" target="_blank" rel="noreferrer">Live demo</a></div></article></div>
+        <div class="work-cta" id="caseMore" style="display:none">
+          <a class="cta-btn btn btn-secondary" href="/case-studies">View all case studies<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+        </div>
+
+        <div class="work-block">
+          <p class="section-label">Projects</p>
+          <h2 id="projHeading"><span class="reveal-line"><span>Projects</span></span></h2>
+          <div class="sig-row has-rows" id="projRow">
+            <div class="index-row cs-row" role="button" tabindex="0" data-pj-i="0" aria-haspopup="dialog" aria-label="Sellomize Reach — view project"><span class="no" aria-hidden="true">01</span><div><p class="big">Sellomize Reach</p></div><span class="cat">Software</span><span class="yr">2026</span><span class="pv-arrow" aria-hidden="true"><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></div>
+            <div class="index-row cs-row" role="button" tabindex="0" data-pj-i="1" aria-haspopup="dialog" aria-label="Sally Skoufis — view project"><span class="no" aria-hidden="true">02</span><div><p class="big">Sally Skoufis</p></div><span class="cat">Store</span><span class="yr"></span><span class="pv-arrow" aria-hidden="true"><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></div>
+          </div>
+          <div class="work-cta" id="projMore">
+            <a class="cta-btn btn btn-secondary" href="/projects">View all projects<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+          </div>
+        </div>
 
         <div class="work-cta reveal-fade">
-          <a class="cta-btn btn btn-secondary" href="/portfolio">View all<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <a class="cta-btn btn btn-secondary" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Start your project — DM WEB on TikTok">Start yours — <span data-cta-label>DM WEB</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
           <p id="workCtaNote">Want your accounts and store working like this? Message me on TikTok.</p>
         </div>
@@ -1189,7 +1212,7 @@
           </div>
           <div class="faq-group">
             <p class="faq-group-label">Trust</p>
-            <details class="faq-item"><summary>Can I see your work?</summary><div class="faq-a"><p>Yes — and I only show work I made. Case studies and website work are added here as they are ready.</p></div></details>
+            <details class="faq-item"><summary>Can I see your work?</summary><div class="faq-a"><p>I only show work I made. Case studies and projects are added at /case-studies and /projects as they are ready.</p></div></details>
             <details class="faq-item"><summary>Do you offer a free consultation?</summary><div class="faq-a"><p>A free 15-minute call, yes. A free mockup, no.</p></div></details>
           </div>
           </div>
@@ -1667,11 +1690,14 @@
       }
     </style>
         <script>
-      /* Case study + side project overlay: one shared dialog in the
+      /* Case study + project overlay: one shared dialog in the
          pv-overlay pattern. Case mode renders issue / found / fix steps /
          result / before-after gallery / live link; project mode renders
-         cover / summary / tags / live + demo links. Any block whose field
-         is empty is hidden, never rendered as an empty shell. */
+         the before/after slider when the project has one (else its
+         cover), description (else summary), tags, gallery figures and
+         live + demo links. Opening sets the URL hash to the entry's
+         slug and closing clears it. Any block whose field is empty is
+         hidden, never rendered as an empty shell. */
       (function () {
         "use strict";
         function esc(s) {
@@ -1683,7 +1709,8 @@
         var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
         var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
         function slugOf(item) {
-          if (item && typeof item.id === "string" && item.id.trim()) return item.id.trim();
+          if (item && typeof item.slug === "string" && item.slug.trim()) return item.slug.trim();
+          if (item && item.id != null && String(item.id).trim()) return String(item.id).trim();
           var t = String((item && item.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
           while (t.charAt(0) === "-") t = t.slice(1);
           while (t.length && t.charAt(t.length - 1) === "-") t = t.slice(0, -1);
@@ -1706,8 +1733,8 @@
           var capHtml = cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "";
           if (before && after) {
             return '<figure class="ba-fig"><div class="ba" data-ba>' +
-              '<img src="' + esc(before) + '" alt="Before" loading="lazy">' +
-              '<img class="ba-after" src="' + esc(after) + '" alt="After" loading="lazy">' +
+              '<img src="' + esc(before) + '" alt="' + esc(trimS(item && item.beforeAlt) || "Before") + '" loading="lazy">' +
+              '<img class="ba-after" src="' + esc(after) + '" alt="' + esc(trimS(item && item.afterAlt) || "After") + '" loading="lazy">' +
               '<span class="ba-tag ba-before">Before</span><span class="ba-tag ba-after-tag">After</span>' +
               '<input type="range" min="0" max="100" value="50" aria-label="Compare before and after">' +
               "</div>" + capHtml + "</figure>";
@@ -1785,9 +1812,19 @@
             else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
           }
         }
+        function setHashFor(item) {
+          try {
+            var s = slugOf(item);
+            if (s) window.history.replaceState(null, "", "#" + s);
+          } catch (e) {}
+        }
+        function clearHash() {
+          try { window.history.replaceState(null, "", window.location.pathname + window.location.search); } catch (e) {}
+        }
         function navOv(d) {
           if (!ov.items.length) return;
           fillOv((ov.idx + d + ov.items.length) % ov.items.length);
+          setHashFor(ov.items[ov.idx]);
         }
         function setBlock(name, show) {
           var el = overlayEl.querySelector('[data-b="' + name + '"]');
@@ -1799,10 +1836,20 @@
           ov.idx = i;
           var isCase = ov.mode === "case";
           var media = overlayEl.querySelector(".pv-ov-media");
+          media.classList.remove("ba-mode");
           if (!isCase) {
-            var cov = coverOf(it);
-            if (cov) { media.innerHTML = '<img class="pv-media-img" src="' + esc(cov) + '" alt="' + esc(coverAltOf(it)) + '" width="1280" height="800">'; media.style.display = ""; }
-            else { media.innerHTML = ""; media.style.display = "none"; }
+            var ba = (it.beforeAfter && typeof it.beforeAfter === "object") ? it.beforeAfter : null;
+            var baHtml = ba ? baFigure({ before: ba.before, after: ba.after, beforeAlt: ba.beforeAlt, afterAlt: ba.afterAlt, caption: "" }) : "";
+            if (baHtml) {
+              media.innerHTML = baHtml;
+              media.classList.add("ba-mode");
+              media.style.display = "";
+              bindSliders(media);
+            } else {
+              var cov = coverOf(it);
+              if (cov) { media.innerHTML = '<img class="pv-media-img" src="' + esc(cov) + '" alt="' + esc(coverAltOf(it)) + '" width="1280" height="800">'; media.style.display = ""; }
+              else { media.innerHTML = ""; media.style.display = "none"; }
+            }
           } else { media.innerHTML = ""; media.style.display = "none"; }
           var parts = [];
           if (isCase) {
@@ -1810,7 +1857,7 @@
             if (trimS(it.clientType)) parts.push(trimS(it.clientType));
             if (trimS(it.year)) parts.push(trimS(it.year));
           } else {
-            if (trimS(it.category)) parts.push(trimS(it.category));
+            if (trimS(it.type)) parts.push(trimS(it.type));
             if (trimS(it.year)) parts.push(trimS(it.year));
             if (trimS(it.role)) parts.push(trimS(it.role));
           }
@@ -1831,7 +1878,7 @@
           var resP = overlayEl.querySelector('[data-b="result"] p');
           resP.textContent = trimS(it.result);
           setBlock("result", isCase && !!trimS(it.result));
-          var sum = !isCase ? trimS(it.summary || it.description) : "";
+          var sum = !isCase ? (trimS(it.description) || trimS(it.summary)) : "";
           var sumEl = overlayEl.querySelector('[data-b="summary"]');
           sumEl.textContent = sum;
           setBlock("summary", !!sum);
@@ -1842,6 +1889,12 @@
           var gal = overlayEl.querySelector('[data-b="gallery"]');
           var galHtml = "";
           if (isCase && Array.isArray(it.gallery)) galHtml = it.gallery.map(function (g) { return baFigure(g); }).join("");
+          if (!isCase && Array.isArray(it.gallery)) galHtml = it.gallery.map(function (g) {
+            var src = trimS(g && g.src);
+            if (!src) return "";
+            var cap = trimS(g && g.caption);
+            return '<figure class="ba-fig"><div class="ba-single"><img src="' + esc(src) + '" alt="' + esc(trimS(g && g.alt) || cap || "Project image") + '" loading="lazy"></div>' + (cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "") + "</figure>";
+          }).join("");
           gal.innerHTML = galHtml;
           setBlock("gallery", !!galHtml);
           if (galHtml) bindSliders(gal);
@@ -1861,6 +1914,7 @@
           buildOverlay();
           ov.mode = mode; ov.items = items || []; ov.returnEl = returnEl || null;
           fillOv(i);
+          setHashFor(ov.items[ov.idx]);
           ov.open = true;
           overlayEl.hidden = false;
           document.documentElement.style.overflow = "hidden";
@@ -1870,6 +1924,7 @@
         function closeOv() {
           if (!overlayEl || !ov.open) { if (overlayEl) overlayEl.hidden = true; return; }
           ov.open = false;
+          clearHash();
           overlayEl.hidden = true;
           document.documentElement.style.overflow = "";
           if (ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
@@ -1887,10 +1942,15 @@
       })();
     </script>
     <script>
-      /* Case studies signature row: the first three case studies from
-         content.json as number / title / marketplace / year / arrow rows
-         in the project-row grid style. Clicking a row opens the shared
-         case study overlay. With no case studies yet, the honest empty
+      /* Home work blocks: (a) the first three published case studies
+         from content.json as number / title / marketplace / year /
+         arrow rows, with a View all case studies button to
+         /case-studies shown only when at least one exists; (b) the
+         first three published projects as number / title / type /
+         year / arrow rows opening the shared project overlay, with a
+         View all projects button to /projects shown only when at
+         least one exists. Clicking a case row opens the shared case
+         study overlay. With no case studies yet, the honest empty
          state from content.json caseStudiesEmpty is rendered instead. */
       (function () {
         "use strict";
@@ -1899,15 +1959,18 @@
         function renderCases(data) {
           var wrap = document.getElementById("sigRow");
           if (!wrap || !data || typeof data !== "object") return;
-          var items = (Array.isArray(data.caseStudies) ? data.caseStudies : []).filter(function (c) { return c && typeof c === "object"; });
+          var items = (Array.isArray(data.caseStudies) ? data.caseStudies : []).filter(function (c) { return c && typeof c === "object" && c.published !== false; });
+          var caseMore = document.getElementById("caseMore");
           if (!items.length) {
             wrap.classList.remove("has-rows");
+            if (caseMore) caseMore.style.display = "none";
             var empty = (data.caseStudiesEmpty && typeof data.caseStudiesEmpty === "object") ? data.caseStudiesEmpty : {};
             var emptyTitle = String(empty.title || "New case studies coming soon.").trim() || "New case studies coming soon.";
             var emptyNote = String(empty.note || "Want your account to be one of the first featured? Message me on TikTok.").trim() || "Want your account to be one of the first featured? Message me on TikTok.";
             wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="big">' + esc(emptyTitle) + "</p></div>";
             return;
           }
+          if (caseMore) caseMore.style.display = "";
           var shown = items.slice(0, 3);
           wrap.classList.add("has-rows");
           wrap.innerHTML = shown.map(function (c, i) {
@@ -1929,24 +1992,38 @@
           });
         }
         window.__renderCases = renderCases;
-        function renderSideCards(data) {
-          var wrap = document.getElementById("sideRow");
+        function renderProjectsHome(data) {
+          var wrap = document.getElementById("projRow");
           if (!wrap || !data || typeof data !== "object") return;
-          var items = (Array.isArray(data.sideProjects) ? data.sideProjects : []).filter(function (p) { return p && typeof p === "object" && String(p.status || "published").toLowerCase() !== "draft"; });
-          if (!items.length) { wrap.innerHTML = ""; return; }
-          wrap.innerHTML = items.map(function (p) {
-            var meta = [p.category, p.year].map(function (v) { return String(v == null ? "" : v).trim(); }).filter(Boolean).join(" · ");
-            var tags = (Array.isArray(p.tags) ? p.tags : []).map(function (v) { return String(v == null ? "" : v).trim(); }).filter(Boolean).join(" · ");
-            var links = "";
-            if (String(p.url || "").trim()) links += '<a class="side-card-link" href="' + esc(p.url) + '" target="_blank" rel="noreferrer">Visit live site</a>';
-            if (String(p.demoUrl || "").trim()) links += '<a class="side-card-link" href="' + esc(p.demoUrl) + '" target="_blank" rel="noreferrer">Live demo</a>';
-            return '<article class="side-card"><p class="side-card-label">Side project</p><h3 class="side-card-title">' + esc(p.title || "Project") + "</h3>" +
-              (meta ? '<p class="side-card-meta">' + esc(meta) + "</p>" : "") +
-              (tags ? '<p class="side-card-tags">' + esc(tags) + "</p>" : "") +
-              (links ? '<div class="side-card-links">' + links + "</div>" : "") + "</article>";
+          var more = document.getElementById("projMore");
+          var items = (Array.isArray(data.projects) ? data.projects : []).filter(function (proj) { return proj && typeof proj === "object" && proj.published !== false; });
+          if (!items.length) {
+            wrap.classList.remove("has-rows");
+            if (more) more.style.display = "none";
+            wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="big">Projects are being added.</p></div>';
+            return;
+          }
+          if (more) more.style.display = "";
+          var shownP = items.slice(0, 3);
+          wrap.classList.add("has-rows");
+          wrap.innerHTML = shownP.map(function (proj, i) {
+            return '<div class="index-row cs-row" role="button" tabindex="0" data-pj-i="' + i + '" aria-haspopup="dialog" aria-label="' + esc(proj.title || "Project") + ' — view project">' +
+              '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
+              '<div><p class="big">' + esc(proj.title || "Project") + "</p></div>" +
+              '<span class="cat">' + esc(String(proj.type == null ? "" : proj.type).trim()) + '</span><span class="yr">' + esc(proj.year || "") + "</span>" +
+              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + "</span></div>";
           }).join("");
+          Array.prototype.slice.call(wrap.querySelectorAll("[data-pj-i]")).forEach(function (row) {
+            function open() {
+              if (window.__openProjectOverlay) window.__openProjectOverlay(items, parseInt(row.getAttribute("data-pj-i"), 10) || 0, row);
+            }
+            row.addEventListener("click", open);
+            row.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+            });
+          });
         }
-        window.__renderSideCards = renderSideCards;
+        window.__renderProjectsHome = renderProjectsHome;
       })();
     </script>
         <style>
@@ -1967,6 +2044,7 @@
       .pv-ov-close:hover { border-color: var(--accent); color: var(--accent); }
       .pv-ov-close svg { display: block; width: 20px; height: 20px; margin: auto; }
       .pv-ov-media { border: 1px solid var(--border); }
+      .pv-ov-media.ba-mode { aspect-ratio: auto; border: 0; overflow: visible; background: transparent; }
       .pv-ov-meta { margin: 26px 0 0; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
       .pv-ov-title { margin: 10px 0 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; font-size: clamp(2.2rem, 5.5vw, 4rem); }
       .pv-ov-summary { margin: 18px 0 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
@@ -2000,6 +2078,8 @@
       .ba-cap { margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--body2); }
       .cs-row { cursor: pointer; }
       .sig-row.has-rows { display: block; margin-top: 40px; }
+      .work-block { margin-top: 72px; }
+      .work-block .sig-row { margin-top: 40px; }
       /* ---------- Tools strip ---------- */
       .tools-sec { border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
       .tools-sec h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 5vw, 3.4rem); }
@@ -2217,11 +2297,11 @@
         }
         function projectLinkHTML(t, data, S) {
           if (!S.showProjectLink || !t.projectId) return "";
-          var projs = (data && Array.isArray(data.sideProjects)) ? data.sideProjects : [];
+          var projs = (data && Array.isArray(data.projects)) ? data.projects : [];
           var match = null;
           for (var i = 0; i < projs.length; i++) {
             var p = projs[i];
-            if (p && p.id === t.projectId && p.status !== "draft") { match = p; break; }
+            if (p && (p.id === t.projectId || p.slug === t.projectId) && p.published !== false) { match = p; break; }
           }
           if (!match) return "";
           if (trimStr(match.url)) return '<a class="tm-projlink" href="' + esc(match.url) + '" target="_blank" rel="noopener noreferrer">See the project</a>';
@@ -2609,7 +2689,7 @@
             }
           }
           if (window.__renderCases) window.__renderCases(data);
-          if (window.__renderSideCards) window.__renderSideCards(data);
+          if (window.__renderProjectsHome) window.__renderProjectsHome(data);
           if (window.__renderTestimonials) window.__renderTestimonials(data);
           var clients = data.clients || {};var clientsBody = document.getElementById("clientsBody");
           if (Array.isArray(data.process) && data.process.length) {
@@ -2693,7 +2773,7 @@
           });
         }
         tryFetch("content.json")
-          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJBY2NvdW50cyBhbmQgc3RvcmVzLCBydW4gcHJvcGVybHkuIiwic3RvcnkiOlsiSSBjYW1lIHVwIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSd2ZSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXMgYWNyb3NzIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBkZXNpZ25lZCBTaG9waWZ5IHN0b3Jlcy4gSSBrbm93IHdoYXQgYSBsaXN0aW5nIGhhcyB0byBzaG93LCB3aGVyZSBhbiBhY2NvdW50IGxvc2VzIG1vbmV5LCBhbmQgd2hhdCBhIHN0b3JlIG5lZWRzIHRvIGNvbnZlcnQuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuIiwiVGhlIHdvcmsgY292ZXJzIGxpc3RpbmcgaW1hZ2VzIGFuZCBncmFwaGljcywgQSsgY29udGVudCwgUFBDLCByZWNvbmNpbGlhdGlvbiBhbmQgZml4aW5nIGFjY291bnRzIHRoYXQgaGF2ZSBwcm9ibGVtcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcyBhbmQgTWlyYWNsZSBDb25uZWN0LiIsIkluIDIwMjYgSSBjb21wbGV0ZWQgYSBCYWNoZWxvcidzIGluIENvbXB1dGVyIFNjaWVuY2UsIG1ham9yaW5nIGluIHdlYiBhbmQgbW9iaWxlIGFwcGxpY2F0aW9uIGRldmVsb3BtZW50LiBNeSBmaW5hbCB5ZWFyIHByb2plY3Qgd29uIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgd29uIGZpcnN0IHByaXplIGluIHRoZSBtb2NrIGludGVydmlldyBwcm9ncmFtLiBCZWNhdXNlIEkgY2FuIGJ1aWxkLCBJIGFsc28gbWFrZSBzb2Z0d2FyZSBmb3IgYnVzaW5lc3NlcywgbGlrZSBTZWxsb21pemUgUmVhY2gsIGFzIGEgc2lkZSBwcm9qZWN0LiIsIkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4iXX0sImNsaWVudHMiOltdLCJmb290ZXIiOnsiaGVhZGluZyI6IkxldCdzIGJ1aWxkIHlvdXJzIiwia2ljayI6IkdvdCBhbiBhY2NvdW50IHRvIGZpeCwgYSBzdG9yZSB0byBidWlsZCwgb3IgbGlzdGluZ3MgdGhhdCBhcmVuJ3QgY29udmVydGluZz8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4ifSwiaW50cm8iOnsibWV0YSI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJNYXJrZXRwbGFjZSBPcGVyYXRvciAmIFNob3BpZnkgRGVzaWduZXIiLCJzdGF0dXMiOiJBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInN1YiI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJJIHJ1biBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzLCBhbmQgYnVpbGQgdGhlIHN0b3JlcyBhcm91bmQgdGhlbS4iLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIiwiYXJlYSI6Ildvcmxkd2lkZSIsInRpa3RvayI6IkBoZW5yeWtub3dzd2ViIiwiY3RhIjoiRE0gV0VCIiwieWVhcnMiOiI2KyIsImludHJvIjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIiwic3RvcnkiOiJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuXG5cblRoZSB3b3JrIGNvdmVycyBsaXN0aW5nIGltYWdlcyBhbmQgZ3JhcGhpY3MsIEErIGNvbnRlbnQsIFBQQywgcmVjb25jaWxpYXRpb24gYW5kIGZpeGluZyBhY2NvdW50cyB0aGF0IGhhdmUgcHJvYmxlbXMuIEkgZGVzaWduIGluIEZpZ21hLCBydW4gZW1haWwgd2l0aCBLbGF2aXlvIGFuZCBoYW5kbGUgc3VwcG9ydCB3aXRoIEdvcmdpYXMgYW5kIE1pcmFjbGUgQ29ubmVjdC5cblxuSW4gMjAyNiBJIGNvbXBsZXRlZCBhIEJhY2hlbG9yJ3MgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB3b24gZmlyc3QgcHJpemUgaW4gdGhlIGdyYWR1YXRpb24gcHJvamVjdCBwcm9ncmFtLCBhbmQgSSB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIEJlY2F1c2UgSSBjYW4gYnVpbGQsIEkgYWxzbyBtYWtlIHNvZnR3YXJlIGZvciBidXNpbmVzc2VzLCBsaWtlIFNlbGxvbWl6ZSBSZWFjaCwgYXMgYSBzaWRlIHByb2plY3QuXG5cbkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4ifSwic2VydmljZXMiOlt7InRpdGxlIjoiTWFya2V0cGxhY2UgYWNjb3VudCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJMaXN0aW5ncywgY2F0YWxvZyBhbmQgZGF5LXRvLWRheSBvcGVyYXRpb25zIGFjcm9zcyBBbWF6b24sIGVCYXksIFRpa1RvayBTaG9wLCBXYWxtYXJ0LCBUZW11IGFuZCBNZXJjYXJpLiJ9LHsidGl0bGUiOiJMaXN0aW5nIGltYWdlcywgZ3JhcGhpY3MgYW5kIEErIGNvbnRlbnQiLCJkZXNjcmlwdGlvbiI6IkltYWdlcyBhbmQgbGF5b3V0cyBidWlsdCB0byBjb252ZXJ0LiJ9LHsidGl0bGUiOiJQUEMgYW5kIGFkdmVydGlzaW5nIiwiZGVzY3JpcHRpb24iOiJDYW1wYWlnbiBzZXR1cCwgb3B0aW1pemF0aW9uIGFuZCByZXBvcnRpbmcuIn0seyJ0aXRsZSI6IlJlY29uY2lsaWF0aW9uIGFuZCBhY2NvdW50IGlzc3VlLWZpeGluZyIsImRlc2NyaXB0aW9uIjoiRmluZGluZyB3aGVyZSB0aGUgbW9uZXkgb3IgdGhlIGFjY291bnQgaGVhbHRoIGlzIGxlYWtpbmcsIGFuZCBmaXhpbmcgaXQuIn0seyJ0aXRsZSI6IlNob3BpZnkgc3RvcmUgZGVzaWduIGFuZCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJEZXNpZ24gaW4gRmlnbWEsIGJ1aWxkLCBlbWFpbCB3aXRoIEtsYXZpeW8sIHN1cHBvcnQgd2l0aCBHb3JnaWFzLiJ9XSwiYWxzb0J1aWxkIjoiQWxzbyBidWlsZDogY3VzdG9tIGJ1c2luZXNzIHNvZnR3YXJlLCBmb3IgZXhhbXBsZSBTZWxsb21pemUgUmVhY2guIiwicHJvY2VzcyI6W3sidGl0bGUiOiJBdWRpdCIsInRleHQiOiJSZXZpZXdpbmcgbGlzdGluZ3MsIGFjY291bnQgaGVhbHRoIGFuZCBudW1iZXJzIHRvIGZpbmQgd2hhdCBpcyB3cm9uZy4ifSx7InRpdGxlIjoiUGxhbiIsInRleHQiOiJTZXR0aW5nIG91dCB3aGF0IHRvIGZpeCBvciBidWlsZCwgYW5kIGluIHdoYXQgb3JkZXIuIn0seyJ0aXRsZSI6IkZpeCAmIEJ1aWxkIiwidGV4dCI6IkZpeGluZyBhY2NvdW50IGFuZCBsaXN0aW5nIGlzc3VlcywgYW5kIGJ1aWxkaW5nIG9yIHVwZGF0aW5nIHRoZSBTaG9waWZ5IHN0b3JlIHdoZXJlIG5lZWRlZC4ifSx7InRpdGxlIjoiUmVwb3J0ICYgR3JvdyIsInRleHQiOiJSZXBvcnRpbmcgd2hhdCB3YXMgZG9uZSBhbmQgd2hhdCB3YXMgZm91bmQsIGFuZCBwbGFubmluZyB0aGUgbmV4dCB3b3JrLiJ9XSwidG9vbHMiOlt7Imdyb3VwIjoiV2ViIGFuZCBzdG9yZXMiLCJpdGVtcyI6WyJTaG9waWZ5IiwiSG9zdGluZ2VyIiwiV29vQ29tbWVyY2UiLCJXb3JkUHJlc3MiLCJDbG91ZGZsYXJlIiwiR29vZ2xlIEFuYWx5dGljcyIsIkdvb2dsZSBTZWFyY2ggQ29uc29sZSJdfSx7Imdyb3VwIjoiRGVzaWduLCBncmFwaGljcyBhbmQgQUkgaW1hZ2UgdG9vbHMiLCJpdGVtcyI6WyJGaWdtYSIsIlBob3Rvc2hvcCIsIkNhbnZhIiwiQ2hhdEdQVCIsIkdlbWluaSIsIkhpZ2dzZmllbGQiLCJQaXhpaSJdfSx7Imdyb3VwIjoiQW1hem9uIiwiaXRlbXMiOlsiU2VsbGVyIENlbnRyYWwiLCJBbWF6b24gQWRzIiwiQnJhbmQgQW5hbHl0aWNzIiwiSGVsaXVtIDEwIiwiSnVuZ2xlIFNjb3V0IiwiS2VlcGEiXX0seyJncm91cCI6IlNob3BpZnkgdG9vbHMiLCJpdGVtcyI6WyJTaG9waWZ5IEZsb3ciLCJTaG9waWZ5IE1hcmtldHMiLCJKdWRnZS5tZSIsIlJlY2hhcmdlIl19LHsiZ3JvdXAiOiJFbWFpbCBtYXJrZXRpbmciLCJpdGVtcyI6WyJLbGF2aXlvIiwiTWFpbGNoaW1wIiwiT21uaXNlbmQiXX0seyJncm91cCI6IkN1c3RvbWVyIHN1cHBvcnQiLCJpdGVtcyI6WyJHb3JnaWFzIiwiTWlyYWNsZSBDb25uZWN0Il19LHsiZ3JvdXAiOiJXYWxtYXJ0IiwiaXRlbXMiOlsiV2FsbWFydCBTZWxsZXIgQ2VudGVyIiwiV2FsbWFydCBDb25uZWN0Il19LHsiZ3JvdXAiOiJlQmF5IiwiaXRlbXMiOlsiU2VsbGVyIEh1YiIsIlByb21vdGVkIExpc3RpbmdzIiwiVGVyYXBlYWsiXX0seyJncm91cCI6IlRpa1RvayBTaG9wLCBUZW11IGFuZCBNZXJjYXJpIiwiaXRlbXMiOlsiVGlrVG9rIFNob3AgU2VsbGVyIENlbnRlciIsIlRlbXUgU2VsbGVyIENlbnRlciIsIk1lcmNhcmkiXX0seyJncm91cCI6IlJlcG9ydGluZyBhbmQgcmVjb25jaWxpYXRpb24iLCJpdGVtcyI6WyJHb29nbGUgU2hlZXRzIiwiRXhjZWwiXX1dLCJjYXNlU3R1ZGllcyI6W10sImNhc2VTdHVkaWVzRW1wdHkiOnsidGl0bGUiOiJOZXcgY2FzZSBzdHVkaWVzIGNvbWluZyBzb29uLiIsIm5vdGUiOiJXYW50IHlvdXIgYWNjb3VudCB0byBiZSBvbmUgb2YgdGhlIGZpcnN0IGZlYXR1cmVkPyBNZXNzYWdlIG1lIG9uIFRpa1Rvay4ifSwid2Vic2l0ZVdvcmsiOlt7ImlkIjoic2FsbHktc2tvdWZpcyIsInRpdGxlIjoiU2FsbHkgU2tvdWZpcyIsIm5vdGUiOiIiLCJiZWZvcmUiOiJhc3NldHMvd2Vic2l0ZS13b3JrL3NhbGx5LXNrb3VmaXMtYmVmb3JlLmpwZyIsImFmdGVyIjoiYXNzZXRzL3dlYnNpdGUtd29yay9zYWxseS1za291ZmlzLWFmdGVyLmpwZyIsImJlZm9yZUFsdCI6IlNhbGx5IFNrb3VmaXMg4oCUIE1pbnggU2hlbGwgY29sbGVjdGlvbiwgYmVmb3JlIHJlZGVzaWduIiwiYWZ0ZXJBbHQiOiJTYWxseSBTa291ZmlzIOKAlCBNaW54IFNoZWxsIGNvbGxlY3Rpb24sIGFmdGVyIHJlZGVzaWduIiwibGl2ZVVybCI6Imh0dHBzOi8vc2FsbHlza291ZmlzLmNvbS8/cHJldmlld190aGVtZV9pZD0xODk3NjM2ODI1OTUifV0sInNpZGVQcm9qZWN0cyI6W3siaWQiOiJzZWxsb21pemUtcmVhY2giLCJ0aXRsZSI6IlNlbGxvbWl6ZSBSZWFjaCIsImNhdGVnb3J5IjoiV2ViIEFwcCIsInllYXIiOiIyMDI2Iiwicm9sZSI6IkRlc2lnbiAmIGJ1aWxkIiwic3VtbWFyeSI6IkNvbGQgZW1haWwgb3V0cmVhY2ggcGxhdGZvcm0gYnVpbHQgZm9yIFNlbGxvbWl6ZSwgYW4gQW1hem9uIGdyb3d0aCBhZ2VuY3kuIENhbXBhaWducywgbXVsdGktc3RlcCBzZXF1ZW5jZXMsIGxlYWQgbWFuYWdlbWVudCwgZGVsaXZlcmFiaWxpdHkgdHJhY2tpbmcgYW5kIEFJLWFzc2lzdGVkIGRyYWZ0aW5nIOKAlCBhIFJlYWN0IGZyb250IGVuZCBvbiBDbG91ZGZsYXJlIFdvcmtlcnMsIEQxIGFuZCBxdWV1ZXMuIFRyeSB0aGUgbGl2ZSBkZW1vIChzYW1wbGUgZGF0YSksIG9yIHZpc2l0IHRoZSBwcm9kdWN0aW9uIHZlcnNpb24uIiwidGFncyI6WyJSZWFjdCIsIlR5cGVTY3JpcHQiLCJDbG91ZGZsYXJlIiwiQUkgYWdlbnRzIl0sInVybCI6Imh0dHBzOi8vcmVhY2guc2VsbG9taXplLmNvbS8iLCJkZW1vVXJsIjoiaHR0cHM6Ly9zZWxsb21pemUtcmVhY2gtZGVtby5wYWdlcy5kZXYvIiwiY292ZXIiOnsic3JjIjoiYXNzZXRzL3Byb2plY3RzL3NlbGxvbWl6ZS1yZWFjaC1jb3Zlci5zdmciLCJhbHQiOiJTZWxsb21pemUgUmVhY2gg4oCUIGNvbGQgZW1haWwgb3V0cmVhY2ggcGxhdGZvcm0ifX1dLCJzZXR0aW5ncyI6eyJtb3Rpb24iOnsiZGVmYXVsdFZpZXciOiJsaXN0Iiwic2hvd1ZpZXdUb2dnbGUiOnRydWUsInByZXZpZXdNb2RlIjoiZm9sbG93IiwiY2FyZFNpemUiOjM2MCwidGlsdCI6dHJ1ZSwic3ByaW5nIjoibm9ybWFsIiwiZGltT3RoZXJzIjp0cnVlLCJtYXhNb2JpbGVQbGF5aW5nIjoyLCJtb2JpbGVCZWhhdmlvdXIiOiJhY2NvcmRpb24ifSwidGVzdGltb25pYWxzIjp7InNob3dTZWN0aW9uIjpmYWxzZSwibGF5b3V0IjoiZmVhdHVyZWQiLCJhdXRvUm90YXRlIjpmYWxzZSwicm90YXRlU2Vjb25kcyI6Niwic2hvd0F2YXRhcnMiOnRydWUsInNob3dQcm9qZWN0TGluayI6dHJ1ZX0sInN3YXJtIjp7ImVuYWJsZWQiOnRydWUsImN1cnNvckNvdW50IjoyMCwiYnVpbGRTcGVlZCI6MSwibGFiZWxzIjpbIkxpc3RpbmciLCJBKyBDb250ZW50IiwiUFBDIiwiUmVjb25jaWxpYXRpb24iLCJTaG9waWZ5IiwiQW1hem9uIiwiZUJheSIsIlRpa1RvayBTaG9wIiwiV2FsbWFydCIsIlRlbXUiLCJNZXJjYXJpIl19fSwic29jaWFscyI6W3sicGxhdGZvcm0iOiJUaWtUb2siLCJoYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInVybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJ2aXNpYmxlIjp0cnVlfV0sInRlc3RpbW9uaWFscyI6W10sImZhcSI6W3siZ3JvdXAiOiJXb3JraW5nIHdpdGggbWUiLCJpdGVtcyI6W3sicSI6IldoYXQgZG8geW91IGRvPyIsImEiOiJNYXJrZXRwbGFjZSBhY2NvdW50IG1hbmFnZW1lbnQsIGxpc3RpbmcgaW1hZ2VzIGFuZCBncmFwaGljcyBhbmQgQSsgY29udGVudCwgUFBDIGFuZCBhZHZlcnRpc2luZywgcmVjb25jaWxpYXRpb24gYW5kIGFjY291bnQgaXNzdWUtZml4aW5nLCBhbmQgU2hvcGlmeSBzdG9yZSBkZXNpZ24gYW5kIG1hbmFnZW1lbnQuIn0seyJxIjoiV2hpY2ggbWFya2V0cGxhY2VzIGRvIHlvdSB3b3JrIG9uPyIsImEiOiJBbWF6b24sIGVCYXksIFRpa1RvayBTaG9wLCBXYWxtYXJ0LCBUZW11IGFuZCBNZXJjYXJpLiJ9LHsicSI6IldobyBkbyB5b3Ugd29yayB3aXRoPyIsImEiOiJCcmFuZHMgYW5kIHNlbGxlcnMgZmlyc3QuIEkgYWxzbyB3b3JrIHdpdGggYWdlbmNpZXMsIGFuZCBJIGFtIG9wZW4gdG8gcm9sZXMuIEkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiJ9LHsicSI6IkhvdyBkbyB3ZSBzdGFydD8iLCJhIjoiU2VuZCBtZSBhIERNIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGFuIGVtYWlsIHdpdGggd2hpY2ggbWFya2V0cGxhY2VzIHlvdSBzZWxsIG9uIGFuZCB3aGF0IGlzbid0IHdvcmtpbmcuIFRoZXJlIGlzIGEgZnJlZSAxNS1taW51dGUgY2FsbCBpZiB5b3Ugd2FudCB0byB0YWxrIGl0IHRocm91Z2ggZmlyc3QuIn1dfSx7Imdyb3VwIjoiU3RvcmVzIGFuZCBzb2Z0d2FyZSIsIml0ZW1zIjpbeyJxIjoiQ2FuIHlvdSBkZXNpZ24gYSBTaG9waWZ5IHN0b3JlPyIsImEiOiJZZXMuIEkgZGVzaWduIGluIEZpZ21hLCBydW4gZW1haWwgd2l0aCBLbGF2aXlvIGFuZCBoYW5kbGUgc3VwcG9ydCB3aXRoIEdvcmdpYXMuIn0seyJxIjoiRG8geW91IGJ1aWxkIHNvZnR3YXJlPyIsImEiOiJZZXMuIEZvciBleGFtcGxlIFNlbGxvbWl6ZSBSZWFjaCwgYSBjb2xkIGVtYWlsIG91dHJlYWNoIHBsYXRmb3JtIGJ1aWx0IGZvciBhbiBBbWF6b24gZ3Jvd3RoIGFnZW5jeS4ifSx7InEiOiJXaWxsIG15IHNpdGUgd29yayBvbiBwaG9uZXM/IiwiYSI6Illlcy4gRXZlcnkgc2l0ZSBpcyBkZXNpZ25lZCBmb3IgcGhvbmUsIHRhYmxldCBhbmQgZGVza3RvcC4ifSx7InEiOiJXaG8gb3ducyB0aGUgZG9tYWluIGFuZCBob3N0aW5nIGZvciBhIHdlYnNpdGU/IiwiYSI6IllvdSBkby4gVGhlIGRvbWFpbiBhbmQgaG9zdGluZyBhY2NvdW50cyBzdGF5IGluIHlvdXIgbmFtZSwgc28geW91IGFsd2F5cyBvd24gdGhlbS4ifV19LHsiZ3JvdXAiOiJUcnVzdCIsIml0ZW1zIjpbeyJxIjoiQ2FuIEkgc2VlIHlvdXIgd29yaz8iLCJhIjoiSSBvbmx5IHNob3cgd29yayBJIG1hZGUuIENhc2Ugc3R1ZGllcyBhbmQgd2Vic2l0ZSB3b3JrIGFyZSBhZGRlZCBoZXJlIGFzIHRoZXkgYXJlIHJlYWR5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgY29uc3VsdGF0aW9uPyIsImEiOiJBIGZyZWUgMTUtbWludXRlIGNhbGwsIHllcy4gQSBmcmVlIG1vY2t1cCwgbm8uIn1dfV19"); })
+          .catch(function () { return tryFetch("data:application/json;base64,eyJhYm91dCI6eyJwb3J0cmFpdExpbmUiOiJBY2NvdW50cyBhbmQgc3RvcmVzLCBydW4gcHJvcGVybHkuIiwic3RvcnkiOlsiSSBjYW1lIHVwIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSd2ZSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXMgYWNyb3NzIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBkZXNpZ25lZCBTaG9waWZ5IHN0b3Jlcy4gSSBrbm93IHdoYXQgYSBsaXN0aW5nIGhhcyB0byBzaG93LCB3aGVyZSBhbiBhY2NvdW50IGxvc2VzIG1vbmV5LCBhbmQgd2hhdCBhIHN0b3JlIG5lZWRzIHRvIGNvbnZlcnQuIl0sImZ1bGxTdG9yeSI6WyJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuIiwiVGhlIHdvcmsgY292ZXJzIGxpc3RpbmcgaW1hZ2VzIGFuZCBncmFwaGljcywgQSsgY29udGVudCwgUFBDLCByZWNvbmNpbGlhdGlvbiBhbmQgZml4aW5nIGFjY291bnRzIHRoYXQgaGF2ZSBwcm9ibGVtcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcyBhbmQgTWlyYWNsZSBDb25uZWN0LiIsIkluIDIwMjYgSSBjb21wbGV0ZWQgYSBCYWNoZWxvcidzIGluIENvbXB1dGVyIFNjaWVuY2UsIG1ham9yaW5nIGluIHdlYiBhbmQgbW9iaWxlIGFwcGxpY2F0aW9uIGRldmVsb3BtZW50LiBNeSBmaW5hbCB5ZWFyIHByb2plY3Qgd29uIGZpcnN0IHByaXplIGluIHRoZSBncmFkdWF0aW9uIHByb2plY3QgcHJvZ3JhbSwgYW5kIEkgd29uIGZpcnN0IHByaXplIGluIHRoZSBtb2NrIGludGVydmlldyBwcm9ncmFtLiBCZWNhdXNlIEkgY2FuIGJ1aWxkLCBJIGFsc28gbWFrZSBzb2Z0d2FyZSBmb3IgYnVzaW5lc3NlcywgbGlrZSBTZWxsb21pemUgUmVhY2gsIGFzIGEgc2lkZSBwcm9qZWN0LiIsIkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4iXX0sImNsaWVudHMiOltdLCJmb290ZXIiOnsiaGVhZGluZyI6IkxldCdzIGJ1aWxkIHlvdXJzIiwia2ljayI6IkdvdCBhbiBhY2NvdW50IHRvIGZpeCwgYSBzdG9yZSB0byBidWlsZCwgb3IgbGlzdGluZ3MgdGhhdCBhcmVuJ3QgY29udmVydGluZz8iLCJub3RlIjoiVGhlIGZhc3Rlc3Qgd2F5IGluIGlzIGEgVGlrVG9rIERNIOKAlCBzZW5kIOKAnFdFQuKAnSBhbmQgdGVsbCBtZSB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4ifSwiaW50cm8iOnsibWV0YSI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDCtyBXb3JsZHdpZGUgwrcgQXZhaWxhYmxlIGZvciBuZXcgcHJvamVjdHMiLCJ0ZXh0IjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIn0sInByb2ZpbGUiOnsiYXZhaWxhYmlsaXR5Ijoi4pePIEF2YWlsYWJsZSBmb3IgbmV3IHByb2plY3RzIiwiY2xpZW50c0luIjoiV29ybGR3aWRlIiwiY3RhTGFiZWwiOiJETSBXRUIiLCJjdGFUZXh0IjoiRE0gV0VCIOKGlyIsIm5hbWUiOiJIZW5yeSIsInJvbGUiOiJNYXJrZXRwbGFjZSBPcGVyYXRvciAmIFNob3BpZnkgRGVzaWduZXIiLCJzdGF0dXMiOiJBdmFpbGFibGUgZm9yIG5ldyBwcm9qZWN0cyIsInN1YiI6Ik1hcmtldHBsYWNlIE9wZXJhdG9yICYgU2hvcGlmeSBEZXNpZ25lciDigJQgZm9yIGNsaWVudHMgd29ybGR3aWRlLiIsInRhZ2xpbmUiOiJJIHJ1biBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzLCBhbmQgYnVpbGQgdGhlIHN0b3JlcyBhcm91bmQgdGhlbS4iLCJ0aWt0b2tIYW5kbGUiOiJAaGVucnlrbm93c3dlYiIsInRpa3Rva1VybCI6Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQGhlbnJ5a25vd3N3ZWIiLCJlbWFpbCI6ImhlbnJ5a25vd3N3ZWJAZ21haWwuY29tIiwiYXJlYSI6Ildvcmxkd2lkZSIsInRpa3RvayI6IkBoZW5yeWtub3dzd2ViIiwiY3RhIjoiRE0gV0VCIiwieWVhcnMiOiI2KyIsImludHJvIjoiSSdtIEhlbnJ5LiBJIG1hbmFnZSBhbmQgZml4IG1hcmtldHBsYWNlIGFjY291bnRzIG9uIEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIGFuZCBJIGRlc2lnbiB0aGUgU2hvcGlmeSBzdG9yZXMgdGhhdCBzaXQgYmVzaWRlIHRoZW0uIEJldHRlciBsaXN0aW5ncywgY2xlYW5lciBhY2NvdW50cywgdGlnaHRlciBudW1iZXJzLCBhbmQgYSBzdG9yZSB0aGF0IG1hdGNoZXMuIiwic3RvcnkiOiJJIGNhbWUgaW50byB0aGlzIHRocm91Z2ggZS1jb21tZXJjZS4gRm9yIG1vcmUgdGhhbiBzaXggeWVhcnMgSSB3b3JrZWQgd2l0aCBvbmxpbmUgc3RvcmVzIGFuZCBtYXJrZXRwbGFjZXM6IEFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmksIHBsdXMgU2hvcGlmeSBzdG9yZXMuIE15IGZpcnN0IGpvYiB3YXMgYXQgVHJhZGVjb3pvbmUsIGJlZm9yZSBJIHN0YXJ0ZWQgbXkgZGVncmVlLCBhbmQgSSBrZXB0IHdvcmtpbmcgaW4gZS1jb21tZXJjZSB0aHJvdWdoIG15IHN0dWRpZXMuXG5cblRoZSB3b3JrIGNvdmVycyBsaXN0aW5nIGltYWdlcyBhbmQgZ3JhcGhpY3MsIEErIGNvbnRlbnQsIFBQQywgcmVjb25jaWxpYXRpb24gYW5kIGZpeGluZyBhY2NvdW50cyB0aGF0IGhhdmUgcHJvYmxlbXMuIEkgZGVzaWduIGluIEZpZ21hLCBydW4gZW1haWwgd2l0aCBLbGF2aXlvIGFuZCBoYW5kbGUgc3VwcG9ydCB3aXRoIEdvcmdpYXMgYW5kIE1pcmFjbGUgQ29ubmVjdC5cblxuSW4gMjAyNiBJIGNvbXBsZXRlZCBhIEJhY2hlbG9yJ3MgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgbWFqb3JpbmcgaW4gd2ViIGFuZCBtb2JpbGUgYXBwbGljYXRpb24gZGV2ZWxvcG1lbnQuIE15IGZpbmFsIHllYXIgcHJvamVjdCB3b24gZmlyc3QgcHJpemUgaW4gdGhlIGdyYWR1YXRpb24gcHJvamVjdCBwcm9ncmFtLCBhbmQgSSB3b24gZmlyc3QgcHJpemUgaW4gdGhlIG1vY2sgaW50ZXJ2aWV3IHByb2dyYW0uIEJlY2F1c2UgSSBjYW4gYnVpbGQsIEkgYWxzbyBtYWtlIHNvZnR3YXJlIGZvciBidXNpbmVzc2VzLCBsaWtlIFNlbGxvbWl6ZSBSZWFjaCwgYXMgYSBzaWRlIHByb2plY3QuXG5cbkkgd29yayByZW1vdGVseSB3aXRoIGNsaWVudHMgd29ybGR3aWRlLiBNZXNzYWdlIG1lIG9uIFRpa1RvayAoQGhlbnJ5a25vd3N3ZWIpIG9yIGJ5IGVtYWlsLCB0ZWxsIG1lIHdoaWNoIG1hcmtldHBsYWNlcyB5b3Ugc2VsbCBvbiBhbmQgd2hhdCBpc24ndCB3b3JraW5nLCBhbmQgd2UnbGwgc3RhcnQgZnJvbSB0aGVyZS4ifSwic2VydmljZXMiOlt7InRpdGxlIjoiTWFya2V0cGxhY2UgYWNjb3VudCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJMaXN0aW5ncywgY2F0YWxvZyBhbmQgZGF5LXRvLWRheSBvcGVyYXRpb25zIGFjcm9zcyBBbWF6b24sIGVCYXksIFRpa1RvayBTaG9wLCBXYWxtYXJ0LCBUZW11IGFuZCBNZXJjYXJpLiJ9LHsidGl0bGUiOiJMaXN0aW5nIGltYWdlcywgZ3JhcGhpY3MgYW5kIEErIGNvbnRlbnQiLCJkZXNjcmlwdGlvbiI6IkltYWdlcyBhbmQgbGF5b3V0cyBidWlsdCB0byBjb252ZXJ0LiJ9LHsidGl0bGUiOiJQUEMgYW5kIGFkdmVydGlzaW5nIiwiZGVzY3JpcHRpb24iOiJDYW1wYWlnbiBzZXR1cCwgb3B0aW1pemF0aW9uIGFuZCByZXBvcnRpbmcuIn0seyJ0aXRsZSI6IlJlY29uY2lsaWF0aW9uIGFuZCBhY2NvdW50IGlzc3VlLWZpeGluZyIsImRlc2NyaXB0aW9uIjoiRmluZGluZyB3aGVyZSB0aGUgbW9uZXkgb3IgdGhlIGFjY291bnQgaGVhbHRoIGlzIGxlYWtpbmcsIGFuZCBmaXhpbmcgaXQuIn0seyJ0aXRsZSI6IlNob3BpZnkgc3RvcmUgZGVzaWduIGFuZCBtYW5hZ2VtZW50IiwiZGVzY3JpcHRpb24iOiJEZXNpZ24gaW4gRmlnbWEsIGJ1aWxkLCBlbWFpbCB3aXRoIEtsYXZpeW8sIHN1cHBvcnQgd2l0aCBHb3JnaWFzLiJ9XSwiYWxzb0J1aWxkIjoiQWxzbyBidWlsZDogY3VzdG9tIGJ1c2luZXNzIHNvZnR3YXJlLCBmb3IgZXhhbXBsZSBTZWxsb21pemUgUmVhY2guIiwicHJvY2VzcyI6W3sidGl0bGUiOiJBdWRpdCIsInRleHQiOiJSZXZpZXdpbmcgbGlzdGluZ3MsIGFjY291bnQgaGVhbHRoIGFuZCBudW1iZXJzIHRvIGZpbmQgd2hhdCBpcyB3cm9uZy4ifSx7InRpdGxlIjoiUGxhbiIsInRleHQiOiJTZXR0aW5nIG91dCB3aGF0IHRvIGZpeCBvciBidWlsZCwgYW5kIGluIHdoYXQgb3JkZXIuIn0seyJ0aXRsZSI6IkZpeCAmIEJ1aWxkIiwidGV4dCI6IkZpeGluZyBhY2NvdW50IGFuZCBsaXN0aW5nIGlzc3VlcywgYW5kIGJ1aWxkaW5nIG9yIHVwZGF0aW5nIHRoZSBTaG9waWZ5IHN0b3JlIHdoZXJlIG5lZWRlZC4ifSx7InRpdGxlIjoiUmVwb3J0ICYgR3JvdyIsInRleHQiOiJSZXBvcnRpbmcgd2hhdCB3YXMgZG9uZSBhbmQgd2hhdCB3YXMgZm91bmQsIGFuZCBwbGFubmluZyB0aGUgbmV4dCB3b3JrLiJ9XSwidG9vbHMiOlt7Imdyb3VwIjoiV2ViIGFuZCBzdG9yZXMiLCJpdGVtcyI6WyJTaG9waWZ5IiwiSG9zdGluZ2VyIiwiV29vQ29tbWVyY2UiLCJXb3JkUHJlc3MiLCJDbG91ZGZsYXJlIiwiR29vZ2xlIEFuYWx5dGljcyIsIkdvb2dsZSBTZWFyY2ggQ29uc29sZSJdfSx7Imdyb3VwIjoiRGVzaWduLCBncmFwaGljcyBhbmQgQUkgaW1hZ2UgdG9vbHMiLCJpdGVtcyI6WyJGaWdtYSIsIlBob3Rvc2hvcCIsIkNhbnZhIiwiQ2hhdEdQVCIsIkdlbWluaSIsIkhpZ2dzZmllbGQiLCJQaXhpaSJdfSx7Imdyb3VwIjoiQW1hem9uIiwiaXRlbXMiOlsiU2VsbGVyIENlbnRyYWwiLCJBbWF6b24gQWRzIiwiQnJhbmQgQW5hbHl0aWNzIiwiSGVsaXVtIDEwIiwiSnVuZ2xlIFNjb3V0IiwiS2VlcGEiXX0seyJncm91cCI6IlNob3BpZnkgdG9vbHMiLCJpdGVtcyI6WyJTaG9waWZ5IEZsb3ciLCJTaG9waWZ5IE1hcmtldHMiLCJKdWRnZS5tZSIsIlJlY2hhcmdlIl19LHsiZ3JvdXAiOiJFbWFpbCBtYXJrZXRpbmciLCJpdGVtcyI6WyJLbGF2aXlvIiwiTWFpbGNoaW1wIiwiT21uaXNlbmQiXX0seyJncm91cCI6IkN1c3RvbWVyIHN1cHBvcnQiLCJpdGVtcyI6WyJHb3JnaWFzIiwiTWlyYWNsZSBDb25uZWN0Il19LHsiZ3JvdXAiOiJXYWxtYXJ0IiwiaXRlbXMiOlsiV2FsbWFydCBTZWxsZXIgQ2VudGVyIiwiV2FsbWFydCBDb25uZWN0Il19LHsiZ3JvdXAiOiJlQmF5IiwiaXRlbXMiOlsiU2VsbGVyIEh1YiIsIlByb21vdGVkIExpc3RpbmdzIiwiVGVyYXBlYWsiXX0seyJncm91cCI6IlRpa1RvayBTaG9wLCBUZW11IGFuZCBNZXJjYXJpIiwiaXRlbXMiOlsiVGlrVG9rIFNob3AgU2VsbGVyIENlbnRlciIsIlRlbXUgU2VsbGVyIENlbnRlciIsIk1lcmNhcmkiXX0seyJncm91cCI6IlJlcG9ydGluZyBhbmQgcmVjb25jaWxpYXRpb24iLCJpdGVtcyI6WyJHb29nbGUgU2hlZXRzIiwiRXhjZWwiXX1dLCJjYXNlU3R1ZGllcyI6W10sImNhc2VTdHVkaWVzRW1wdHkiOnsidGl0bGUiOiJOZXcgY2FzZSBzdHVkaWVzIGNvbWluZyBzb29uLiIsIm5vdGUiOiJXYW50IHlvdXIgYWNjb3VudCB0byBiZSBvbmUgb2YgdGhlIGZpcnN0IGZlYXR1cmVkPyBNZXNzYWdlIG1lIG9uIFRpa1Rvay4ifSwicHJvamVjdHMiOlt7ImlkIjoic2VsbG9taXplLXJlYWNoIiwic2x1ZyI6InNlbGxvbWl6ZS1yZWFjaCIsInRpdGxlIjoiU2VsbG9taXplIFJlYWNoIiwidHlwZSI6IlNvZnR3YXJlIiwieWVhciI6IjIwMjYiLCJyb2xlIjoiRGVzaWduICYgYnVpbGQiLCJzdW1tYXJ5IjoiQ29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSBidWlsdCBmb3IgU2VsbG9taXplLCBhbiBBbWF6b24gZ3Jvd3RoIGFnZW5jeS4gQ2FtcGFpZ25zLCBtdWx0aS1zdGVwIHNlcXVlbmNlcywgbGVhZCBtYW5hZ2VtZW50LCBkZWxpdmVyYWJpbGl0eSB0cmFja2luZyBhbmQgQUktYXNzaXN0ZWQgZHJhZnRpbmcg4oCUIGEgUmVhY3QgZnJvbnQgZW5kIG9uIENsb3VkZmxhcmUgV29ya2VycywgRDEgYW5kIHF1ZXVlcy4gVHJ5IHRoZSBsaXZlIGRlbW8gKHNhbXBsZSBkYXRhKSwgb3IgdmlzaXQgdGhlIHByb2R1Y3Rpb24gdmVyc2lvbi4iLCJkZXNjcmlwdGlvbiI6IiIsInRhZ3MiOlsiUmVhY3QiLCJUeXBlU2NyaXB0IiwiQ2xvdWRmbGFyZSIsIkFJIGFnZW50cyJdLCJjb3ZlciI6eyJzcmMiOiJhc3NldHMvcHJvamVjdHMvc2VsbG9taXplLXJlYWNoLWNvdmVyLnN2ZyIsImFsdCI6IlNlbGxvbWl6ZSBSZWFjaCDigJQgY29sZCBlbWFpbCBvdXRyZWFjaCBwbGF0Zm9ybSJ9LCJnYWxsZXJ5IjpbXSwiYmVmb3JlQWZ0ZXIiOm51bGwsInVybCI6Imh0dHBzOi8vcmVhY2guc2VsbG9taXplLmNvbS8iLCJkZW1vVXJsIjoiaHR0cHM6Ly9zZWxsb21pemUtcmVhY2gtZGVtby5wYWdlcy5kZXYvIiwicHJldmlld1ZpZGVvIjoiIiwicHVibGlzaGVkIjp0cnVlfSx7ImlkIjoic2FsbHktc2tvdWZpcyIsInNsdWciOiJzYWxseS1za291ZmlzIiwidGl0bGUiOiJTYWxseSBTa291ZmlzIiwidHlwZSI6IlN0b3JlIiwieWVhciI6IiIsInJvbGUiOiIiLCJzdW1tYXJ5IjoiIiwiZGVzY3JpcHRpb24iOiIiLCJ0YWdzIjpbXSwiY292ZXIiOnsic3JjIjoiIiwiYWx0IjoiIn0sImdhbGxlcnkiOltdLCJiZWZvcmVBZnRlciI6eyJiZWZvcmUiOiJhc3NldHMvd2Vic2l0ZS13b3JrL3NhbGx5LXNrb3VmaXMtYmVmb3JlLmpwZyIsImFmdGVyIjoiYXNzZXRzL3dlYnNpdGUtd29yay9zYWxseS1za291ZmlzLWFmdGVyLmpwZyIsImJlZm9yZUFsdCI6IlNhbGx5IFNrb3VmaXMg4oCUIE1pbnggU2hlbGwgY29sbGVjdGlvbiwgYmVmb3JlIHJlZGVzaWduIiwiYWZ0ZXJBbHQiOiJTYWxseSBTa291ZmlzIOKAlCBNaW54IFNoZWxsIGNvbGxlY3Rpb24sIGFmdGVyIHJlZGVzaWduIn0sInVybCI6Imh0dHBzOi8vc2FsbHlza291ZmlzLmNvbS8/cHJldmlld190aGVtZV9pZD0xODk3NjM2ODI1OTUiLCJkZW1vVXJsIjoiIiwicHJldmlld1ZpZGVvIjoiIiwicHVibGlzaGVkIjp0cnVlfV0sInNldHRpbmdzIjp7Im1vdGlvbiI6eyJkZWZhdWx0VmlldyI6Imxpc3QiLCJzaG93Vmlld1RvZ2dsZSI6dHJ1ZSwicHJldmlld01vZGUiOiJmb2xsb3ciLCJjYXJkU2l6ZSI6MzYwLCJ0aWx0Ijp0cnVlLCJzcHJpbmciOiJub3JtYWwiLCJkaW1PdGhlcnMiOnRydWUsIm1heE1vYmlsZVBsYXlpbmciOjIsIm1vYmlsZUJlaGF2aW91ciI6ImFjY29yZGlvbiJ9LCJ0ZXN0aW1vbmlhbHMiOnsic2hvd1NlY3Rpb24iOmZhbHNlLCJsYXlvdXQiOiJmZWF0dXJlZCIsImF1dG9Sb3RhdGUiOmZhbHNlLCJyb3RhdGVTZWNvbmRzIjo2LCJzaG93QXZhdGFycyI6dHJ1ZSwic2hvd1Byb2plY3RMaW5rIjp0cnVlfSwic3dhcm0iOnsiZW5hYmxlZCI6dHJ1ZSwiY3Vyc29yQ291bnQiOjIwLCJidWlsZFNwZWVkIjoxLCJsYWJlbHMiOlsiTGlzdGluZyIsIkErIENvbnRlbnQiLCJQUEMiLCJSZWNvbmNpbGlhdGlvbiIsIlNob3BpZnkiLCJBbWF6b24iLCJlQmF5IiwiVGlrVG9rIFNob3AiLCJXYWxtYXJ0IiwiVGVtdSIsIk1lcmNhcmkiXX19LCJzb2NpYWxzIjpbeyJwbGF0Zm9ybSI6IlRpa1RvayIsImhhbmRsZSI6IkBoZW5yeWtub3dzd2ViIiwidXJsIjoiaHR0cHM6Ly93d3cudGlrdG9rLmNvbS9AaGVucnlrbm93c3dlYiIsInZpc2libGUiOnRydWV9XSwidGVzdGltb25pYWxzIjpbXSwiZmFxIjpbeyJncm91cCI6Ildvcmtpbmcgd2l0aCBtZSIsIml0ZW1zIjpbeyJxIjoiV2hhdCBkbyB5b3UgZG8/IiwiYSI6Ik1hcmtldHBsYWNlIGFjY291bnQgbWFuYWdlbWVudCwgbGlzdGluZyBpbWFnZXMgYW5kIGdyYXBoaWNzIGFuZCBBKyBjb250ZW50LCBQUEMgYW5kIGFkdmVydGlzaW5nLCByZWNvbmNpbGlhdGlvbiBhbmQgYWNjb3VudCBpc3N1ZS1maXhpbmcsIGFuZCBTaG9waWZ5IHN0b3JlIGRlc2lnbiBhbmQgbWFuYWdlbWVudC4ifSx7InEiOiJXaGljaCBtYXJrZXRwbGFjZXMgZG8geW91IHdvcmsgb24/IiwiYSI6IkFtYXpvbiwgZUJheSwgVGlrVG9rIFNob3AsIFdhbG1hcnQsIFRlbXUgYW5kIE1lcmNhcmkuIn0seyJxIjoiV2hvIGRvIHlvdSB3b3JrIHdpdGg/IiwiYSI6IkJyYW5kcyBhbmQgc2VsbGVycyBmaXJzdC4gSSBhbHNvIHdvcmsgd2l0aCBhZ2VuY2llcywgYW5kIEkgYW0gb3BlbiB0byByb2xlcy4gSSB3b3JrIHJlbW90ZWx5IHdpdGggY2xpZW50cyB3b3JsZHdpZGUuIn0seyJxIjoiSG93IGRvIHdlIHN0YXJ0PyIsImEiOiJTZW5kIG1lIGEgRE0gb24gVGlrVG9rIChAaGVucnlrbm93c3dlYikgb3IgYW4gZW1haWwgd2l0aCB3aGljaCBtYXJrZXRwbGFjZXMgeW91IHNlbGwgb24gYW5kIHdoYXQgaXNuJ3Qgd29ya2luZy4gVGhlcmUgaXMgYSBmcmVlIDE1LW1pbnV0ZSBjYWxsIGlmIHlvdSB3YW50IHRvIHRhbGsgaXQgdGhyb3VnaCBmaXJzdC4ifV19LHsiZ3JvdXAiOiJTdG9yZXMgYW5kIHNvZnR3YXJlIiwiaXRlbXMiOlt7InEiOiJDYW4geW91IGRlc2lnbiBhIFNob3BpZnkgc3RvcmU/IiwiYSI6Illlcy4gSSBkZXNpZ24gaW4gRmlnbWEsIHJ1biBlbWFpbCB3aXRoIEtsYXZpeW8gYW5kIGhhbmRsZSBzdXBwb3J0IHdpdGggR29yZ2lhcy4ifSx7InEiOiJEbyB5b3UgYnVpbGQgc29mdHdhcmU/IiwiYSI6Illlcy4gRm9yIGV4YW1wbGUgU2VsbG9taXplIFJlYWNoLCBhIGNvbGQgZW1haWwgb3V0cmVhY2ggcGxhdGZvcm0gYnVpbHQgZm9yIGFuIEFtYXpvbiBncm93dGggYWdlbmN5LiJ9LHsicSI6IldpbGwgbXkgc2l0ZSB3b3JrIG9uIHBob25lcz8iLCJhIjoiWWVzLiBFdmVyeSBzaXRlIGlzIGRlc2lnbmVkIGZvciBwaG9uZSwgdGFibGV0IGFuZCBkZXNrdG9wLiJ9LHsicSI6IldobyBvd25zIHRoZSBkb21haW4gYW5kIGhvc3RpbmcgZm9yIGEgd2Vic2l0ZT8iLCJhIjoiWW91IGRvLiBUaGUgZG9tYWluIGFuZCBob3N0aW5nIGFjY291bnRzIHN0YXkgaW4geW91ciBuYW1lLCBzbyB5b3UgYWx3YXlzIG93biB0aGVtLiJ9XX0seyJncm91cCI6IlRydXN0IiwiaXRlbXMiOlt7InEiOiJDYW4gSSBzZWUgeW91ciB3b3JrPyIsImEiOiJJIG9ubHkgc2hvdyB3b3JrIEkgbWFkZS4gQ2FzZSBzdHVkaWVzIGFuZCBwcm9qZWN0cyBhcmUgYWRkZWQgYXQgL2Nhc2Utc3R1ZGllcyBhbmQgL3Byb2plY3RzIGFzIHRoZXkgYXJlIHJlYWR5LiJ9LHsicSI6IkRvIHlvdSBvZmZlciBhIGZyZWUgY29uc3VsdGF0aW9uPyIsImEiOiJBIGZyZWUgMTUtbWludXRlIGNhbGwsIHllcy4gQSBmcmVlIG1vY2t1cCwgbm8uIn1dfV19"); })
           .then(applyContent)
           .catch(function () { /* Embedded verified content stays as-is. */ });
       })();
@@ -2838,15 +2918,55 @@
          init and never read or written again. Fine pointers only,
          never under reduced motion. With ?swarmdebug=1 the engine
          records a per-frame log (window.__swarmDebug.frames /
-         .elements). */
+         .elements).
+
+         STAGE-MACHINE AMENDMENT (Henry's directed fix, Nov 8,
+         after the live stall diagnostic): every element now runs
+         an explicit stage machine — ghost -> outline traced ->
+         fill -> content revealed -> complete — advancing on the
+         smoothed build clock only; cursors are decoration and
+         never gate a stage. Global machine states: idle, building,
+         frozen, done. Freeze finishes in-flight elements on their
+         own clocks (400 ms hard cap, then force-complete).
+         Resume input = scroll, wheel, touchmove, scroll keys,
+         scrollbar drags and hash changes — not scroll alone. A
+         watchdog forces a stalled stage forward (no stage change
+         for 1.5 s of build clock while building; any stage over
+         2 s of real time force-completes). At the document bottom
+         a drain completes everything above / in the viewport in
+         order within 4 s, then the effect ends. Ghost outlines
+         are clipped below the fixed header and vanish once an
+         element's fill stage starts. Load rule (Henry's
+         amendment): no #hash -> scrollRestoration is pinned to
+         manual and the page starts at the top, full replay from
+         the hero on every load; a #hash landing (or an in-session
+         hash jump) instead silently completes everything above
+         the landing viewport so the front can never be pinned
+         behind earlier sections. */
       (function () {
         "use strict";
+        /* Load decision (Henry, Nov 8 amendment): a #hash URL whose
+           target exists is an intentional mid-page landing — honour
+           the position and let the init-skip clear everything above
+           it. Anything else is a normal open/reload: pin scroll
+           restoration to manual and force the top NOW, at parse
+           time, so the hero and every section replay in order on
+           every load. */
+        var loadHashTargeted = false;
+        try {
+          var lh = window.location.hash || "";
+          if (lh) loadHashTargeted = !!document.querySelector(lh);
+        } catch (e) { loadHashTargeted = false; }
+        if (!loadHashTargeted) {
+          try { history.scrollRestoration = "manual"; } catch (e) {}
+          try { window.scrollTo(0, 0); } catch (e) {}
+        }
         var PREF_KEY = "hk.swarm.enabled";
         var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
         var DEFAULT_LABELS = ["Listing", "A+ Content", "PPC", "Reconciliation", "Shopify", "Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari"];
         /* Viewport-build constants (Henry's swarm v4 spec, Nov 8):
            SCROLL_IDLE_MS — no scroll event for this long means the
-             visitor has stopped; the current element finishes, then
+             visitor has stopped; the elements being drawn finish, then
              the build freezes and ghosts show.
            MIN_REVEAL_MS — internal per-element reveal floor: reveals
              are rate-clamped to 240 ms of accumulated frame time. The
@@ -2872,17 +2992,38 @@
              count as settled into the orbit ring (state mode "orbit";
              before that the mode reads "frozen" while they travel). */
         var SCROLL_IDLE_MS = 150, MIN_REVEAL_MS = 240, VIEWPORT_MS = 1200, HERO_MS = 7000, STAGGER_MS = 60, ORBIT_SETTLE_MS = 500;
+        /* Stage-machine constants (Henry's directed fix, Nov 8):
+           STAGE_MIN_TOTAL — an element's three active stages
+             (outline, fill, reveal) each run at least 180 ms of
+             build clock, so the total is floored at 3 x 180 = 540.
+           FREEZE_CAP_MS — on a stop, an in-flight element finishes
+             on its own clock with this hard cap, then force-completes.
+           WATCHDOG_BUILD_MS — while building, if no stage changes
+             for this much build-clock time, the watchdog forces the
+             lead element to its next stage.
+           STAGE_CAP_REAL_MS — an element in one stage longer than
+             this (real time, while building) is force-completed.
+           DRAIN_CAP_MS — the bottom rule's total budget. */
+        var STAGE_MIN_TOTAL = 540, FREEZE_CAP_MS = 400, WATCHDOG_BUILD_MS = 1500, STAGE_CAP_REAL_MS = 2000, DRAIN_CAP_MS = 4000;
+        var STAGE_NAMES = ["ghost", "outline", "fill", "reveal", "complete"];
         var RANK = { bg: 0, box: 1, chip: 1, image: 2, heading: 3, text: 4, label: 4, button: 5, detail: 5 };
         var canvas = null, ctx = null, raf = 0, running = false;
         var inited = false, bound = false, finished = false, disabled = false, exiting = false, exitStart = 0;
         var contentEnabled = true, cursorCount = 20, buildSpeed = 1, labels = DEFAULT_LABELS.slice();
         var sections = [], cursors = [], queue = [];
-        var head = 0, builtCount = 0, current = null, finishing = false;
+        var head = 0, builtCount = 0, active = [];
         var frozen = false, wasFrozen = false, frozenSince = 0, heroDurEach = 0;
         var pace = 0, paceTarget = 0, scrollSpeed = 0;
         var lastNow = 0, engT = 0, scrollPos = 0, vh = 0;
         var lastScrollMoveAt = -1e9, lastScrollEvtT = -1e9;
-        var curMode = "build";
+        /* stage machine + fix state: buildT is the smoothed build
+           clock (accumulates dt x pace while building, dt while
+           finishing); docH/headerH are cached in measureGeometry;
+           drainStart >= 0 while the bottom rule is draining. */
+        var buildT = 0, lastStageChangeBuild = 0, lastStageChangeReal = 0;
+        var docH = 0, headerH = 0, drainStart = -1, startedOnce = false;
+        var watchdogEvents = [], stallUntil = 0, stallEntry = null;
+        var curMode = "build", curMachine = "idle";
         var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
         var scatterUntil = 0, scatterPts = [], orbitA = 0, W = 0, H = 0;
         var ro = null, summaryPrinted = false;
@@ -2896,7 +3037,7 @@
            its reveal completes. */
         var debugOn = false;
         try { debugOn = String(window.location.search || "").indexOf("swarmdebug=1") !== -1; } catch (e) {}
-        var dbgFrames = debugOn ? [] : null, dbgElements = debugOn ? [] : null;
+        var dbgFrames = debugOn ? [] : null, dbgElements = debugOn ? [] : null, dbgTransitions = debugOn ? [] : null;
         function dbgFrame(now, scrolling, frameMs) {
           if (!debugOn || dbgFrames.length >= 20000) return;
           dbgFrames.push({
@@ -2915,7 +3056,8 @@
             console.log("[swarmdebug] frames=" + dbgFrames.length + " elements=" + dbgElements.length +
               " maxFrame=" + (Math.round(maxFrame * 10) / 10) + "ms" +
               " minReveal=" + (minDur === Infinity ? "n/a" : Math.round(minDur) + "ms") +
-              " built=" + builtCount + "/" + queue.length + " buildSpeed=" + buildSpeed);
+              " built=" + builtCount + "/" + queue.length + " buildSpeed=" + buildSpeed +
+              " watchdog=" + watchdogEvents.length);
           } catch (e) {}
         }
 
@@ -3127,7 +3269,15 @@
           if (sec.items) return sec.items;
           var items;
           if (sec.isTools) items = toolsItems(sec);
-          else if (sec.isHero) items = heroItems(sec);
+          else if (sec.isHero) {
+            items = heroItems(sec);
+            /* Non-home hero sections (the /case-studies and /projects
+               intros) contain none of the home hero's keyed elements,
+               so heroItems returns nothing for them: fall back to the
+               generic classifier so the intro still builds, with hero
+               pacing and the hero auto-start. */
+            if (!items.length) items = flattenClassified(sec);
+          }
           else items = flattenClassified(sec);
           items.forEach(function (it) { if (it.kind === "text") it.lines = textLines(it); if (it.kind === "label") it.lines = 1; });
           items.unshift(mkItem(sec.el, "bg", "bg", sec.rect, -1));
@@ -3147,11 +3297,15 @@
         }
         function measureGeometry() {
           vh = window.innerHeight || 0;
+          docH = 0;
           sections.forEach(function (sec) {
             sec.rect = docRect(sec.el);
             sec.top = sec.rect.t;
+            if (sec.rect.t + sec.rect.h > docH) docH = sec.rect.t + sec.rect.h;
             if (sec.items) sec.items.forEach(function (it) { if (it.kind !== "bg") it.rect = docRect(it.el); else it.rect = sec.rect; });
           });
+          var hdr = document.querySelector("header, .topbar");
+          headerH = hdr && hdr.offsetHeight ? hdr.offsetHeight : 0;
         }
         var recacheT = 0;
         function scheduleRecache() {
@@ -3175,7 +3329,7 @@
             });
             sec.entryCount = ordered.length;
             sec.builtCount = 0;
-            ordered.forEach(function (it) { queue.push({ sec: sec, item: it, dur: 0 }); });
+            ordered.forEach(function (it) { queue.push({ sec: sec, item: it, dur: 0, done: false, stage: 0, stageT: 0, stageDur: 0, stageStartReal: 0, _finishT0: -1, _started: false }); });
             if (sec.isHero) {
               var n = Math.max(1, ordered.length);
               heroDurEach = clamp(Math.round(HERO_MS / buildSpeed / n), MIN_REVEAL_MS, 4000);
@@ -3183,8 +3337,7 @@
           });
           head = 0;
           builtCount = 0;
-          current = null;
-          finishing = false;
+          active = [];
           frozen = false;
           wasFrozen = false;
           pace = 0;
@@ -3205,7 +3358,7 @@
         function eligible(e) { var r = e.item.rect; return inWindow(r) || (r.t + r.h < scrollPos); }
         function visibleUnbuiltCount() {
           var n = 0;
-          for (var i = head; i < queue.length; i++) if (inWindow(queue[i].item.rect)) n++;
+          for (var i = head; i < queue.length; i++) if (!queue[i].done && inWindow(queue[i].item.rect)) n++;
           return n;
         }
         function computeDur(e) {
@@ -3379,9 +3532,21 @@
           ctx.strokeStyle = "rgba(140,135,130,0.4)";
           ctx.lineWidth = 1;
           for (var i = head; i < queue.length; i++) {
+            if (queue[i].done) continue;
+            /* ghosts exist only until an element's fill stage
+               starts (stage 2); from fill on, the element itself is
+               visibly drawing and needs no placeholder. */
+            if (queue[i].stage >= 2) continue;
             var r = queue[i].item.rect;
             if (!inWindow(r)) continue;
-            ctx.strokeRect(r.l + 0.5, r.t - scrollPos + 0.5, Math.max(0, r.w - 1), Math.max(0, r.h - 1));
+            /* clip to the page content area: never paint a ghost
+               over the fixed header band or outside the viewport. */
+            var top = r.t - scrollPos;
+            if (top + r.h <= headerH || top >= vh) continue;
+            var gy = Math.max(top, headerH);
+            var gh = Math.min(top + r.h, vh) - gy;
+            if (gh <= 0) continue;
+            ctx.strokeRect(r.l + 0.5, gy + 0.5, Math.max(0, r.w - 1), Math.max(0, gh - 1));
           }
           ctx.restore();
         }
@@ -3467,6 +3632,7 @@
         }
         function hideAll(sec) {
           sec.items.forEach(function (it) {
+            if (it._done) return; /* completed early via __swarmMarkBuilt: stays at its final state */
             if (it.letters && it.letters.length) holdLetters(sec, it);
             applyItem(sec, it, 0, false);
           });
@@ -3489,6 +3655,25 @@
           sec.state = "built";
           builtOrderPush(sec.index);
         }
+        /* Sections flip to "built" strictly in document order: with
+           a concurrent draw window a later section's elements can
+           finish moments before an earlier section's last element;
+           its flip is held (its content is already fully drawn)
+           until every earlier section has flipped, so builtOrder
+           and the visible completion order never invert. */
+        function finishSectionOrdered(sec) {
+          var earlierBuilt = true;
+          for (var i = 0; i < sec.index; i++) if (sections[i].state !== "built") { earlierBuilt = false; break; }
+          if (!earlierBuilt) { sec._completePending = true; return; }
+          if (sec.state !== "built") finishSection(sec);
+          for (var j = 0; j < sections.length; j++) {
+            var s2 = sections[j];
+            if (!s2._completePending || s2.state === "built") continue;
+            var ok = true;
+            for (var k = 0; k < s2.index; k++) if (sections[k].state !== "built") { ok = false; break; }
+            if (ok) { s2._completePending = false; finishSection(s2); }
+          }
+        }
         var builtOrder = [];
         function builtOrderPush(i) { builtOrder.push(i); }
 
@@ -3501,52 +3686,256 @@
            earns full pace (1) — never more, so the per-element and
            per-viewport floors always hold and nothing snaps. While
            the hero builds, the target is a steady 1 (its elements
-           carry the 6-8 s schedule in their durations). While an
-           element is finishing after a stop, the pace is bypassed
-           and the element completes at the base reveal rate, so it
-           always lands within the 400 ms stop budget. */
+           carry the 6-8 s schedule in their durations). While
+           elements are finishing after a stop, the pace is bypassed
+           and each completes at the base reveal rate, so each lands
+           within the 400 ms stop budget. */
         function stepPace(dtSec) {
           pace += (paceTarget - pace) * (1 - Math.exp(-dtSec * 9));
           if (pace < 0) pace = 0;
           if (pace > 1) pace = 1;
         }
+        /* ---------------- the draw window (v4 stall fix) ----------------
+           The v4 serial model drew ONE element at a time. Measured on
+           the live pages (jsdom burst reproduction, Nov 8): under
+           ordinary stepped scrolling — a short scroll burst, then a
+           2-4 s pause — throughput collapsed to exactly ONE element
+           per burst: inside a burst's ~150-300 ms of "scrolling" the
+           single element only gained a fraction of its duration at
+           the gentle-scroll pace, and the stop rule then completed
+           just that one element. A 20-50 element section needed
+           minutes of stepped scrolling and read as "never builds".
+           The fix keeps every rule — starts strictly in queue order,
+           starts only while scrolling (hero excepted), per-element
+           duration from computeDur (>= the 240 ms floor, pace <= 1,
+           so no element's real reveal time ever drops), freeze +
+           ghosts on stop — but lets a WINDOW of elements draw
+           concurrently. The window width is metered from the same
+           two floors: with K eligible unbuilt elements (in the
+           window, or already scrolled past — the backlog the strict
+           queue still owes), at most K x MIN_REVEAL_MS /
+           (VIEWPORT_MS / buildSpeed) draw at once (capped at 10),
+           so the batch intersecting one viewport still spans at
+           least ~VIEWPORT_MS / buildSpeed end to end; counting the
+           backlog keeps the width from collapsing back to 1 once
+           the visitor has scrolled past unbuilt elements, which
+           would re-create the stall for exactly those elements.
+           The hero stays serial (width 1): its 6-8 s schedule
+           lives in its per-element durations. On a stop, every
+           in-flight element finishes at the base rate (each within
+           the 400 ms budget) and no new element starts — the
+           stop/freeze/ghost behaviour is unchanged. */
+        function eligibleUnbuiltCount() {
+          var n = 0;
+          for (var i = head; i < queue.length; i++) if (!queue[i].done && eligible(queue[i])) n++;
+          return n;
+        }
+        function maxParallel(front) {
+          if (!front || front.sec.isHero) return 1;
+          var k = eligibleUnbuiltCount();
+          return clamp(Math.round(k * MIN_REVEAL_MS * buildSpeed / VIEWPORT_MS), 1, 10);
+        }
+        function leadEntry() { return active.length ? active[0] : null; }
+        /* ---------------- the stage machine ----------------
+           Every element runs one explicit machine: ghost (queued,
+           unstarted) -> outline traced -> fill -> content revealed
+           -> complete. A cursor never gates a stage: cursors are
+           positioned FROM the lead entry each frame, and no advance
+           path reads a cursor position. Stages advance on the
+           smoothed build clock only (dt x pace while building; the
+           element's own base-rate clock while it finishes after a
+           stop). The existing per-kind renderers keep working
+           unchanged: the machine maps (stage, stage progress) onto
+           the same reveal value v in [0,1] — outline is the first
+           third, fill the second, reveal the last. */
+        function logTransition(type, e, note) {
+          if (!debugOn) return;
+          if (dbgTransitions.length >= 5000) return;
+          dbgTransitions.push({ t: Math.round(engT), type: type, sec: e ? e.sec.index : -1, kind: e ? e.item.kind : "", stage: e ? e.stage : -1, note: note || "" });
+        }
+        function stageTotalFor(e) {
+          return e.sec.isHero ? Math.max(heroDurEach, STAGE_MIN_TOTAL) : Math.max(computeDur(e), STAGE_MIN_TOTAL);
+        }
         function startEntry(e) {
-          e.dur = computeDur(e);
+          e.dur = stageTotalFor(e);
+          e.stageDur = Math.max(60, Math.round(e.dur / 3));
+          e.stage = 1;
+          e.stageT = 0;
+          e.stageStartReal = engT;
+          e._started = true;
+          startedOnce = true;
+          lastStageChangeBuild = buildT;
+          lastStageChangeReal = engT;
           if (!e.sec.started) startSection(e.sec);
-          current = e;
+          active.push(e);
+          logTransition("stage", e, "start:outline");
         }
-        function advanceCurrent(dt, now, finishMode) {
-          var e = current, it = e.item;
+        function applyStageV(e) {
+          var frac = e.stageDur ? Math.min(1, e.stageT / e.stageDur) : 1;
+          var v = Math.min(1, ((e.stage - 1) + frac) / 3);
+          if (v !== e.item.v) { e.item.v = v; applyItem(e.sec, e.item, v, true); }
+        }
+        function transitionStage(e, now) {
+          e.stage++;
+          e.stageT = 0;
+          e.stageStartReal = engT;
+          lastStageChangeBuild = buildT;
+          lastStageChangeReal = engT;
+          if (e.stage >= 4) { completeEntry(e, now); return; }
+          logTransition("stage", e, "->" + (STAGE_NAMES[e.stage] || e.stage));
+          applyStageV(e);
+        }
+        function fireWatchdog(kind, e) {
+          var rec = { t: Math.round(engT), kind: kind, sec: e ? e.sec.index : -1, stage: e ? e.stage : -1 };
+          watchdogEvents.push(rec);
+          lastStageChangeBuild = buildT;
+          logTransition("watchdog", e, kind);
+          if (debugOn) { try { console.log("[swarmdebug] watchdog " + kind + " sec=" + rec.sec + " stage=" + rec.stage); } catch (err) {} }
+        }
+        function advanceEntry(e, dt, now, finishMode) {
+          var it = e.item;
           if (debugOn && !it._dbgS) it._dbgS = now;
-          var before = it.v;
-          if (finishMode) it.v = Math.min(1, it.v + dt / MIN_REVEAL_MS);
-          else it.v = Math.min(1, it.v + (dt / e.dur) * pace);
-          if (it.v > before) applyItem(e.sec, it, it.v, true);
-          if (it.v >= 1) completeEntry(now);
+          /* debug-only artificial stall (suite hook): the stalled
+             entry's stage clock does not accumulate, so the
+             watchdogs can be observed firing. Inert in normal runs:
+             stallUntil is only ever set via __swarmDebug._stallNext
+             with ?swarmdebug=1. */
+          if (debugOn && stallUntil && engT < stallUntil && (stallEntry ? e === stallEntry : e === leadEntry())) return;
+          if (finishMode) {
+            if (e._finishT0 < 0) e._finishT0 = engT;
+            e.stageT += dt; /* its own clock: base rate, unpaced */
+            if (engT - e._finishT0 > FREEZE_CAP_MS) { completeEntry(e, now); return; }
+          } else {
+            e._finishT0 = -1;
+            e.stageT += dt * pace;
+            /* per-element watchdog: one stage for > 2 s of real
+               time while building -> force-complete. Normal stages
+               are <= ~800 ms of build clock (<= ~1.6 s real even at
+               the gentle 0.25 pace floor), so this never fires in a
+               normal run. */
+            if (engT - e.stageStartReal > STAGE_CAP_REAL_MS) { fireWatchdog("stage-cap", e); completeEntry(e, now); return; }
+          }
+          if (e.stageT >= e.stageDur) transitionStage(e, now);
+          else applyStageV(e);
         }
-        function completeEntry(now) {
-          var e = current, it = e.item;
+        function advanceActive(dt, now, finishMode) {
+          var snapshot = active.slice();
+          for (var i = 0; i < snapshot.length; i++) advanceEntry(snapshot[i], dt, now, finishMode);
+        }
+        function completeEntry(e, now) {
+          var it = e.item;
           if (debugOn && it._dbgS && !it._dbgE) {
             it._dbgE = now;
             dbgElements.push({ section: e.sec.index, type: it.kind, start: Math.round(it._dbgS), end: Math.round(now), duration: Math.round(now - it._dbgS) });
           }
+          if (it.v < 1) { it.v = 1; if (e.sec.started) applyItem(e.sec, it, 1, false); }
+          e.stage = 4;
+          e.done = true;
+          it._done = true;
           e.sec.builtCount++;
           builtCount++;
-          head++;
-          current = null;
-          finishing = false;
-          if (e.sec.builtCount >= e.sec.entryCount) finishSection(e.sec);
+          lastStageChangeBuild = buildT;
+          lastStageChangeReal = engT;
+          var ai = active.indexOf(e);
+          if (ai >= 0) active.splice(ai, 1);
+          skipDoneHead();
+          logTransition("stage", e, "complete");
+          if (e.sec.builtCount >= e.sec.entryCount) finishSectionOrdered(e.sec);
         }
+        /* Init-skip (Henry's directed change): at initialization —
+           and after a hash jump — every element fully above the
+           viewport is already behind the visitor, so it is marked
+           complete silently (no animation, no debug element
+           record) and can never block the front; the build front
+           starts at the first visible unbuilt element. This
+           replaces the v4 rule that a fresh load always rebuilds
+           from the hero even after scroll restoration: on a normal
+           top-of-page load nothing is fully above, so the hero
+           still auto-builds exactly as before. */
+        function silentlyCompleteAbove() {
+          if (!queue.length) return;
+          var y = window.scrollY || 0;
+          var n = 0;
+          for (var i = 0; i < queue.length; i++) {
+            var e = queue[i];
+            if (e.done) continue;
+            var r = e.item.rect;
+            if (r.t + r.h <= y) {
+              e.done = true;
+              e.item._done = true;
+              e.item.v = 1;
+              e.stage = 4;
+              e.sec.builtCount++;
+              builtCount++;
+              n++;
+              if (e.sec.builtCount >= e.sec.entryCount && e.sec.state !== "built") finishSectionOrdered(e.sec);
+            }
+          }
+          if (n) {
+            skipDoneHead();
+            logTransition("initskip", null, n + " above-viewport elements completed silently");
+          }
+        }
+        /* Bottom rule: force-complete, in queue order, every
+           remaining element that is above or inside the viewport
+           (used when the 4 s drain budget runs out). */
+        function forceCompleteEligible(now) {
+          for (var i = 0; i < queue.length; i++) {
+            var e = queue[i];
+            if (!e.done && eligible(e)) completeEntry(e, now);
+          }
+          skipDoneHead();
+        }
+        function skipDoneHead() {
+          while (head < queue.length && queue[head].done) head++;
+        }
+        /* ---------------- filter API: __swarmMarkBuilt ----------------
+           Completes instantly every queue entry whose element is
+           rootEl or inside it: the entry is flagged done, put at its
+           final state, and counted through the same bookkeeping as a
+           normal completion (per-section builtCount, the global
+           builtCount, and finishSection when a section completes), so
+           section classes and state stay coherent and the engine
+           never builds the entry again (the queue head skips done
+           entries). Filter UIs call this for each row a filter change
+           makes visible, so a filtered-in row is revealed immediately
+           instead of waiting for the build to reach it. No-op when
+           the engine is not engaged (not initialised, disabled, or
+           already finished). */
+        function markBuilt(rootEl) {
+          if (!rootEl || !inited || disabled || finished || !queue.length) return;
+          if (rootEl.nodeType !== 1) return;
+          var changed = false;
+          for (var i = 0; i < queue.length; i++) {
+            var e = queue[i];
+            if (e.done) continue;
+            var el = e.item.el;
+            if (!el || (el !== rootEl && !(rootEl.contains && rootEl.contains(el)))) continue;
+            e.done = true;
+            e.item._done = true;
+            e.item.v = 1;
+            changed = true;
+            var ai = active.indexOf(e);
+            if (ai >= 0) active.splice(ai, 1);
+            if (e.sec.started) applyItem(e.sec, e.item, 1, false);
+            e.sec.builtCount++;
+            builtCount++;
+            if (e.sec.builtCount >= e.sec.entryCount && e.sec.state !== "built") finishSectionOrdered(e.sec);
+          }
+          if (changed) skipDoneHead();
+        }
+        window.__swarmMarkBuilt = markBuilt;
 
         /* ---------------- the loop ----------------
            One rAF loop drives everything. scrollY is read ONLY in
            the passive scroll listener below and cached in scrollPos;
            the loop uses cached geometry (no layout reads). Per frame:
            the hero (if unfinished) advances on its own schedule; the
-           element at the queue front advances only while the visitor
-           is scrolling and only when eligible; on a stop the current
-           element finishes, then the build freezes and ghosts show;
-           when every element is built the cursors fly off. */
+           draw window at the queue front advances only while the
+           visitor is scrolling and only starts eligible elements; on
+           a stop the in-flight elements finish, then the build
+           freezes and ghosts show; when every element is built the
+           cursors fly off. */
         function loop(now) {
           if (!running) return;
           raf = requestAnimationFrame(loop);
@@ -3557,43 +3946,91 @@
           engT += dt;
           var dtSec = dt / 1000;
           var scrolling = (now - lastScrollMoveAt) <= SCROLL_IDLE_MS;
-          var frontEntry = head < queue.length ? queue[head] : null;
           var heroP = heroPending();
-          /* 1. advance */
-          if (current) {
-            if (current.sec.isHero) { paceTarget = 1; stepPace(dtSec); advanceCurrent(dt, now, false); }
-            else if (finishing) { advanceCurrent(dt, now, true); }
-            else if (scrolling) { paceTarget = clamp(0.25 + scrollSpeed / 1400, 0.25, 1); stepPace(dtSec); advanceCurrent(dt, now, false); }
-            else { finishing = true; advanceCurrent(dt, now, true); }
-          } else if (frontEntry && !exiting && !finished) {
-            if (frontEntry.sec.isHero) startEntry(frontEntry);
-            else if (scrolling && eligible(frontEntry)) startEntry(frontEntry);
+          /* 0. bottom rule bookkeeping: reaching the document
+             bottom starts a drain of everything above / in the
+             viewport, in order, at the normal pace, capped at
+             DRAIN_CAP_MS total; scrolling away cancels it. */
+          var atBottom = docH > 0 && (scrollPos + vh >= docH - 2);
+          if (!exiting && !finished && head < queue.length) {
+            if (atBottom && drainStart < 0) { drainStart = engT; logTransition("drain", null, "bottom reached"); }
+            else if (!atBottom && drainStart >= 0) drainStart = -1;
+          } else if (!atBottom) drainStart = -1;
+          var draining = drainStart >= 0;
+          if (draining && engT - drainStart > DRAIN_CAP_MS) {
+            fireWatchdog("drain-cap", null);
+            forceCompleteEligible(now);
+            drainStart = -1;
+            draining = false;
           }
+          /* 1. advance the in-flight window (stage machines) */
+          var lead = leadEntry();
+          if (active.length) {
+            if (lead.sec.isHero) { paceTarget = 1; stepPace(dtSec); advanceActive(dt, now, false); buildT += dt * pace; }
+            else if (scrolling || draining) { paceTarget = (draining && !scrolling) ? 1 : clamp(0.25 + scrollSpeed / 1400, 0.25, 1); stepPace(dtSec); advanceActive(dt, now, false); buildT += dt * pace; }
+            else { advanceActive(dt, now, true); buildT += dt; }
+          }
+          /* global watchdog: while building, if no stage has
+             changed for WATCHDOG_BUILD_MS of build clock, force the
+             lead element to its next stage. The build clock runs at
+             pace, so a gentle scroll stretches the real interval
+             and this cannot fire in a normal run (the longest
+             normal stage is ~800 ms of build clock). */
+          if (active.length && buildT - lastStageChangeBuild > WATCHDOG_BUILD_MS) {
+            var wl = leadEntry();
+            if (wl) { fireWatchdog("global", wl); transitionStage(wl, now); }
+          }
+          /* 2. refill the window from the queue head — starts stay
+             strictly in queue order; a non-hero start needs the
+             visitor scrolling (or a bottom drain) and the entry
+             eligible. */
+          if (!exiting && !finished) {
+            skipDoneHead();
+            var fe0 = head < queue.length ? queue[head] : null;
+            if (fe0) {
+              var cap = draining ? Math.max(maxParallel(fe0), 24) : maxParallel(fe0);
+              var scan = head;
+              while (active.length < cap) {
+                while (scan < queue.length && (queue[scan].done || queue[scan]._started)) scan++;
+                var fe = scan < queue.length ? queue[scan] : null;
+                if (!fe) break;
+                if (fe.sec.isHero) startEntry(fe);
+                else if ((scrolling || draining) && eligible(fe)) startEntry(fe);
+                else break;
+              }
+            }
+          }
+          var frontEntry = head < queue.length ? queue[head] : null;
+          lead = leadEntry();
           var allBuilt = head >= queue.length && queue.length > 0;
-          /* 2. freeze bookkeeping + mode */
-          frozen = !current && !allBuilt && !heroP && !scrolling && !exiting && !finished;
+          /* 3. freeze bookkeeping + mode + machine */
+          frozen = !active.length && !allBuilt && !heroP && !scrolling && !draining && !exiting && !finished;
           if (frozen && !wasFrozen) frozenSince = engT;
           wasFrozen = frozen;
           var mode = exiting || allBuilt ? "done" :
             heroP ? "hero" :
-            (current || scrolling) ? "build" :
+            (active.length || scrolling || draining) ? "build" :
             (engT - frozenSince >= ORBIT_SETTLE_MS) ? "orbit" : "frozen";
           curMode = mode;
-          /* 3. render (canvas extras first, then cursors) */
+          curMachine = (finished || allBuilt || exiting) ? "done" :
+            (active.length || scrolling || heroP || draining) ? "building" :
+            (startedOnce ? "frozen" : "idle");
+          if (debugOn) updateOverlay(frontEntry);
+          /* 4. render (canvas extras first, then cursors) */
           ctx.clearRect(0, 0, W, H);
           if (frozen) drawGhosts();
-          if (current && (mode === "build" || mode === "hero") && current.item.kind !== "bg") {
-            drawGuides(current.item.rect, scrollPos, 0.35 + 0.35 * (1 - current.item.v));
+          if (lead && (mode === "build" || mode === "hero") && lead.item.kind !== "bg") {
+            drawGuides(lead.item.rect, scrollPos, 0.35 + 0.35 * (1 - lead.item.v));
           }
-          /* 4. cursors */
+          /* 5. cursors */
           var i;
           if (exiting) {
             for (i = 0; i < cursors.length; i++) pathPos(cursors[i]);
             if (engT - exitStart > 780) { endEffect(); return; }
           } else if (mode === "orbit" || mode === "frozen") {
             orbitFrame(dt, now);
-          } else if (current || frontEntry) {
-            guideFrame(current || frontEntry);
+          } else if (lead || frontEntry) {
+            guideFrame(lead || frontEntry);
           }
           /* exit: everything built -> fly off and end */
           if (!exiting && allBuilt) beginExit();
@@ -3608,7 +4045,7 @@
           /* the renderer already parked the lead on the drawing point
              for step-drawn kinds; for everything else (or when the
              entry is only waiting) ease it along a curved path. */
-          var driven = entry === current && it.v > 0 && it.v < 1 && (it.kind === "bg" || it.kind === "box" || it.kind === "chip" || it.kind === "heading" || it.kind === "text" || it.kind === "label" || (it.kind === "button" && it.v < 0.45));
+          var driven = entry === leadEntry() && it.v > 0 && it.v < 1 && (it.kind === "bg" || it.kind === "box" || it.kind === "chip" || it.kind === "heading" || it.kind === "text" || it.kind === "label" || (it.kind === "button" && it.v < 0.45));
           if (!driven) {
             var a = anchorOf(it.kind, it.rect);
             var ty = a.y - scrollPos;
@@ -3616,7 +4053,7 @@
             pathPos(lead);
           }
           /* helpers hover near the next queue entries */
-          var startIdx = head + (entry === current ? 1 : 0);
+          var startIdx = head + (entry === leadEntry() ? active.length : 0);
           for (var h = 1; h < cursors.length; h++) {
             var c = cursors[h], t = queue[startIdx + h - 1];
             if (!t) { pathPos(c); continue; }
@@ -3654,7 +4091,7 @@
         }
         function endEffect() {
           finished = true; exiting = false;
-          current = null; finishing = false; frozen = false;
+          active = []; frozen = false; drainStart = -1;
           sections.forEach(function (sec) {
             if (sec.state !== "built") {
               if (sec.started) restoreSection(sec);
@@ -3702,10 +4139,32 @@
           }
           mouse.x = e.clientX; mouse.y = e.clientY; mouse.lt = now;
         }
+        var NAV_KEYS = { ArrowUp: 1, ArrowDown: 1, ArrowLeft: 1, ArrowRight: 1, PageUp: 1, PageDown: 1, Home: 1, End: 1, " ": 1 };
+        function noteInput(kind) {
+          lastScrollMoveAt = performance.now();
+          logTransition("input", null, kind);
+        }
         function onInterrupt(e) {
           if (finished || exiting || !inited) return;
           if (e && e.target && e.target.closest && e.target.closest("#swarmToggle")) return;
+          /* Scroll keys are build INPUT, not a skip (Henry's resume
+             list): they resume the build — at the very top/bottom
+             they may not produce a scroll event at all. Other keys
+             still skip, as before. */
+          if (e && e.type === "keydown" && NAV_KEYS[e.key || ""]) { noteInput("keydown"); return; }
+          /* A pointerdown on the scrollbar strip is a drag, not a
+             tap: resume, don't skip. */
+          if (e && e.type === "pointerdown" && e.target === document.documentElement && typeof e.clientX === "number" && e.clientX >= window.innerWidth - 24) { noteInput("scrollbar"); return; }
           endEffect();
+        }
+        function onWheel() { noteInput("wheel"); }
+        function onTouchMove() { noteInput("touchmove"); }
+        function onHashChange() {
+          noteInput("hashchange");
+          /* the jump lands within a frame; then everything above
+             the landing viewport completes silently, so the front
+             can never be pinned behind earlier sections. */
+          requestAnimationFrame(function () { silentlyCompleteAbove(); });
         }
         function onVis() { if (document.hidden) lastNow = 0; }
         function onResize() { sizeCanvas(); scheduleRecache(); }
@@ -3713,6 +4172,9 @@
           if (bound) return;
           bound = true;
           window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("wheel", onWheel, { passive: true });
+          window.addEventListener("touchmove", onTouchMove, { passive: true });
+          window.addEventListener("hashchange", onHashChange);
           window.addEventListener("mousemove", onMouse, { passive: true });
           window.addEventListener("pointerdown", onInterrupt, true);
           window.addEventListener("keydown", onInterrupt, true);
@@ -3731,12 +4193,22 @@
           sections.forEach(function (sec) {
             if (sec.started) restoreSection(sec);
             sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim"); sec.el.classList.remove("revealed");
-            sec.state = "idle"; sec.started = false; sec.builtCount = 0;
-            if (sec.items) sec.items.forEach(function (it) { it.v = 0; it._dbgS = 0; it._dbgE = 0; if (it.letters) { it._lettersHeld = false; it._lettersReleased = false; } });
+            sec.state = "idle"; sec.started = false; sec.builtCount = 0; sec._completePending = false;
+            if (sec.items) sec.items.forEach(function (it) { it.v = 0; it._done = false; it._dbgS = 0; it._dbgE = 0; if (it.letters) { it._lettersHeld = false; it._lettersReleased = false; } });
           });
           builtOrder = [];
           summaryPrinted = false;
+          drainStart = -1;
+          buildT = 0;
+          lastStageChangeBuild = 0;
+          watchdogEvents = [];
+          stallUntil = 0;
+          stallEntry = null;
+          startedOnce = false;
           buildQueue();
+          /* a toggle-on re-init follows the same rule as a hash
+             landing: nothing above the viewport may block the front. */
+          silentlyCompleteAbove();
         }
         function handleToggle() {
           var b = btn(); if (!b) return;
@@ -3763,7 +4235,7 @@
           disabled = true;
           if (!finished) {
             finished = true;
-            current = null; finishing = false; frozen = false;
+            active = []; frozen = false;
             sections.forEach(function (sec) {
               if (sec.started) restoreSection(sec);
               sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim");
@@ -3782,6 +4254,26 @@
         }
 
         /* ---------------- debug API ---------------- */
+        var overlayEl = null;
+        function describeEntry(e) {
+          if (!e) return "-";
+          var el = e.item.el;
+          var d = "#" + queue.indexOf(e) + " sec" + e.sec.index + " " + e.item.kind;
+          if (el) d += " <" + String(el.tagName || "?").toLowerCase() + (el.id ? "#" + el.id : "") + ">";
+          return d;
+        }
+        function updateOverlay(frontEntry) {
+          if (!overlayEl) return;
+          var lead = leadEntry();
+          overlayEl.textContent = [
+            "swarm " + curMachine + " | mode " + curMode,
+            "front: " + describeEntry(lead || frontEntry),
+            "stage: " + (lead ? STAGE_NAMES[lead.stage] + " " + Math.round(engT - lead.stageStartReal) + "ms" : "-"),
+            "input: " + Math.round(performance.now() - lastScrollMoveAt) + "ms ago",
+            "queue left: " + (queue.length - builtCount) + "/" + queue.length,
+            "watchdog: " + watchdogEvents.length
+          ].join("\n");
+        }
         var dbgApi = {
           version: "4.0",
           debug: debugOn,
@@ -3797,7 +4289,13 @@
               scattering: performance.now() < scatterUntil,
               builtCount: builtCount, totalCount: queue.length,
               ghostCount: visibleUnbuiltCount(),
-              currentElement: current ? head : null,
+              currentElement: active.length ? queue.indexOf(active[0]) : null,
+              machine: curMachine,
+              stage: active.length ? STAGE_NAMES[active[0].stage] : (head < queue.length ? "ghost" : "complete"),
+              stageElapsedMs: active.length ? Math.round(engT - active[0].stageStartReal) : 0,
+              lastInputMs: Math.round(performance.now() - lastScrollMoveAt),
+              queueLeft: queue.length - builtCount,
+              watchdogCount: watchdogEvents.length,
               builtOrder: builtOrder.slice(),
               sections: sections.map(function (s) { return s.state; }),
               progress: sections.map(function (s) { return s.entryCount ? Math.round((s.builtCount / s.entryCount) * 1000) / 1000 : 1; })
@@ -3813,12 +4311,18 @@
             queue.forEach(function (e, gi) {
               if (e.sec !== sec) return;
               if (first < 0) first = gi;
-              items.push({ type: e.item.kind, phase: e.item.phase, order: gi, top: Math.round(e.item.rect.t), left: Math.round(e.item.rect.l), height: Math.round(e.item.rect.h) });
+              items.push({ type: e.item.kind, phase: e.item.phase, order: gi, top: Math.round(e.item.rect.t), left: Math.round(e.item.rect.l), height: Math.round(e.item.rect.h), dur: computeDur(e) });
             });
             return { isTools: sec.isTools, isHero: sec.isHero, first: first, items: items };
           }
         };
-        if (debugOn) { dbgApi.frames = dbgFrames; dbgApi.elements = dbgElements; }
+        if (debugOn) {
+          dbgApi.frames = dbgFrames;
+          dbgApi.elements = dbgElements;
+          dbgApi.transitions = dbgTransitions;
+          dbgApi.watchdog = watchdogEvents;
+          dbgApi._stallNext = function (ms) { stallUntil = engT + (ms || 3000); stallEntry = leadEntry(); };
+        }
         window.__swarmDebug = dbgApi;
 
         /* ---------------- init ---------------- */
@@ -3846,6 +4350,13 @@
           makeCursors();
           scrollPos = window.scrollY || 0;
           lastScrollMoveAt = -1e9; /* no scroll yet: the build starts frozen (the hero still auto-builds) */
+          if (loadHashTargeted) silentlyCompleteAbove();
+          if (debugOn && !overlayEl) {
+            overlayEl = document.createElement("div");
+            overlayEl.id = "swarmDebugOverlay";
+            overlayEl.setAttribute("style", "position:fixed;left:10px;bottom:10px;z-index:99999;pointer-events:none;background:rgba(14,13,14,.88);color:#F2EFEA;font:11px/1.5 monospace;padding:8px 10px;white-space:pre;");
+            document.body.appendChild(overlayEl);
+          }
           bindEvents();
           startLoop();
         };

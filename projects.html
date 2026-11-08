@@ -1,0 +1,2895 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>
+      /* Swarm: mark build sections hidden pre-paint only when the effect
+         can actually run (toggle on, fine pointer, motion allowed). The
+         build plays on every load. The engine confirms the content
+         setting after load; anything ineligible removes the class. */
+      (function () {
+        try {
+          var path = window.location.pathname || "/";
+          var page = path.indexOf("about") >= 0 ? "about" : (path.indexOf("portfolio") >= 0 ? "portfolio" : (path.indexOf("case-studies") >= 0 ? "case-studies" : (path.indexOf("projects") >= 0 ? "projects" : "home")));
+          window.__swarmPage = page;
+          if (window.localStorage.getItem("hk.swarm.enabled") === "off") return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          if (window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches) return;
+          document.documentElement.classList.add("swarm-on");
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0E0D0E" />
+    <meta name="description" content="Projects by Henry — client websites and stores designed, fixed or redesigned, and software built for businesses." />
+    <meta property="og:title" content="Projects | henryknowsweb" />
+    <meta property="og:description" content="Projects by Henry — client websites and stores designed, fixed or redesigned, and software built for businesses." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://henryknowsweb.pages.dev/projects" />
+    <meta property="og:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Projects | henryknowsweb" />
+    <meta name="twitter:description" content="Projects by Henry — client websites and stores designed, fixed or redesigned, and software built for businesses." />
+    <meta name="twitter:image" content="https://henryknowsweb.pages.dev/assets/brand/og.png" />
+    <link rel="canonical" href="https://henryknowsweb.pages.dev/projects" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/brand/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+    <link rel="icon" href="/assets/brand/icon-512.png" sizes="512x512" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <title>Projects | henryknowsweb</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #0E0D0E;
+        --paper: #F2EFEA;
+        --red: #F2281E;
+        --mute: #8C8782;
+        --label: color-mix(in srgb, var(--paper) 62%, var(--ink));
+        --body2: color-mix(in srgb, var(--paper) 72%, var(--ink));
+        --line: rgba(242, 239, 234, 0.12);
+        --bg: var(--ink);
+        --text: var(--paper);
+        --border: var(--line);
+        --accent: var(--red);
+        --surface: #141314;
+        --surface2: #1B1A1B;
+        --dim: var(--mute);
+        --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+        --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+        --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --space-1: 96px;
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --dur-fast: 180ms;
+        --dur-base: 320ms;
+        --dur-slow: 700ms;
+        --dur-hero: 1000ms;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.5;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      ::selection { background: var(--accent); color: var(--paper); }
+      a { color: inherit; }
+      img { max-width: 100%; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .wrap-x { padding-left: 20px; padding-right: 20px; }
+      @media (min-width: 640px) { .wrap-x { padding-left: 56px; padding-right: 56px; } }
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        margin: -1px; padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: fixed; top: -200px; left: 16px; z-index: 400;
+        background: var(--paper); color: var(--ink);
+        padding: 12px 18px;
+        font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+        text-decoration: none;
+        transition: top var(--dur-fast) var(--ease-out);
+      }
+      .skip-link:focus-visible { top: 12px; }
+      .section-label {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--label);
+      }
+      .link-draw { text-decoration: none; }
+      .link-draw:hover { color: var(--accent); }
+
+      /* Top bar */
+      .topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px;
+        padding-top: 22px; padding-bottom: 22px;
+        border-bottom: 1px solid var(--border);
+      }
+      .brand-lockup { display: block; height: 28px; width: auto; }
+      .topbar .back {
+        font-family: var(--font-mono);
+        font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--label);
+        display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+      }
+      .topbar .back:hover { color: var(--paper); }
+      .topbar .back svg { width: 13px; height: 13px; transform: rotate(180deg); }
+
+      /* Page head */
+      .page-head { padding-top: 64px; }
+      .page-head h1 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin: 14px 0 0;
+        font-size: clamp(2.8rem, 8vw, 6.5rem);
+      }
+
+      /* Layout: portrait + story */
+      .about-layout { display: grid; gap: 48px; padding-top: 56px; padding-bottom: var(--space-1); }
+      @media (min-width: 900px) {
+        .about-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: start; }
+        .portrait-col { position: sticky; top: 40px; }
+      }
+      .portrait-frame {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        width: min(100%, 480px);
+        margin: 0;
+        overflow: hidden;
+      }
+      .portrait-frame img.photo {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .portrait-frame.reveal-clip {
+        clip-path: inset(0 0 100% 0);
+        transition: clip-path var(--dur-hero) var(--ease-out);
+      }
+      .portrait-frame.reveal-clip.is-visible { clip-path: inset(0 0 0 0); }
+      .portrait-spot {
+        position: absolute; inset: 0; z-index: 2;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity var(--dur-base) var(--ease-out);
+        background: radial-gradient(560px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(242, 239, 234, 0.13), rgba(242, 239, 234, 0) 60%);
+      }
+      .portrait-frame.spot-on .portrait-spot { opacity: 1; }
+      @media (hover: none), (pointer: coarse) { .portrait-spot { display: none; } }
+      .portrait-caption { margin: 16px 0 0; font-size: 14px; color: var(--mute); }
+
+      .story p { margin: 0 0 16px; max-width: 68ch; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .story p:first-child { font-size: 19px; line-height: 1.6; color: var(--text); }
+
+      .channels { margin-top: 40px; }
+      .channels-label { margin: 0 0 14px; }
+      .channels-list { display: flex; flex-wrap: wrap; gap: 10px; }
+      .channel-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+      .channel-chip:hover { border-color: var(--red); color: var(--red); }
+      .channel-chip .btn-arrow { width: 13px; height: 13px; flex: none; }
+
+      /* Buttons (same system as the homepage) */
+      .btn {
+        display: inline-flex; align-items: center; gap: 10px;
+        min-height: 44px;
+        font-size: 14px; font-weight: 800;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        text-decoration: none;
+      }
+      .btn .btn-arrow { width: 15px; height: 15px; flex: none; transition: transform var(--dur-fast) var(--ease-out); }
+      .btn:hover .btn-arrow, .btn:focus-visible .btn-arrow { transform: translate(2px, -2px); }
+      .btn-secondary { background: transparent; color: var(--paper); border: 1px solid var(--paper); padding: 10px 22px; }
+      .btn-solid { background: var(--paper); color: var(--ink); border: 1px solid var(--paper); padding: 10px 22px; }
+      .btn-lg { font-size: 16px; letter-spacing: 0.06em; padding: 14px 26px; }
+      @media (min-width: 640px) { .btn-lg { font-size: 22px; } }
+
+      /* CTA band + footer */
+      .cta-band { border-top: 1px solid var(--border); padding-top: 64px; padding-bottom: 64px; }
+      .cta-band h2 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin: 12px 0 0;
+        font-size: clamp(2.4rem, 6vw, 4.5rem);
+      }
+      .cta-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+      .page-foot {
+        border-top: 1px solid var(--border);
+        padding-top: 24px; padding-bottom: 32px;
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+        font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--mute);
+      }
+
+      /* Reveal helpers (same as the homepage) */
+      .reveal-fade {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-fade.is-visible { opacity: 1; transform: translateY(0); }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .reveal-fade { opacity: 1; transform: none; transition: none; }
+        .portrait-frame.reveal-clip { clip-path: none; transition: none; }
+        .portrait-spot { display: none; }
+      }
+
+      /* ---------- Work / project index (same rules as the homepage) ---------- */
+      /* ---------- Work / project index ---------- */
+      .work-sec { position: relative; border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
+      .index-head {
+        display: none;
+        grid-template-columns: 4rem minmax(0, 1.4fr) minmax(0, 1fr) 6rem 2rem;
+        gap: 16px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 12px;
+        margin-top: 40px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--label);
+      }
+      .index-head .r { text-align: right; }
+      @media (min-width: 768px) { .work-sec.pv-on .index-head { display: grid; } }
+      .index-empty { display: flex; flex-direction: column; align-items: center; text-align: center; border-bottom: 1px solid var(--border); padding: 56px 20px; }
+      .index-empty .ieb-label { margin: 0; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
+      .index-empty .big {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        margin: 14px 0 0;
+        font-size: 30px;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+      @media (min-width: 640px) { .index-empty .big { font-size: 36px; } }
+      .index-empty .note { margin: 14px 0 0; max-width: 520px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .work-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+      .work-cta p { margin: 0; font-size: 16px; color: var(--body2); max-width: 420px; line-height: 1.6; }
+      .index-row { display: flex; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--border); padding: 28px 0; text-decoration: none; }
+      @media (min-width: 768px) { .index-row { display: grid; grid-template-columns: 4rem minmax(0, 1.4fr) minmax(0, 1fr) 6rem 2rem; align-items: center; } }
+      .index-row .no { font-family: var(--font-display); font-size: 18px; color: var(--label); }
+      .index-row .big { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; margin: 0; font-size: 30px; text-transform: uppercase; line-height: 1; }
+      @media (min-width: 640px) { .index-row .big { font-size: 36px; } }
+      .index-row .note { margin: 10px 0 0; max-width: 520px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .index-row .cat { display: none; font-size: 14px; color: var(--label); }
+      @media (min-width: 768px) { .index-row .cat { display: block; } }
+      .index-row .yr { display: none; text-align: right; font-size: 14px; color: var(--label); }
+      @media (min-width: 768px) { .index-row .yr { display: block; } }
+      .index-row > div, .index-empty > div { min-width: 0; }
+      .index-row .big, .index-empty .big { overflow-wrap: break-word; }
+      a.index-row:hover .big { color: var(--accent); }
+      .client-names { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+      .client-names li { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+      /* Process: shown in the Clients section while the client list is empty */
+      .process-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px 32px; }
+      @media (min-width: 700px) { .process-steps { grid-template-columns: 1fr 1fr; } }
+      .clients-sec .process-steps .ps-t { margin: 0; max-width: none; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; color: var(--text); }
+      .clients-sec .process-steps .ps-t .num { margin-right: 12px; font-size: 16px; color: var(--accent); }
+      .clients-sec .process-steps .ps-d { margin: 8px 0 0; max-width: 420px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .work-sec { padding-top: 56px; }
+      .cta-btn {
+        display: inline-block;
+        border: 1px solid var(--text);
+        padding: 14px 24px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      }
+      .btn-arrow { width: 13px; height: 13px; flex: none; }
+
+      /* ---- Project showcase: motion previews (list / grid / overlay) ---- */
+      .pv-toolbar { display: flex; justify-content: flex-end; margin: 26px 0 2px; }
+      .pv-toggle { display: inline-flex; border: 1px solid var(--border); }
+      .pv-toggle button { appearance: none; background: transparent; border: 0; margin: 0; padding: 10px 18px; color: var(--label); font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: color 0.2s ease, background-color 0.2s ease; }
+      .pv-toggle button:hover { color: var(--text); }
+      .pv-toggle button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+      .pv-list[hidden], .pv-grid[hidden] { display: none !important; }
+      .work-sec.pv-grid-on .index-head { display: none !important; }
+      .pv-row { cursor: pointer; position: relative; }
+      .pv-list .pv-row { animation: pv-row-in var(--dur-base) var(--ease-out) both; animation-delay: calc(var(--pv-i, 0) * 60ms); }
+      @keyframes pv-row-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+      .pv-row > * { transition: opacity 0.25s ease; }
+      .pv-list.pv-dim .pv-row:not(.pv-active) > * { opacity: 0.4; }
+      .pv-row .pv-arrow { margin-left: auto; align-self: center; font-size: 20px; color: var(--dim); transition: color 0.2s ease, transform 0.2s ease; }
+      .pv-row:hover .pv-arrow, .pv-row.pv-active .pv-arrow { color: var(--accent); transform: translateX(4px); }
+      .pv-row:focus-visible, .pv-gcard:focus-visible, .pv-toggle button:focus-visible, .pv-ov-close:focus-visible, .pv-ov-navbtn:focus-visible, .pv-ov-visit:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .pv-media { position: relative; overflow: hidden; background: var(--surface); aspect-ratio: 16 / 10; }
+      .pv-media-img, .pv-media-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+      .pv-media-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--surface2); color: var(--label); font-family: var(--font-display); font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
+      .pv-inline { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+      .pv-inline.open { grid-template-rows: 1fr; }
+      .pv-inline-in { overflow: hidden; min-height: 0; }
+      .pv-inline .pv-media { border: 1px solid var(--border); border-top: 0; }
+      .pv-inline-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 2px 20px; }
+      .pv-inline-foot .t { margin: 0; font-family: var(--font-display); font-size: 16px; text-transform: uppercase; letter-spacing: -0.01em; }
+      .pv-inline-foot .v { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+      .pv-card { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--surface); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55); opacity: 0; transition: opacity 0.22s ease; will-change: transform; }
+      .pv-card.pv-show { opacity: 1; transition: opacity 0.22s ease; }
+      .pv-card.pv-hide { transition: opacity 0.16s ease; }
+      .pv-card.pv-fixed { left: auto; right: 4vw; top: 50%; transform: translateY(-50%) scale(0.96); transition: opacity 0.22s ease, transform 0.22s ease; }
+      .pv-card.pv-fixed.pv-show { transform: translateY(-50%) scale(1); }
+      .pv-card .pv-media { position: absolute; inset: 0; aspect-ratio: auto; }
+      .pv-card-foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 30px 14px 12px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)); }
+      .pv-card-title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; }
+      .pv-card-cat { margin: 4px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
+      .pv-card-view { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+      .pv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
+      @media (min-width: 1200px) { .pv-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 560px) { .pv-grid { grid-template-columns: 1fr; } }
+      .pv-gcard { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--border); background: var(--surface); cursor: pointer; transition: opacity 0.3s ease; }
+      .pv-grid.pv-dim .pv-gcard:not(.pv-active) { opacity: 0.55; }
+      .pv-gcard .pv-media { position: absolute; inset: 0; aspect-ratio: auto; }
+      .pv-gcard .pv-media-img, .pv-gcard .pv-media-vid { filter: grayscale(1); transition: filter 0.35s ease, transform 0.6s ease; }
+      .pv-gcard:hover .pv-media-img, .pv-gcard:hover .pv-media-vid, .pv-gcard.pv-active .pv-media-img, .pv-gcard.pv-active .pv-media-vid, .pv-gcard:focus-visible .pv-media-img, .pv-gcard:focus-visible .pv-media-vid { filter: grayscale(0); }
+      .pv-gcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 16px 14px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)); transform: translateY(10px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; }
+      .pv-gcard:hover .pv-gcap, .pv-gcard.pv-active .pv-gcap, .pv-gcard:focus-visible .pv-gcap { transform: none; opacity: 1; }
+      @media (hover: none) { .pv-gcap { transform: none; opacity: 1; } }
+      .pv-gcap .t { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 19px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
+      .pv-gcap .c { margin: 5px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--label); }
+      .pv-overlay { position: fixed; inset: 0; z-index: 200; overflow-y: auto; background: rgba(8, 7, 8, 0.97); }
+      .pv-overlay[hidden] { display: none !important; }
+      .pv-ov-panel { max-width: 1060px; margin: 0 auto; padding: 84px 24px 72px; }
+      .pv-ov-close { position: fixed; top: 18px; right: 20px; z-index: 2; width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; background: rgba(20, 19, 20, 0.9); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
+      .pv-ov-close:hover { border-color: var(--accent); color: var(--accent); }
+      .pv-ov-media { border: 1px solid var(--border); }
+      .pv-ov-media.ba-mode { aspect-ratio: auto; border: 0; overflow: visible; background: transparent; }
+      .pv-ov-meta { margin: 26px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+      .pv-ov-title { margin: 10px 0 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; font-size: clamp(2.2rem, 5.5vw, 4rem); }
+      .pv-ov-summary { margin: 18px 0 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .pv-ov-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+      .pv-ov-tag { border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); }
+      .pv-ov-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+      @media (max-width: 560px) { .pv-ov-gallery { grid-template-columns: 1fr; } }
+      .pv-ov-gallery figure { margin: 0; border: 1px solid var(--border); overflow: hidden; }
+      .pv-ov-gallery img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16 / 10; }
+      .pv-ov-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: 36px; }
+      .pv-ov-nav { display: flex; gap: 10px; margin-left: auto; }
+      .pv-ov-navbtn { appearance: none; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 12px 18px; font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+      .pv-ov-navbtn:hover { border-color: var(--accent); color: var(--accent); }
+      @media (prefers-reduced-motion: reduce) {
+        .pv-card, .pv-inline, .pv-gcap, .pv-gcard, .pv-gcard .pv-media-img, .pv-gcard .pv-media-vid, .pv-row > *, .pv-row .pv-arrow { transition: none !important; }
+        .pv-list .pv-row { animation: none; }
+      }
+
+      /* ---------- Brand kit: browser frame around project media + mono labels ---------- */
+      .pv-frame { position: absolute; inset: 0; }
+      .pv-frame .pv-media-img, .pv-frame .pv-media-vid { position: absolute; left: 1.40625%; top: 11.25%; width: 97.1875%; height: 86.5%; object-fit: cover; }
+      .pv-frame .pv-media-ph { position: absolute; left: 1.40625%; top: 11.25%; width: 97.1875%; height: 86.5%; }
+      .pv-frame .pv-frame-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+      .pv-row .pv-arrow svg { display: block; width: 20px; height: 20px; }
+      .pv-ov-close svg { display: block; width: 20px; height: 20px; margin: auto; }
+      .pv-toggle button, .pv-card-cat, .pv-card-view, .pv-inline-foot .v,
+      .pv-ov-meta, .pv-ov-tag, .pv-ov-navbtn, .pv-gcap .c {
+        font-family: var(--font-mono);
+        letter-spacing: 0.12em;
+      }
+    
+      /* ---------- Swarm cursor effect ---------- */
+      #swarmCanvas { position: fixed; inset: 0; z-index: 85; pointer-events: none; }
+      html.swarm-on [data-swarm-section] { opacity: 0; }
+      html.swarm-on [data-swarm-section].swarm-building { opacity: 1; }
+      html.swarm-on [data-swarm-section].revealed { opacity: 1; }
+      html.swarm-on .swarm-anim, html.swarm-on .swarm-anim * { transition: none !important; }
+      .swarm-toggle { appearance: none; background: transparent; border: 1px solid var(--line); color: var(--label); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 10px; min-height: 32px; cursor: pointer; }
+      .swarm-toggle:hover { color: var(--paper); border-color: var(--paper); }
+      @media (prefers-reduced-motion: reduce) { html.swarm-on [data-swarm-section] { opacity: 1; transform: none; } }
+      /* ---------- Case study overlay + before/after slider ---------- */
+      .cs-block { margin-top: 26px; }
+      .cs-block h4 { margin: 0 0 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+      .cs-block p { margin: 0; max-width: 640px; font-size: 16px; line-height: 1.7; color: var(--body2); }
+      .cs-steps { margin: 0; padding-left: 22px; max-width: 640px; }
+      .cs-steps li { font-size: 16px; line-height: 1.7; color: var(--body2); margin: 0 0 6px; }
+      .cs-gallery { display: grid; gap: 22px; margin-top: 28px; }
+      .ba-fig { margin: 0; }
+      .ba { position: relative; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--surface); }
+      .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+      .ba .ba-after { clip-path: inset(0 0 0 50%); }
+      .ba input[type="range"] { position: absolute; left: 16px; right: 16px; bottom: 12px; width: calc(100% - 32px); margin: 0; accent-color: var(--red); z-index: 3; cursor: ew-resize; }
+      .ba-tag { position: absolute; top: 10px; z-index: 2; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(14, 13, 14, 0.78); color: var(--paper); padding: 4px 8px; pointer-events: none; }
+      .ba-tag.ba-before { left: 10px; }
+      .ba-tag.ba-after-tag { right: 10px; }
+      .ba-single { border: 1px solid var(--border); overflow: hidden; }
+      .ba-single img { display: block; width: 100%; height: auto; }
+      .ba-cap { margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--body2); }
+      .cs-row { cursor: pointer; }
+      .sig-row.has-rows { display: block; margin-top: 40px; }
+      /* ---------- Tools strip ---------- */
+      .tools-sec { border-bottom: 1px solid var(--border); padding-top: var(--space-1); padding-bottom: var(--space-1); }
+      .tools-sec h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 5vw, 3.4rem); }
+      .tools-list { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 32px; }
+      .tools-list li { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+      .also-build { margin: 28px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      @media (min-width: 768px) { .services-grid .also-build { grid-column: 5 / span 8; } }
+      /* ---------- Website work (portfolio) ---------- */
+      .ww-item { border-bottom: 1px solid var(--border); padding: 32px 0; }
+      .ww-item h3 { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; font-size: 28px; text-transform: uppercase; line-height: 1.05; }
+      .ww-item .note { margin: 10px 0 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--body2); }
+      .ww-item .ba-fig { margin-top: 20px; max-width: 860px; }
+      .ww-item .ww-actions { margin-top: 18px; }
+      /* Contact form modal */
+      .cf-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(14, 13, 14, 0.72); display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 24px 16px; }
+      .cf-overlay.open { display: flex; }
+      .cf-panel { background: #141314; border: 1px solid var(--line); width: 100%; max-width: 560px; margin: auto; padding: 28px; position: relative; }
+      .cf-panel h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.95; margin: 12px 0 20px; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+      .cf-close { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; background: none; border: 0; color: var(--paper); font-size: 26px; line-height: 1; cursor: pointer; }
+      .cf-close:hover { color: var(--red); }
+      .cf-field { margin: 0 0 16px; }
+      .cf-field label { display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); margin: 0 0 8px; }
+      .cf-field input, .cf-field textarea { width: 100%; background: var(--ink); border: 1px solid var(--line); color: var(--paper); font-family: var(--font-sans); font-size: 16px; line-height: 1.5; padding: 12px 14px; border-radius: 0; }
+      .cf-field textarea { resize: vertical; min-height: 110px; }
+      .cf-field input:focus, .cf-field textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+      .cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+      .cf-status { min-height: 1.5em; margin: 0 0 12px; font-size: 14px; color: var(--red); }
+      .cf-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .cf-alt { margin: 18px 0 0; font-size: 14px; color: var(--mute); }
+      .cf-alt a { color: var(--paper); }
+      .cf-success h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; text-transform: uppercase; margin: 12px 0 10px; font-size: 1.8rem; }
+      .cf-success p { color: var(--body2); margin: 0 0 20px; line-height: 1.6; }
+      button.btn { cursor: pointer; font-family: inherit; }
+
+      /* ---------- Red footer (copied from the homepage) ---------- */
+      .footer-reveal { clip-path: inset(100% 0 0 0); transition: clip-path 1.1s cubic-bezier(0.16, 1, 0.3, 1); }
+      .footer-reveal.is-visible { clip-path: inset(0 0 0 0); }
+      .footer-reveal.revealed { clip-path: inset(0 0 0 0); }
+      footer.contact { background: var(--accent); color: var(--paper); padding-top: var(--space-1); padding-bottom: var(--space-1); position: relative; overflow: hidden; }
+      footer.contact::before { content: ""; position: absolute; inset: 0; background-image: url("assets/ui/grain.png"); background-size: 256px 256px; opacity: 0.05; pointer-events: none; }
+      .footer-watermark { display: block; position: absolute; right: -90px; bottom: -90px; width: min(560px, 85vw); height: auto; opacity: 0.08; pointer-events: none; }
+      footer.contact > *:not(.footer-watermark) { position: relative; z-index: 1; }
+      footer.contact .kick { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #0E0D0E; font-family: var(--font-mono); }
+      footer.contact h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0 0; text-transform: uppercase; line-height: 0.85; font-size: clamp(3rem, 11vw, 9rem); }
+      .fl-mask { display: inline-block; overflow: hidden; vertical-align: top; }
+      .fl-letter { display: inline-block; transform: translateY(110%); transition: transform var(--dur-slow) var(--ease-out); }
+      footer.contact.is-visible .fl-letter { transform: translateY(0); }
+      footer.contact.revealed .fl-letter { transform: translateY(0); }
+      .email-toast { position: fixed; left: 50%; bottom: 24px; z-index: 120; transform: translate(-50%, 10px); opacity: 0; visibility: hidden; background: var(--text); color: var(--bg); font-size: 14px; font-weight: 700; letter-spacing: 0.04em; padding: 12px 20px; border-radius: 999px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); transition: transform var(--dur-base) var(--ease-inout), opacity var(--dur-base) ease, visibility 0s linear var(--dur-base); pointer-events: none; white-space: nowrap; }
+      .email-toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; transition: transform var(--dur-base) var(--ease-inout), opacity var(--dur-base) ease, visibility 0s; }
+      .footer-actions { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+      .footer-channels { display: inline-flex; flex-wrap: wrap; gap: 12px; }
+      .magnet-btn { display: inline-block; background: var(--bg); color: var(--text); padding: 16px 24px; font-size: 16px; font-weight: 800; letter-spacing: 0.06em; text-decoration: none; will-change: transform; }
+      @media (min-width: 640px) { .magnet-btn { font-size: 22px; } }
+      .outline-btn { border: 1px solid var(--paper); color: var(--paper); padding: 10px 22px; font-size: 14px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease; }
+      .outline-btn:hover { background: var(--paper); color: var(--accent); }
+      footer.contact .outline-btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+      footer.contact .outline-btn:hover { background: var(--paper); color: var(--ink); }
+      .footer-note { margin: 16px 0 0; max-width: 460px; font-size: 16px; line-height: 1.65; color: #0E0D0E; }
+      .footer-bottom { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.4); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: #0E0D0E; }
+      @media (prefers-reduced-motion: reduce) { .footer-reveal { clip-path: none; transition: none; } .fl-letter { transform: none; transition: none; } .email-toast { transition: none; } }
+      /* ---------- Page intro (hero) + filter chips ---------- */
+      .page-lede { margin: 24px 0 0; max-width: 560px; font-size: 19px; line-height: 1.6; color: var(--body2); }
+      .page-head.hero { padding-bottom: 8px; }
+      .filter-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 10px; }
+      .filter-chips:empty { display: none; }
+      .filter-chip { appearance: none; background: transparent; border: 1px solid var(--line); color: var(--label); font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 16px; min-height: 44px; cursor: pointer; transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
+      .filter-chip:hover { color: var(--paper); border-color: var(--paper); }
+      .filter-chip[aria-pressed="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+      .filter-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .index-row[hidden], .pv-gcard[hidden], .pv-inline[hidden] { display: none !important; }
+
+      /* ---------- Mini nav (all pages) ---------- */
+      .mini-nav { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+      .mini-nav a { color: var(--label); text-decoration: none; display: inline-flex; align-items: center; min-height: 32px; }
+      .mini-nav a:hover { color: var(--paper); }
+      .mini-nav .mini-dm { border: 1px solid var(--paper); color: var(--paper); padding: 6px 12px; }
+      .mini-nav .mini-dm:hover { color: var(--red); border-color: var(--red); }
+
+      .index-row .cat { font-family: var(--font-mono); letter-spacing: 0.04em; }
+    </style>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar wrap-x">
+      <a class="brand" href="/" aria-label="henryknowsweb — back to home"><img class="brand-lockup" src="assets/brand/lockup.svg" alt="Henry." width="94" height="28" /></a>
+      <nav class="mini-nav" aria-label="Pages"><a href="/">Home</a><a href="/case-studies">Case studies</a><a href="/projects">Projects</a><a href="/about">About</a><a class="mini-dm" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB</a></nav>
+      <span style="display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap"><button type="button" class="swarm-toggle" id="swarmToggle" aria-pressed="true">Swarm on</button><a class="back link-draw" href="/#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>Back to home</a></span>
+    </header>
+
+    <main id="main">
+      <section class="page-head hero wrap-x" data-swarm-section>
+        <p class="section-label">Projects</p>
+        <h1>Projects</h1>
+        <p class="page-lede">Websites, stores and software I designed, built or rebuilt.</p>
+      </section>
+
+      <section class="work-sec pv-on wrap-x" id="projects" data-swarm-section>
+        <div class="filter-chips" id="filterChips"></div>
+        <div class="index-head" aria-hidden="true">
+          <span>No.</span><span>Project</span><span>Type</span><span class="r">Year</span><span></span>
+        </div>
+        <div id="projectList">
+          <div class="index-row cs-row pv-row" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Sellomize Reach — view project"><span class="no" aria-hidden="true">01</span><div><p class="big">Sellomize Reach</p></div><span class="cat">Software</span><span class="yr">2026</span><span class="pv-arrow" aria-hidden="true"><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></div><div class="index-row cs-row pv-row" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Sally Skoufis — view project"><span class="no" aria-hidden="true">02</span><div><p class="big">Sally Skoufis</p></div><span class="cat">Store</span><span class="yr"></span><span class="pv-arrow" aria-hidden="true"><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></div>
+        </div>
+      </section>
+
+      <section class="cta-band wrap-x" aria-labelledby="ctaHeading" data-swarm-section>
+        <p class="section-label">Start a project</p>
+        <h2 id="ctaHeading">Want your accounts and<br />store working like this?</h2>
+        <div class="cta-actions">
+          <a class="btn btn-solid btn-lg" href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer">DM WEB on TikTok<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+          <button type="button" class="btn btn-secondary btn-lg" data-contact-open>Email me<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
+          <a class="btn btn-secondary btn-lg" href="https://cal.com/henryknowsweb/15min" target="_blank" rel="noopener">Book a free 15-min call<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Contact footer -->
+    <footer class="contact footer-reveal wrap-x" id="contact" aria-labelledby="footerHeading" data-swarm-section>
+      <!-- [hidden] opts this decorative watermark out of the swarm build's
+           element classifier (its isShown check); the display:block in the
+           .footer-watermark rule keeps it rendered exactly as before. -->
+      <img class="footer-watermark" hidden src="assets/ui/h-outline.svg" alt="" width="640" height="640" loading="lazy" aria-hidden="true" />
+      <p class="kick" id="footerKick">Got a marketplace account or store that needs fixing?</p>
+      <h2 id="footerHeading">Let&rsquo;s build yours</h2>
+      <div class="footer-actions">
+        <span class="footer-channels" id="footerChannels"><a class="magnet-btn btn btn-primary btn-lg" id="magnetBtn" data-tiktok-link href="https://www.tiktok.com/@henryknowsweb" target="_blank" rel="noreferrer" aria-label="Message Henry on TikTok — DM WEB"><span data-tiktok-handle>@henryknowsweb</span> — <span data-cta-label>DM WEB</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a></span>
+        <button type="button" class="outline-btn btn btn-secondary" id="footerEmail" data-contact-open aria-label="Email Henry — opens the contact form"><span class="btn-email-text">henryknowsweb@gmail.com</span><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></button>
+        <a class="outline-btn btn btn-secondary" href="https://cal.com/henryknowsweb/15min" target="_blank" rel="noopener">Book a free 15-min call<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></a>
+      </div>
+      <p class="footer-note" id="footerNote">The fastest way in is a TikTok DM — send &ldquo;WEB&rdquo; and tell me which marketplaces or store you sell on, and what&rsquo;s not working.</p>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> <span data-profile-name>Henry</span> — <span data-profile-role>Marketplace Operator &amp; Shopify Designer</span></span>
+        <span>henryknowsweb.pages.dev</span>
+        <span><span data-tiktok-handle>@henryknowsweb</span> · <span data-clients-in>Worldwide</span></span>
+      </div>
+    </footer>
+    <div class="email-toast" id="emailToast" role="status" aria-live="polite"></div>
+
+    <script>
+      /* Reveal for static blocks (dynamic project rows arrive visible). */
+      (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var revealEls = document.querySelectorAll(".reveal-fade");
+        if (!reduced && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+            });
+          }, { threshold: 0.15 });
+          revealEls.forEach(function (el) { io.observe(el); });
+        } else {
+          revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+        }
+      })();
+    </script>
+        <script>
+      /* Case study + project overlay: one shared dialog in the
+         pv-overlay pattern. Case mode renders issue / found / fix steps /
+         result / before-after gallery / live link; project mode renders
+         the before/after slider when the project has one (else its
+         cover), description (else summary), tags, gallery figures and
+         live + demo links. Opening sets the URL hash to the entry's
+         slug and closing clears it. Any block whose field is empty is
+         hidden, never rendered as an empty shell. */
+      (function () {
+        "use strict";
+        function esc(s) {
+          return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+          });
+        }
+        function trimS(s) { return String(s == null ? "" : s).trim(); }
+        var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
+        var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+        function slugOf(item) {
+          if (item && typeof item.slug === "string" && item.slug.trim()) return item.slug.trim();
+          if (item && item.id != null && String(item.id).trim()) return String(item.id).trim();
+          var t = String((item && item.title) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          while (t.charAt(0) === "-") t = t.slice(1);
+          while (t.length && t.charAt(t.length - 1) === "-") t = t.slice(0, -1);
+          return t || "item";
+        }
+        function coverOf(p) {
+          if (!p) return "";
+          if (typeof p.cover === "string") return p.cover;
+          if (p.cover && p.cover.src) return p.cover.src;
+          if (p.preview && p.preview.poster) return p.preview.poster;
+          if (p.preview && p.preview.type === "image" && p.preview.src) return p.preview.src;
+          return "";
+        }
+        function coverAltOf(p) {
+          if (p && p.cover && typeof p.cover === "object" && p.cover.alt) return p.cover.alt;
+          return (p && p.title) || "Project preview";
+        }
+        function baFigure(item) {
+          var before = trimS(item && item.before), after = trimS(item && item.after), cap = trimS(item && item.caption);
+          var capHtml = cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "";
+          if (before && after) {
+            return '<figure class="ba-fig"><div class="ba" data-ba>' +
+              '<img src="' + esc(before) + '" alt="' + esc(trimS(item && item.beforeAlt) || "Before") + '" loading="lazy">' +
+              '<img class="ba-after" src="' + esc(after) + '" alt="' + esc(trimS(item && item.afterAlt) || "After") + '" loading="lazy">' +
+              '<span class="ba-tag ba-before">Before</span><span class="ba-tag ba-after-tag">After</span>' +
+              '<input type="range" min="0" max="100" value="50" aria-label="Compare before and after">' +
+              "</div>" + capHtml + "</figure>";
+          }
+          var single = before || after;
+          if (single) {
+            return '<figure class="ba-fig"><div class="ba-single"><img src="' + esc(single) + '" alt="' + esc(cap || "Work example") + '" loading="lazy"></div>' + capHtml + "</figure>";
+          }
+          return "";
+        }
+        function bindSliders(root) {
+          if (!root) return;
+          Array.prototype.slice.call(root.querySelectorAll("[data-ba]")).forEach(function (w) {
+            var input = w.querySelector("input");
+            var after = w.querySelector(".ba-after");
+            if (!input || !after) return;
+            function upd() { after.style.clipPath = "inset(0 0 0 " + input.value + "%)"; }
+            input.addEventListener("input", upd);
+            upd();
+          });
+        }
+        var overlayEl = null;
+        var ov = { open: false, mode: "case", items: [], idx: -1, returnEl: null };
+        function buildOverlay() {
+          if (overlayEl) return overlayEl;
+          overlayEl = document.createElement("div");
+          overlayEl.className = "pv-overlay";
+          overlayEl.id = "csOverlay";
+          overlayEl.setAttribute("role", "dialog");
+          overlayEl.setAttribute("aria-modal", "true");
+          overlayEl.setAttribute("aria-labelledby", "csOvTitle");
+          overlayEl.hidden = true;
+          overlayEl.innerHTML =
+            '<button class="pv-ov-close" type="button" aria-label="Close">' + CLOSE_SVG + "</button>" +
+            '<div class="pv-ov-panel">' +
+              '<div class="pv-ov-media pv-media"></div>' +
+              '<p class="pv-ov-meta"></p>' +
+              '<h3 class="pv-ov-title" id="csOvTitle"></h3>' +
+              '<div class="cs-block" data-b="issue"><h4>The issue</h4><p></p></div>' +
+              '<div class="cs-block" data-b="found"><h4>What I found</h4><p></p></div>' +
+              '<div class="cs-block" data-b="fix"><h4>How I fixed it</h4><ol class="cs-steps"></ol></div>' +
+              '<div class="cs-block" data-b="result"><h4>Result</h4><p></p></div>' +
+              '<p class="pv-ov-summary" data-b="summary"></p>' +
+              '<div class="pv-ov-tags" data-b="tags"></div>' +
+              '<div class="cs-gallery" data-b="gallery"></div>' +
+              '<div class="pv-ov-actions">' +
+                '<a class="pv-ov-visit cta-btn" target="_blank" rel="noreferrer">Visit live site ' + ARROW_UR + "</a>" +
+                '<a class="pv-ov-demo cta-btn" target="_blank" rel="noreferrer" style="display:none">Live demo ' + ARROW_UR + "</a>" +
+                '<div class="pv-ov-nav">' +
+                  '<button class="pv-ov-navbtn" type="button" data-cs-prev>&#8592; Prev</button>' +
+                  '<button class="pv-ov-navbtn" type="button" data-cs-next>Next &#8594;</button>' +
+                "</div>" +
+              "</div>" +
+            "</div>";
+          document.body.appendChild(overlayEl);
+          overlayEl.querySelector(".pv-ov-close").addEventListener("click", function () { closeOv(); });
+          overlayEl.querySelector("[data-cs-prev]").addEventListener("click", function () { navOv(-1); });
+          overlayEl.querySelector("[data-cs-next]").addEventListener("click", function () { navOv(1); });
+          overlayEl.addEventListener("mousedown", function (e) { if (e.target === overlayEl) closeOv(); });
+          document.addEventListener("keydown", onKey, true);
+          return overlayEl;
+        }
+        function onKey(e) {
+          if (!ov.open) return;
+          if (e.key === "Escape") { e.preventDefault(); closeOv(); return; }
+          if (e.key === "ArrowLeft") { navOv(-1); return; }
+          if (e.key === "ArrowRight") { navOv(1); return; }
+          if (e.key === "Tab") {
+            var f = overlayEl.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])');
+            var list = [];
+            f.forEach(function (el) { if (el.offsetParent !== null || el === document.activeElement) list.push(el); });
+            if (!list.length) return;
+            var first = list[0], last = list[list.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
+        function setHashFor(item) {
+          try {
+            var s = slugOf(item);
+            if (s) window.history.replaceState(null, "", "#" + s);
+          } catch (e) {}
+        }
+        function clearHash() {
+          try { window.history.replaceState(null, "", window.location.pathname + window.location.search); } catch (e) {}
+        }
+        function navOv(d) {
+          if (!ov.items.length) return;
+          fillOv((ov.idx + d + ov.items.length) % ov.items.length);
+          setHashFor(ov.items[ov.idx]);
+        }
+        function setBlock(name, show) {
+          var el = overlayEl.querySelector('[data-b="' + name + '"]');
+          if (el) el.style.display = show ? "" : "none";
+        }
+        function fillOv(i) {
+          var it = ov.items[i];
+          if (!it) return;
+          ov.idx = i;
+          var isCase = ov.mode === "case";
+          var media = overlayEl.querySelector(".pv-ov-media");
+          media.classList.remove("ba-mode");
+          if (!isCase) {
+            var ba = (it.beforeAfter && typeof it.beforeAfter === "object") ? it.beforeAfter : null;
+            var baHtml = ba ? baFigure({ before: ba.before, after: ba.after, beforeAlt: ba.beforeAlt, afterAlt: ba.afterAlt, caption: "" }) : "";
+            if (baHtml) {
+              media.innerHTML = baHtml;
+              media.classList.add("ba-mode");
+              media.style.display = "";
+              bindSliders(media);
+            } else {
+              var cov = coverOf(it);
+              if (cov) { media.innerHTML = '<img class="pv-media-img" src="' + esc(cov) + '" alt="' + esc(coverAltOf(it)) + '" width="1280" height="800">'; media.style.display = ""; }
+              else { media.innerHTML = ""; media.style.display = "none"; }
+            }
+          } else { media.innerHTML = ""; media.style.display = "none"; }
+          var parts = [];
+          if (isCase) {
+            if (Array.isArray(it.marketplaces)) it.marketplaces.forEach(function (m) { if (trimS(m)) parts.push(trimS(m)); });
+            if (trimS(it.clientType)) parts.push(trimS(it.clientType));
+            if (trimS(it.year)) parts.push(trimS(it.year));
+          } else {
+            if (trimS(it.type)) parts.push(trimS(it.type));
+            if (trimS(it.year)) parts.push(trimS(it.year));
+            if (trimS(it.role)) parts.push(trimS(it.role));
+          }
+          var metaEl = overlayEl.querySelector(".pv-ov-meta");
+          metaEl.textContent = parts.join(" · ");
+          metaEl.style.display = parts.length ? "" : "none";
+          overlayEl.querySelector(".pv-ov-title").textContent = it.title || (isCase ? "Case study" : "Project");
+          var issueP = overlayEl.querySelector('[data-b="issue"] p');
+          issueP.textContent = trimS(it.issue);
+          setBlock("issue", isCase && !!trimS(it.issue));
+          var foundP = overlayEl.querySelector('[data-b="found"] p');
+          foundP.textContent = trimS(it.found);
+          setBlock("found", isCase && !!trimS(it.found));
+          var steps = (isCase && Array.isArray(it.fixSteps)) ? it.fixSteps.filter(function (s) { return !!trimS(s); }) : [];
+          var ol = overlayEl.querySelector(".cs-steps");
+          ol.innerHTML = steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("");
+          setBlock("fix", steps.length > 0);
+          var resP = overlayEl.querySelector('[data-b="result"] p');
+          resP.textContent = trimS(it.result);
+          setBlock("result", isCase && !!trimS(it.result));
+          var sum = !isCase ? (trimS(it.description) || trimS(it.summary)) : "";
+          var sumEl = overlayEl.querySelector('[data-b="summary"]');
+          sumEl.textContent = sum;
+          setBlock("summary", !!sum);
+          var tags = (!isCase && Array.isArray(it.tags)) ? it.tags.filter(function (t) { return !!trimS(t); }) : [];
+          var tagsEl = overlayEl.querySelector('[data-b="tags"]');
+          tagsEl.innerHTML = tags.map(function (t) { return '<span class="pv-ov-tag">' + esc(t) + "</span>"; }).join("");
+          setBlock("tags", tags.length > 0);
+          var gal = overlayEl.querySelector('[data-b="gallery"]');
+          var galHtml = "";
+          if (isCase && Array.isArray(it.gallery)) galHtml = it.gallery.map(function (g) { return baFigure(g); }).join("");
+          if (!isCase && Array.isArray(it.gallery)) galHtml = it.gallery.map(function (g) {
+            var src = trimS(g && g.src);
+            if (!src) return "";
+            var cap = trimS(g && g.caption);
+            return '<figure class="ba-fig"><div class="ba-single"><img src="' + esc(src) + '" alt="' + esc(trimS(g && g.alt) || cap || "Project image") + '" loading="lazy"></div>' + (cap ? '<p class="ba-cap">' + esc(cap) + "</p>" : "") + "</figure>";
+          }).join("");
+          gal.innerHTML = galHtml;
+          setBlock("gallery", !!galHtml);
+          if (galHtml) bindSliders(gal);
+          var visit = overlayEl.querySelector(".pv-ov-visit");
+          var url = trimS(isCase ? it.liveUrl : it.url);
+          if (url) { visit.setAttribute("href", url); visit.style.display = ""; }
+          else { visit.removeAttribute("href"); visit.style.display = "none"; }
+          var demo = overlayEl.querySelector(".pv-ov-demo");
+          var demoUrl = !isCase ? trimS(it.demoUrl) : "";
+          if (demoUrl) { demo.setAttribute("href", demoUrl); demo.style.display = ""; }
+          else { demo.removeAttribute("href"); demo.style.display = "none"; }
+          var nav = overlayEl.querySelector(".pv-ov-nav");
+          nav.style.display = ov.items.length > 1 ? "" : "none";
+          overlayEl.scrollTop = 0;
+        }
+        function openOv(mode, items, i, returnEl) {
+          buildOverlay();
+          ov.mode = mode; ov.items = items || []; ov.returnEl = returnEl || null;
+          fillOv(i);
+          setHashFor(ov.items[ov.idx]);
+          ov.open = true;
+          overlayEl.hidden = false;
+          document.documentElement.style.overflow = "hidden";
+          var closeBtn = overlayEl.querySelector(".pv-ov-close");
+          if (closeBtn) closeBtn.focus();
+        }
+        function closeOv() {
+          if (!overlayEl || !ov.open) { if (overlayEl) overlayEl.hidden = true; return; }
+          ov.open = false;
+          clearHash();
+          overlayEl.hidden = true;
+          document.documentElement.style.overflow = "";
+          if (ov.returnEl && ov.returnEl.focus) ov.returnEl.focus();
+          ov.returnEl = null;
+        }
+        window.__openCaseOverlay = function (items, i, el) { openOv("case", items, i, el); };
+        window.__openProjectOverlay = function (items, i, el) { openOv("project", items, i, el); };
+        window.__baFigure = baFigure;
+        window.__bindSliders = bindSliders;
+        window.__csEsc = esc;
+        window.__csTrim = trimS;
+        window.__csSlug = slugOf;
+        window.__csCoverOf = coverOf;
+        window.__csCoverAltOf = coverAltOf;
+      })();
+    </script>
+    <script>
+      /* Projects index: content.json projects[] (published entries
+         only) as a motion-preview showcase (cursor-following preview
+         index + hover-to-play video grid, switched by a view toggle)
+         opening the shared project overlay, with type filter chips
+         (All / Websites / Stores / Software, only for types present).
+         With no projects, a single-line empty state shows and no
+         chips render — never sample work. Row clicks open the
+         overlay and set the URL hash to the entry slug (handled by
+         the shared overlay script); loading with a #slug hash opens
+         that entry. */
+      (function () {
+        "use strict";
+        var ARROW_UR = '<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg>';
+        function esc(s) { return window.__csEsc ? window.__csEsc(s) : String(s == null ? "" : s); }
+        function trimS(s) { return window.__csTrim ? window.__csTrim(s) : String(s == null ? "" : s).trim(); }
+        function slugOf(item) { return window.__csSlug ? window.__csSlug(item) : "item"; }
+        function emptyHTML(label, big, note) {
+          return '<div class="index-empty reveal-fade is-visible"><p class="big">' + esc(big) + "</p></div>";
+        }
+        function bindRow(row, items, i, opener) {
+          function open() { opener(items, i, row); }
+          row.addEventListener("click", open);
+          row.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+          });
+        }
+        /* Case-study preview media: the entry's preview {type, src,
+           poster} first, then its first before/after gallery image,
+           then the shared cover helper (cover / preview poster), else
+           a text placeholder in the preview surfaces. */
+        function previewOf(p) {
+          if (!p || typeof p !== "object") return null;
+          if (trimS(p.previewVideo)) {
+            return { type: "video", src: trimS(p.previewVideo), poster: window.__csCoverOf ? window.__csCoverOf(p) : "" };
+          }
+          var cov = window.__csCoverOf ? window.__csCoverOf(p) : "";
+          if (cov) return { type: "image", src: cov, poster: "" };
+          if (p.beforeAfter && trimS(p.beforeAfter.after)) return { type: "image", src: trimS(p.beforeAfter.after), poster: "" };
+          if (p.beforeAfter && trimS(p.beforeAfter.before)) return { type: "image", src: trimS(p.beforeAfter.before), poster: "" };
+          if (Array.isArray(p.gallery) && p.gallery.length && trimS(p.gallery[0] && p.gallery[0].src)) return { type: "image", src: trimS(p.gallery[0].src), poster: "" };
+          return null;
+        }
+        function mediaHTML(c) {
+          var pv = previewOf(c);
+          var title = c.title || "Project";
+          if (!pv) return '<div class="pv-media-ph" aria-hidden="true"><span>' + esc(title) + "</span></div>";
+          if (pv.type === "video") {
+            return '<video class="pv-media-vid" data-src="' + esc(pv.src) + '"' + (pv.poster ? ' poster="' + esc(pv.poster) + '"' : "") + ' muted loop playsinline preload="metadata"></video>';
+          }
+          return '<img class="pv-media-img" src="' + esc(pv.src) + '" alt="' + esc(title) + '" width="640" height="400" loading="lazy">';
+        }
+        function typeOf(c) {
+          return trimS(c && c.type);
+        }
+        function renderCases(data) {
+          var wrap = document.getElementById("projectList");
+          if (!wrap) return;
+          var section = document.getElementById("projects");
+          var items = (Array.isArray(data.projects) ? data.projects : []).filter(function (c) { return c && typeof c === "object" && c.published !== false; });
+          var stale = document.querySelector(".pv-card.proj-pv-card");
+          if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+          if (!items.length) {
+            if (section) { section.classList.remove("pv-on"); section.classList.remove("pv-grid-on"); }
+            var fc0 = document.getElementById("filterChips"); if (fc0) fc0.innerHTML = "";
+            wrap.innerHTML = '<div class="index-empty reveal-fade is-visible"><p class="big">Projects are being added.</p></div>';
+            return;
+          }
+          var motion = (data.settings && data.settings.motion) || {};
+          var defaultView = motion.defaultView === "grid" ? "grid" : "list";
+          var showToggle = motion.showViewToggle !== false;
+          var previewMode = typeof motion.previewMode === "string" && motion.previewMode ? motion.previewMode : "follow";
+          var cardSize = (typeof motion.cardSize === "number" && isFinite(motion.cardSize) && motion.cardSize > 0) ? motion.cardSize : 360;
+          var tiltOn = motion.tilt !== false;
+          var dimOthers = motion.dimOthers !== false;
+          var maxMobilePlaying = (typeof motion.maxMobilePlaying === "number" && isFinite(motion.maxMobilePlaying) && motion.maxMobilePlaying > 0) ? Math.floor(motion.maxMobilePlaying) : 2;
+          var coarse = window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches;
+          var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var useFollow = !coarse && !reduced && previewMode !== "fixed";
+          var ease = motion.spring === "snappy" ? 0.3 : (motion.spring === "soft" ? 0.12 : 0.18);
+          var accordion = coarse && motion.mobileBehaviour === "accordion";
+          function openProject(list, idx, el) { if (window.__openProjectOverlay) window.__openProjectOverlay(list, idx, el); }
+          function promoteVid(v) { if (v && !v.getAttribute("src")) { var ds = v.getAttribute("data-src"); if (ds) v.setAttribute("src", ds); } }
+          function playVid(v) { if (v && v.play) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } }
+          function pauseVid(v) { if (v && v.pause) v.pause(); }
+          if (section) section.classList.add("pv-on");
+          wrap.innerHTML = "";
+          var btnList = null, btnGrid = null;
+          if (showToggle) {
+            var toolbar = document.createElement("div");
+            toolbar.className = "pv-toolbar";
+            toolbar.innerHTML = '<div class="pv-toggle" role="group" aria-label="Projects view">' +
+              '<button type="button" data-pv-view="list">List</button>' +
+              '<button type="button" data-pv-view="grid">Grid</button></div>';
+            wrap.appendChild(toolbar);
+            btnList = toolbar.querySelector('[data-pv-view="list"]');
+            btnGrid = toolbar.querySelector('[data-pv-view="grid"]');
+          }
+          var listEl = document.createElement("div");
+          listEl.className = "pv-list";
+          var rows = [];
+          items.forEach(function (c, i) {
+            var row = document.createElement("div");
+            row.className = "index-row proj-row pv-row";
+            row.style.setProperty("--pv-i", String(i));
+            row.setAttribute("role", "button");
+            row.setAttribute("tabindex", "0");
+            row.setAttribute("aria-haspopup", "dialog");
+            row.setAttribute("aria-label", (c.title || "Project") + " — view project");
+            row.innerHTML = '<span class="no" aria-hidden="true">' + String(i + 1).padStart(2, "0") + "</span>" +
+              '<div><p class="big">' + esc(c.title || "Project") + "</p></div>" +
+              '<span class="cat">' + esc(typeOf(c)) + '</span><span class="yr">' + esc(c.year || "") + "</span>" +
+              '<span class="pv-arrow" aria-hidden="true">' + ARROW_UR + "</span>";
+            listEl.appendChild(row);
+            rows.push(row);
+            if (accordion) {
+              row.setAttribute("aria-expanded", "false");
+              var inline = document.createElement("div");
+              inline.className = "pv-inline";
+              inline.innerHTML = '<div class="pv-inline-in"><div class="pv-media">' + mediaHTML(c) + "</div>" +
+                '<div class="pv-inline-foot"><p class="t">' + esc(c.title || "Project") + '</p><span class="v">View</span></div></div>';
+              listEl.appendChild(inline);
+              row.__pvInline = inline;
+              inline.addEventListener("click", function () { openProject(items, i, row); });
+            }
+          });
+          wrap.appendChild(listEl);
+          var gridEl = document.createElement("div");
+          gridEl.className = "pv-grid";
+          var cards = [];
+          items.forEach(function (c, i) {
+            var card = document.createElement("div");
+            card.className = "pv-gcard";
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("aria-haspopup", "dialog");
+            card.setAttribute("aria-label", (c.title || "Project") + " — view project");
+            card.innerHTML = '<div class="pv-media">' + mediaHTML(c) + "</div>" +
+              '<div class="pv-gcap"><p class="t">' + esc(c.title || "Project") + '</p><p class="c">' + esc(typeOf(c)) + "</p></div>";
+            gridEl.appendChild(card);
+            cards.push(card);
+            bindRow(card, items, i, openProject);
+          });
+          wrap.appendChild(gridEl);
+          /* Floating preview card (fine pointers): follows the cursor in
+             follow mode, sits fixed at the side otherwise. */
+          var cardW = Math.min(cardSize, Math.floor(window.innerWidth * 0.9));
+          var cardH = Math.round(cardW * 0.625);
+          var pvCard = null, pvVid = null, rafId = 0, tx = 0, ty = 0, cx = 0, cy = 0, pvShown = false;
+          function place(x, y) {
+            tx = Math.max(8, Math.min(x + 24, window.innerWidth - cardW - 8));
+            ty = Math.max(8, Math.min(y - Math.round(cardH / 2), window.innerHeight - cardH - 8));
+          }
+          function ensureCard() {
+            if (pvCard) return pvCard;
+            pvCard = document.createElement("div");
+            pvCard.className = "pv-card proj-pv-card" + (useFollow ? "" : " pv-fixed");
+            pvCard.setAttribute("aria-hidden", "true");
+            pvCard.style.width = cardW + "px";
+            pvCard.innerHTML = '<div class="pv-media"></div><div class="pv-card-foot"><div><p class="pv-card-title"></p><p class="pv-card-cat"></p></div><span class="pv-card-view">View</span></div>';
+            document.body.appendChild(pvCard);
+            return pvCard;
+          }
+          /* Create the preview card eagerly on non-coarse pointers so it
+             exists (follow mode, or fixed mode under reduced motion /
+             previewMode fixed) before the first hover, not lazily on it. */
+          if (!coarse) ensureCard();
+          function cardLoop() {
+            cx += (tx - cx) * ease;
+            cy += (ty - cy) * ease;
+            var rot = tiltOn ? Math.max(-6, Math.min(6, (tx - cx) * 0.04)) : 0;
+            pvCard.style.transform = "translate(" + Math.round(cx) + "px," + Math.round(cy) + "px) rotate(" + rot.toFixed(2) + "deg)";
+            if (pvShown) rafId = window.requestAnimationFrame(cardLoop);
+          }
+          function showCard(i, x, y) {
+            var card = ensureCard();
+            card.querySelector(".pv-media").innerHTML = mediaHTML(items[i]);
+            card.querySelector(".pv-card-title").textContent = items[i].title || "Project";
+            card.querySelector(".pv-card-cat").textContent = typeOf(items[i]);
+            pvVid = card.querySelector("video");
+            if (useFollow) {
+              place(x, y);
+              if (!pvShown) { cx = tx; cy = ty; }
+              card.style.left = "0";
+              card.style.top = "0";
+            }
+            card.classList.remove("pv-hide");
+            card.classList.add("pv-show");
+            if (!pvShown) {
+              pvShown = true;
+              if (useFollow) rafId = window.requestAnimationFrame(cardLoop);
+            }
+            promoteVid(pvVid);
+            playVid(pvVid);
+          }
+          function hideCard() {
+            if (!pvCard || !pvShown) return;
+            pvShown = false;
+            if (rafId) window.cancelAnimationFrame(rafId);
+            rafId = 0;
+            pvCard.classList.remove("pv-show");
+            pvCard.classList.add("pv-hide");
+            pauseVid(pvVid);
+          }
+          function closeInlines(except) {
+            rows.forEach(function (r) {
+              if (r.__pvInline && r !== except) {
+                r.__pvInline.classList.remove("open");
+                r.setAttribute("aria-expanded", "false");
+                pauseVid(r.__pvInline.querySelector("video"));
+              }
+            });
+          }
+          rows.forEach(function (row, i) {
+            if (accordion) {
+              function toggleInline() {
+                var inline = row.__pvInline;
+                if (!inline) { openProject(items, i, row); return; }
+                /* First tap expands the inline preview; a second tap on
+                   the already-expanded row opens the case overlay (which
+                   is built by openProject — without this path the overlay
+                   is never created in the touch scenario). */
+                if (inline.classList.contains("open")) { openProject(items, i, row); return; }
+                closeInlines(row);
+                inline.classList.add("open");
+                row.setAttribute("aria-expanded", "true");
+                var v = inline.querySelector("video");
+                promoteVid(v);
+                playVid(v);
+              }
+              row.addEventListener("click", toggleInline);
+              row.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleInline(); }
+              });
+              return;
+            }
+            bindRow(row, items, i, openProject);
+            if (coarse) return;
+            row.addEventListener("mouseenter", function (e) {
+              row.classList.add("pv-active");
+              if (dimOthers) listEl.classList.add("pv-dim");
+              showCard(i, e.clientX, e.clientY);
+            });
+            row.addEventListener("mousemove", function (e) { if (useFollow && pvShown) place(e.clientX, e.clientY); });
+            row.addEventListener("mouseleave", function () {
+              row.classList.remove("pv-active");
+              if (!listEl.querySelector(".pv-active")) listEl.classList.remove("pv-dim");
+              hideCard();
+            });
+            row.addEventListener("focus", function () {
+              row.classList.add("pv-active");
+              if (dimOthers) listEl.classList.add("pv-dim");
+              var r = row.getBoundingClientRect();
+              showCard(i, Math.round(r.left + r.width * 0.55), Math.round(r.top + r.height / 2));
+            });
+            row.addEventListener("blur", function () {
+              row.classList.remove("pv-active");
+              if (!listEl.querySelector(".pv-active")) listEl.classList.remove("pv-dim");
+              hideCard();
+            });
+          });
+          cards.forEach(function (card) {
+            var vid = card.querySelector("video");
+            function activate() {
+              card.classList.add("pv-active");
+              if (dimOthers) gridEl.classList.add("pv-dim");
+              if (vid) {
+                if (coarse) {
+                  var playing = [];
+                  gridEl.querySelectorAll("video").forEach(function (v) { if (v !== vid && !v.paused) playing.push(v); });
+                  while (playing.length >= maxMobilePlaying) pauseVid(playing.shift());
+                }
+                promoteVid(vid);
+                playVid(vid);
+              }
+            }
+            function deactivate() {
+              card.classList.remove("pv-active");
+              if (!gridEl.querySelector(".pv-active")) gridEl.classList.remove("pv-dim");
+              pauseVid(vid);
+            }
+            card.addEventListener("mouseenter", activate);
+            card.addEventListener("mouseleave", deactivate);
+            card.addEventListener("focus", activate);
+            card.addEventListener("blur", deactivate);
+          });
+          /* Filter chips: "All" plus one chip per type present
+             among the published entries (labels plural: Websites /
+             Stores / Software). Filtering hides rows and cards with
+             the hidden attribute in both views. FILTER x SWARM RULE:
+             whenever a filter change makes a row visible,
+             __swarmMarkBuilt(row) (and its grid card) completes it
+             instantly, so the row is revealed immediately and the
+             engine skips it forever; rows filtered out just get
+             hidden. Initial (unfiltered) rows build via the normal
+             swarm. */
+          var chipsEl = document.getElementById("filterChips");
+          var activeFilter = null;
+          function applyFilter() {
+            rows.forEach(function (row, i) {
+              var show = !activeFilter || trimS(items[i].type) === activeFilter;
+              var wasHidden = !!row.hidden;
+              row.hidden = !show;
+              if (row.__pvInline) row.__pvInline.hidden = !show;
+              if (cards[i]) cards[i].hidden = !show;
+              if (show && wasHidden && window.__swarmMarkBuilt) {
+                window.__swarmMarkBuilt(row);
+                if (cards[i]) window.__swarmMarkBuilt(cards[i]);
+              }
+            });
+            hideCard();
+            if (chipsEl) Array.prototype.slice.call(chipsEl.querySelectorAll(".filter-chip")).forEach(function (chip) {
+              chip.setAttribute("aria-pressed", (chip.getAttribute("data-filter") || null) === activeFilter ? "true" : "false");
+            });
+          }
+          if (chipsEl) {
+            chipsEl.innerHTML = "";
+            var allChip = document.createElement("button");
+            allChip.type = "button";
+            allChip.className = "filter-chip";
+            allChip.textContent = "All";
+            allChip.setAttribute("data-filter", "");
+            allChip.setAttribute("aria-pressed", "true");
+            allChip.addEventListener("click", function () { activeFilter = null; applyFilter(); });
+            chipsEl.appendChild(allChip);
+            [["Website", "Websites"], ["Store", "Stores"], ["Software", "Software"]].forEach(function (pair) {
+              var has = items.some(function (p) { return trimS(p.type) === pair[0]; });
+              if (!has) return;
+              var chip = document.createElement("button");
+              chip.type = "button";
+              chip.className = "filter-chip";
+              chip.textContent = pair[1];
+              chip.setAttribute("data-filter", pair[0]);
+              chip.setAttribute("aria-pressed", "false");
+              chip.addEventListener("click", function () { activeFilter = activeFilter === pair[0] ? null : pair[0]; applyFilter(); });
+              chipsEl.appendChild(chip);
+            });
+          }
+          var view = defaultView;
+          function setView(v) {
+            view = v;
+            var isGrid = v === "grid";
+            listEl.hidden = isGrid;
+            gridEl.hidden = !isGrid;
+            if (section) section.classList.toggle("pv-grid-on", isGrid);
+            if (btnList) btnList.setAttribute("aria-pressed", isGrid ? "false" : "true");
+            if (btnGrid) btnGrid.setAttribute("aria-pressed", isGrid ? "true" : "false");
+            hideCard();
+            if (isGrid) {
+              closeInlines(null);
+            } else {
+              cards.forEach(function (card) {
+                card.classList.remove("pv-active");
+                pauseVid(card.querySelector("video"));
+              });
+              gridEl.classList.remove("pv-dim");
+            }
+          }
+          if (btnList) btnList.addEventListener("click", function () { setView("list"); });
+          if (btnGrid) btnGrid.addEventListener("click", function () { setView("grid"); });
+          setView(defaultView);
+        }
+        function openFromHash(data) {
+          var hash = (window.location.hash || "").replace("#", "");
+          if (!hash) return;
+          var projs = (Array.isArray(data.projects) ? data.projects : []).filter(function (p) { return p && typeof p === "object" && p.published !== false; });
+          for (var j = 0; j < projs.length; j++) {
+            if (slugOf(projs[j]) === hash) { if (window.__openProjectOverlay) window.__openProjectOverlay(projs, j, null); return; }
+          }
+        }
+        function renderProjectIndex(data) {
+          if (!data || typeof data !== "object") return;
+          renderCases(data);
+          openFromHash(data);
+        }
+        window.__renderProjectIndex = renderProjectIndex;
+      })();
+    </script>
+        <script>
+      /* Content loader: entries live in content.json beside this
+         file. If the fetch fails, the static fallback above stays. */
+      (function () {
+        "use strict";
+        function applyFooter(data) {
+          var f = (data && data.footer) || {};
+          function st(id, v) {
+            var el = document.getElementById(id);
+            if (el && typeof v === "string" && v.trim()) el.textContent = v;
+          }
+          st("footerKick", f.kick);
+          st("footerHeading", f.heading);
+          st("footerNote", f.note);
+          if (window.__splitFooterHeading) window.__splitFooterHeading();
+        }
+        fetch("content.json", { cache: "no-cache" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("content fetch failed");
+            return r.json();
+          })
+          .then(function (data) {
+            if (window.__renderProjectIndex) window.__renderProjectIndex(data);
+            applyFooter(data);
+            if (window.__initSwarm) window.__initSwarm(data);
+          })
+          .catch(function () { if (window.__initSwarm) window.__initSwarm({}); });
+      })();
+    </script>
+  
+    <div class="cf-overlay" id="contactOverlay">
+      <div class="cf-panel" role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+        <button type="button" class="cf-close" id="cfClose" aria-label="Close contact form">&times;</button>
+        <p class="section-label">Contact</p>
+        <h2 id="cfTitle">Tell me about your project</h2>
+        <form id="contactForm" novalidate>
+          <div class="cf-field">
+            <label for="cfName">Your name</label>
+            <input id="cfName" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="cf-field">
+            <label for="cfEmail">Your email</label>
+            <input id="cfEmail" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="cf-field">
+            <label for="cfSells">Which marketplaces or store do you sell on</label>
+            <input id="cfSells" name="sells" type="text" />
+          </div>
+          <div class="cf-field">
+            <label for="cfMessage">What&rsquo;s not working</label>
+            <textarea id="cfMessage" name="message" rows="5" required></textarea>
+          </div>
+          <div class="cf-hp" aria-hidden="true">
+            <label>Website<input id="cfWebsite" name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <p class="cf-status" id="cfStatus" role="status" aria-live="polite"></p>
+          <div class="cf-actions">
+            <button type="submit" class="btn btn-solid" id="cfSubmit">Send message</button>
+          </div>
+          <p class="cf-alt">Prefer email? <a href="mailto:henryknowsweb@gmail.com">henryknowsweb@gmail.com</a> &middot; or <a href="https://cal.com/henryknowsweb/15min" target="_blank" rel="noopener">book a free 15-min call</a></p>
+        </form>
+        <div class="cf-success" id="cfSuccess" hidden>
+          <h3>Message sent.</h3>
+          <p>Thanks &mdash; your message is in my inbox. I&rsquo;ll reply to the email address you gave.</p>
+          <button type="button" class="btn btn-secondary" id="cfDone">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var overlay = document.getElementById("contactOverlay");
+        if (!overlay) return;
+        var form = document.getElementById("contactForm");
+        var success = document.getElementById("cfSuccess");
+        var status = document.getElementById("cfStatus");
+        var submitBtn = document.getElementById("cfSubmit");
+        var lastFocus = null;
+        function openForm() {
+          lastFocus = document.activeElement;
+          overlay.classList.add("open");
+          document.body.style.overflow = "hidden";
+          var f = document.getElementById("cfName");
+          if (f) f.focus();
+        }
+        function closeForm() {
+          overlay.classList.remove("open");
+          document.body.style.overflow = "";
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+        document.querySelectorAll("[data-contact-open]").forEach(function (b) {
+          b.addEventListener("click", openForm);
+        });
+        document.getElementById("cfClose").addEventListener("click", closeForm);
+        document.getElementById("cfDone").addEventListener("click", closeForm);
+        overlay.addEventListener("click", function (e) { if (e.target === overlay) closeForm(); });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && overlay.classList.contains("open")) closeForm();
+        });
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          status.textContent = "";
+          var data = {
+            name: document.getElementById("cfName").value.trim(),
+            email: document.getElementById("cfEmail").value.trim(),
+            sells: document.getElementById("cfSells").value.trim(),
+            message: document.getElementById("cfMessage").value.trim(),
+            website: document.getElementById("cfWebsite").value
+          };
+          if (!data.name || !data.email || !data.message) {
+            status.textContent = "Please fill in your name, email and message.";
+            return;
+          }
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending...";
+          fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (j) {
+              return { okHttp: r.ok, j: j };
+            });
+          }).then(function (res) {
+            if (res.okHttp && res.j && res.j.ok) {
+              form.hidden = true;
+              success.hidden = false;
+              document.getElementById("cfDone").focus();
+            } else {
+              status.textContent = "That didn't go through. Please try again, or email me at henryknowsweb@gmail.com.";
+            }
+          }).catch(function () {
+            status.textContent = "That didn't go through. Please try again, or email me at henryknowsweb@gmail.com.";
+          }).finally(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send message";
+          });
+        });
+      })();
+    </script>
+    <script>
+      /* Red footer: split the heading into letter masks for the
+         stagger rise, and reveal the footer on scroll — gated while
+         the swarm owns the page (the engine reveals the footer itself
+         as the last build section, marked .revealed). Same helper and
+         gate as the homepage. */
+      (function () {
+        "use strict";
+        function splitFooterHeading() {
+          var h = document.getElementById("footerHeading");
+          if (!h) return;
+          if (h.querySelector && h.querySelector(".fl-letter")) return;
+          var text = h.textContent || "";
+          if (!text.trim()) return;
+          h.setAttribute("aria-label", text);
+          h.innerHTML = "";
+          var n = 0;
+          text.split(" ").forEach(function (word, wi, arr) {
+            var mask = document.createElement("span");
+            mask.className = "fl-mask";
+            mask.setAttribute("aria-hidden", "true");
+            word.split("").forEach(function (ch) {
+              var s = document.createElement("span");
+              s.className = "fl-letter";
+              s.style.transitionDelay = (n * 40) + "ms";
+              n++;
+              s.textContent = ch;
+              mask.appendChild(s);
+            });
+            h.appendChild(mask);
+            if (wi < arr.length - 1) h.appendChild(document.createTextNode(" "));
+          });
+        }
+        splitFooterHeading();
+        window.__splitFooterHeading = splitFooterHeading;
+        var foot = document.querySelector(".footer-reveal");
+        if (!foot) return;
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        function showFoot() {
+          if (document.documentElement.classList.contains("swarm-on") && !foot.classList.contains("revealed")) return;
+          foot.classList.add("is-visible");
+        }
+        if (!reduced && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) { if (en.isIntersecting) { showFoot(); io.unobserve(en.target); } });
+          }, { threshold: 0.12 });
+          io.observe(foot);
+          window.addEventListener("scroll", function () {
+            if (foot.classList.contains("is-visible")) return;
+            var r = foot.getBoundingClientRect();
+            if (r.top < window.innerHeight * 0.92 && r.bottom > 0) showFoot();
+          }, { passive: true });
+        } else { foot.classList.add("is-visible"); }
+      })();
+    </script>
+                <script>
+      /* Swarm cursor effect v4 — viewport-driven build.
+         A small crew of Figma-style cursors builds the page element
+         by element, but only what the visitor can actually see: one
+         global queue in document order (section by section; inside a
+         section: background, boxes, images, headings, body text, then
+         buttons and small details; inside a step: top to bottom, left
+         to right), and an element may only start when its cached rect
+         intersects the viewport (plus a 10% margin below it) or the
+         viewport has already scrolled past it. The build advances
+         only while the visitor is scrolling — its pace follows the
+         scroll speed through the exponential smoothing rule
+         displayed += (target - displayed) * (1 - exp(-dt x 9)) —
+         with a hard floor of real time per element and per viewport,
+         so fast flicks speed it up but nothing ever snaps. When
+         scrolling stops, the element being drawn finishes, then the
+         build freezes and every visible unbuilt element shows as a
+         faint ghost outline on the canvas until scrolling resumes.
+         The hero is the exception: it builds automatically on load
+         over about 6-8 s, so the first screen is never blank. While
+         frozen, the cursors ease into a loose orbit ring around the
+         visitor's real cursor. Each element builds exactly once per
+         page view, tracked in memory only; the build plays on EVERY
+         page load of /, /about and /portfolio. The one thing
+         persisted is the header on/off toggle (hk.swarm.enabled);
+         legacy done keys from the old once-only build are deleted on
+         init and never read or written again. Fine pointers only,
+         never under reduced motion. With ?swarmdebug=1 the engine
+         records a per-frame log (window.__swarmDebug.frames /
+         .elements).
+
+         STAGE-MACHINE AMENDMENT (Henry's directed fix, Nov 8,
+         after the live stall diagnostic): every element now runs
+         an explicit stage machine — ghost -> outline traced ->
+         fill -> content revealed -> complete — advancing on the
+         smoothed build clock only; cursors are decoration and
+         never gate a stage. Global machine states: idle, building,
+         frozen, done. Freeze finishes in-flight elements on their
+         own clocks (400 ms hard cap, then force-complete).
+         Resume input = scroll, wheel, touchmove, scroll keys,
+         scrollbar drags and hash changes — not scroll alone. A
+         watchdog forces a stalled stage forward (no stage change
+         for 1.5 s of build clock while building; any stage over
+         2 s of real time force-completes). At the document bottom
+         a drain completes everything above / in the viewport in
+         order within 4 s, then the effect ends. Ghost outlines
+         are clipped below the fixed header and vanish once an
+         element's fill stage starts. Load rule (Henry's
+         amendment): no #hash -> scrollRestoration is pinned to
+         manual and the page starts at the top, full replay from
+         the hero on every load; a #hash landing (or an in-session
+         hash jump) instead silently completes everything above
+         the landing viewport so the front can never be pinned
+         behind earlier sections. */
+      (function () {
+        "use strict";
+        /* Load decision (Henry, Nov 8 amendment): a #hash URL whose
+           target exists is an intentional mid-page landing — honour
+           the position and let the init-skip clear everything above
+           it. Anything else is a normal open/reload: pin scroll
+           restoration to manual and force the top NOW, at parse
+           time, so the hero and every section replay in order on
+           every load. */
+        var loadHashTargeted = false;
+        try {
+          var lh = window.location.hash || "";
+          if (lh) loadHashTargeted = !!document.querySelector(lh);
+        } catch (e) { loadHashTargeted = false; }
+        if (!loadHashTargeted) {
+          try { history.scrollRestoration = "manual"; } catch (e) {}
+          try { window.scrollTo(0, 0); } catch (e) {}
+        }
+        var PREF_KEY = "hk.swarm.enabled";
+        var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
+        var DEFAULT_LABELS = ["Listing", "A+ Content", "PPC", "Reconciliation", "Shopify", "Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari"];
+        /* Viewport-build constants (Henry's swarm v4 spec, Nov 8):
+           SCROLL_IDLE_MS — no scroll event for this long means the
+             visitor has stopped; the elements being drawn finish, then
+             the build freezes and ghosts show.
+           MIN_REVEAL_MS — internal per-element reveal floor: reveals
+             are rate-clamped to 240 ms of accumulated frame time. The
+             debug clock starts on the first advancing frame, whose
+             own delta (clamped to 50 ms) is already spent, so the
+             measured duration reads up to ~50 ms less than the clamp
+             — 240 ms keeps every measured reveal above the 180 ms
+             spec floor even when a jank frame lands first.
+           VIEWPORT_MS — the elements intersecting one full viewport
+             can never all complete in under about this long at
+             buildSpeed 1 (scaled by buildSpeed): each element's
+             duration is at least VIEWPORT_MS / buildSpeed / K, where
+             K is the number of unbuilt elements in the window when
+             the element starts.
+           HERO_MS — the hero builds automatically over about this
+             long at buildSpeed 1 (scaled by buildSpeed), split across
+             its elements.
+           STAGGER_MS — detail elements add this much to their
+             duration, the button-band stagger (flat, not per-run:
+             a run-based surcharge grows without bound in
+             detail-heavy sections).
+           ORBIT_SETTLE_MS — once frozen for this long the cursors
+             count as settled into the orbit ring (state mode "orbit";
+             before that the mode reads "frozen" while they travel). */
+        var SCROLL_IDLE_MS = 150, MIN_REVEAL_MS = 240, VIEWPORT_MS = 1200, HERO_MS = 7000, STAGGER_MS = 60, ORBIT_SETTLE_MS = 500;
+        /* Stage-machine constants (Henry's directed fix, Nov 8):
+           STAGE_MIN_TOTAL — an element's three active stages
+             (outline, fill, reveal) each run at least 180 ms of
+             build clock, so the total is floored at 3 x 180 = 540.
+           FREEZE_CAP_MS — on a stop, an in-flight element finishes
+             on its own clock with this hard cap, then force-completes.
+           WATCHDOG_BUILD_MS — while building, if no stage changes
+             for this much build-clock time, the watchdog forces the
+             lead element to its next stage.
+           STAGE_CAP_REAL_MS — an element in one stage longer than
+             this (real time, while building) is force-completed.
+           DRAIN_CAP_MS — the bottom rule's total budget. */
+        var STAGE_MIN_TOTAL = 540, FREEZE_CAP_MS = 400, WATCHDOG_BUILD_MS = 1500, STAGE_CAP_REAL_MS = 2000, DRAIN_CAP_MS = 4000;
+        var STAGE_NAMES = ["ghost", "outline", "fill", "reveal", "complete"];
+        var RANK = { bg: 0, box: 1, chip: 1, image: 2, heading: 3, text: 4, label: 4, button: 5, detail: 5 };
+        var canvas = null, ctx = null, raf = 0, running = false;
+        var inited = false, bound = false, finished = false, disabled = false, exiting = false, exitStart = 0;
+        var contentEnabled = true, cursorCount = 20, buildSpeed = 1, labels = DEFAULT_LABELS.slice();
+        var sections = [], cursors = [], queue = [];
+        var head = 0, builtCount = 0, active = [];
+        var frozen = false, wasFrozen = false, frozenSince = 0, heroDurEach = 0;
+        var pace = 0, paceTarget = 0, scrollSpeed = 0;
+        var lastNow = 0, engT = 0, scrollPos = 0, vh = 0;
+        var lastScrollMoveAt = -1e9, lastScrollEvtT = -1e9;
+        /* stage machine + fix state: buildT is the smoothed build
+           clock (accumulates dt x pace while building, dt while
+           finishing); docH/headerH are cached in measureGeometry;
+           drainStart >= 0 while the bottom rule is draining. */
+        var buildT = 0, lastStageChangeBuild = 0, lastStageChangeReal = 0;
+        var docH = 0, headerH = 0, drainStart = -1, startedOnce = false;
+        var watchdogEvents = [], stallUntil = 0, stallEntry = null;
+        var curMode = "build", curMachine = "idle";
+        var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
+        var scatterUntil = 0, scatterPts = [], orbitA = 0, W = 0, H = 0;
+        var ro = null, summaryPrinted = false;
+
+        /* ---------------- debug (?swarmdebug=1) ----------------
+           Inert unless the query string is present: no recording, no
+           console output, and window.__swarmDebug carries no frames /
+           elements arrays. When on, every frame appends
+           {t, scrollY, scrolling, built, frame} and every revealed
+           element appends {section, type, start, end, duration} when
+           its reveal completes. */
+        var debugOn = false;
+        try { debugOn = String(window.location.search || "").indexOf("swarmdebug=1") !== -1; } catch (e) {}
+        var dbgFrames = debugOn ? [] : null, dbgElements = debugOn ? [] : null, dbgTransitions = debugOn ? [] : null;
+        function dbgFrame(now, scrolling, frameMs) {
+          if (!debugOn || dbgFrames.length >= 20000) return;
+          dbgFrames.push({
+            t: Math.round(now), scrollY: Math.round(scrollPos),
+            scrolling: !!scrolling, built: builtCount,
+            frame: Math.round(frameMs * 10) / 10
+          });
+        }
+        function dbgSummary() {
+          if (!debugOn || summaryPrinted) return;
+          summaryPrinted = true;
+          var maxFrame = 0, minDur = Infinity;
+          dbgFrames.forEach(function (f) { if (f.frame > maxFrame) maxFrame = f.frame; });
+          dbgElements.forEach(function (e) { if (e.duration < minDur) minDur = e.duration; });
+          try {
+            console.log("[swarmdebug] frames=" + dbgFrames.length + " elements=" + dbgElements.length +
+              " maxFrame=" + (Math.round(maxFrame * 10) / 10) + "ms" +
+              " minReveal=" + (minDur === Infinity ? "n/a" : Math.round(minDur) + "ms") +
+              " built=" + builtCount + "/" + queue.length + " buildSpeed=" + buildSpeed +
+              " watchdog=" + watchdogEvents.length);
+          } catch (e) {}
+        }
+
+        function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+        function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+        /* The old once-only build persisted a per-page done flag
+           (hk.swarm.done.<page>). Those keys are never read or written
+           again — delete any leftovers so returning visitors' storage
+           is cleaned. The toggle key above is the only key this engine
+           ever writes. */
+        function cleanLegacyDone() {
+          try {
+            var ls = window.localStorage, kill = [];
+            for (var i = 0; i < ls.length; i++) { var k = ls.key(i); if (k && k.indexOf("hk.swarm.done.") === 0) kill.push(k); }
+            kill.forEach(function (k) { ls.removeItem(k); });
+          } catch (e) {}
+        }
+        function coarse() { return window.matchMedia("(pointer: coarse)").matches || !window.matchMedia("(hover: hover)").matches; }
+        function reducedM() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+        function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+        function clampSpeed(v) { v = Number(v); if (!isFinite(v)) v = 1; return clamp(v, 0.5, 2); }
+        function easeIO(p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+        function btn() { return document.getElementById("swarmToggle"); }
+        function syncToggle() {
+          var b = btn(); if (!b) return;
+          var on = lsGet(PREF_KEY) !== "off" && contentEnabled;
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+          b.textContent = on ? "Swarm on" : "Swarm off";
+        }
+        function docRect(el) {
+          var r = el.getBoundingClientRect();
+          return { l: r.left + (window.scrollX || 0), t: r.top + (window.scrollY || 0), w: r.width, h: r.height };
+        }
+        function anchorOf(kind, r) {
+          if (kind === "bg") return { x: r.l, y: r.t };
+          if (kind === "button") return { x: r.l + 6, y: r.t + r.h / 2 };
+          return { x: r.l + 4, y: r.t + r.h / 2 };
+        }
+
+        /* ---------------- classification ----------------
+           Deterministic rules (outermost wins; a classified element's
+           descendants are only classified when their phase is later and
+           the ancestor is a box — they become that box's sub-sequence):
+           box     .service-row, .faq-item, .process-steps li, .index-empty,
+                   .index-row, .pv-card, .facts, form
+           image   figure (with img) or img
+           heading h1, h2, h3
+           text    p, summary, dt, dd, label, figcaption (+ safe fallback)
+           button  a, button, [role="button"] not inside a text leaf
+           detail  .num, .arrow, .pv-arrow, .star, marquee words, index-head
+                   cells — revealed in the button band, 60 ms stagger
+           The tools section is special-cased (group label, then chips). */
+        var BOX_SEL = ".service-row, .faq-item, .process-steps li, .index-empty, .index-row, .pv-card, .facts, form";
+        var DETAIL_SEL = ".num, .arrow, .pv-arrow, .star, .marquee-track .word, .index-head span";
+        var PHASE = { box: 2, image: 3, heading: 4, text: 5, button: 6, detail: 7 };
+
+        function isShown(el) {
+          /* Shown = not in a [hidden] subtree and computed display/visibility
+             are on. (No rect test: a zero-size box can still be a real,
+             visible element, and display:none — e.g. the off-breakpoint
+             marquee track — is the reliable hidden signal.) */
+          if (el.closest && el.closest("[hidden]")) return false;
+          var cs = window.getComputedStyle(el);
+          return cs.display !== "none" && cs.visibility !== "hidden";
+        }
+        function kindOf(el) {
+          var tag = el.tagName;
+          if (tag === "FIGURE" && el.querySelector("img")) return "image";
+          if (tag === "IMG") return "image";
+          if (el.matches && el.matches(BOX_SEL)) return "box";
+          if (tag === "H1" || tag === "H2" || tag === "H3") return "heading";
+          if (tag === "P" || tag === "SUMMARY" || tag === "DT" || tag === "DD" || tag === "LABEL" || tag === "FIGCAPTION") return "text";
+          if (tag === "A" || tag === "BUTTON" || el.getAttribute("role") === "button") return "button";
+          if (el.matches && el.matches(DETAIL_SEL)) return "detail";
+          return null;
+        }
+        function nearestClaimed(el, sec, claimed) {
+          var n = el.parentElement;
+          while (n && n !== sec.el) { if (claimed.has(n)) return claimed.get(n); n = n.parentElement; }
+          return null;
+        }
+        function hasClaimedDescendant(el, claimed) {
+          var d = el.querySelectorAll("*");
+          for (var i = 0; i < d.length; i++) if (claimed.has(d[i])) return true;
+          return false;
+        }
+        function classify(sec) {
+          var claimed = new Map();
+          var items = [];
+          var els = sec.el.querySelectorAll("*");
+          var i, el, kind, anc;
+          for (i = 0; i < els.length; i++) {
+            el = els[i];
+            if (el.tagName === "SCRIPT" || el.tagName === "STYLE" || el.tagName === "BR") continue;
+            kind = kindOf(el);
+            if (!kind) continue;
+            anc = nearestClaimed(el, sec, claimed);
+            if (anc && anc.kind !== "box") continue;         /* inside a leaf: rides with it */
+            if (anc && kind === "box") continue;             /* nested box: outermost only */
+            if (!isShown(el)) continue;
+            var item = { el: el, kind: kind, rect: docRect(el), phase: PHASE[kind], subs: [] };
+            claimed.set(el, item);
+            items.push(item);
+          }
+          /* coverage sweep: visible leaves nobody claimed -> text (step 5) */
+          for (i = 0; i < els.length; i++) {
+            el = els[i];
+            if (claimed.has(el) || el.tagName === "SCRIPT" || el.tagName === "STYLE" || el.tagName === "BR") continue;
+            anc = nearestClaimed(el, sec, claimed);
+            if (anc && anc.kind !== "box") continue;
+            if (el.children.length) continue;                /* containers stay transparent */
+            if (hasClaimedDescendant(el, claimed)) continue;
+            if (!isShown(el)) continue;
+            var leaf = { el: el, kind: "text", rect: docRect(el), phase: PHASE.text, subs: [] };
+            claimed.set(el, leaf);
+            items.push(leaf);
+          }
+          /* fold box descendants into their box's sub-sequence */
+          var top = [];
+          items.forEach(function (it) {
+            var owner = null, n = it.el.parentElement;
+            while (n && n !== sec.el) { if (claimed.has(n) && claimed.get(n).kind === "box") { owner = claimed.get(n); break; } n = n.parentElement; }
+            if (owner && owner !== it) owner.subs.push(it); else top.push(it);
+          });
+          top.forEach(function (it) {
+            if (it.kind === "box") it.subs.sort(function (a, b) { return a.phase - b.phase; });
+          });
+          /* group details by container */
+          var grouped = [], dkey = new Map();
+          top.forEach(function (it) {
+            if (it.kind !== "detail") { grouped.push(it); return; }
+            var key = it.el.closest ? (it.el.closest("[data-marquee]") || it.el.parentElement) : it.el.parentElement;
+            if (dkey.has(key)) { dkey.get(key).group.push(it); }
+            else { var g = { el: it.el, kind: "details", rect: it.rect, phase: PHASE.detail, subs: [], group: [it] }; dkey.set(key, g); grouped.push(g); }
+          });
+          return grouped;
+        }
+
+        /* ---------------- plans: per-section item lists ----------------
+           planFor returns a section's reveal items in classifier
+           order (the queue builder below imposes the build order).
+           Generic sections come from the classifier; the hero and
+           the tools section keep their special item builders. */
+        function textLines(item) {
+          var lh = 0;
+          try { lh = parseFloat(window.getComputedStyle(item.el).lineHeight) || 0; } catch (e) {}
+          if (!lh) lh = 26;
+          item.lineH = lh;
+          return clamp(Math.round(item.rect.h / lh), 1, 6);
+        }
+        function mkItem(el, kind, phase, rect, order) {
+          return { el: el, kind: kind, phase: phase, rect: rect, v: 0, _o: order, lines: 0, lineH: 26, letters: null, _dbgS: 0, _dbgE: 0 };
+        }
+        function flattenClassified(sec) {
+          var tops = classify(sec), out = [], order = 0;
+          tops.forEach(function (it) {
+            if (it.kind === "details") {
+              it.group.forEach(function (g) { out.push(mkItem(g.el, "detail", "button", g.rect, order++)); });
+              return;
+            }
+            var phase = it.kind === "detail" ? "button" : it.kind;
+            out.push(mkItem(it.el, it.kind, phase, it.rect, order++));
+            (it.subs || []).forEach(function (s) {
+              out.push(mkItem(s.el, s.kind, s.kind === "detail" ? "button" : s.kind, s.rect, order++));
+            });
+          });
+          return out;
+        }
+        function heroItems(sec) {
+          var out = [], order = 0;
+          var hq = function (sel) { return sec.el.querySelector(sel); };
+          var portrait = hq(".hero-portrait");
+          if (portrait && isShown(portrait)) out.push(mkItem(portrait, "image", "image", docRect(portrait), order++));
+          var nameEl = hq("#heroName");
+          if (nameEl) {
+            var ni = mkItem(nameEl, "heading", "heading", docRect(nameEl), order++);
+            ni.letters = Array.prototype.slice.call(nameEl.querySelectorAll(".hero-letter"));
+            out.push(ni);
+          }
+          ["#heroRole", "#heroTagline", "#heroSub", "#heroAvailability", ".handle-line", ".scroll-hint"].forEach(function (sel) {
+            var te = hq(sel);
+            if (!te || !isShown(te)) return;
+            out.push(mkItem(te, "text", "text", docRect(te), order++));
+          });
+          var cta = hq("a.cta-btn");
+          if (cta && isShown(cta)) out.push(mkItem(cta, "button", "button", docRect(cta), order++));
+          return out;
+        }
+        function toolsItems(sec) {
+          /* Tools special case (kept from the previous builds): the
+             section label and heading lead, then each group builds as
+             label first, chips in turn. That exact sequence is the
+             section's queue order — it is NOT re-sorted by step. */
+          var out = [], order = 0;
+          var lab = sec.el.querySelector(".section-label");
+          if (lab) out.push(mkItem(lab, "label", "text", docRect(lab), order++));
+          var h2 = sec.el.querySelector("h2");
+          if (h2) out.push(mkItem(h2, "heading", "heading", docRect(h2), order++));
+          Array.prototype.slice.call(sec.el.querySelectorAll(".tools-group")).forEach(function (g) {
+            var gl = g.querySelector(".tools-group-label");
+            if (gl) out.push(mkItem(gl, "label", "text", docRect(gl), order++));
+            Array.prototype.slice.call(g.querySelectorAll(".tools-chips li")).forEach(function (li) {
+              if (isShown(li)) out.push(mkItem(li, "chip", "box", docRect(li), order++));
+            });
+          });
+          return out;
+        }
+        function planFor(sec) {
+          if (sec.items) return sec.items;
+          var items;
+          if (sec.isTools) items = toolsItems(sec);
+          else if (sec.isHero) {
+            items = heroItems(sec);
+            /* Non-home hero sections (the /case-studies and /projects
+               intros) contain none of the home hero's keyed elements,
+               so heroItems returns nothing for them: fall back to the
+               generic classifier so the intro still builds, with hero
+               pacing and the hero auto-start. */
+            if (!items.length) items = flattenClassified(sec);
+          }
+          else items = flattenClassified(sec);
+          items.forEach(function (it) { if (it.kind === "text") it.lines = textLines(it); if (it.kind === "label") it.lines = 1; });
+          items.unshift(mkItem(sec.el, "bg", "bg", sec.rect, -1));
+          sec.items = items;
+          return items;
+        }
+
+        /* ---------------- geometry cache ----------------
+           Section offsets and element rects are cached here and in
+           planFor; the animation loop never reads layout. The cache
+           is recomputed only on resize, font load and image load
+           (ResizeObserver on the sections + fonts.ready + load). */
+        function collect() {
+          sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el, i) {
+            return { el: el, index: i, state: "idle", started: false, rect: { l: 0, t: 0, w: 0, h: 0 }, top: 0, touched: [], items: null, builtCount: 0, entryCount: 0, isTools: !!el.querySelector(".tools-groups"), isHero: el.classList.contains("hero") };
+          });
+        }
+        function measureGeometry() {
+          vh = window.innerHeight || 0;
+          docH = 0;
+          sections.forEach(function (sec) {
+            sec.rect = docRect(sec.el);
+            sec.top = sec.rect.t;
+            if (sec.rect.t + sec.rect.h > docH) docH = sec.rect.t + sec.rect.h;
+            if (sec.items) sec.items.forEach(function (it) { if (it.kind !== "bg") it.rect = docRect(it.el); else it.rect = sec.rect; });
+          });
+          var hdr = document.querySelector("header, .topbar");
+          headerH = hdr && hdr.offsetHeight ? hdr.offsetHeight : 0;
+        }
+        var recacheT = 0;
+        function scheduleRecache() {
+          window.clearTimeout(recacheT);
+          recacheT = window.setTimeout(measureGeometry, 120);
+        }
+
+        /* ---------------- the global queue ----------------
+           One queue for the whole page: section by section; inside a
+           generic section by step rank (background, boxes, images,
+           headings, body text, buttons + details), then by top, then
+           left. The tools section keeps its own sequence verbatim.
+           The queue front advances strictly in order — a later
+           element never starts before an earlier unbuilt one. */
+        function buildQueue() {
+          queue = [];
+          sections.forEach(function (sec) {
+            var items = planFor(sec).slice();
+            var ordered = sec.isTools ? items : items.slice().sort(function (a, b) {
+              return (RANK[a.kind] - RANK[b.kind]) || (a.rect.t - b.rect.t) || (a.rect.l - b.rect.l) || (a._o - b._o);
+            });
+            sec.entryCount = ordered.length;
+            sec.builtCount = 0;
+            ordered.forEach(function (it) { queue.push({ sec: sec, item: it, dur: 0, done: false, stage: 0, stageT: 0, stageDur: 0, stageStartReal: 0, _finishT0: -1, _started: false }); });
+            if (sec.isHero) {
+              var n = Math.max(1, ordered.length);
+              heroDurEach = clamp(Math.round(HERO_MS / buildSpeed / n), MIN_REVEAL_MS, 4000);
+            }
+          });
+          head = 0;
+          builtCount = 0;
+          active = [];
+          frozen = false;
+          wasFrozen = false;
+          pace = 0;
+        }
+        function heroPending() {
+          for (var i = 0; i < sections.length; i++) if (sections[i].isHero) return sections[i].state !== "built";
+          return false;
+        }
+        /* Eligibility (spec rule 1): the element's cached rect
+           intersects the viewport expanded by a 10% margin below it,
+           OR the viewport has already scrolled past the element —
+           Henry's own note: elements above the viewport were eligible
+           while passing through. Without the second clause a single
+           fast flick would strand the strict queue above the viewport
+           and nothing below it (including the footer) could ever
+           build. Elements below the margin are never eligible. */
+        function inWindow(r) { return r.t + r.h >= scrollPos && r.t <= scrollPos + vh * 1.1; }
+        function eligible(e) { var r = e.item.rect; return inWindow(r) || (r.t + r.h < scrollPos); }
+        function visibleUnbuiltCount() {
+          var n = 0;
+          for (var i = head; i < queue.length; i++) if (!queue[i].done && inWindow(queue[i].item.rect)) n++;
+          return n;
+        }
+        function computeDur(e) {
+          if (e.sec.isHero) return heroDurEach;
+          var k = Math.max(1, visibleUnbuiltCount());
+          var d = Math.max(MIN_REVEAL_MS, Math.round(VIEWPORT_MS / buildSpeed / k));
+          /* details carry a flat stagger surcharge (the serial-model
+             equivalent of the old 60 ms start stagger — a run-based
+             surcharge would grow without bound in detail-heavy
+             sections like the marquee). */
+          if (e.item.kind === "detail") d += STAGGER_MS;
+          return d;
+        }
+
+        /* ---------------- inline style save / restore ---------------- */
+        function touch(sec, el) {
+          for (var i = 0; i < sec.touched.length; i++) if (sec.touched[i].el === el) return;
+          sec.touched.push({ el: el, opacity: el.style.opacity, clipPath: el.style.clipPath, transform: el.style.transform });
+        }
+        function restoreSection(sec) {
+          sec.touched.forEach(function (t) {
+            t.el.style.opacity = t.opacity; t.el.style.clipPath = t.clipPath; t.el.style.transform = t.transform;
+            if (t.animationName !== undefined) { t.el.style.animationName = t.animationName; t.el.style.animationPlayState = t.animationPlayState; }
+          });
+          sec.touched = [];
+          sec.el.style.clipPath = "";
+        }
+        /* Hero heading: hold the masked-type letters at their first
+           frame — animation restarted and play-state paused via inline
+           style, so the page's own body.is-loaded rule cannot run them
+           before the heading's turn. When the heading starts drawing,
+           the step releases them and the hero's existing CSS animation
+           plays the reveal. Inline values are recorded in sec.touched
+           and restored with the section. */
+        function holdLetters(sec, st) {
+          st._lettersHeld = true;
+          st.letters.forEach(function (l) {
+            sec.touched.push({ el: l, opacity: l.style.opacity, clipPath: l.style.clipPath, transform: l.style.transform, animationName: l.style.animationName, animationPlayState: l.style.animationPlayState });
+            l.style.animationName = "none";
+          });
+          if (st.el) void st.el.offsetWidth; /* flush: restart the animation clock */
+          st.letters.forEach(function (l) { l.style.animationName = ""; l.style.animationPlayState = "paused"; });
+        }
+        function releaseLetters(st) {
+          if (!st._lettersHeld || st._lettersReleased) return;
+          st._lettersReleased = true;
+          st.letters.forEach(function (l) { l.style.animationPlayState = "running"; });
+        }
+
+        /* ---------------- canvas + cursors ---------------- */
+        function ensureCanvas() {
+          if (canvas) return true;
+          canvas = document.createElement("canvas");
+          canvas.id = "swarmCanvas";
+          canvas.setAttribute("aria-hidden", "true");
+          document.body.appendChild(canvas);
+          ctx = canvas.getContext("2d");
+          if (!ctx) { return false; }
+          sizeCanvas();
+          return true;
+        }
+        function sizeCanvas() {
+          if (!canvas) return;
+          var dpr = Math.min(2, window.devicePixelRatio || 1);
+          W = window.innerWidth; H = window.innerHeight;
+          canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+          canvas.style.width = W + "px"; canvas.style.height = H + "px";
+          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        function makeCursors() {
+          cursors = [];
+          var crew = clamp(cursorCount, 3, 5);
+          for (var i = 0; i < crew; i++) {
+            cursors.push({
+              x: W * (0.5 + (i - crew / 2) * 0.05), y: H + 40 + i * 26,
+              color: PALETTE[i % PALETTE.length],
+              label: labels[i % labels.length],
+              path: null, hoverX: 0, hoverY: 0, tag: i
+            });
+          }
+        }
+        function setPath(c, tx, ty, dur) {
+          var dist = Math.hypot(tx - c.x, ty - c.y);
+          if (dist < 2) { c.x = tx; c.y = ty; c.path = null; return; }
+          dur = dur || clamp(dist * 0.55, 180, 700);
+          var mx = (c.x + tx) / 2 + (ty - c.y) * 0.16;
+          var my = (c.y + ty) / 2 - (tx - c.x) * 0.16;
+          c.path = { x0: c.x, y0: c.y, mx: mx, my: my, x1: tx, y1: ty, t0: engT, dur: dur };
+        }
+        function pathPos(c) {
+          if (!c.path) return;
+          var p = clamp((engT - c.path.t0) / c.path.dur, 0, 1), e = easeIO(p);
+          var q = 1 - e, a = c.path;
+          c.x = q * q * a.x0 + 2 * q * e * a.mx + e * e * a.x1;
+          c.y = q * q * a.y0 + 2 * q * e * a.my + e * e * a.y1;
+          if (p >= 1) c.path = null;
+        }
+        function roundRectPath(x, y, w, h, r) {
+          r = Math.min(r, w / 2, h / 2);
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+          ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+          ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+          ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+          ctx.closePath();
+        }
+        function drawCursor(c, showTag) {
+          var x = c.x, y = c.y;
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x, y + 15);
+          ctx.lineTo(x + 3.9, y + 11.4);
+          ctx.lineTo(x + 6.2, y + 17);
+          ctx.lineTo(x + 8.6, y + 15.9);
+          ctx.lineTo(x + 6.3, y + 10.4);
+          ctx.lineTo(x + 10.8, y + 10.4);
+          ctx.closePath();
+          ctx.fillStyle = c.color; ctx.fill();
+          ctx.lineWidth = 1; ctx.strokeStyle = "rgba(14,13,14,.85)"; ctx.stroke();
+          if (showTag) {
+            var text = c.label, fs = 10;
+            ctx.font = "600 " + fs + "px Inter, sans-serif";
+            var tw = ctx.measureText(text).width, bw = tw + 12, bh = 17;
+            var bx = x + 10, by = y + 13;
+            if (bx + bw > W - 4) bx = x - bw - 2;
+            if (by + bh > H - 4) by = y - bh - 2;
+            roundRectPath(bx, by, bw, bh, 8);
+            ctx.fillStyle = c.color; ctx.fill();
+            ctx.fillStyle = "#0E0D0E";
+            ctx.fillText(text, bx + 6, by + 12.5);
+          }
+          ctx.restore();
+        }
+        function traceRect(r, sy, d, color, dashed) {
+          var x = r.l - 2, y = r.t - sy - 2, w = r.w + 4, h = r.h + 4, per = 2 * (w + h);
+          if (per <= 0 || d <= 0) return { x: x, y: y };
+          ctx.save();
+          ctx.strokeStyle = color; ctx.lineWidth = 1;
+          if (dashed) ctx.setLineDash([4, 3]); else ctx.setLineDash([per * d, per]);
+          ctx.beginPath(); ctx.rect(x, y, w, h); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.restore();
+          /* trace head position (walks the rectangle perimeter) */
+          var dd = per * clamp(d, 0, 1), px = x, py = y;
+          if (dd < w) { px = x + dd; py = y; }
+          else if (dd < w + h) { px = x + w; py = y + (dd - w); }
+          else if (dd < 2 * w + h) { px = x + w - (dd - w - h); py = y + h; }
+          else { px = x; py = y + h - (dd - 2 * w - h); }
+          return { x: px, y: py };
+        }
+        function drawGuides(r, sy, alpha) {
+          ctx.save();
+          ctx.strokeStyle = "rgba(242,239,234," + alpha + ")";
+          ctx.lineWidth = 1;
+          var y = r.t - sy;
+          ctx.beginPath();
+          ctx.moveTo(0.5, Math.round(y) + 0.5); ctx.lineTo(W, Math.round(y) + 0.5);
+          ctx.moveTo(0.5, Math.round(y + r.h) + 0.5); ctx.lineTo(W, Math.round(y + r.h) + 0.5);
+          ctx.stroke();
+          ctx.restore();
+        }
+        /* Ghost outlines (spec rule 4): while the build is frozen,
+           every unbuilt element intersecting the eligibility window
+           is drawn on the canvas as a 1 px mute outline at about 40%
+           opacity, from cached rects. Frozen-state rendering only —
+           ghosts clear as their elements build, in queue order. */
+        function drawGhosts() {
+          ctx.save();
+          ctx.strokeStyle = "rgba(140,135,130,0.4)";
+          ctx.lineWidth = 1;
+          for (var i = head; i < queue.length; i++) {
+            if (queue[i].done) continue;
+            /* ghosts exist only until an element's fill stage
+               starts (stage 2); from fill on, the element itself is
+               visibly drawing and needs no placeholder. */
+            if (queue[i].stage >= 2) continue;
+            var r = queue[i].item.rect;
+            if (!inWindow(r)) continue;
+            /* clip to the page content area: never paint a ghost
+               over the fixed header band or outside the viewport. */
+            var top = r.t - scrollPos;
+            if (top + r.h <= headerH || top >= vh) continue;
+            var gy = Math.max(top, headerH);
+            var gh = Math.min(top + r.h, vh) - gy;
+            if (gh <= 0) continue;
+            ctx.strokeRect(r.l + 0.5, gy + 0.5, Math.max(0, r.w - 1), Math.max(0, gh - 1));
+          }
+          ctx.restore();
+        }
+
+        /* ---------------- per-element renderers ----------------
+           Each renderer maps the item's reveal value v (0..1) onto
+           transform / opacity / clip-path only. The element being
+           drawn gets the canvas extras (trace / guides / ripple) and
+           the lead cursor is driven to the drawing point, so the
+           visitor sees a cursor do the work. */
+        function applyItem(sec, item, v, isFront) {
+          var el = item.el, r = item.rect, sy = scrollPos, lead = cursors[0];
+          if (item.kind === "bg") {
+            touch(sec, el);
+            var rx = easeIO(clamp(v / 0.62, 0, 1)), by = easeIO(clamp((v - 0.38) / 0.62, 0, 1));
+            el.style.clipPath = "inset(0 " + ((1 - rx) * 100).toFixed(2) + "% " + ((1 - by) * 100).toFixed(2) + "% 0)";
+            if (isFront && ctx && v > 0 && v < 1) {
+              ctx.save();
+              ctx.fillStyle = "rgba(242,239,234,0.05)";
+              ctx.fillRect(r.l, r.t - sy, r.w * rx, r.h);
+              ctx.fillRect(r.l, r.t - sy, r.w, r.h * by);
+              ctx.restore();
+              if (lead) { lead.x = r.l + r.w * rx; lead.y = r.t - sy + r.h * by; lead.path = null; }
+            }
+            return;
+          }
+          touch(sec, el);
+          if (item.kind === "box" || item.kind === "chip") {
+            if (isFront && ctx && v > 0 && v < 0.55) {
+              var hp = traceRect(r, sy, v / 0.55, item.kind === "chip" ? "#8C8782" : "#F2281E", false);
+              if (lead) { lead.x = hp.x; lead.y = hp.y; lead.path = null; }
+            }
+            el.style.opacity = String(clamp((v - 0.55) / 0.45, 0, 1));
+          } else if (item.kind === "image") {
+            var fade = clamp((v - 0.35) / 0.65, 0, 1);
+            if (isFront && ctx && v > 0 && v < 0.35) traceRect(r, sy, v / 0.35, "#8C8782", true);
+            if (sec.isHero) {
+              el.style.clipPath = "inset(0 0 " + ((1 - fade) * 100).toFixed(2) + "% 0)";
+            } else {
+              el.style.opacity = String(fade);
+              var img = el.tagName === "FIGURE" ? el.querySelector("img") : (el.tagName === "IMG" ? el : el.querySelector("img"));
+              if (img) { touch(sec, img); img.style.transform = "scale(" + (1.04 - 0.04 * fade).toFixed(3) + ")"; }
+            }
+          } else if (item.kind === "heading") {
+            if (item.letters && item.letters.length) {
+              if (v > 0) releaseLetters(item);
+            } else {
+              var eo = easeIO(v);
+              el.style.clipPath = "inset(0 " + ((1 - eo) * 100).toFixed(2) + "% 0 0)";
+              if (isFront && lead && v > 0 && v < 1) { lead.x = r.l + r.w * eo; lead.y = r.t - sy + r.h / 2; lead.path = null; }
+            }
+          } else if (item.kind === "text" || item.kind === "label") {
+            var lines = item.lines || 1;
+            var q = v <= 0 ? 0 : v >= 1 ? 1 : Math.ceil(easeIO(v) * lines) / lines;
+            el.style.clipPath = "inset(0 0 " + ((1 - q) * 100).toFixed(2) + "% 0)";
+            if (isFront && lead && v > 0 && v < 1) {
+              lead.x = r.l + 4;
+              lead.y = r.t - sy + Math.max(8, q * r.h - (item.lineH || 13));
+              lead.path = null;
+            }
+          } else if (item.kind === "button") {
+            if (isFront && ctx && v > 0 && v < 0.45) {
+              var bp = traceRect(r, sy, v / 0.45, "#F2281E", false);
+              if (lead) { lead.x = bp.x; lead.y = bp.y; lead.path = null; }
+            }
+            el.style.opacity = String(clamp((v - 0.45) / 0.35, 0, 1));
+            if (isFront && ctx && v >= 0.8 && lead) {
+              var rp = (v - 0.8) / 0.2, aa = anchorOf("button", r);
+              ctx.save();
+              ctx.strokeStyle = "rgba(242,32,30," + (0.5 * (1 - rp)).toFixed(3) + ")";
+              ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              ctx.arc(aa.x, aa.y - sy, 4 + rp * 16, 0, Math.PI * 2);
+              ctx.stroke();
+              ctx.restore();
+            }
+          } else if (item.kind === "detail") {
+            el.style.opacity = String(v);
+            el.style.transform = "translateY(" + ((1 - v) * 6).toFixed(2) + "px)";
+          } else {
+            el.style.opacity = String(v);
+          }
+        }
+        function hideAll(sec) {
+          sec.items.forEach(function (it) {
+            if (it._done) return; /* completed early via __swarmMarkBuilt: stays at its final state */
+            if (it.letters && it.letters.length) holdLetters(sec, it);
+            applyItem(sec, it, 0, false);
+          });
+        }
+        function startSection(sec) {
+          sec.started = true;
+          sec.state = "building";
+          sec.el.classList.add("swarm-building");
+          sec.el.classList.add("swarm-anim");
+          /* first touch of this section: every item pinned at v=0 in
+             the same task that flips the section visible, so nothing
+             can flash between the class change and the first frame. */
+          hideAll(sec);
+        }
+        function finishSection(sec) {
+          restoreSection(sec);
+          sec.el.classList.remove("swarm-building");
+          sec.el.classList.remove("swarm-anim");
+          sec.el.classList.add("revealed");
+          sec.state = "built";
+          builtOrderPush(sec.index);
+        }
+        /* Sections flip to "built" strictly in document order: with
+           a concurrent draw window a later section's elements can
+           finish moments before an earlier section's last element;
+           its flip is held (its content is already fully drawn)
+           until every earlier section has flipped, so builtOrder
+           and the visible completion order never invert. */
+        function finishSectionOrdered(sec) {
+          var earlierBuilt = true;
+          for (var i = 0; i < sec.index; i++) if (sections[i].state !== "built") { earlierBuilt = false; break; }
+          if (!earlierBuilt) { sec._completePending = true; return; }
+          if (sec.state !== "built") finishSection(sec);
+          for (var j = 0; j < sections.length; j++) {
+            var s2 = sections[j];
+            if (!s2._completePending || s2.state === "built") continue;
+            var ok = true;
+            for (var k = 0; k < s2.index; k++) if (sections[k].state !== "built") { ok = false; break; }
+            if (ok) { s2._completePending = false; finishSection(s2); }
+          }
+        }
+        var builtOrder = [];
+        function builtOrderPush(i) { builtOrder.push(i); }
+
+        /* ---------------- the pace ----------------
+           The build's advance rate is a smoothed value: displayed
+           (pace) eases toward its target with the exponential rule
+           below — this is Henry's smoothing rule applied to the
+           build's pace. The target follows the scroll speed: a slow
+           scroll earns a gentle pace (0.25), a fast scroll or flick
+           earns full pace (1) — never more, so the per-element and
+           per-viewport floors always hold and nothing snaps. While
+           the hero builds, the target is a steady 1 (its elements
+           carry the 6-8 s schedule in their durations). While
+           elements are finishing after a stop, the pace is bypassed
+           and each completes at the base reveal rate, so each lands
+           within the 400 ms stop budget. */
+        function stepPace(dtSec) {
+          pace += (paceTarget - pace) * (1 - Math.exp(-dtSec * 9));
+          if (pace < 0) pace = 0;
+          if (pace > 1) pace = 1;
+        }
+        /* ---------------- the draw window (v4 stall fix) ----------------
+           The v4 serial model drew ONE element at a time. Measured on
+           the live pages (jsdom burst reproduction, Nov 8): under
+           ordinary stepped scrolling — a short scroll burst, then a
+           2-4 s pause — throughput collapsed to exactly ONE element
+           per burst: inside a burst's ~150-300 ms of "scrolling" the
+           single element only gained a fraction of its duration at
+           the gentle-scroll pace, and the stop rule then completed
+           just that one element. A 20-50 element section needed
+           minutes of stepped scrolling and read as "never builds".
+           The fix keeps every rule — starts strictly in queue order,
+           starts only while scrolling (hero excepted), per-element
+           duration from computeDur (>= the 240 ms floor, pace <= 1,
+           so no element's real reveal time ever drops), freeze +
+           ghosts on stop — but lets a WINDOW of elements draw
+           concurrently. The window width is metered from the same
+           two floors: with K eligible unbuilt elements (in the
+           window, or already scrolled past — the backlog the strict
+           queue still owes), at most K x MIN_REVEAL_MS /
+           (VIEWPORT_MS / buildSpeed) draw at once (capped at 10),
+           so the batch intersecting one viewport still spans at
+           least ~VIEWPORT_MS / buildSpeed end to end; counting the
+           backlog keeps the width from collapsing back to 1 once
+           the visitor has scrolled past unbuilt elements, which
+           would re-create the stall for exactly those elements.
+           The hero stays serial (width 1): its 6-8 s schedule
+           lives in its per-element durations. On a stop, every
+           in-flight element finishes at the base rate (each within
+           the 400 ms budget) and no new element starts — the
+           stop/freeze/ghost behaviour is unchanged. */
+        function eligibleUnbuiltCount() {
+          var n = 0;
+          for (var i = head; i < queue.length; i++) if (!queue[i].done && eligible(queue[i])) n++;
+          return n;
+        }
+        function maxParallel(front) {
+          if (!front || front.sec.isHero) return 1;
+          var k = eligibleUnbuiltCount();
+          return clamp(Math.round(k * MIN_REVEAL_MS * buildSpeed / VIEWPORT_MS), 1, 10);
+        }
+        function leadEntry() { return active.length ? active[0] : null; }
+        /* ---------------- the stage machine ----------------
+           Every element runs one explicit machine: ghost (queued,
+           unstarted) -> outline traced -> fill -> content revealed
+           -> complete. A cursor never gates a stage: cursors are
+           positioned FROM the lead entry each frame, and no advance
+           path reads a cursor position. Stages advance on the
+           smoothed build clock only (dt x pace while building; the
+           element's own base-rate clock while it finishes after a
+           stop). The existing per-kind renderers keep working
+           unchanged: the machine maps (stage, stage progress) onto
+           the same reveal value v in [0,1] — outline is the first
+           third, fill the second, reveal the last. */
+        function logTransition(type, e, note) {
+          if (!debugOn) return;
+          if (dbgTransitions.length >= 5000) return;
+          dbgTransitions.push({ t: Math.round(engT), type: type, sec: e ? e.sec.index : -1, kind: e ? e.item.kind : "", stage: e ? e.stage : -1, note: note || "" });
+        }
+        function stageTotalFor(e) {
+          return e.sec.isHero ? Math.max(heroDurEach, STAGE_MIN_TOTAL) : Math.max(computeDur(e), STAGE_MIN_TOTAL);
+        }
+        function startEntry(e) {
+          e.dur = stageTotalFor(e);
+          e.stageDur = Math.max(60, Math.round(e.dur / 3));
+          e.stage = 1;
+          e.stageT = 0;
+          e.stageStartReal = engT;
+          e._started = true;
+          startedOnce = true;
+          lastStageChangeBuild = buildT;
+          lastStageChangeReal = engT;
+          if (!e.sec.started) startSection(e.sec);
+          active.push(e);
+          logTransition("stage", e, "start:outline");
+        }
+        function applyStageV(e) {
+          var frac = e.stageDur ? Math.min(1, e.stageT / e.stageDur) : 1;
+          var v = Math.min(1, ((e.stage - 1) + frac) / 3);
+          if (v !== e.item.v) { e.item.v = v; applyItem(e.sec, e.item, v, true); }
+        }
+        function transitionStage(e, now) {
+          e.stage++;
+          e.stageT = 0;
+          e.stageStartReal = engT;
+          lastStageChangeBuild = buildT;
+          lastStageChangeReal = engT;
+          if (e.stage >= 4) { completeEntry(e, now); return; }
+          logTransition("stage", e, "->" + (STAGE_NAMES[e.stage] || e.stage));
+          applyStageV(e);
+        }
+        function fireWatchdog(kind, e) {
+          var rec = { t: Math.round(engT), kind: kind, sec: e ? e.sec.index : -1, stage: e ? e.stage : -1 };
+          watchdogEvents.push(rec);
+          lastStageChangeBuild = buildT;
+          logTransition("watchdog", e, kind);
+          if (debugOn) { try { console.log("[swarmdebug] watchdog " + kind + " sec=" + rec.sec + " stage=" + rec.stage); } catch (err) {} }
+        }
+        function advanceEntry(e, dt, now, finishMode) {
+          var it = e.item;
+          if (debugOn && !it._dbgS) it._dbgS = now;
+          /* debug-only artificial stall (suite hook): the stalled
+             entry's stage clock does not accumulate, so the
+             watchdogs can be observed firing. Inert in normal runs:
+             stallUntil is only ever set via __swarmDebug._stallNext
+             with ?swarmdebug=1. */
+          if (debugOn && stallUntil && engT < stallUntil && (stallEntry ? e === stallEntry : e === leadEntry())) return;
+          if (finishMode) {
+            if (e._finishT0 < 0) e._finishT0 = engT;
+            e.stageT += dt; /* its own clock: base rate, unpaced */
+            if (engT - e._finishT0 > FREEZE_CAP_MS) { completeEntry(e, now); return; }
+          } else {
+            e._finishT0 = -1;
+            e.stageT += dt * pace;
+            /* per-element watchdog: one stage for > 2 s of real
+               time while building -> force-complete. Normal stages
+               are <= ~800 ms of build clock (<= ~1.6 s real even at
+               the gentle 0.25 pace floor), so this never fires in a
+               normal run. */
+            if (engT - e.stageStartReal > STAGE_CAP_REAL_MS) { fireWatchdog("stage-cap", e); completeEntry(e, now); return; }
+          }
+          if (e.stageT >= e.stageDur) transitionStage(e, now);
+          else applyStageV(e);
+        }
+        function advanceActive(dt, now, finishMode) {
+          var snapshot = active.slice();
+          for (var i = 0; i < snapshot.length; i++) advanceEntry(snapshot[i], dt, now, finishMode);
+        }
+        function completeEntry(e, now) {
+          var it = e.item;
+          if (debugOn && it._dbgS && !it._dbgE) {
+            it._dbgE = now;
+            dbgElements.push({ section: e.sec.index, type: it.kind, start: Math.round(it._dbgS), end: Math.round(now), duration: Math.round(now - it._dbgS) });
+          }
+          if (it.v < 1) { it.v = 1; if (e.sec.started) applyItem(e.sec, it, 1, false); }
+          e.stage = 4;
+          e.done = true;
+          it._done = true;
+          e.sec.builtCount++;
+          builtCount++;
+          lastStageChangeBuild = buildT;
+          lastStageChangeReal = engT;
+          var ai = active.indexOf(e);
+          if (ai >= 0) active.splice(ai, 1);
+          skipDoneHead();
+          logTransition("stage", e, "complete");
+          if (e.sec.builtCount >= e.sec.entryCount) finishSectionOrdered(e.sec);
+        }
+        /* Init-skip (Henry's directed change): at initialization —
+           and after a hash jump — every element fully above the
+           viewport is already behind the visitor, so it is marked
+           complete silently (no animation, no debug element
+           record) and can never block the front; the build front
+           starts at the first visible unbuilt element. This
+           replaces the v4 rule that a fresh load always rebuilds
+           from the hero even after scroll restoration: on a normal
+           top-of-page load nothing is fully above, so the hero
+           still auto-builds exactly as before. */
+        function silentlyCompleteAbove() {
+          if (!queue.length) return;
+          var y = window.scrollY || 0;
+          var n = 0;
+          for (var i = 0; i < queue.length; i++) {
+            var e = queue[i];
+            if (e.done) continue;
+            var r = e.item.rect;
+            if (r.t + r.h <= y) {
+              e.done = true;
+              e.item._done = true;
+              e.item.v = 1;
+              e.stage = 4;
+              e.sec.builtCount++;
+              builtCount++;
+              n++;
+              if (e.sec.builtCount >= e.sec.entryCount && e.sec.state !== "built") finishSectionOrdered(e.sec);
+            }
+          }
+          if (n) {
+            skipDoneHead();
+            logTransition("initskip", null, n + " above-viewport elements completed silently");
+          }
+        }
+        /* Bottom rule: force-complete, in queue order, every
+           remaining element that is above or inside the viewport
+           (used when the 4 s drain budget runs out). */
+        function forceCompleteEligible(now) {
+          for (var i = 0; i < queue.length; i++) {
+            var e = queue[i];
+            if (!e.done && eligible(e)) completeEntry(e, now);
+          }
+          skipDoneHead();
+        }
+        function skipDoneHead() {
+          while (head < queue.length && queue[head].done) head++;
+        }
+        /* ---------------- filter API: __swarmMarkBuilt ----------------
+           Completes instantly every queue entry whose element is
+           rootEl or inside it: the entry is flagged done, put at its
+           final state, and counted through the same bookkeeping as a
+           normal completion (per-section builtCount, the global
+           builtCount, and finishSection when a section completes), so
+           section classes and state stay coherent and the engine
+           never builds the entry again (the queue head skips done
+           entries). Filter UIs call this for each row a filter change
+           makes visible, so a filtered-in row is revealed immediately
+           instead of waiting for the build to reach it. No-op when
+           the engine is not engaged (not initialised, disabled, or
+           already finished). */
+        function markBuilt(rootEl) {
+          if (!rootEl || !inited || disabled || finished || !queue.length) return;
+          if (rootEl.nodeType !== 1) return;
+          var changed = false;
+          for (var i = 0; i < queue.length; i++) {
+            var e = queue[i];
+            if (e.done) continue;
+            var el = e.item.el;
+            if (!el || (el !== rootEl && !(rootEl.contains && rootEl.contains(el)))) continue;
+            e.done = true;
+            e.item._done = true;
+            e.item.v = 1;
+            changed = true;
+            var ai = active.indexOf(e);
+            if (ai >= 0) active.splice(ai, 1);
+            if (e.sec.started) applyItem(e.sec, e.item, 1, false);
+            e.sec.builtCount++;
+            builtCount++;
+            if (e.sec.builtCount >= e.sec.entryCount && e.sec.state !== "built") finishSectionOrdered(e.sec);
+          }
+          if (changed) skipDoneHead();
+        }
+        window.__swarmMarkBuilt = markBuilt;
+
+        /* ---------------- the loop ----------------
+           One rAF loop drives everything. scrollY is read ONLY in
+           the passive scroll listener below and cached in scrollPos;
+           the loop uses cached geometry (no layout reads). Per frame:
+           the hero (if unfinished) advances on its own schedule; the
+           draw window at the queue front advances only while the
+           visitor is scrolling and only starts eligible elements; on
+           a stop the in-flight elements finish, then the build
+           freezes and ghosts show; when every element is built the
+           cursors fly off. */
+        function loop(now) {
+          if (!running) return;
+          raf = requestAnimationFrame(loop);
+          if (!ctx) return;
+          var rawDt = lastNow ? (now - lastNow) : 16;
+          lastNow = now;
+          var dt = clamp(rawDt, 0, 50);
+          engT += dt;
+          var dtSec = dt / 1000;
+          var scrolling = (now - lastScrollMoveAt) <= SCROLL_IDLE_MS;
+          var heroP = heroPending();
+          /* 0. bottom rule bookkeeping: reaching the document
+             bottom starts a drain of everything above / in the
+             viewport, in order, at the normal pace, capped at
+             DRAIN_CAP_MS total; scrolling away cancels it. */
+          var atBottom = docH > 0 && (scrollPos + vh >= docH - 2);
+          if (!exiting && !finished && head < queue.length) {
+            if (atBottom && drainStart < 0) { drainStart = engT; logTransition("drain", null, "bottom reached"); }
+            else if (!atBottom && drainStart >= 0) drainStart = -1;
+          } else if (!atBottom) drainStart = -1;
+          var draining = drainStart >= 0;
+          if (draining && engT - drainStart > DRAIN_CAP_MS) {
+            fireWatchdog("drain-cap", null);
+            forceCompleteEligible(now);
+            drainStart = -1;
+            draining = false;
+          }
+          /* 1. advance the in-flight window (stage machines) */
+          var lead = leadEntry();
+          if (active.length) {
+            if (lead.sec.isHero) { paceTarget = 1; stepPace(dtSec); advanceActive(dt, now, false); buildT += dt * pace; }
+            else if (scrolling || draining) { paceTarget = (draining && !scrolling) ? 1 : clamp(0.25 + scrollSpeed / 1400, 0.25, 1); stepPace(dtSec); advanceActive(dt, now, false); buildT += dt * pace; }
+            else { advanceActive(dt, now, true); buildT += dt; }
+          }
+          /* global watchdog: while building, if no stage has
+             changed for WATCHDOG_BUILD_MS of build clock, force the
+             lead element to its next stage. The build clock runs at
+             pace, so a gentle scroll stretches the real interval
+             and this cannot fire in a normal run (the longest
+             normal stage is ~800 ms of build clock). */
+          if (active.length && buildT - lastStageChangeBuild > WATCHDOG_BUILD_MS) {
+            var wl = leadEntry();
+            if (wl) { fireWatchdog("global", wl); transitionStage(wl, now); }
+          }
+          /* 2. refill the window from the queue head — starts stay
+             strictly in queue order; a non-hero start needs the
+             visitor scrolling (or a bottom drain) and the entry
+             eligible. */
+          if (!exiting && !finished) {
+            skipDoneHead();
+            var fe0 = head < queue.length ? queue[head] : null;
+            if (fe0) {
+              var cap = draining ? Math.max(maxParallel(fe0), 24) : maxParallel(fe0);
+              var scan = head;
+              while (active.length < cap) {
+                while (scan < queue.length && (queue[scan].done || queue[scan]._started)) scan++;
+                var fe = scan < queue.length ? queue[scan] : null;
+                if (!fe) break;
+                if (fe.sec.isHero) startEntry(fe);
+                else if ((scrolling || draining) && eligible(fe)) startEntry(fe);
+                else break;
+              }
+            }
+          }
+          var frontEntry = head < queue.length ? queue[head] : null;
+          lead = leadEntry();
+          var allBuilt = head >= queue.length && queue.length > 0;
+          /* 3. freeze bookkeeping + mode + machine */
+          frozen = !active.length && !allBuilt && !heroP && !scrolling && !draining && !exiting && !finished;
+          if (frozen && !wasFrozen) frozenSince = engT;
+          wasFrozen = frozen;
+          var mode = exiting || allBuilt ? "done" :
+            heroP ? "hero" :
+            (active.length || scrolling || draining) ? "build" :
+            (engT - frozenSince >= ORBIT_SETTLE_MS) ? "orbit" : "frozen";
+          curMode = mode;
+          curMachine = (finished || allBuilt || exiting) ? "done" :
+            (active.length || scrolling || heroP || draining) ? "building" :
+            (startedOnce ? "frozen" : "idle");
+          if (debugOn) updateOverlay(frontEntry);
+          /* 4. render (canvas extras first, then cursors) */
+          ctx.clearRect(0, 0, W, H);
+          if (frozen) drawGhosts();
+          if (lead && (mode === "build" || mode === "hero") && lead.item.kind !== "bg") {
+            drawGuides(lead.item.rect, scrollPos, 0.35 + 0.35 * (1 - lead.item.v));
+          }
+          /* 5. cursors */
+          var i;
+          if (exiting) {
+            for (i = 0; i < cursors.length; i++) pathPos(cursors[i]);
+            if (engT - exitStart > 780) { endEffect(); return; }
+          } else if (mode === "orbit" || mode === "frozen") {
+            orbitFrame(dt, now);
+          } else if (lead || frontEntry) {
+            guideFrame(lead || frontEntry);
+          }
+          /* exit: everything built -> fly off and end */
+          if (!exiting && allBuilt) beginExit();
+          /* draw */
+          for (i = 0; i < cursors.length; i++) drawCursor(cursors[i], mode === "orbit" || mode === "frozen" || !cursors[i].path || cursors[i] === cursors[0]);
+          dbgFrame(now, scrolling, rawDt);
+        }
+        function guideFrame(entry) {
+          var lead = cursors[0];
+          if (!lead) return;
+          var it = entry.item;
+          /* the renderer already parked the lead on the drawing point
+             for step-drawn kinds; for everything else (or when the
+             entry is only waiting) ease it along a curved path. */
+          var driven = entry === leadEntry() && it.v > 0 && it.v < 1 && (it.kind === "bg" || it.kind === "box" || it.kind === "chip" || it.kind === "heading" || it.kind === "text" || it.kind === "label" || (it.kind === "button" && it.v < 0.45));
+          if (!driven) {
+            var a = anchorOf(it.kind, it.rect);
+            var ty = a.y - scrollPos;
+            if (!lead.path && Math.hypot(a.x - lead.x, ty - lead.y) > 24) setPath(lead, a.x, ty);
+            pathPos(lead);
+          }
+          /* helpers hover near the next queue entries */
+          var startIdx = head + (entry === leadEntry() ? active.length : 0);
+          for (var h = 1; h < cursors.length; h++) {
+            var c = cursors[h], t = queue[startIdx + h - 1];
+            if (!t) { pathPos(c); continue; }
+            var ta = anchorOf(t.item.kind, t.item.rect);
+            var hx = ta.x + 16, hy = ta.y - scrollPos - 12;
+            if (!c.path && Math.hypot(hx - c.x, hy - c.y) > 42) setPath(c, hx, hy, clamp(Math.hypot(hx - c.x, hy - c.y) * 0.7, 220, 800));
+            pathPos(c);
+          }
+        }
+        function orbitFrame(dt, now) {
+          var scattering = now < scatterUntil;
+          orbitA += dt * 0.00045;
+          var k = 1 - Math.exp(-dt / 140);
+          for (var i = 0; i < cursors.length; i++) {
+            var c = cursors[i];
+            c.path = null;
+            var tx, ty;
+            if (scattering && scatterPts[i]) { tx = scatterPts[i].x; ty = scatterPts[i].y; }
+            else if (mouse.x < -50) { tx = W - 90 - i * 34; ty = H - 110 + (i % 2) * 26; }
+            else {
+              var ang = orbitA + (i * (Math.PI * 2)) / Math.max(1, cursors.length);
+              var rad = 64 + (i % 4) * 16;
+              tx = mouse.x + Math.cos(ang) * rad;
+              ty = mouse.y + Math.sin(ang) * rad * 0.72;
+            }
+            c.x += (tx - c.x) * k;
+            c.y += (ty - c.y) * k;
+          }
+        }
+        function beginExit() {
+          if (exiting || finished) return;
+          exiting = true; exitStart = engT;
+          cursors.forEach(function (c, i) { setPath(c, c.x + (i - 2) * 30, -70, 800); });
+          dbgSummary();
+        }
+        function endEffect() {
+          finished = true; exiting = false;
+          active = []; frozen = false; drainStart = -1;
+          sections.forEach(function (sec) {
+            if (sec.state !== "built") {
+              if (sec.started) restoreSection(sec);
+              sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim");
+              sec.el.classList.add("revealed");
+              sec.state = "built";
+            }
+          });
+          document.documentElement.classList.remove("swarm-on");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+          dbgSummary();
+        }
+        function startLoop() { if (!running) { running = true; lastNow = 0; raf = requestAnimationFrame(loop); } }
+        function stopLoop() { running = false; cancelAnimationFrame(raf); }
+
+        /* ---------------- events ----------------
+           scrollY is read here and nowhere else. The listener also
+           keeps a raw scroll speed (px/s) for the pace target: the
+           loop smooths it through the exponential rule, so a flick
+           raises the pace quickly but the build itself never snaps. */
+        function onScroll() {
+          var now = performance.now();
+          var y = window.scrollY || 0;
+          if (lastScrollEvtT > 0) {
+            var dms = now - lastScrollEvtT;
+            if (dms > 0) scrollSpeed = Math.abs(y - scrollPos) / dms * 1000;
+          }
+          scrollPos = y;
+          lastScrollEvtT = now;
+          lastScrollMoveAt = now;
+        }
+        function onMouse(e) {
+          var now = performance.now();
+          if (mouse.lt) {
+            var d = Math.hypot(e.clientX - mouse.x, e.clientY - mouse.y);
+            var dtm = Math.max(1, now - mouse.lt);
+            mouse.speed = d / dtm;
+            if (now >= scatterUntil && mouse.speed > 2.6 && (curMode === "orbit" || curMode === "frozen")) {
+              scatterUntil = now + 300;
+              scatterPts = cursors.map(function (c) {
+                return { x: clamp(c.x + (mouse.x - c.x) * 0.4 + (Math.random() * 90 - 45), 8, W - 30), y: clamp(c.y + (mouse.y - c.y) * 0.4 + (Math.random() * 70 - 35), 8, H - 40) };
+              });
+            }
+          }
+          mouse.x = e.clientX; mouse.y = e.clientY; mouse.lt = now;
+        }
+        var NAV_KEYS = { ArrowUp: 1, ArrowDown: 1, ArrowLeft: 1, ArrowRight: 1, PageUp: 1, PageDown: 1, Home: 1, End: 1, " ": 1 };
+        function noteInput(kind) {
+          lastScrollMoveAt = performance.now();
+          logTransition("input", null, kind);
+        }
+        function onInterrupt(e) {
+          if (finished || exiting || !inited) return;
+          if (e && e.target && e.target.closest && e.target.closest("#swarmToggle")) return;
+          /* Scroll keys are build INPUT, not a skip (Henry's resume
+             list): they resume the build — at the very top/bottom
+             they may not produce a scroll event at all. Other keys
+             still skip, as before. */
+          if (e && e.type === "keydown" && NAV_KEYS[e.key || ""]) { noteInput("keydown"); return; }
+          /* A pointerdown on the scrollbar strip is a drag, not a
+             tap: resume, don't skip. */
+          if (e && e.type === "pointerdown" && e.target === document.documentElement && typeof e.clientX === "number" && e.clientX >= window.innerWidth - 24) { noteInput("scrollbar"); return; }
+          endEffect();
+        }
+        function onWheel() { noteInput("wheel"); }
+        function onTouchMove() { noteInput("touchmove"); }
+        function onHashChange() {
+          noteInput("hashchange");
+          /* the jump lands within a frame; then everything above
+             the landing viewport completes silently, so the front
+             can never be pinned behind earlier sections. */
+          requestAnimationFrame(function () { silentlyCompleteAbove(); });
+        }
+        function onVis() { if (document.hidden) lastNow = 0; }
+        function onResize() { sizeCanvas(); scheduleRecache(); }
+        function bindEvents() {
+          if (bound) return;
+          bound = true;
+          window.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("wheel", onWheel, { passive: true });
+          window.addEventListener("touchmove", onTouchMove, { passive: true });
+          window.addEventListener("hashchange", onHashChange);
+          window.addEventListener("mousemove", onMouse, { passive: true });
+          window.addEventListener("pointerdown", onInterrupt, true);
+          window.addEventListener("keydown", onInterrupt, true);
+          window.addEventListener("resize", onResize);
+          document.addEventListener("visibilitychange", onVis);
+          if (typeof ResizeObserver !== "undefined") {
+            try {
+              ro = new ResizeObserver(function () { scheduleRecache(); });
+              sections.forEach(function (sec) { ro.observe(sec.el); });
+            } catch (e) { ro = null; }
+          }
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleRecache);
+          window.addEventListener("load", scheduleRecache);
+        }
+        function resetBuild() {
+          sections.forEach(function (sec) {
+            if (sec.started) restoreSection(sec);
+            sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim"); sec.el.classList.remove("revealed");
+            sec.state = "idle"; sec.started = false; sec.builtCount = 0; sec._completePending = false;
+            if (sec.items) sec.items.forEach(function (it) { it.v = 0; it._done = false; it._dbgS = 0; it._dbgE = 0; if (it.letters) { it._lettersHeld = false; it._lettersReleased = false; } });
+          });
+          builtOrder = [];
+          summaryPrinted = false;
+          drainStart = -1;
+          buildT = 0;
+          lastStageChangeBuild = 0;
+          watchdogEvents = [];
+          stallUntil = 0;
+          stallEntry = null;
+          startedOnce = false;
+          buildQueue();
+          /* a toggle-on re-init follows the same rule as a hash
+             landing: nothing above the viewport may block the front. */
+          silentlyCompleteAbove();
+        }
+        function handleToggle() {
+          var b = btn(); if (!b) return;
+          if (lsGet(PREF_KEY) === "off") {
+            /* turning the effect back on: rebuild from the top */
+            lsSet(PREF_KEY, "on");
+            syncToggle();
+            if (!contentEnabled || coarse() || reducedM()) return;
+            disabled = false; finished = false; exiting = false;
+            if (!sections.length) collect();
+            measureGeometry();
+            resetBuild();
+            document.documentElement.classList.add("swarm-on");
+            if (!ensureCanvas() || !ctx) { endEffectCleanup(); return; }
+            canvas.style.display = "";
+            if (!cursors.length) makeCursors();
+            scrollPos = window.scrollY || 0;
+            lastScrollMoveAt = -1e9;
+            bindEvents();
+            startLoop();
+            return;
+          }
+          lsSet(PREF_KEY, "off");
+          disabled = true;
+          if (!finished) {
+            finished = true;
+            active = []; frozen = false;
+            sections.forEach(function (sec) {
+              if (sec.started) restoreSection(sec);
+              sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim");
+              sec.el.classList.add("revealed");
+              sec.state = "built";
+            });
+          }
+          document.documentElement.classList.remove("swarm-on");
+          stopLoop();
+          if (canvas) canvas.style.display = "none";
+          syncToggle();
+        }
+        function endEffectCleanup() {
+          document.documentElement.classList.remove("swarm-on");
+          sections.forEach(function (sec) { sec.el.classList.add("revealed"); sec.state = "built"; });
+        }
+
+        /* ---------------- debug API ---------------- */
+        var overlayEl = null;
+        function describeEntry(e) {
+          if (!e) return "-";
+          var el = e.item.el;
+          var d = "#" + queue.indexOf(e) + " sec" + e.sec.index + " " + e.item.kind;
+          if (el) d += " <" + String(el.tagName || "?").toLowerCase() + (el.id ? "#" + el.id : "") + ">";
+          return d;
+        }
+        function updateOverlay(frontEntry) {
+          if (!overlayEl) return;
+          var lead = leadEntry();
+          overlayEl.textContent = [
+            "swarm " + curMachine + " | mode " + curMode,
+            "front: " + describeEntry(lead || frontEntry),
+            "stage: " + (lead ? STAGE_NAMES[lead.stage] + " " + Math.round(engT - lead.stageStartReal) + "ms" : "-"),
+            "input: " + Math.round(performance.now() - lastScrollMoveAt) + "ms ago",
+            "queue left: " + (queue.length - builtCount) + "/" + queue.length,
+            "watchdog: " + watchdogEvents.length
+          ].join("\n");
+        }
+        var dbgApi = {
+          version: "4.0",
+          debug: debugOn,
+          settings: function () {
+            return { contentEnabled: contentEnabled, cursorCount: cursorCount, buildSpeed: buildSpeed, disabled: disabled, labels: labels.slice(), crew: clamp(cursorCount, 3, 5), minRevealMs: MIN_REVEAL_MS, heroMs: HERO_MS, viewportMs: VIEWPORT_MS, scrollIdleMs: SCROLL_IDLE_MS };
+          },
+          state: function () {
+            return {
+              finished: finished, exiting: exiting, disabled: disabled,
+              mode: finished ? "done" : (exiting ? "exit" : curMode),
+              frozen: frozen,
+              scrolling: performance.now() - lastScrollMoveAt <= SCROLL_IDLE_MS,
+              scattering: performance.now() < scatterUntil,
+              builtCount: builtCount, totalCount: queue.length,
+              ghostCount: visibleUnbuiltCount(),
+              currentElement: active.length ? queue.indexOf(active[0]) : null,
+              machine: curMachine,
+              stage: active.length ? STAGE_NAMES[active[0].stage] : (head < queue.length ? "ghost" : "complete"),
+              stageElapsedMs: active.length ? Math.round(engT - active[0].stageStartReal) : 0,
+              lastInputMs: Math.round(performance.now() - lastScrollMoveAt),
+              queueLeft: queue.length - builtCount,
+              watchdogCount: watchdogEvents.length,
+              builtOrder: builtOrder.slice(),
+              sections: sections.map(function (s) { return s.state; }),
+              progress: sections.map(function (s) { return s.entryCount ? Math.round((s.builtCount / s.entryCount) * 1000) / 1000 : 1; })
+            };
+          },
+          plan: function (i) {
+            if (!sections.length) { collect(); measureGeometry(); }
+            var sec = sections[i];
+            if (!sec) return null;
+            if (!queue.length) { sections.forEach(function (s) { planFor(s); }); buildQueue(); }
+            var first = -1;
+            var items = [];
+            queue.forEach(function (e, gi) {
+              if (e.sec !== sec) return;
+              if (first < 0) first = gi;
+              items.push({ type: e.item.kind, phase: e.item.phase, order: gi, top: Math.round(e.item.rect.t), left: Math.round(e.item.rect.l), height: Math.round(e.item.rect.h), dur: computeDur(e) });
+            });
+            return { isTools: sec.isTools, isHero: sec.isHero, first: first, items: items };
+          }
+        };
+        if (debugOn) {
+          dbgApi.frames = dbgFrames;
+          dbgApi.elements = dbgElements;
+          dbgApi.transitions = dbgTransitions;
+          dbgApi.watchdog = watchdogEvents;
+          dbgApi._stallNext = function (ms) { stallUntil = engT + (ms || 3000); stallEntry = leadEntry(); };
+        }
+        window.__swarmDebug = dbgApi;
+
+        /* ---------------- init ---------------- */
+        window.__initSwarm = function (settings) {
+          cleanLegacyDone();
+          if (inited) return;
+          inited = true;
+          settings = settings || {};
+          var sw = (settings.settings && settings.settings.swarm) || settings.swarm || {};
+          contentEnabled = sw.enabled !== false;
+          cursorCount = typeof sw.cursorCount === "number" && isFinite(sw.cursorCount) ? sw.cursorCount : 20;
+          buildSpeed = clampSpeed(sw.buildSpeed);
+          if (Array.isArray(sw.labels) && sw.labels.length) labels = sw.labels.slice();
+          var b = btn();
+          if (b) { b.addEventListener("click", handleToggle); syncToggle(); }
+          disabled = lsGet(PREF_KEY) === "off" || !contentEnabled;
+          if (disabled || coarse() || reducedM()) return;
+          if (!document.querySelector("[data-swarm-section]")) return;
+          if (!ensureCanvas() || !ctx) { canvas = null; ctx = null; return; }
+          document.documentElement.classList.add("swarm-on");
+          collect();
+          measureGeometry();
+          sections.forEach(function (sec) { planFor(sec); });
+          buildQueue();
+          makeCursors();
+          scrollPos = window.scrollY || 0;
+          lastScrollMoveAt = -1e9; /* no scroll yet: the build starts frozen (the hero still auto-builds) */
+          if (loadHashTargeted) silentlyCompleteAbove();
+          if (debugOn && !overlayEl) {
+            overlayEl = document.createElement("div");
+            overlayEl.id = "swarmDebugOverlay";
+            overlayEl.setAttribute("style", "position:fixed;left:10px;bottom:10px;z-index:99999;pointer-events:none;background:rgba(14,13,14,.88);color:#F2EFEA;font:11px/1.5 monospace;padding:8px 10px;white-space:pre;");
+            document.body.appendChild(overlayEl);
+          }
+          bindEvents();
+          startLoop();
+        };
+        var earlyBtn = btn();
+        if (earlyBtn) earlyBtn.addEventListener("click", function () {
+          if (!inited) {
+            if (lsGet(PREF_KEY) === "off") { lsSet(PREF_KEY, "on"); }
+            else { lsSet(PREF_KEY, "off"); }
+            syncToggle();
+          }
+        });
+        setTimeout(function () { if (!inited) window.__initSwarm({}); }, 3500);
+      })();
+    </script>
+  </body>
+</html>

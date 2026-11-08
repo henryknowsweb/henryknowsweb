@@ -178,38 +178,58 @@
     "title": "New case studies coming soon.",
     "note": "Want your account to be one of the first featured? Message me on TikTok."
   },
-  "websiteWork": [
-    {
-      "id": "sally-skoufis",
-      "title": "Sally Skoufis",
-      "note": "",
-      "before": "assets/website-work/sally-skoufis-before.jpg",
-      "after": "assets/website-work/sally-skoufis-after.jpg",
-      "beforeAlt": "Sally Skoufis — Minx Shell collection, before redesign",
-      "afterAlt": "Sally Skoufis — Minx Shell collection, after redesign",
-      "liveUrl": "https://sallyskoufis.com/?preview_theme_id=189763682595"
-    }
-  ],
-  "sideProjects": [
+  "projects": [
     {
       "id": "sellomize-reach",
+      "slug": "sellomize-reach",
       "title": "Sellomize Reach",
-      "category": "Web App",
+      "type": "Software",
       "year": "2026",
       "role": "Design & build",
       "summary": "Cold email outreach platform built for Sellomize, an Amazon growth agency. Campaigns, multi-step sequences, lead management, deliverability tracking and AI-assisted drafting — a React front end on Cloudflare Workers, D1 and queues. Try the live demo (sample data), or visit the production version.",
+      "description": "",
       "tags": [
         "React",
         "TypeScript",
         "Cloudflare",
         "AI agents"
       ],
-      "url": "https://reach.sellomize.com/",
-      "demoUrl": "https://sellomize-reach-demo.pages.dev/",
       "cover": {
         "src": "assets/projects/sellomize-reach-cover.svg",
         "alt": "Sellomize Reach — cold email outreach platform"
-      }
+      },
+      "gallery": [],
+      "beforeAfter": null,
+      "url": "https://reach.sellomize.com/",
+      "demoUrl": "https://sellomize-reach-demo.pages.dev/",
+      "previewVideo": "",
+      "published": true
+    },
+    {
+      "id": "sally-skoufis",
+      "slug": "sally-skoufis",
+      "title": "Sally Skoufis",
+      "type": "Store",
+      "year": "",
+      "role": "",
+      "summary": "",
+      "description": "",
+      "tags": [],
+      "cover": {
+        "src": "",
+        "alt": ""
+      },
+      "gallery": [],
+      "beforeAfter": {
+        "before": "assets/website-work/sally-skoufis-before.jpg",
+        "after": "assets/website-work/sally-skoufis-after.jpg",
+        "beforeAlt": "Sally Skoufis — Minx Shell collection, before redesign",
+        "afterAlt": "Sally Skoufis — Minx Shell collection, after redesign"
+      },
+      "url": "https://sallyskoufis.com/?preview_theme_id=189763682595",
+      "demoUrl": "",
+      "previewVideo": "",
+      "published": true
     }
   ],
   "settings": {
@@ -308,7 +328,7 @@
       "items": [
         {
           "q": "Can I see your work?",
-          "a": "I only show work I made. Case studies and website work are added here as they are ready."
+          "a": "I only show work I made. Case studies and projects are added at /case-studies and /projects as they are ready."
         },
         {
           "q": "Do you offer a free consultation?",
