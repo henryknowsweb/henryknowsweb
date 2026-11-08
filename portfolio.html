@@ -1270,54 +1270,78 @@
       })();
     </script>
                 <script>
-      /* Swarm cursor effect v3 — scroll-linked build.
-         A small crew of Figma-style cursors builds each section as the
-         visitor scrolls: every section has a build window tied to the
-         scroll position (0% when its top enters the bottom of the
-         viewport, 100% when its top reaches ~40% from the top), and
-         inside the window the steps run in bands — background, boxes,
-         images, headings, body text, then buttons and small details.
-         Displayed progress is smoothed toward the scroll target in one
-         requestAnimationFrame loop (exponential approach on delta time)
-         and rate-limited, so a hard flick cannot finish a section in a
-         blink; progress is monotonic — scrolling back up never undoes
-         a built section, and each section builds exactly once per page
-         view, tracked in memory only. The build plays on EVERY page
-         load of /, /about and /portfolio. The one thing persisted is
-         the header on/off toggle (hk.swarm.enabled); legacy done keys
-         from the old once-only build are deleted on init and never
-         read or written again. Fine pointers only, never under
-         reduced motion. With ?swarmdebug=1 the engine records a
-         per-frame log (window.__swarmDebug.frames / .elements). */
+      /* Swarm cursor effect v4 — viewport-driven build.
+         A small crew of Figma-style cursors builds the page element
+         by element, but only what the visitor can actually see: one
+         global queue in document order (section by section; inside a
+         section: background, boxes, images, headings, body text, then
+         buttons and small details; inside a step: top to bottom, left
+         to right), and an element may only start when its cached rect
+         intersects the viewport (plus a 10% margin below it) or the
+         viewport has already scrolled past it. The build advances
+         only while the visitor is scrolling — its pace follows the
+         scroll speed through the exponential smoothing rule
+         displayed += (target - displayed) * (1 - exp(-dt x 9)) —
+         with a hard floor of real time per element and per viewport,
+         so fast flicks speed it up but nothing ever snaps. When
+         scrolling stops, the element being drawn finishes, then the
+         build freezes and every visible unbuilt element shows as a
+         faint ghost outline on the canvas until scrolling resumes.
+         The hero is the exception: it builds automatically on load
+         over about 6-8 s, so the first screen is never blank. While
+         frozen, the cursors ease into a loose orbit ring around the
+         visitor's real cursor. Each element builds exactly once per
+         page view, tracked in memory only; the build plays on EVERY
+         page load of /, /about and /portfolio. The one thing
+         persisted is the header on/off toggle (hk.swarm.enabled);
+         legacy done keys from the old once-only build are deleted on
+         init and never read or written again. Fine pointers only,
+         never under reduced motion. With ?swarmdebug=1 the engine
+         records a per-frame log (window.__swarmDebug.frames /
+         .elements). */
       (function () {
         "use strict";
         var PREF_KEY = "hk.swarm.enabled";
         var PALETTE = ["#F2EFEA", "#F2281E", "#8C8782", "#D9D3C9", "#B8B1A8", "#FF6B62", "#B81E16", "#5E5A56"];
         var DEFAULT_LABELS = ["Listing", "A+ Content", "PPC", "Reconciliation", "Shopify", "Amazon", "eBay", "TikTok Shop", "Walmart", "Temu", "Mercari"];
-        /* Scroll-build constants (Henry's fix-list spec, Nov 7):
-           STAGGER_MS — detail/chip stagger inside a band.
-           RATE_MS — one full section build takes at least this long at
-             buildSpeed 1 (scaled by buildSpeed), even on a hard flick.
+        /* Viewport-build constants (Henry's swarm v4 spec, Nov 8):
+           SCROLL_IDLE_MS — no scroll event for this long means the
+             visitor has stopped; the current element finishes, then
+             the build freezes and ghosts show.
            MIN_REVEAL_MS — internal per-element reveal floor: reveals
              are rate-clamped to 240 ms of accumulated frame time. The
-             debug clock starts on the first advancing frame, whose own
-             delta (clamped to 50 ms) is already spent, so the measured
-             duration reads up to ~50 ms less than the clamp — 240 ms
-             keeps every measured reveal above the 180 ms spec floor
-             even when a jank frame lands first.
-           ORBIT_IDLE_MS — scroll + build still for this long before
-             the cursors drift into the orbit ring around the mouse. */
-        var STAGGER_MS = 60, STAGGER_PROG = STAGGER_MS / 1200;
-        var RATE_MS = 1200, MIN_REVEAL_MS = 240, ORBIT_IDLE_MS = 250, MAX_BOOST = 3;
-        var BAND_BASE = { bg: 25, box: 25, image: 15, heading: 15, text: 12, button: 8 };
-        var PHASE_ORDER = ["bg", "box", "image", "heading", "text", "button"];
-        var PHASE_RANK = { bg: 0, box: 1, image: 2, heading: 3, text: 4, button: 5 };
+             debug clock starts on the first advancing frame, whose
+             own delta (clamped to 50 ms) is already spent, so the
+             measured duration reads up to ~50 ms less than the clamp
+             — 240 ms keeps every measured reveal above the 180 ms
+             spec floor even when a jank frame lands first.
+           VIEWPORT_MS — the elements intersecting one full viewport
+             can never all complete in under about this long at
+             buildSpeed 1 (scaled by buildSpeed): each element's
+             duration is at least VIEWPORT_MS / buildSpeed / K, where
+             K is the number of unbuilt elements in the window when
+             the element starts.
+           HERO_MS — the hero builds automatically over about this
+             long at buildSpeed 1 (scaled by buildSpeed), split across
+             its elements.
+           STAGGER_MS — detail elements add this much to their
+             duration, the button-band stagger (flat, not per-run:
+             a run-based surcharge grows without bound in
+             detail-heavy sections).
+           ORBIT_SETTLE_MS — once frozen for this long the cursors
+             count as settled into the orbit ring (state mode "orbit";
+             before that the mode reads "frozen" while they travel). */
+        var SCROLL_IDLE_MS = 150, MIN_REVEAL_MS = 240, VIEWPORT_MS = 1200, HERO_MS = 7000, STAGGER_MS = 60, ORBIT_SETTLE_MS = 500;
+        var RANK = { bg: 0, box: 1, chip: 1, image: 2, heading: 3, text: 4, label: 4, button: 5, detail: 5 };
         var canvas = null, ctx = null, raf = 0, running = false;
         var inited = false, bound = false, finished = false, disabled = false, exiting = false, exitStart = 0;
         var contentEnabled = true, cursorCount = 20, buildSpeed = 1, labels = DEFAULT_LABELS.slice();
-        var sections = [], cursors = [];
-        var lastNow = 0, engT = 0, scrollPos = 0, vh = 0, maxScroll = 0;
-        var lastScrollMoveAt = -1e9, lastAdvanceAt = -1e9, builtOrder = [];
+        var sections = [], cursors = [], queue = [];
+        var head = 0, builtCount = 0, current = null, finishing = false;
+        var frozen = false, wasFrozen = false, frozenSince = 0, heroDurEach = 0;
+        var pace = 0, paceTarget = 0, scrollSpeed = 0;
+        var lastNow = 0, engT = 0, scrollPos = 0, vh = 0;
+        var lastScrollMoveAt = -1e9, lastScrollEvtT = -1e9;
         var curMode = "build";
         var mouse = { x: -100, y: -100, lx: -100, ly: -100, lt: 0, speed: 0 };
         var scatterUntil = 0, scatterPts = [], orbitA = 0, W = 0, H = 0;
@@ -1327,34 +1351,31 @@
            Inert unless the query string is present: no recording, no
            console output, and window.__swarmDebug carries no frames /
            elements arrays. When on, every frame appends
-           {t, scrollY, target, displayed, lag, frame} (target /
-           displayed / lag describe the attended front section) and
-           every revealed element appends {section, type, start, end,
-           duration} when its reveal completes. */
+           {t, scrollY, scrolling, built, frame} and every revealed
+           element appends {section, type, start, end, duration} when
+           its reveal completes. */
         var debugOn = false;
         try { debugOn = String(window.location.search || "").indexOf("swarmdebug=1") !== -1; } catch (e) {}
         var dbgFrames = debugOn ? [] : null, dbgElements = debugOn ? [] : null;
-        function dbgFrame(now, front, frameMs) {
+        function dbgFrame(now, scrolling, frameMs) {
           if (!debugOn || dbgFrames.length >= 20000) return;
           dbgFrames.push({
             t: Math.round(now), scrollY: Math.round(scrollPos),
-            target: front ? Math.round(front.target * 1000) / 1000 : 1,
-            displayed: front ? Math.round(front.displayed * 1000) / 1000 : 1,
-            lag: front ? Math.max(0, Math.round((front.target - front.displayed) * front.len)) : 0,
+            scrolling: !!scrolling, built: builtCount,
             frame: Math.round(frameMs * 10) / 10
           });
         }
         function dbgSummary() {
           if (!debugOn || summaryPrinted) return;
           summaryPrinted = true;
-          var maxFrame = 0, maxLag = 0, minDur = Infinity;
-          dbgFrames.forEach(function (f) { if (f.frame > maxFrame) maxFrame = f.frame; if (f.lag > maxLag) maxLag = f.lag; });
+          var maxFrame = 0, minDur = Infinity;
+          dbgFrames.forEach(function (f) { if (f.frame > maxFrame) maxFrame = f.frame; });
           dbgElements.forEach(function (e) { if (e.duration < minDur) minDur = e.duration; });
           try {
             console.log("[swarmdebug] frames=" + dbgFrames.length + " elements=" + dbgElements.length +
-              " maxFrame=" + (Math.round(maxFrame * 10) / 10) + "ms maxLag=" + maxLag + "px" +
+              " maxFrame=" + (Math.round(maxFrame * 10) / 10) + "ms" +
               " minReveal=" + (minDur === Infinity ? "n/a" : Math.round(minDur) + "ms") +
-              " sections=" + sections.length + " buildSpeed=" + buildSpeed);
+              " built=" + builtCount + "/" + queue.length + " buildSpeed=" + buildSpeed);
           } catch (e) {}
         }
 
@@ -1493,16 +1514,11 @@
           return grouped;
         }
 
-        /* ---------------- plans: bands + element windows ----------------
-           Each section's plan is a flat list of reveal items. Every
-           item owns a [start, end] slice of the section's normalised
-           progress. Generic sections use the band model: band shares
-           start from BAND_BASE and are re-weighted by element counts
-           (weight = base x (0.5 + 0.5 x sqrt(count))), so longer
-           sections give more of the window to boxes and body text;
-           the phase order itself never changes. Items inside a band
-           run in document order, each taking an equal slice (detail
-           items get an extra 60 ms-equivalent stagger offset). */
+        /* ---------------- plans: per-section item lists ----------------
+           planFor returns a section's reveal items in classifier
+           order (the queue builder below imposes the build order).
+           Generic sections come from the classifier; the hero and
+           the tools section keep their special item builders. */
         function textLines(item) {
           var lh = 0;
           try { lh = parseFloat(window.getComputedStyle(item.el).lineHeight) || 0; } catch (e) {}
@@ -1511,7 +1527,7 @@
           return clamp(Math.round(item.rect.h / lh), 1, 6);
         }
         function mkItem(el, kind, phase, rect, order) {
-          return { el: el, kind: kind, phase: phase, rect: rect, start: 0, end: 0, v: 0, _o: order, lines: 0, lineH: 26, letters: null, _dbgS: 0, _dbgE: 0 };
+          return { el: el, kind: kind, phase: phase, rect: rect, v: 0, _o: order, lines: 0, lineH: 26, letters: null, _dbgS: 0, _dbgE: 0 };
         }
         function flattenClassified(sec) {
           var tops = classify(sec), out = [], order = 0;
@@ -1549,11 +1565,10 @@
           return out;
         }
         function toolsItems(sec) {
-          /* Tools special case (kept from the previous build): the
+          /* Tools special case (kept from the previous builds): the
              section label and heading lead, then each group builds as
-             label first, chips in turn. The window after the
-             background band is allocated to that sequence in order,
-             weighted: label 1, heading 2, group label 1, chip 1. */
+             label first, chips in turn. That exact sequence is the
+             section's queue order — it is NOT re-sorted by step. */
           var out = [], order = 0;
           var lab = sec.el.querySelector(".section-label");
           if (lab) out.push(mkItem(lab, "label", "text", docRect(lab), order++));
@@ -1568,48 +1583,6 @@
           });
           return out;
         }
-        function allocateBands(sec, items) {
-          var counts = { box: 0, image: 0, heading: 0, text: 0, button: 0 };
-          items.forEach(function (it) { counts[it.phase] = (counts[it.phase] || 0) + 1; });
-          var w = { bg: BAND_BASE.bg }, total = BAND_BASE.bg;
-          PHASE_ORDER.slice(1).forEach(function (ph) {
-            w[ph] = counts[ph] ? BAND_BASE[ph] * (0.5 + 0.5 * Math.sqrt(counts[ph])) : 0;
-            total += w[ph];
-          });
-          var bands = [], acc = 0;
-          PHASE_ORDER.forEach(function (ph) {
-            if (!w[ph]) return;
-            bands.push({ phase: ph, start: acc / total, end: (acc + w[ph]) / total });
-            acc += w[ph];
-          });
-          bands.forEach(function (b) {
-            var inBand = items.filter(function (it) { return it.phase === b.phase; });
-            inBand.sort(function (a, c) { return a._o - c._o; });
-            var span = b.end - b.start, n = inBand.length, detK = 0;
-            inBand.forEach(function (it, k) {
-              it.start = b.start + span * (k / n);
-              if (it.kind === "detail") it.start = Math.min(0.99, it.start + detK++ * STAGGER_PROG * buildSpeed);
-              it.end = b.start + span * ((k + 1) / n);
-              if (it.end <= it.start) it.end = Math.min(1, it.start + 0.001);
-            });
-          });
-          return bands;
-        }
-        function allocateSequence(sec, items) {
-          /* tools: background takes its base share of the window; the
-             rest is divided among the label/heading/labels/chips
-             sequence in document order. */
-          var weights = items.map(function (it) { return it.kind === "heading" ? 2 : 1; });
-          var seqW = weights.reduce(function (n, x) { return n + x; }, 0);
-          var total = BAND_BASE.bg + seqW, acc = BAND_BASE.bg;
-          var bands = [{ phase: "bg", start: 0, end: BAND_BASE.bg / total }, { phase: "sequence", start: BAND_BASE.bg / total, end: 1 }];
-          items.forEach(function (it, i) {
-            it.start = acc / total;
-            acc += weights[i];
-            it.end = acc / total;
-          });
-          return bands;
-        }
         function planFor(sec) {
           if (sec.items) return sec.items;
           var items;
@@ -1617,12 +1590,7 @@
           else if (sec.isHero) items = heroItems(sec);
           else items = flattenClassified(sec);
           items.forEach(function (it) { if (it.kind === "text") it.lines = textLines(it); if (it.kind === "label") it.lines = 1; });
-          var bg = mkItem(sec.el, "bg", "bg", sec.rect, -1);
-          sec.bands = sec.isTools ? allocateSequence(sec, items) : allocateBands(sec, items);
-          bg.start = 0;
-          bg.end = sec.bands.length ? sec.bands[0].end : 1;
-          items.unshift(bg);
-          items.sort(function (a, b) { return (a.start - b.start) || (a._o - b._o); });
+          items.unshift(mkItem(sec.el, "bg", "bg", sec.rect, -1));
           sec.items = items;
           return items;
         }
@@ -1634,21 +1602,14 @@
            (ResizeObserver on the sections + fonts.ready + load). */
         function collect() {
           sections = Array.prototype.slice.call(document.querySelectorAll("[data-swarm-section]")).map(function (el, i) {
-            return { el: el, index: i, state: "idle", started: false, target: 0, displayed: 0, rect: { l: 0, t: 0, w: 0, h: 0 }, top: 0, start: 0, end: 0, len: 1, touched: [], items: null, bands: null, isTools: !!el.querySelector(".tools-groups"), isHero: el.classList.contains("hero") };
+            return { el: el, index: i, state: "idle", started: false, rect: { l: 0, t: 0, w: 0, h: 0 }, top: 0, touched: [], items: null, builtCount: 0, entryCount: 0, isTools: !!el.querySelector(".tools-groups"), isHero: el.classList.contains("hero") };
           });
         }
         function measureGeometry() {
           vh = window.innerHeight || 0;
-          var doc = document.documentElement;
-          var docH = Math.max(doc ? doc.scrollHeight : 0, document.body ? document.body.scrollHeight : 0);
-          maxScroll = Math.max(0, docH - vh);
           sections.forEach(function (sec) {
             sec.rect = docRect(sec.el);
             sec.top = sec.rect.t;
-            sec.start = sec.top - vh;
-            sec.end = Math.min(sec.top - 0.4 * vh, maxScroll);
-            if (sec.end < sec.start + 40) sec.end = sec.start + 40;
-            sec.len = sec.end - sec.start;
             if (sec.items) sec.items.forEach(function (it) { if (it.kind !== "bg") it.rect = docRect(it.el); else it.rect = sec.rect; });
           });
         }
@@ -1656,6 +1617,67 @@
         function scheduleRecache() {
           window.clearTimeout(recacheT);
           recacheT = window.setTimeout(measureGeometry, 120);
+        }
+
+        /* ---------------- the global queue ----------------
+           One queue for the whole page: section by section; inside a
+           generic section by step rank (background, boxes, images,
+           headings, body text, buttons + details), then by top, then
+           left. The tools section keeps its own sequence verbatim.
+           The queue front advances strictly in order — a later
+           element never starts before an earlier unbuilt one. */
+        function buildQueue() {
+          queue = [];
+          sections.forEach(function (sec) {
+            var items = planFor(sec).slice();
+            var ordered = sec.isTools ? items : items.slice().sort(function (a, b) {
+              return (RANK[a.kind] - RANK[b.kind]) || (a.rect.t - b.rect.t) || (a.rect.l - b.rect.l) || (a._o - b._o);
+            });
+            sec.entryCount = ordered.length;
+            sec.builtCount = 0;
+            ordered.forEach(function (it) { queue.push({ sec: sec, item: it, dur: 0 }); });
+            if (sec.isHero) {
+              var n = Math.max(1, ordered.length);
+              heroDurEach = clamp(Math.round(HERO_MS / buildSpeed / n), MIN_REVEAL_MS, 4000);
+            }
+          });
+          head = 0;
+          builtCount = 0;
+          current = null;
+          finishing = false;
+          frozen = false;
+          wasFrozen = false;
+          pace = 0;
+        }
+        function heroPending() {
+          for (var i = 0; i < sections.length; i++) if (sections[i].isHero) return sections[i].state !== "built";
+          return false;
+        }
+        /* Eligibility (spec rule 1): the element's cached rect
+           intersects the viewport expanded by a 10% margin below it,
+           OR the viewport has already scrolled past the element —
+           Henry's own note: elements above the viewport were eligible
+           while passing through. Without the second clause a single
+           fast flick would strand the strict queue above the viewport
+           and nothing below it (including the footer) could ever
+           build. Elements below the margin are never eligible. */
+        function inWindow(r) { return r.t + r.h >= scrollPos && r.t <= scrollPos + vh * 1.1; }
+        function eligible(e) { var r = e.item.rect; return inWindow(r) || (r.t + r.h < scrollPos); }
+        function visibleUnbuiltCount() {
+          var n = 0;
+          for (var i = head; i < queue.length; i++) if (inWindow(queue[i].item.rect)) n++;
+          return n;
+        }
+        function computeDur(e) {
+          if (e.sec.isHero) return heroDurEach;
+          var k = Math.max(1, visibleUnbuiltCount());
+          var d = Math.max(MIN_REVEAL_MS, Math.round(VIEWPORT_MS / buildSpeed / k));
+          /* details carry a flat stagger surcharge (the serial-model
+             equivalent of the old 60 ms start stagger — a run-based
+             surcharge would grow without bound in detail-heavy
+             sections like the marquee). */
+          if (e.item.kind === "detail") d += STAGGER_MS;
+          return d;
         }
 
         /* ---------------- inline style save / restore ---------------- */
@@ -1674,8 +1696,8 @@
         /* Hero heading: hold the masked-type letters at their first
            frame — animation restarted and play-state paused via inline
            style, so the page's own body.is-loaded rule cannot run them
-           before the heading's window. When the window starts, the
-           step releases them and the hero's existing CSS animation
+           before the heading's turn. When the heading starts drawing,
+           the step releases them and the hero's existing CSS animation
            plays the reveal. Inline values are recorded in sec.touched
            and restored with the section. */
         function holdLetters(sec, st) {
@@ -1807,13 +1829,29 @@
           ctx.stroke();
           ctx.restore();
         }
+        /* Ghost outlines (spec rule 4): while the build is frozen,
+           every unbuilt element intersecting the eligibility window
+           is drawn on the canvas as a 1 px mute outline at about 40%
+           opacity, from cached rects. Frozen-state rendering only —
+           ghosts clear as their elements build, in queue order. */
+        function drawGhosts() {
+          ctx.save();
+          ctx.strokeStyle = "rgba(140,135,130,0.4)";
+          ctx.lineWidth = 1;
+          for (var i = head; i < queue.length; i++) {
+            var r = queue[i].item.rect;
+            if (!inWindow(r)) continue;
+            ctx.strokeRect(r.l + 0.5, r.t - scrollPos + 0.5, Math.max(0, r.w - 1), Math.max(0, r.h - 1));
+          }
+          ctx.restore();
+        }
 
         /* ---------------- per-element renderers ----------------
            Each renderer maps the item's reveal value v (0..1) onto
-           transform / opacity / clip-path only. When the item belongs
-           to the attended (front) section, guide/trace extras are
-           drawn on the canvas and the lead cursor is driven to the
-           drawing point, so the visitor sees a cursor do the work. */
+           transform / opacity / clip-path only. The element being
+           drawn gets the canvas extras (trace / guides / ripple) and
+           the lead cursor is driven to the drawing point, so the
+           visitor sees a cursor do the work. */
         function applyItem(sec, item, v, isFront) {
           var el = item.el, r = item.rect, sy = scrollPos, lead = cursors[0];
           if (item.kind === "bg") {
@@ -1909,35 +1947,66 @@
           sec.el.classList.remove("swarm-anim");
           sec.el.classList.add("revealed");
           sec.state = "built";
-          builtOrder.push(sec.index);
+          builtOrderPush(sec.index);
+        }
+        var builtOrder = [];
+        function builtOrderPush(i) { builtOrder.push(i); }
+
+        /* ---------------- the pace ----------------
+           The build's advance rate is a smoothed value: displayed
+           (pace) eases toward its target with the exponential rule
+           below — this is Henry's smoothing rule applied to the
+           build's pace. The target follows the scroll speed: a slow
+           scroll earns a gentle pace (0.25), a fast scroll or flick
+           earns full pace (1) — never more, so the per-element and
+           per-viewport floors always hold and nothing snaps. While
+           the hero builds, the target is a steady 1 (its elements
+           carry the 6-8 s schedule in their durations). While an
+           element is finishing after a stop, the pace is bypassed
+           and the element completes at the base reveal rate, so it
+           always lands within the 400 ms stop budget. */
+        function stepPace(dtSec) {
+          pace += (paceTarget - pace) * (1 - Math.exp(-dtSec * 9));
+          if (pace < 0) pace = 0;
+          if (pace > 1) pace = 1;
+        }
+        function startEntry(e) {
+          e.dur = computeDur(e);
+          if (!e.sec.started) startSection(e.sec);
+          current = e;
+        }
+        function advanceCurrent(dt, now, finishMode) {
+          var e = current, it = e.item;
+          if (debugOn && !it._dbgS) it._dbgS = now;
+          var before = it.v;
+          if (finishMode) it.v = Math.min(1, it.v + dt / MIN_REVEAL_MS);
+          else it.v = Math.min(1, it.v + (dt / e.dur) * pace);
+          if (it.v > before) applyItem(e.sec, it, it.v, true);
+          if (it.v >= 1) completeEntry(now);
+        }
+        function completeEntry(now) {
+          var e = current, it = e.item;
+          if (debugOn && it._dbgS && !it._dbgE) {
+            it._dbgE = now;
+            dbgElements.push({ section: e.sec.index, type: it.kind, start: Math.round(it._dbgS), end: Math.round(now), duration: Math.round(now - it._dbgS) });
+          }
+          e.sec.builtCount++;
+          builtCount++;
+          head++;
+          current = null;
+          finishing = false;
+          if (e.sec.builtCount >= e.sec.entryCount) finishSection(e.sec);
         }
 
         /* ---------------- the loop ----------------
-           One rAF loop drives everything. scrollY is read ONLY in the
-           passive scroll listener below and cached in scrollPos; the
-           loop uses cached geometry (no layout reads). Per section:
-             target     from scrollPos and the section's window
-             displayed += (target - displayed) * (1 - exp(-dt x 9))
-           clamped so a section never builds faster than one full
-           build per RATE_MS ms / buildSpeed — with a gentle boost
-           (max MAX_BOOST) when the visitor has scrolled far past the
-           section's window, so the front trails the scroll by at most
-           about one viewport height and then catches up. Displayed
-           progress never decreases (monotonic), and once it equals
-           the target it stays bit-identical: stopping the scroll
-           freezes the build. */
-        function frontSection() {
-          for (var i = 0; i < sections.length; i++) {
-            var s = sections[i];
-            if (s.state === "building") return s;
-          }
-          return null;
-        }
-        function currentItem(sec) {
-          if (!sec || !sec.items) return null;
-          for (var i = 0; i < sec.items.length; i++) if (sec.items[i].v < 1) return sec.items[i];
-          return null;
-        }
+           One rAF loop drives everything. scrollY is read ONLY in
+           the passive scroll listener below and cached in scrollPos;
+           the loop uses cached geometry (no layout reads). Per frame:
+           the hero (if unfinished) advances on its own schedule; the
+           element at the queue front advances only while the visitor
+           is scrolling and only when eligible; on a stop the current
+           element finishes, then the build freezes and ghosts show;
+           when every element is built the cursors fly off. */
         function loop(now) {
           if (!running) return;
           raf = requestAnimationFrame(loop);
@@ -1947,114 +2016,71 @@
           var dt = clamp(rawDt, 0, 50);
           engT += dt;
           var dtSec = dt / 1000;
-          /* 1. progress */
-          var i, sec, s2;
-          for (i = 0; i < sections.length; i++) {
-            sec = sections[i];
-            if (sec.state === "built") continue;
-            sec.target = clamp((scrollPos - sec.start) / sec.len, 0, 1);
-            if (sec.target > sec.displayed) {
-              var adv = (sec.target - sec.displayed) * (1 - Math.exp(-dtSec * 9));
-              var dist = Math.max(0, scrollPos - sec.end);
-              var boost = clamp(1 + dist / (vh || 1), 1, MAX_BOOST);
-              var cap = (buildSpeed / RATE_MS) * boost * dt;
-              if (adv > cap) adv = cap;
-              if (adv > 0) {
-                sec.displayed += adv;
-                if (sec.target - sec.displayed < 0.0008) sec.displayed = sec.target;
-                if (sec.displayed > 1) sec.displayed = 1;
-                lastAdvanceAt = now;
-                if (!sec.started) { planFor(sec); startSection(sec); }
-              }
-            }
-            if (sec.started && sec.state === "building" && sec.displayed >= 1) sec.displayed = 1;
+          var scrolling = (now - lastScrollMoveAt) <= SCROLL_IDLE_MS;
+          var frontEntry = head < queue.length ? queue[head] : null;
+          var heroP = heroPending();
+          /* 1. advance */
+          if (current) {
+            if (current.sec.isHero) { paceTarget = 1; stepPace(dtSec); advanceCurrent(dt, now, false); }
+            else if (finishing) { advanceCurrent(dt, now, true); }
+            else if (scrolling) { paceTarget = clamp(0.25 + scrollSpeed / 1400, 0.25, 1); stepPace(dtSec); advanceCurrent(dt, now, false); }
+            else { finishing = true; advanceCurrent(dt, now, true); }
+          } else if (frontEntry && !exiting && !finished) {
+            if (frontEntry.sec.isHero) startEntry(frontEntry);
+            else if (scrolling && eligible(frontEntry)) startEntry(frontEntry);
           }
-          var front = frontSection();
-          var cur = currentItem(front);
-          var allBuilt = sections.length > 0 && sections.every(function (s2) { return s2.state === "built"; });
-          /* mode: building while anything advances or the scroll moved
-             recently; orbit once everything has been still ~250 ms. */
-          var advancing = false;
-          for (i = 0; i < sections.length; i++) {
-            s2 = sections[i];
-            if (s2.state !== "built" && s2.target > s2.displayed + 0.0008) { advancing = true; break; }
-          }
+          var allBuilt = head >= queue.length && queue.length > 0;
+          /* 2. freeze bookkeeping + mode */
+          frozen = !current && !allBuilt && !heroP && !scrolling && !exiting && !finished;
+          if (frozen && !wasFrozen) frozenSince = engT;
+          wasFrozen = frozen;
           var mode = exiting || allBuilt ? "done" :
-            (advancing || (now - lastScrollMoveAt) <= ORBIT_IDLE_MS || (now - lastAdvanceAt) <= ORBIT_IDLE_MS) ? "build" : "orbit";
+            heroP ? "hero" :
+            (current || scrolling) ? "build" :
+            (engT - frozenSince >= ORBIT_SETTLE_MS) ? "orbit" : "frozen";
           curMode = mode;
-          /* 2. render items (canvas extras first, then cursors) */
+          /* 3. render (canvas extras first, then cursors) */
           ctx.clearRect(0, 0, W, H);
-          for (i = 0; i < sections.length; i++) {
-            sec = sections[i];
-            if (sec.state !== "building" || !sec.items) continue;
-            var isF = sec === front;
-            for (var j = 0; j < sec.items.length; j++) {
-              var it = sec.items[j];
-              var rawV = it.end > it.start ? clamp((sec.displayed - it.start) / (it.end - it.start), 0, 1) : (sec.displayed >= it.start ? 1 : 0);
-              if (rawV > it.v) {
-                it.v = Math.min(rawV, it.v + dt / MIN_REVEAL_MS);
-                if (it.v >= rawV) it.v = rawV;
-                if (debugOn) {
-                  if (!it._dbgS) it._dbgS = now;
-                  if (it.v >= 1 && !it._dbgE) {
-                    it._dbgE = now;
-                    dbgElements.push({ section: sec.index, type: it.kind, start: Math.round(it._dbgS), end: Math.round(now), duration: Math.round(now - it._dbgS) });
-                  }
-                }
-                applyItem(sec, it, it.v, isF);
-              }
-            }
-            if (sec.displayed >= 1 && sec.items.every(function (it2) { return it2.v >= 1; })) finishSection(sec);
+          if (frozen) drawGhosts();
+          if (current && (mode === "build" || mode === "hero") && current.item.kind !== "bg") {
+            drawGuides(current.item.rect, scrollPos, 0.35 + 0.35 * (1 - current.item.v));
           }
-          /* 3. cursors */
+          /* 4. cursors */
+          var i;
           if (exiting) {
             for (i = 0; i < cursors.length; i++) pathPos(cursors[i]);
             if (engT - exitStart > 780) { endEffect(); return; }
-          } else if (mode === "orbit") {
+          } else if (mode === "orbit" || mode === "frozen") {
             orbitFrame(dt, now);
-          } else if (front && cur) {
-            guideFrame(front, cur);
+          } else if (current || frontEntry) {
+            guideFrame(current || frontEntry);
           }
           /* exit: everything built -> fly off and end */
           if (!exiting && allBuilt) beginExit();
           /* draw */
-          if (front && cur && mode === "build" && cur.kind !== "bg") {
-            drawGuides(cur.rect, scrollPos, 0.35 + 0.35 * (1 - cur.v));
-          }
-          for (i = 0; i < cursors.length; i++) drawCursor(cursors[i], mode === "orbit" || !cursors[i].path || cursors[i] === cursors[0]);
-          dbgFrame(now, front, rawDt);
+          for (i = 0; i < cursors.length; i++) drawCursor(cursors[i], mode === "orbit" || mode === "frozen" || !cursors[i].path || cursors[i] === cursors[0]);
+          dbgFrame(now, scrolling, rawDt);
         }
-        function guideFrame(front, cur) {
+        function guideFrame(entry) {
           var lead = cursors[0];
           if (!lead) return;
+          var it = entry.item;
           /* the renderer already parked the lead on the drawing point
              for step-drawn kinds; for everything else (or when the
-             lead is far away) ease it along a curved path. */
-          var a = anchorOf(cur.kind, cur.rect);
-          var driven = (cur.v > 0 && cur.v < 1 && (cur.kind === "bg" || cur.kind === "box" || cur.kind === "chip" || cur.kind === "heading" || cur.kind === "text" || cur.kind === "label" || (cur.kind === "button" && cur.v < 0.45)));
+             entry is only waiting) ease it along a curved path. */
+          var driven = entry === current && it.v > 0 && it.v < 1 && (it.kind === "bg" || it.kind === "box" || it.kind === "chip" || it.kind === "heading" || it.kind === "text" || it.kind === "label" || (it.kind === "button" && it.v < 0.45));
           if (!driven) {
+            var a = anchorOf(it.kind, it.rect);
             var ty = a.y - scrollPos;
             if (!lead.path && Math.hypot(a.x - lead.x, ty - lead.y) > 24) setPath(lead, a.x, ty);
             pathPos(lead);
           }
-          /* helpers hover near the next targets */
-          var nexts = [];
-          if (front.items) {
-            var seen = false;
-            for (var i = 0; i < front.items.length && nexts.length < 3; i++) {
-              var it = front.items[i];
-              if (it === cur) { seen = true; continue; }
-              if (seen && it.v < 1) nexts.push(it);
-            }
-          }
-          if (!nexts.length) {
-            var nx = sections[front.index + 1];
-            if (nx && nx.items) { var f0 = currentItem(nx); if (f0) nexts.push(f0); }
-          }
+          /* helpers hover near the next queue entries */
+          var startIdx = head + (entry === current ? 1 : 0);
           for (var h = 1; h < cursors.length; h++) {
-            var c = cursors[h], t = nexts[h - 1];
+            var c = cursors[h], t = queue[startIdx + h - 1];
             if (!t) { pathPos(c); continue; }
-            var ta = anchorOf(t.kind, t.rect);
+            var ta = anchorOf(t.item.kind, t.item.rect);
             var hx = ta.x + 16, hy = ta.y - scrollPos - 12;
             if (!c.path && Math.hypot(hx - c.x, hy - c.y) > 42) setPath(c, hx, hy, clamp(Math.hypot(hx - c.x, hy - c.y) * 0.7, 220, 800));
             pathPos(c);
@@ -2088,6 +2114,7 @@
         }
         function endEffect() {
           finished = true; exiting = false;
+          current = null; finishing = false; frozen = false;
           sections.forEach(function (sec) {
             if (sec.state !== "built") {
               if (sec.started) restoreSection(sec);
@@ -2104,10 +2131,21 @@
         function startLoop() { if (!running) { running = true; lastNow = 0; raf = requestAnimationFrame(loop); } }
         function stopLoop() { running = false; cancelAnimationFrame(raf); }
 
-        /* ---------------- events ---------------- */
+        /* ---------------- events ----------------
+           scrollY is read here and nowhere else. The listener also
+           keeps a raw scroll speed (px/s) for the pace target: the
+           loop smooths it through the exponential rule, so a flick
+           raises the pace quickly but the build itself never snaps. */
         function onScroll() {
-          scrollPos = window.scrollY || 0;
-          lastScrollMoveAt = performance.now();
+          var now = performance.now();
+          var y = window.scrollY || 0;
+          if (lastScrollEvtT > 0) {
+            var dms = now - lastScrollEvtT;
+            if (dms > 0) scrollSpeed = Math.abs(y - scrollPos) / dms * 1000;
+          }
+          scrollPos = y;
+          lastScrollEvtT = now;
+          lastScrollMoveAt = now;
         }
         function onMouse(e) {
           var now = performance.now();
@@ -2115,7 +2153,7 @@
             var d = Math.hypot(e.clientX - mouse.x, e.clientY - mouse.y);
             var dtm = Math.max(1, now - mouse.lt);
             mouse.speed = d / dtm;
-            if (now >= scatterUntil && mouse.speed > 2.6 && (lastAdvanceAt < now - ORBIT_IDLE_MS)) {
+            if (now >= scatterUntil && mouse.speed > 2.6 && (curMode === "orbit" || curMode === "frozen")) {
               scatterUntil = now + 300;
               scatterPts = cursors.map(function (c) {
                 return { x: clamp(c.x + (mouse.x - c.x) * 0.4 + (Math.random() * 90 - 45), 8, W - 30), y: clamp(c.y + (mouse.y - c.y) * 0.4 + (Math.random() * 70 - 35), 8, H - 40) };
@@ -2149,6 +2187,17 @@
           if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleRecache);
           window.addEventListener("load", scheduleRecache);
         }
+        function resetBuild() {
+          sections.forEach(function (sec) {
+            if (sec.started) restoreSection(sec);
+            sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim"); sec.el.classList.remove("revealed");
+            sec.state = "idle"; sec.started = false; sec.builtCount = 0;
+            if (sec.items) sec.items.forEach(function (it) { it.v = 0; it._dbgS = 0; it._dbgE = 0; if (it.letters) { it._lettersHeld = false; it._lettersReleased = false; } });
+          });
+          builtOrder = [];
+          summaryPrinted = false;
+          buildQueue();
+        }
         function handleToggle() {
           var b = btn(); if (!b) return;
           if (lsGet(PREF_KEY) === "off") {
@@ -2156,16 +2205,16 @@
             lsSet(PREF_KEY, "on");
             syncToggle();
             if (!contentEnabled || coarse() || reducedM()) return;
-            disabled = false; finished = false; exiting = false; builtOrder = [];
+            disabled = false; finished = false; exiting = false;
             if (!sections.length) collect();
             measureGeometry();
-            sections.forEach(function (sec) { planFor(sec); });
+            resetBuild();
             document.documentElement.classList.add("swarm-on");
             if (!ensureCanvas() || !ctx) { endEffectCleanup(); return; }
             canvas.style.display = "";
             if (!cursors.length) makeCursors();
             scrollPos = window.scrollY || 0;
-            lastScrollMoveAt = performance.now();
+            lastScrollMoveAt = -1e9;
             bindEvents();
             startLoop();
             return;
@@ -2174,6 +2223,7 @@
           disabled = true;
           if (!finished) {
             finished = true;
+            current = null; finishing = false; frozen = false;
             sections.forEach(function (sec) {
               if (sec.started) restoreSection(sec);
               sec.el.classList.remove("swarm-building"); sec.el.classList.remove("swarm-anim");
@@ -2193,35 +2243,39 @@
 
         /* ---------------- debug API ---------------- */
         var dbgApi = {
-          version: "3.0",
+          version: "4.0",
           debug: debugOn,
           settings: function () {
-            return { contentEnabled: contentEnabled, cursorCount: cursorCount, buildSpeed: buildSpeed, disabled: disabled, labels: labels.slice(), crew: clamp(cursorCount, 3, 5), rateMs: RATE_MS, minRevealMs: MIN_REVEAL_MS };
+            return { contentEnabled: contentEnabled, cursorCount: cursorCount, buildSpeed: buildSpeed, disabled: disabled, labels: labels.slice(), crew: clamp(cursorCount, 3, 5), minRevealMs: MIN_REVEAL_MS, heroMs: HERO_MS, viewportMs: VIEWPORT_MS, scrollIdleMs: SCROLL_IDLE_MS };
           },
           state: function () {
-            var front = frontSection();
             return {
               finished: finished, exiting: exiting, disabled: disabled,
               mode: finished ? "done" : (exiting ? "exit" : curMode),
-              scrolling: performance.now() - lastScrollMoveAt <= ORBIT_IDLE_MS,
+              frozen: frozen,
+              scrolling: performance.now() - lastScrollMoveAt <= SCROLL_IDLE_MS,
               scattering: performance.now() < scatterUntil,
-              front: front ? front.index : -1,
+              builtCount: builtCount, totalCount: queue.length,
+              ghostCount: visibleUnbuiltCount(),
+              currentElement: current ? head : null,
               builtOrder: builtOrder.slice(),
               sections: sections.map(function (s) { return s.state; }),
-              progress: sections.map(function (s) { return { t: Math.round(s.target * 1000) / 1000, d: Math.round(s.displayed * 1000) / 1000 }; })
+              progress: sections.map(function (s) { return s.entryCount ? Math.round((s.builtCount / s.entryCount) * 1000) / 1000 : 1; })
             };
           },
           plan: function (i) {
             if (!sections.length) { collect(); measureGeometry(); }
             var sec = sections[i];
             if (!sec) return null;
-            planFor(sec);
-            return {
-              isTools: sec.isTools, isHero: sec.isHero,
-              window: { start: Math.round(sec.start), end: Math.round(sec.end) },
-              bands: sec.bands.map(function (b) { return { phase: b.phase, start: Math.round(b.start * 1000) / 1000, end: Math.round(b.end * 1000) / 1000 }; }),
-              items: sec.items.map(function (it) { return { type: it.kind, phase: it.phase, start: Math.round(it.start * 1000) / 1000, end: Math.round(it.end * 1000) / 1000 }; })
-            };
+            if (!queue.length) { sections.forEach(function (s) { planFor(s); }); buildQueue(); }
+            var first = -1;
+            var items = [];
+            queue.forEach(function (e, gi) {
+              if (e.sec !== sec) return;
+              if (first < 0) first = gi;
+              items.push({ type: e.item.kind, phase: e.item.phase, order: gi, top: Math.round(e.item.rect.t), left: Math.round(e.item.rect.l), height: Math.round(e.item.rect.h) });
+            });
+            return { isTools: sec.isTools, isHero: sec.isHero, first: first, items: items };
           }
         };
         if (debugOn) { dbgApi.frames = dbgFrames; dbgApi.elements = dbgElements; }
@@ -2248,9 +2302,10 @@
           collect();
           measureGeometry();
           sections.forEach(function (sec) { planFor(sec); });
+          buildQueue();
           makeCursors();
           scrollPos = window.scrollY || 0;
-          lastScrollMoveAt = performance.now();
+          lastScrollMoveAt = -1e9; /* no scroll yet: the build starts frozen (the hero still auto-builds) */
           bindEvents();
           startLoop();
         };
