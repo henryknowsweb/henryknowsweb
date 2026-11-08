@@ -1460,7 +1460,24 @@
          the hero on every load; a #hash landing (or an in-session
          hash jump) instead silently completes everything above
          the landing viewport so the front can never be pinned
-         behind earlier sections. */
+         behind earlier sections.
+
+         MARQUEE AMENDMENT (Nov 8, after the post-ship live
+         diagnostic): the home page still stalled under slow
+         stepped scrolling — the services marquee section held
+         417 of the page's 601 queue entries, because the queue
+         builder treated every duplicated loop span (the word
+         list repeated for the CSS loop, across both breakpoint
+         variants) as its own build element, so the strict queue
+         spent effectively forever inside a decorative strip and
+         every later section starved. The other four pages (15-42
+         entries each) built fine. Fix, in queue construction
+         only: a [data-marquee] track now enters the queue as ONE
+         detail element and its repeated content rides with it —
+         duplicated repeats of already-queued content are never
+         separate build elements. No stage, pace, order, freeze,
+         watchdog, drain or init rule changed, and the marquee's
+         markup, text and loop animation are untouched. */
       (function () {
         "use strict";
         /* Load decision (Henry, Nov 8 amendment): a #hash URL whose
@@ -1625,8 +1642,9 @@
            heading h1, h2, h3
            text    p, summary, dt, dd, label, figcaption (+ safe fallback)
            button  a, button, [role="button"] not inside a text leaf
-           detail  .num, .arrow, .pv-arrow, .star, marquee words, index-head
-                   cells — revealed in the button band, 60 ms stagger
+           detail  .num, .arrow, .pv-arrow, .star, index-head cells,
+                   and a marquee track as a single unit (see kindOf) —
+                   revealed in the button band, 60 ms stagger
            The tools section is special-cased (group label, then chips). */
         var BOX_SEL = ".service-row, .faq-item, .process-steps li, .index-empty, .index-row, .pv-card, .facts, form";
         var DETAIL_SEL = ".num, .arrow, .pv-arrow, .star, .marquee-track .word, .index-head span";
@@ -1643,6 +1661,19 @@
         }
         function kindOf(el) {
           var tag = el.tagName;
+          /* A looping marquee track ([data-marquee]) is ONE build
+             element, however many repeated spans it holds: its
+             content is the same few words/phrases duplicated for
+             the CSS loop, and duplicated repeats of already-queued
+             content are not separate build elements. The track is
+             a leaf here, so every word, star and thumbnail inside
+             it rides with the track item under the classifier's
+             leaf rule below — the whole strip hides and reveals as
+             one unit, the reveal lands on the track element itself
+             (opacity only in effect; the loop animation is CSS and
+             untouched), and no copy can be left in a hidden state
+             the queue does not know about. */
+          if (el.hasAttribute && el.hasAttribute("data-marquee")) return "detail";
           if (tag === "FIGURE" && el.querySelector("img")) return "image";
           if (tag === "IMG") return "image";
           if (el.matches && el.matches(BOX_SEL)) return "box";
